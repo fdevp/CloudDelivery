@@ -1,0 +1,453 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>CloudDelivery.Www</Name>
+    <RootNamespace>CloudDelivery.Www</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>b877ce33-2aa5-4fa0-a6bc-d9864645e603</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>
+    </StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <NodejsPort>1337</NodejsPort>
+    <StartWebBrowser>true</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include=".angular-cli.json" />
+    <Content Include="dist\3rdpartylicenses.txt" />
+    <Content Include="dist\assets\i18n\en.json" />
+    <Content Include="dist\assets\i18n\es.json" />
+    <Content Include="dist\assets\i18n\fr.json" />
+    <Content Include="dist\assets\i18n\ur.json" />
+    <Content Include="dist\assets\images\logo.png" />
+    <Content Include="dist\assets\images\slider1.jpg" />
+    <Content Include="dist\assets\images\slider2.jpg" />
+    <Content Include="dist\assets\images\slider3.jpg" />
+    <Content Include="dist\favicon.ico" />
+    <Content Include="dist\fontawesome-webfont.674f50d287a8c48dc19b.eot" />
+    <Content Include="dist\fontawesome-webfont.912ec66d7572ff821749.svg" />
+    <Content Include="dist\fontawesome-webfont.af7ae505a9eed503f8b8.woff2" />
+    <Content Include="dist\fontawesome-webfont.b06871f281fee6b241d6.ttf" />
+    <Content Include="dist\fontawesome-webfont.fee66e712a8a08eef580.woff" />
+    <Content Include="dist\index.html" />
+    <Content Include="dist\styles.069ca53dd7e45c9b9708.bundle.css" />
+    <Content Include="e2e\tsconfig.e2e.json" />
+    <Content Include="package-lock.json" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <Content Include="src\app\app.component.html" />
+    <Content Include="src\app\app.component.scss" />
+    <Content Include="src\app\layout\blank-page\blank-page.component.html" />
+    <Content Include="src\app\layout\blank-page\blank-page.component.scss" />
+    <Content Include="src\app\layout\bs-component\bs-component.component.html" />
+    <Content Include="src\app\layout\bs-component\bs-component.component.scss" />
+    <Content Include="src\app\layout\bs-component\components\alert\alert.component.html" />
+    <Content Include="src\app\layout\bs-component\components\alert\alert.component.scss" />
+    <Content Include="src\app\layout\bs-component\components\buttons\buttons.component.html" />
+    <Content Include="src\app\layout\bs-component\components\buttons\buttons.component.scss" />
+    <Content Include="src\app\layout\bs-component\components\collapse\collapse.component.html" />
+    <Content Include="src\app\layout\bs-component\components\collapse\collapse.component.scss" />
+    <Content Include="src\app\layout\bs-component\components\date-picker\date-picker.component.html" />
+    <Content Include="src\app\layout\bs-component\components\date-picker\date-picker.component.scss" />
+    <Content Include="src\app\layout\bs-component\components\dropdown\dropdown.component.html" />
+    <Content Include="src\app\layout\bs-component\components\dropdown\dropdown.component.scss" />
+    <Content Include="src\app\layout\bs-component\components\modal\modal.component.html" />
+    <Content Include="src\app\layout\bs-component\components\modal\modal.component.scss" />
+    <Content Include="src\app\layout\bs-component\components\pagination\pagination.component.html" />
+    <Content Include="src\app\layout\bs-component\components\pagination\pagination.component.scss" />
+    <Content Include="src\app\layout\bs-component\components\pop-over\pop-over.component.html" />
+    <Content Include="src\app\layout\bs-component\components\pop-over\pop-over.component.scss" />
+    <Content Include="src\app\layout\bs-component\components\progressbar\progressbar.component.html" />
+    <Content Include="src\app\layout\bs-component\components\progressbar\progressbar.component.scss" />
+    <Content Include="src\app\layout\bs-component\components\tabs\tabs.component.html" />
+    <Content Include="src\app\layout\bs-component\components\tabs\tabs.component.scss" />
+    <Content Include="src\app\layout\bs-component\components\timepicker\timepicker.component.html" />
+    <Content Include="src\app\layout\bs-component\components\timepicker\timepicker.component.scss" />
+    <Content Include="src\app\layout\bs-component\components\tooltip\tooltip.component.html" />
+    <Content Include="src\app\layout\bs-component\components\tooltip\tooltip.component.scss" />
+    <Content Include="src\app\layout\bs-element\bs-element.component.html" />
+    <Content Include="src\app\layout\bs-element\bs-element.component.scss" />
+    <Content Include="src\app\layout\charts\charts.component.html" />
+    <Content Include="src\app\layout\charts\charts.component.scss" />
+    <Content Include="src\app\layout\dashboard\components\chat\chat.component.html" />
+    <Content Include="src\app\layout\dashboard\components\chat\chat.component.scss" />
+    <Content Include="src\app\layout\dashboard\components\notification\notification.component.html" />
+    <Content Include="src\app\layout\dashboard\components\notification\notification.component.scss" />
+    <Content Include="src\app\layout\dashboard\components\timeline\timeline.component.html" />
+    <Content Include="src\app\layout\dashboard\components\timeline\timeline.component.scss" />
+    <Content Include="src\app\layout\dashboard\dashboard.component.html" />
+    <Content Include="src\app\layout\dashboard\dashboard.component.scss" />
+    <Content Include="src\app\layout\form\form.component.html" />
+    <Content Include="src\app\layout\form\form.component.scss" />
+    <Content Include="src\app\layout\grid\grid.component.html" />
+    <Content Include="src\app\layout\grid\grid.component.scss" />
+    <Content Include="src\app\layout\layout.component.html" />
+    <Content Include="src\app\layout\layout.component.scss" />
+    <Content Include="src\app\layout\tables\tables.component.html" />
+    <Content Include="src\app\layout\tables\tables.component.scss" />
+    <Content Include="src\app\login\login.component.html" />
+    <Content Include="src\app\login\login.component.scss" />
+    <Content Include="src\app\not-found\not-found.component.html" />
+    <Content Include="src\app\not-found\not-found.component.scss" />
+    <Content Include="src\app\shared\components\header\header.component.html" />
+    <Content Include="src\app\shared\components\header\header.component.scss" />
+    <Content Include="src\app\shared\components\sidebar\sidebar.component.html" />
+    <Content Include="src\app\shared\components\sidebar\sidebar.component.scss" />
+    <Content Include="src\app\shared\modules\page-header\page-header.component.html" />
+    <Content Include="src\app\shared\modules\page-header\page-header.component.scss" />
+    <Content Include="src\app\shared\modules\stat\stat.component.html" />
+    <Content Include="src\app\shared\modules\stat\stat.component.scss" />
+    <Content Include="src\app\signup\signup.component.html" />
+    <Content Include="src\app\signup\signup.component.scss" />
+    <Content Include="src\assets\i18n\en.json" />
+    <Content Include="src\assets\i18n\es.json" />
+    <Content Include="src\assets\i18n\fa.json" />
+    <Content Include="src\assets\i18n\fr.json" />
+    <Content Include="src\assets\i18n\it.json" />
+    <Content Include="src\assets\i18n\ur.json" />
+    <Content Include="src\assets\images\logo.png" />
+    <Content Include="src\assets\images\slider1.jpg" />
+    <Content Include="src\assets\images\slider2.jpg" />
+    <Content Include="src\assets\images\slider3.jpg" />
+    <Content Include="src\favicon.ico" />
+    <Content Include="src\index.html" />
+    <Content Include="src\styles\app.scss" />
+    <Content Include="src\styles\bootstrap\bootstrap-grid.scss" />
+    <Content Include="src\styles\bootstrap\bootstrap-reboot.scss" />
+    <Content Include="src\styles\bootstrap\bootstrap.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_alert.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_background-variant.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_badge.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_border-radius.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_breakpoints.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_buttons.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_cards.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_clearfix.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_float.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_forms.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_gradients.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_grid-framework.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_grid.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_hover.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_image.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_list-group.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_lists.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_nav-divider.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_navbar-align.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_pagination.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_reset-text.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_resize.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_screen-reader.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_size.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_table-row.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_text-emphasis.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_text-hide.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_text-truncate.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_transforms.scss" />
+    <Content Include="src\styles\bootstrap\mixins\_visibility.scss" />
+    <Content Include="src\styles\bootstrap\utilities\_align.scss" />
+    <Content Include="src\styles\bootstrap\utilities\_background.scss" />
+    <Content Include="src\styles\bootstrap\utilities\_borders.scss" />
+    <Content Include="src\styles\bootstrap\utilities\_clearfix.scss" />
+    <Content Include="src\styles\bootstrap\utilities\_display.scss" />
+    <Content Include="src\styles\bootstrap\utilities\_flex.scss" />
+    <Content Include="src\styles\bootstrap\utilities\_float.scss" />
+    <Content Include="src\styles\bootstrap\utilities\_position.scss" />
+    <Content Include="src\styles\bootstrap\utilities\_screenreaders.scss" />
+    <Content Include="src\styles\bootstrap\utilities\_sizing.scss" />
+    <Content Include="src\styles\bootstrap\utilities\_spacing.scss" />
+    <Content Include="src\styles\bootstrap\utilities\_text.scss" />
+    <Content Include="src\styles\bootstrap\utilities\_visibility.scss" />
+    <Content Include="src\styles\bootstrap\_alert.scss" />
+    <Content Include="src\styles\bootstrap\_badge.scss" />
+    <Content Include="src\styles\bootstrap\_breadcrumb.scss" />
+    <Content Include="src\styles\bootstrap\_button-group.scss" />
+    <Content Include="src\styles\bootstrap\_buttons.scss" />
+    <Content Include="src\styles\bootstrap\_card.scss" />
+    <Content Include="src\styles\bootstrap\_carousel.scss" />
+    <Content Include="src\styles\bootstrap\_close.scss" />
+    <Content Include="src\styles\bootstrap\_code.scss" />
+    <Content Include="src\styles\bootstrap\_custom-forms.scss" />
+    <Content Include="src\styles\bootstrap\_custom.scss" />
+    <Content Include="src\styles\bootstrap\_dropdown.scss" />
+    <Content Include="src\styles\bootstrap\_forms.scss" />
+    <Content Include="src\styles\bootstrap\_grid.scss" />
+    <Content Include="src\styles\bootstrap\_images.scss" />
+    <Content Include="src\styles\bootstrap\_input-group.scss" />
+    <Content Include="src\styles\bootstrap\_jumbotron.scss" />
+    <Content Include="src\styles\bootstrap\_list-group.scss" />
+    <Content Include="src\styles\bootstrap\_media.scss" />
+    <Content Include="src\styles\bootstrap\_mixins.scss" />
+    <Content Include="src\styles\bootstrap\_modal.scss" />
+    <Content Include="src\styles\bootstrap\_nav.scss" />
+    <Content Include="src\styles\bootstrap\_navbar.scss" />
+    <Content Include="src\styles\bootstrap\_normalize.scss" />
+    <Content Include="src\styles\bootstrap\_pagination.scss" />
+    <Content Include="src\styles\bootstrap\_popover.scss" />
+    <Content Include="src\styles\bootstrap\_print.scss" />
+    <Content Include="src\styles\bootstrap\_progress.scss" />
+    <Content Include="src\styles\bootstrap\_reboot.scss" />
+    <Content Include="src\styles\bootstrap\_responsive-embed.scss" />
+    <Content Include="src\styles\bootstrap\_tables.scss" />
+    <Content Include="src\styles\bootstrap\_tooltip.scss" />
+    <Content Include="src\styles\bootstrap\_transitions.scss" />
+    <Content Include="src\styles\bootstrap\_type.scss" />
+    <Content Include="src\styles\bootstrap\_utilities.scss" />
+    <Content Include="src\styles\bootstrap\_variables.scss" />
+    <Content Include="src\styles\_responsive.scss" />
+    <Content Include="src\styles\_rtl.scss" />
+    <Content Include="src\styles\_spinner.scss" />
+    <Content Include="src\styles\_utils.scss" />
+    <Content Include="src\tsconfig.app.json" />
+    <Content Include="src\tsconfig.spec.json" />
+    <Content Include="tsconfig.json" />
+    <Content Include="tslint.json" />
+    <Content Include="yarn.lock" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="dist\0.eb90c44e0bc4ae102504.chunk.js" />
+    <Compile Include="dist\1.388d8c8e92ce5bc47c2e.chunk.js" />
+    <Compile Include="dist\10.b498e30a86ef7ec52848.chunk.js" />
+    <Compile Include="dist\11.7cc48231ef49ef14a668.chunk.js" />
+    <Compile Include="dist\12.77dc2d2fe09ab62c5a07.chunk.js" />
+    <Compile Include="dist\2.b88869e414e791cbe212.chunk.js" />
+    <Compile Include="dist\3.aae38008d9f4c4a5a9c6.chunk.js" />
+    <Compile Include="dist\4.02ba75c475f94b30da5e.chunk.js" />
+    <Compile Include="dist\5.bb3de96f7d6aab0ccdb4.chunk.js" />
+    <Compile Include="dist\6.741232deee265ad2692c.chunk.js" />
+    <Compile Include="dist\7.b338f4c89b2c7dcf4da3.chunk.js" />
+    <Compile Include="dist\8.59bca3a1d2426614d7ae.chunk.js" />
+    <Compile Include="dist\9.496ac22f632606f3aac6.chunk.js" />
+    <Compile Include="dist\inline.7c932e6e610443383b9f.bundle.js" />
+    <Compile Include="dist\main.0cd57b7ad50e625dabfd.bundle.js" />
+    <Compile Include="dist\polyfills.0446234fbdc616e2b496.bundle.js" />
+    <Compile Include="dist\scripts.2bebfa5a2cb6d75ca69c.bundle.js" />
+    <Compile Include="dist\vendor.cdd37020af4d0be73b1a.bundle.js" />
+    <Compile Include="karma.conf.js" />
+    <Compile Include="protractor.conf.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="dist\" />
+    <Folder Include="dist\assets\" />
+    <Folder Include="dist\assets\i18n\" />
+    <Folder Include="dist\assets\images\" />
+    <Folder Include="e2e\" />
+    <Folder Include="src\" />
+    <Folder Include="src\app\" />
+    <Folder Include="src\app\layout\" />
+    <Folder Include="src\app\layout\blank-page\" />
+    <Folder Include="src\app\layout\bs-component\" />
+    <Folder Include="src\app\layout\bs-component\components\" />
+    <Folder Include="src\app\layout\bs-component\components\alert\" />
+    <Folder Include="src\app\layout\bs-component\components\buttons\" />
+    <Folder Include="src\app\layout\bs-component\components\collapse\" />
+    <Folder Include="src\app\layout\bs-component\components\date-picker\" />
+    <Folder Include="src\app\layout\bs-component\components\dropdown\" />
+    <Folder Include="src\app\layout\bs-component\components\modal\" />
+    <Folder Include="src\app\layout\bs-component\components\pagination\" />
+    <Folder Include="src\app\layout\bs-component\components\pop-over\" />
+    <Folder Include="src\app\layout\bs-component\components\progressbar\" />
+    <Folder Include="src\app\layout\bs-component\components\tabs\" />
+    <Folder Include="src\app\layout\bs-component\components\timepicker\" />
+    <Folder Include="src\app\layout\bs-component\components\tooltip\" />
+    <Folder Include="src\app\layout\bs-element\" />
+    <Folder Include="src\app\layout\charts\" />
+    <Folder Include="src\app\layout\dashboard\" />
+    <Folder Include="src\app\layout\dashboard\components\" />
+    <Folder Include="src\app\layout\dashboard\components\chat\" />
+    <Folder Include="src\app\layout\dashboard\components\notification\" />
+    <Folder Include="src\app\layout\dashboard\components\timeline\" />
+    <Folder Include="src\app\layout\form\" />
+    <Folder Include="src\app\layout\grid\" />
+    <Folder Include="src\app\layout\tables\" />
+    <Folder Include="src\app\login\" />
+    <Folder Include="src\app\not-found\" />
+    <Folder Include="src\app\shared\" />
+    <Folder Include="src\app\shared\components\" />
+    <Folder Include="src\app\shared\components\header\" />
+    <Folder Include="src\app\shared\components\sidebar\" />
+    <Folder Include="src\app\shared\guard\" />
+    <Folder Include="src\app\shared\modules\" />
+    <Folder Include="src\app\shared\modules\page-header\" />
+    <Folder Include="src\app\shared\modules\stat\" />
+    <Folder Include="src\app\shared\pipes\" />
+    <Folder Include="src\app\shared\services\" />
+    <Folder Include="src\app\signup\" />
+    <Folder Include="src\assets\" />
+    <Folder Include="src\assets\i18n\" />
+    <Folder Include="src\assets\images\" />
+    <Folder Include="src\environments\" />
+    <Folder Include="src\styles\" />
+    <Folder Include="src\styles\bootstrap\" />
+    <Folder Include="src\styles\bootstrap\mixins\" />
+    <Folder Include="src\styles\bootstrap\utilities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="e2e\app.e2e-spec.ts" />
+    <TypeScriptCompile Include="e2e\app.po.ts" />
+    <TypeScriptCompile Include="src\app\app-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\app.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\app.component.ts" />
+    <TypeScriptCompile Include="src\app\app.module.ts" />
+    <TypeScriptCompile Include="src\app\layout\blank-page\blank-page-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\layout\blank-page\blank-page.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\blank-page\blank-page.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\blank-page\blank-page.module.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\bs-component-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\bs-component.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\bs-component.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\bs-component.module.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\alert\alert.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\alert\alert.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\buttons\buttons.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\buttons\buttons.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\collapse\collapse.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\collapse\collapse.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\date-picker\date-picker.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\date-picker\date-picker.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\dropdown\dropdown.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\dropdown\dropdown.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\index.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\modal\modal.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\modal\modal.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\pagination\pagination.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\pagination\pagination.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\pop-over\pop-over.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\pop-over\pop-over.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\progressbar\progressbar.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\progressbar\progressbar.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\tabs\tabs.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\tabs\tabs.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\timepicker\timepicker.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\timepicker\timepicker.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\tooltip\tooltip.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-component\components\tooltip\tooltip.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-element\bs-element-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-element\bs-element.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-element\bs-element.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\bs-element\bs-element.module.ts" />
+    <TypeScriptCompile Include="src\app\layout\charts\charts-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\layout\charts\charts.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\charts\charts.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\charts\charts.module.ts" />
+    <TypeScriptCompile Include="src\app\layout\dashboard\components\chat\chat.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\dashboard\components\chat\chat.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\dashboard\components\index.ts" />
+    <TypeScriptCompile Include="src\app\layout\dashboard\components\notification\notification.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\dashboard\components\notification\notification.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\dashboard\components\timeline\timeline.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\dashboard\components\timeline\timeline.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\dashboard\dashboard-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\layout\dashboard\dashboard.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\dashboard\dashboard.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\dashboard\dashboard.module.ts" />
+    <TypeScriptCompile Include="src\app\layout\form\form-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\layout\form\form.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\form\form.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\form\form.module.ts" />
+    <TypeScriptCompile Include="src\app\layout\grid\grid-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\layout\grid\grid.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\grid\grid.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\grid\grid.module.ts" />
+    <TypeScriptCompile Include="src\app\layout\layout-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\layout\layout.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\layout.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\layout.module.ts" />
+    <TypeScriptCompile Include="src\app\layout\tables\tables-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\layout\tables\tables.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\layout\tables\tables.component.ts" />
+    <TypeScriptCompile Include="src\app\layout\tables\tables.module.ts" />
+    <TypeScriptCompile Include="src\app\login\login-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\login\login.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\login\login.component.ts" />
+    <TypeScriptCompile Include="src\app\login\login.module.ts" />
+    <TypeScriptCompile Include="src\app\not-found\not-found-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\not-found\not-found.component.ts" />
+    <TypeScriptCompile Include="src\app\not-found\not-found.module.ts" />
+    <TypeScriptCompile Include="src\app\router.animations.ts" />
+    <TypeScriptCompile Include="src\app\shared\components\header\header.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\components\header\header.component.ts" />
+    <TypeScriptCompile Include="src\app\shared\components\index.ts" />
+    <TypeScriptCompile Include="src\app\shared\components\sidebar\sidebar.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\components\sidebar\sidebar.component.ts" />
+    <TypeScriptCompile Include="src\app\shared\guard\auth.guard.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\guard\auth.guard.ts" />
+    <TypeScriptCompile Include="src\app\shared\index.ts" />
+    <TypeScriptCompile Include="src\app\shared\modules\index.ts" />
+    <TypeScriptCompile Include="src\app\shared\modules\page-header\page-header.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\modules\page-header\page-header.component.ts" />
+    <TypeScriptCompile Include="src\app\shared\modules\page-header\page-header.module.ts" />
+    <TypeScriptCompile Include="src\app\shared\modules\stat\stat.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\modules\stat\stat.component.ts" />
+    <TypeScriptCompile Include="src\app\shared\modules\stat\stat.module.ts" />
+    <TypeScriptCompile Include="src\app\shared\pipes\shared-pipes.module.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\index.ts" />
+    <TypeScriptCompile Include="src\app\signup\signup-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\signup\signup.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\signup\signup.component.ts" />
+    <TypeScriptCompile Include="src\app\signup\signup.module.ts" />
+    <TypeScriptCompile Include="src\environments\environment.prod.ts" />
+    <TypeScriptCompile Include="src\environments\environment.ts" />
+    <TypeScriptCompile Include="src\main.ts" />
+    <TypeScriptCompile Include="src\polyfills.ts" />
+    <TypeScriptCompile Include="src\test.ts" />
+    <TypeScriptCompile Include="src\typings.d.ts" />
+  </ItemGroup>
+  <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
