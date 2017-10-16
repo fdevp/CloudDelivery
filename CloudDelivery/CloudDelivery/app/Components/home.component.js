@@ -14,7 +14,7 @@ var HomeComponent = (function () {
 }());
 HomeComponent = __decorate([
     core_1.Component({
-        template: "<img src=\"../../content/images/ducati.png\" style=\"text-align:center\"/>"
+        template: "<img src=\"../../content/images/ducati.jpg\" style=\"text-align:center\"/>"
     })
 ], HomeComponent);
 exports.HomeComponent = HomeComponent;

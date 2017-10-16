@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudDelivery", "CloudDeliv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudDelivery.Tests", "CloudDelivery.Tests\CloudDelivery.Tests.csproj", "{3402E4DA-77CC-47E4-AB1B-2B2F74F93316}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudDelivery.Data", "CloudDelivery.Data\CloudDelivery.Data.csproj", "{96E7FE9F-3F6E-4F98-92EE-991CB704E4DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudDelivery.Data", "CloudDelivery.Data\CloudDelivery.Data.csproj", "{A7D51892-FAB7-46A7-B52C-2167089C7353}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{3402E4DA-77CC-47E4-AB1B-2B2F74F93316}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3402E4DA-77CC-47E4-AB1B-2B2F74F93316}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3402E4DA-77CC-47E4-AB1B-2B2F74F93316}.Release|Any CPU.Build.0 = Release|Any CPU
-		{96E7FE9F-3F6E-4F98-92EE-991CB704E4DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{96E7FE9F-3F6E-4F98-92EE-991CB704E4DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{96E7FE9F-3F6E-4F98-92EE-991CB704E4DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{96E7FE9F-3F6E-4F98-92EE-991CB704E4DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7D51892-FAB7-46A7-B52C-2167089C7353}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7D51892-FAB7-46A7-B52C-2167089C7353}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7D51892-FAB7-46A7-B52C-2167089C7353}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7D51892-FAB7-46A7-B52C-2167089C7353}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

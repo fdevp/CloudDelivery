@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Claims;
@@ -16,6 +17,8 @@ using Microsoft.Owin.Security.OAuth;
 using CloudDelivery.Models;
 using CloudDelivery.Providers;
 using CloudDelivery.Results;
+using CloudDelivery.Data;
+using CloudDelivery.Data.Entities;
 
 namespace CloudDelivery.Controllers
 {
@@ -125,7 +128,7 @@ namespace CloudDelivery.Controllers
 
             IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
                 model.NewPassword);
-            
+
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -258,9 +261,9 @@ namespace CloudDelivery.Controllers
             if (hasRegistered)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    OAuthDefaults.AuthenticationType);
+
+                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                   OAuthDefaults.AuthenticationType);
                 ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
@@ -329,7 +332,6 @@ namespace CloudDelivery.Controllers
             }
 
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
@@ -337,7 +339,15 @@ namespace CloudDelivery.Controllers
                 return GetErrorResult(result);
             }
 
-            return Ok();
+            User newUser = new User { IdentityId = user.Id};
+
+            using (var ctx = new CDContext())
+            {
+                ctx.DataUsers.Add(newUser);
+                ctx.SaveChanges();
+            }
+
+            return Ok(newUser.Id);
         }
 
         // POST api/Account/RegisterExternal
@@ -368,7 +378,7 @@ namespace CloudDelivery.Controllers
             result = await UserManager.AddLoginAsync(user.Id, info.Login);
             if (!result.Succeeded)
             {
-                return GetErrorResult(result); 
+                return GetErrorResult(result);
             }
             return Ok();
         }
