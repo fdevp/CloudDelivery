@@ -45,4 +45,5 @@ namespace CloudDelivery
             return manager;
         }
     }
+
 }

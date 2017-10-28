@@ -11,6 +11,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using CloudDelivery.Models;
 using CloudDelivery.Data;
+using System.Web.Security;
 
 namespace CloudDelivery.Providers
 {
@@ -44,8 +45,10 @@ namespace CloudDelivery.Providers
                OAuthDefaults.AuthenticationType);
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
                 CookieAuthenticationDefaults.AuthenticationType);
+            var roles = userManager.GetRoles(user.Id);
 
-            AuthenticationProperties properties = CreateProperties(user.UserName);
+            AuthenticationProperties properties = CreateProperties(user.UserName, Newtonsoft.Json.JsonConvert.SerializeObject(roles));
+
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
             context.Request.Context.Authentication.SignIn(cookiesIdentity);
@@ -87,11 +90,12 @@ namespace CloudDelivery.Providers
             return Task.FromResult<object>(null);
         }
 
-        public static AuthenticationProperties CreateProperties(string userName)
+        public static AuthenticationProperties CreateProperties(string userName, string Roles)
         {
             IDictionary<string, string> data = new Dictionary<string, string>
             {
-                { "userName", userName }
+                { "userName", userName },
+                { "roles", Roles}
             };
             return new AuthenticationProperties(data);
         }

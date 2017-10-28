@@ -22,6 +22,9 @@ namespace CloudDelivery
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/node_modules/font-awesome/css/font-awesome.css",
+                      "~/node_modules/admin-lte/dist/css/AdminLTE.css",
+                      "~/node_modules/admin-lte/dist/css/skins/_all-skins.css",
                       "~/Content/site.css"));
         }
     }

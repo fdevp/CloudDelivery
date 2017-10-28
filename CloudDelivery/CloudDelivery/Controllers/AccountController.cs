@@ -19,6 +19,7 @@ using CloudDelivery.Providers;
 using CloudDelivery.Results;
 using CloudDelivery.Data;
 using CloudDelivery.Data.Entities;
+using System.Web.Security;
 
 namespace CloudDelivery.Controllers
 {
@@ -60,12 +61,13 @@ namespace CloudDelivery.Controllers
         public UserInfoViewModel GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-
+            var roles = UserManager.GetRoles(User.Identity.GetUserId());
             return new UserInfoViewModel
             {
-                Email = User.Identity.GetUserName(),
+                UserName = User.Identity.GetUserName(),
                 HasRegistered = externalLogin == null,
-                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
+                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null,
+                Roles = Newtonsoft.Json.JsonConvert.SerializeObject(roles)
             };
         }
 
@@ -267,7 +269,9 @@ namespace CloudDelivery.Controllers
                 ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
-                AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
+                List<Claim> roles = oAuthIdentity.Claims.Where(c => c.Type == ClaimTypes.Role).ToList();
+
+                AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName, Newtonsoft.Json.JsonConvert.SerializeObject(roles.Select(x => x.Value)));
                 Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
             }
             else

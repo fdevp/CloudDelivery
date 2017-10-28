@@ -243,12 +243,22 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\Modules\Admin\admin.component.html" />
+    <Content Include="app\Modules\Admin\Users\admin.users.component.html" />
+    <Content Include="app\Modules\Carrier\carrier.component.html" />
+    <Content Include="app\Modules\Carrier\Dashboard\carrier.dashboard.component.html" />
+    <Content Include="app\Modules\Carrier\Users\carrier.users.component.html" />
+    <Content Include="app\Shared\Header\layout.header.component.html" />
+    <Content Include="app\Shared\Redirect\redirect.component.css" />
+    <Content Include="app\Shared\Login\login.component.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\ducati.jpg" />
+    <Content Include="Content\Images\loader.gif" />
+    <Content Include="Content\Images\logo.svg" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -275,6 +285,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="package.json" />
+    <Content Include="app\Modules\Admin\Dashboard\admin.dashboard.component.html" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -286,6 +297,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="systemjs-angular-loader.js" />
     <Content Include="systemjs.config.js" />
     <Content Include="web.config">
       <SubType>Designer</SubType>
@@ -306,27 +318,24 @@
     <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="app\Modules\OrganisationOwner\" />
+    <Folder Include="app\Modules\SalePoint\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="app\app.component.ts" />
-    <TypeScriptCompile Include="app\app.module.ts" />
-    <TypeScriptCompile Include="app\app.routing.ts" />
-    <TypeScriptCompile Include="app\Components\home.component.ts" />
-    <TypeScriptCompile Include="app\main.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -336,6 +345,33 @@
       <Project>{a7d51892-fab7-46a7-b52c-2167089c7353}</Project>
       <Name>CloudDelivery.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="app\app.component.ts" />
+    <TypeScriptCompile Include="app\app.module.ts" />
+    <TypeScriptCompile Include="app\app.routing.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\admin.component.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\admin.module.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\admin.routing.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\Dashboard\admin.dashboard.component.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\Users\admin.users.component.ts" />
+    <TypeScriptCompile Include="app\Modules\Carrier\carrier.component.ts" />
+    <TypeScriptCompile Include="app\Modules\Carrier\carrier.module.ts" />
+    <TypeScriptCompile Include="app\Modules\Carrier\carrier.routing.ts" />
+    <TypeScriptCompile Include="app\Modules\Carrier\Dashboard\carrier.dashboard.component.ts" />
+    <TypeScriptCompile Include="app\Models\MenuItem.ts" />
+    <TypeScriptCompile Include="app\Modules\Carrier\Users\carrier.users.component.ts" />
+    <TypeScriptCompile Include="app\Services\Guards\AdminGuard.ts" />
+    <TypeScriptCompile Include="app\Services\Guards\CarrierGuard.ts" />
+    <TypeScriptCompile Include="app\Services\MenuService.ts" />
+    <TypeScriptCompile Include="app\Shared\Header\layout.header.component.ts" />
+    <TypeScriptCompile Include="app\Shared\Redirect\redirect.component.ts" />
+    <TypeScriptCompile Include="app\Shared\Login\login.component.ts" />
+    <TypeScriptCompile Include="app\main.ts" />
+    <TypeScriptCompile Include="app\Models\User.ts" />
+    <TypeScriptCompile Include="app\Services\Guards\AuthGuard.ts" />
+    <TypeScriptCompile Include="app\Services\SessionService.ts" />
+    <TypeScriptCompile Include="app\Shared\shared.module.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
