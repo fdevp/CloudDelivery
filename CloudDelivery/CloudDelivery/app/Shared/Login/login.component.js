@@ -18,11 +18,11 @@ var LoginComponent = (function () {
         this.router = router;
         this.inProgress = false;
     }
-    LoginComponent.prototype.login = function () {
+    LoginComponent.prototype.signIn = function () {
         var _this = this;
         this.inProgress = true;
         this.sessionService.redirectUrl = "";
-        this.sessionService.login(this.email, this.password).subscribe(function (result) { return null; }, function (error) {
+        this.sessionService.login(this.login, this.password).subscribe(function (result) { return null; }, function (error) {
             console.log("ss error", error);
         }, function () {
             _this.inProgress = false;

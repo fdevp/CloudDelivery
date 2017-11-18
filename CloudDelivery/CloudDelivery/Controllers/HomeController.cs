@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CloudDelivery.Data;
+using CloudDelivery.Providers;
+using CloudDelivery.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +14,6 @@ namespace CloudDelivery.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Home Page";
-
             return View();
         }
     }

@@ -35,8 +35,9 @@ namespace CloudDelivery.Models
     public class RegisterBindingModel
     {
         [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [StringLength(100,MinimumLength = 7,ErrorMessage = "Login musi składać się przynajmniej z 7 znaków.")]
+        [Display(Name = "Login")]
+        public string Login { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
@@ -48,6 +49,10 @@ namespace CloudDelivery.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+
+        [Display(Name ="Organisation")]
+        public int? OrganisationId { get; set; }
     }
 
     public class RegisterExternalBindingModel

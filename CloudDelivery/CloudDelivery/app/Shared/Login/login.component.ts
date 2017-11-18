@@ -8,16 +8,16 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
     public password: string;
-    public email: string;
+    public login: string;
     public inProgress: boolean = false;
 
     constructor(private sessionService: SessionService, private router: Router) {
     }
 
-    private login() {
+    private signIn() {
         this.inProgress = true;
         this.sessionService.redirectUrl = "";
-        this.sessionService.login(this.email, this.password).subscribe(result => null, error => {
+        this.sessionService.login(this.login, this.password).subscribe(result => null, error => {
             console.log("ss error", error)
         }, () => {
             this.inProgress = false;

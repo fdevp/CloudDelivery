@@ -87,7 +87,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CDContext.cs" />
+    <Compile Include="Context\ICDContext.cs" />
+    <Compile Include="Context\ICDContextFactory.cs" />
+    <Compile Include="Context\Implementations\CDContext.cs" />
+    <Compile Include="Context\Implementations\CDContextFactory.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Carrier.cs" />
     <Compile Include="Entities\Log.cs" />
