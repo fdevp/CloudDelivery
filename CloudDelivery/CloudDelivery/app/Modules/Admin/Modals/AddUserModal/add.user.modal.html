@@ -1,0 +1,37 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Utwórz użytkownika</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="createUserLogin">Login</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="createUserLogin" placeholder="Minimum 7 znaków" required [(ngModel)]="model.Login" min="7">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="createUserName">Nazwa</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="createUserName" placeholder="Nazwa" required [(ngModel)]="model.Name">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="createUserPassword">Hasło</label>
+            <div class="col-sm-9">
+                <div class="input-group">
+                    <input type="password" class="form-control" id="createUserPassword" placeholder="Minimum 6 znaków" required [(ngModel)]="model.Password" min="6" showPassword>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="submitAction()">Utwórz</button>
+    <button type="button" class="btn btn-default pull-left" (click)="bsModalRef.hide()">Anuluj</button>
+</div>

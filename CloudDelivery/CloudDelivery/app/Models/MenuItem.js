@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var MenuItem = (function () {
+var MenuItem = /** @class */ (function () {
     function MenuItem() {
     }
     return MenuItem;

@@ -8,15 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var carrier_component_1 = require("./carrier.component");
 var carrier_dashboard_component_1 = require("./dashboard/carrier.dashboard.component");
 var carrier_users_component_1 = require("./users/carrier.users.component");
 var CarrierGuard_1 = require("../../Services/Guards/CarrierGuard");
-var layoutRoutes = [
+var carrierRoutes = [
     {
         path: '',
-        component: carrier_component_1.CarrierComponent,
-        canActivate: [CarrierGuard_1.CarrierGuard],
         canActivateChild: [CarrierGuard_1.CarrierGuard],
         children: [
             {
@@ -30,20 +27,20 @@ var layoutRoutes = [
         ],
     },
 ];
-var CarrierRouting = (function () {
+var CarrierRouting = /** @class */ (function () {
     function CarrierRouting() {
     }
+    CarrierRouting = __decorate([
+        core_1.NgModule({
+            imports: [
+                router_1.RouterModule.forChild(carrierRoutes)
+            ],
+            exports: [
+                router_1.RouterModule
+            ]
+        })
+    ], CarrierRouting);
     return CarrierRouting;
 }());
-CarrierRouting = __decorate([
-    core_1.NgModule({
-        imports: [
-            router_1.RouterModule.forChild(layoutRoutes)
-        ],
-        exports: [
-            router_1.RouterModule
-        ]
-    })
-], CarrierRouting);
 exports.CarrierRouting = CarrierRouting;
 //# sourceMappingURL=carrier.routing.js.map

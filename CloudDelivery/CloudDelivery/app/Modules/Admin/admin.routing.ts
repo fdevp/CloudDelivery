@@ -1,25 +1,36 @@
 ﻿import { NgModule } from '@angular/core';
 import { RouterModule, Routes, CanActivate } from '@angular/router';
-import { AdminComponent } from './admin.component'
 import { AdminDashboardComponent } from './dashboard/admin.dashboard.component'
 import { AdminUsersComponent } from './users/admin.users.component'
+import { AdminOrganisationsComponent } from './organisations/admin.organisations.component'
 import { AdminGuard } from '../../Services/Guards/AdminGuard';
 
-const layoutRoutes: Routes = [
+import { UserViewComponent } from '../Shared/User/user.view.component';
+
+import { AdminComponent } from './admin.component';
+
+const adminRoutes: Routes = [
 
     {
         path: '',
-        component: AdminComponent,
-        canActivate: [AdminGuard],
         canActivateChild: [AdminGuard],
+        component: AdminComponent,
         children: [
-            {
-                path: '',
-                component: AdminDashboardComponent,
-            },
             {
                 path: 'users',
                 component: AdminUsersComponent,
+            },
+            {
+                path: 'organisations',
+                component: AdminOrganisationsComponent,
+            },
+            {
+                path: 'user/:id',
+                component: UserViewComponent,
+            },
+            {
+                path: '',
+                component: AdminDashboardComponent,
             }
         ],
     },
@@ -28,7 +39,7 @@ const layoutRoutes: Routes = [
 @NgModule({
     imports: [
         RouterModule.forChild(
-            layoutRoutes
+            adminRoutes
         )
     ],
     exports: [

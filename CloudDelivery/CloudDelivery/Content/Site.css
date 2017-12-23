@@ -3,3 +3,37 @@
     width: 100%;
     height: 100%;
 }
+
+.content-middle {
+    display: inline-block;
+}
+
+    .content-middle > * {
+        vertical-align: middle;
+    }
+
+.margin-bottom-30 {
+    margin-bottom: 30px;
+}
+
+.margin-top-30{
+    margin-top:30px;
+}
+
+.margin-left-10 {
+    margin-left: 10px;
+}
+
+.padding-left-0{
+    padding-left:0px;
+}
+
+.resize-vertical {
+    resize: vertical;
+}
+
+@media (min-width: 992px) {
+    .modal-lg {
+        width: 900px;
+    }
+}

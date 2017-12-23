@@ -14,7 +14,7 @@ var Observable_1 = require("rxjs/Observable");
 var router_1 = require("@angular/router");
 var SessionService_1 = require("../SessionService");
 require("rxjs/add/observable/of");
-var AdminGuard = (function () {
+var AdminGuard = /** @class */ (function () {
     function AdminGuard(sessionService, router) {
         this.sessionService = sessionService;
         this.router = router;
@@ -33,7 +33,6 @@ var AdminGuard = (function () {
     };
     AdminGuard.prototype.authorize = function (url) {
         var _this = this;
-        console.error("admin auth");
         return this.sessionService.checkLogin().map(function (valid) {
             if (!valid) {
                 _this.sessionService.redirectUrl = url;
@@ -47,11 +46,11 @@ var AdminGuard = (function () {
             return Observable_1.Observable.of(false);
         });
     };
+    AdminGuard = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [SessionService_1.SessionService, router_1.Router])
+    ], AdminGuard);
     return AdminGuard;
 }());
-AdminGuard = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [SessionService_1.SessionService, router_1.Router])
-], AdminGuard);
 exports.AdminGuard = AdminGuard;
 //# sourceMappingURL=AdminGuard.js.map

@@ -8,43 +8,67 @@ import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
 
 import { AuthGuard } from './Services/Guards/AuthGuard'
-import { AdminGuard } from './Services/Guards/AdminGuard'
-import { CarrierGuard } from './Services/Guards/CarrierGuard'
 import { SessionService } from './Services/SessionService';
+import { UsersService } from './Services/UsersService';
+import { OrganisationsService } from './Services/OrganisationsService';
 
-import { AdminModule } from './Modules/Admin/admin.module'
-import { CarrierModule } from './Modules/Carrier/carrier.module'
-import { SharedModule } from './Shared/shared.module'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { ToastrModule } from 'ngx-toastr'
+import { ModalModule } from 'ngx-bootstrap'
+import { TabsModule } from 'ngx-bootstrap';
+
+import { LoginComponent } from './Modules/Shared/Login/login.component';
+
+import { ProgressToast } from './Modules/Shared/Toasts/ProgressToast';
+
+//import { AddUserModal } from './Entries/Modals/AddUserModal/add.user.modal';
+import {ModalFactoryService} from './Services/Layout/ModalFactoryService';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+
+
+import { AdminModalsModule } from './Modules/Admin/Modals/admin.modals.module'
 
 const pages = [
     AppComponent,
+    LoginComponent
 ];
+
+const modals = [
+//    AddUserModal
+]
+
+const toasts = [
+    ProgressToast
+]
 
 const modules = [
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRouting
+    AppRouting,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
+    ModalModule.forRoot(),
+    TabsModule.forRoot(),
+    AdminModalsModule
 ]
 
-const myModules = [
-    AdminModule,
-    CarrierModule,
-    SharedModule
-]
 
 const providers = [
     { provide: APP_BASE_HREF, useValue: '/' },
     SessionService,
+    UsersService,
+    OrganisationsService,
     AuthGuard,
-    AdminGuard,
-    CarrierGuard
+    ModalFactoryService
 ]
 
 @NgModule({
-    imports: [...modules, ...myModules],
     providers: [...providers],
-    declarations: [...pages],
+    declarations: [...pages, ...modals, ...toasts],
     bootstrap: [AppComponent],
+    imports: [...modules],
+    entryComponents: [...modals, ...toasts]
 })
 export class AppModule { }

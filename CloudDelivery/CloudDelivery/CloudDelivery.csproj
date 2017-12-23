@@ -27,7 +27,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -233,16 +233,15 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrganisationsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\OrganisationVM.cs" />
-    <Compile Include="Models\RoleVM.cs" />
-    <Compile Include="Models\UserListVM.cs" />
-    <Compile Include="Models\UserVM.cs" />
+    <Compile Include="Models\Users\RoleVM.cs" />
+    <Compile Include="Models\Users\UserListVM.cs" />
+    <Compile Include="Models\Users\UserVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ICacheProvider.cs" />
     <Compile Include="Providers\Implementations\ApplicationOAuthProvider.cs" />
@@ -255,14 +254,23 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\Modules\Admin\admin.component.html" />
+    <Content Include="app\Modules\Shared\Login\login.component.html" />
+    <Content Include="app\Modules\Admin\Modals\AddUserModal\add-user-modal.css" />
+    <Content Include="app\Modules\Admin\Modals\AddUserModal\add.user.modal.html" />
+    <Content Include="app\Modules\Shared\Toasts\toasts.css" />
+    <Content Include="app\Modules\Admin\Dashboard\admin.dashboard.component.html" />
+    <Content Include="app\Modules\Admin\Modals\EditUserModal\edit-user-modal.css" />
+    <Content Include="app\Modules\Admin\Modals\EditUserModal\edit.user.modal.html" />
+    <Content Include="app\Modules\Admin\Modals\EditUserModal\EditPasswordTab\edit.password.tab.html" />
+    <Content Include="app\Modules\Admin\Modals\EditUserModal\EditSalesPointTab\edit.salespoint.tab.html" />
+    <Content Include="app\Modules\Admin\Modals\EditUserModal\EditUserTab\edit.user.tab.html" />
+    <Content Include="app\Modules\Admin\Organisations\admin.organisations.component.html" />
     <Content Include="app\Modules\Admin\Users\admin.users.component.html" />
     <Content Include="app\Modules\Carrier\carrier.component.html" />
     <Content Include="app\Modules\Carrier\Dashboard\carrier.dashboard.component.html" />
     <Content Include="app\Modules\Carrier\Users\carrier.users.component.html" />
-    <Content Include="app\Shared\Header\layout.header.component.html" />
-    <Content Include="app\Shared\Redirect\redirect.component.css" />
-    <Content Include="app\Shared\Login\login.component.html" />
+    <Content Include="app\Modules\layout.component.html" />
+    <Content Include="app\Modules\Shared\Header\layout.header.component.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\ducati.jpg" />
@@ -277,7 +285,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="package.json" />
-    <Content Include="app\Modules\Admin\Dashboard\admin.dashboard.component.html" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -309,6 +316,8 @@
     <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="app\Modules\Admin\Modals\AddOrganisationModal\" />
+    <Folder Include="app\Modules\Admin\Modals\EditOrganisationModal\" />
     <Folder Include="app\Modules\OrganisationOwner\" />
     <Folder Include="app\Modules\SalePoint\" />
     <Folder Include="App_Data\" />
@@ -342,28 +351,53 @@
     <TypeScriptCompile Include="app\app.component.ts" />
     <TypeScriptCompile Include="app\app.module.ts" />
     <TypeScriptCompile Include="app\app.routing.ts" />
+    <TypeScriptCompile Include="app\Modules\Shared\Login\login.component.ts" />
+    <TypeScriptCompile Include="app\Modules\Shared\Modals\ConfirmModal.ts" />
+    <TypeScriptCompile Include="app\Models\Enums\FormElementState.ts" />
+    <TypeScriptCompile Include="app\Models\Enums\Roles.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\Modals\AddUserModal\add.user.modal.ts" />
+    <TypeScriptCompile Include="app\Modules\Shared\Toasts\ProgressToast.ts" />
+    <TypeScriptCompile Include="app\Models\Organisations\Organisation.ts" />
+    <TypeScriptCompile Include="app\Models\Organisations\OrganisationListItem.ts" />
+    <TypeScriptCompile Include="app\Models\Users\UserDetails.ts" />
+    <TypeScriptCompile Include="app\Models\Users\UserEditModel.ts" />
+    <TypeScriptCompile Include="app\Models\Users\UserListItem.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\admin.component.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\admin.module.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\admin.routing.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\Modals\admin.modals.module.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\Dashboard\admin.dashboard.component.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\Modals\EditUserModal\edit.user.modal.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\Modals\EditUserModal\EditPasswordTab\edit.password.tab.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\Modals\EditUserModal\EditSalesPointTab\edit.salespoint.tab.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\Modals\EditUserModal\EditUserTab\edit.user.tab.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\Organisations\admin.organisations.component.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\Users\admin.users.component.ts" />
     <TypeScriptCompile Include="app\Modules\Carrier\carrier.component.ts" />
     <TypeScriptCompile Include="app\Modules\Carrier\carrier.module.ts" />
     <TypeScriptCompile Include="app\Modules\Carrier\carrier.routing.ts" />
     <TypeScriptCompile Include="app\Modules\Carrier\Dashboard\carrier.dashboard.component.ts" />
-    <TypeScriptCompile Include="app\Models\MenuItem.ts" />
     <TypeScriptCompile Include="app\Modules\Carrier\Users\carrier.users.component.ts" />
+    <TypeScriptCompile Include="app\Modules\layout.component.ts" />
+    <TypeScriptCompile Include="app\Modules\layout.module.ts" />
+    <TypeScriptCompile Include="app\Modules\layout.routing.ts" />
+    <TypeScriptCompile Include="app\Modules\Shared\Directives\ShowPasswordDirective.ts" />
+    <TypeScriptCompile Include="app\Modules\Shared\Header\layout.header.component.ts" />
+    <TypeScriptCompile Include="app\Modules\Shared\Pipes\NullStringPipe.ts" />
+    <TypeScriptCompile Include="app\Modules\Shared\Pipes\RoleNamePipe.ts" />
+    <TypeScriptCompile Include="app\Modules\Shared\shared.module.ts" />
+    <TypeScriptCompile Include="app\Services\Layout\ToastFactoryService.ts" />
+    <TypeScriptCompile Include="app\Models\MenuItem.ts" />
     <TypeScriptCompile Include="app\Services\Guards\AdminGuard.ts" />
     <TypeScriptCompile Include="app\Services\Guards\CarrierGuard.ts" />
-    <TypeScriptCompile Include="app\Services\MenuService.ts" />
-    <TypeScriptCompile Include="app\Shared\Header\layout.header.component.ts" />
-    <TypeScriptCompile Include="app\Shared\Redirect\redirect.component.ts" />
-    <TypeScriptCompile Include="app\Shared\Login\login.component.ts" />
+    <TypeScriptCompile Include="app\Services\Layout\MenuFactoryService.ts" />
+    <TypeScriptCompile Include="app\Services\Layout\ModalFactoryService.ts" />
+    <TypeScriptCompile Include="app\Services\OrganisationsService.ts" />
+    <TypeScriptCompile Include="app\Services\UsersService.ts" />
     <TypeScriptCompile Include="app\main.ts" />
-    <TypeScriptCompile Include="app\Models\User.ts" />
+    <TypeScriptCompile Include="app\Models\Session\SessionUser.ts" />
     <TypeScriptCompile Include="app\Services\Guards\AuthGuard.ts" />
     <TypeScriptCompile Include="app\Services\SessionService.ts" />
-    <TypeScriptCompile Include="app\Shared\shared.module.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

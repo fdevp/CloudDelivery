@@ -7,16 +7,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var CarrierUsersComponent = (function () {
+var CarrierUsersComponent = /** @class */ (function () {
     function CarrierUsersComponent() {
     }
+    CarrierUsersComponent = __decorate([
+        core_1.Component({
+            selector: 'app-carrier-users',
+            templateUrl: './carrier.users.component.html'
+        })
+    ], CarrierUsersComponent);
     return CarrierUsersComponent;
 }());
-CarrierUsersComponent = __decorate([
-    core_1.Component({
-        selector: 'app-carrier-users',
-        templateUrl: './carrier.users.component.html'
-    })
-], CarrierUsersComponent);
 exports.CarrierUsersComponent = CarrierUsersComponent;
 //# sourceMappingURL=carrier.users.component.js.map

@@ -27,7 +27,9 @@ namespace CloudDelivery.Models
 
     public class UserInfoViewModel
     {
-        public string UserName { get; set; }
+        public string Login { get; set; }
+
+        public string Name { get; set; }
 
         public bool HasRegistered { get; set; }
 

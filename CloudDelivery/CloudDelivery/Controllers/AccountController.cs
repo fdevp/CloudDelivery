@@ -69,7 +69,8 @@ namespace CloudDelivery.Controllers
             var roles = UserManager.GetRoles(User.Identity.GetUserId());
             return new UserInfoViewModel
             {
-                UserName = User.Identity.GetUserName(),
+                Name = usersService.GetUser(User.Identity.GetUserId()).Name,
+                Login = User.Identity.GetUserName(),
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null,
                 Roles = Newtonsoft.Json.JsonConvert.SerializeObject(roles)
@@ -104,10 +105,10 @@ namespace CloudDelivery.Controllers
             return Ok();
         }
 
-      
+
 
         // POST api/Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles =("admin"))]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
@@ -118,7 +119,7 @@ namespace CloudDelivery.Controllers
 
             string email = model.Login + "@cd.com";
 
-            var user = new ApplicationUser() { UserName = model.Login, Email= email };
+            var user = new ApplicationUser() { UserName = model.Login, Email = email };
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
@@ -126,11 +127,11 @@ namespace CloudDelivery.Controllers
                 return GetErrorResult(result);
             }
 
-            int createdUserId = usersService.AddUser(user.Id, model.OrganisationId);
+            int createdUserId = usersService.AddUser(user.Id, model.Name, model.OrganisationId);
             return Ok(createdUserId);
         }
 
-     
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)

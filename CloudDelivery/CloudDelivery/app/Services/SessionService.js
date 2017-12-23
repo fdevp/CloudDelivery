@@ -12,17 +12,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var Observable_1 = require("rxjs/Observable");
 var router_1 = require("@angular/router");
-var User_1 = require("../Models/User");
+var SessionUser_1 = require("../Models/Session/SessionUser");
 var http_1 = require("@angular/http");
 require("rxjs/add/observable/of");
 require("rxjs/Rx");
-var SessionService = (function () {
+var SessionService = /** @class */ (function () {
     function SessionService(router, http) {
         this.router = router;
         this.http = http;
         this.isLoggedIn = false;
         this.redirectUrl = null;
-        this.user = new User_1.User();
+        this.user = new SessionUser_1.SessionUser();
     }
     SessionService.prototype.checkLogin = function () {
         var _this = this;
@@ -34,11 +34,10 @@ var SessionService = (function () {
         if (this.token == null)
             return Observable_1.Observable.of(false);
         return new Observable_1.Observable(function (obs) {
-            var httpHeaders = new http_1.Headers();
-            httpHeaders.append("Authorization", "Bearer " + _this.token);
-            return _this.http.get('/api/account/UserInfo', { headers: httpHeaders }).subscribe(function (data) {
+            return _this.http.get('/api/account/UserInfo', { headers: _this.authHeader() }).subscribe(function (data) {
                 var body = JSON.parse(data["_body"]);
-                _this.user.name = body.UserName;
+                _this.user.name = body.Name;
+                _this.user.login = body.Login;
                 _this.user.roles = JSON.parse(body.Roles);
                 _this.isLoggedIn = true;
                 if (_this.redirectUrl != null) {
@@ -52,6 +51,11 @@ var SessionService = (function () {
             });
         });
     };
+    SessionService.prototype.authHeader = function () {
+        var httpHeaders = new http_1.Headers();
+        httpHeaders.append("Authorization", "Bearer " + this.token);
+        return httpHeaders;
+    };
     SessionService.prototype.login = function (email, password) {
         var _this = this;
         return new Observable_1.Observable(function (obs) {
@@ -61,7 +65,8 @@ var SessionService = (function () {
             _this.http.post('/token', loginBody, { headers: loginHeaders }).map(function (data) { return data.json(); }).subscribe(function (data) {
                 //set data
                 _this.token = data["access_token"];
-                _this.user.name = data["userName"];
+                _this.user.name = data["Login"];
+                _this.user.login = data["Name"];
                 _this.user.roles = JSON.parse(data["roles"]);
                 _this.saveToken();
                 _this.isLoggedIn = true;
@@ -86,7 +91,7 @@ var SessionService = (function () {
     SessionService.prototype.logout = function () {
         this.removeToken();
         this.isLoggedIn = false;
-        this.user = new User_1.User();
+        this.user = new SessionUser_1.SessionUser();
         this.router.navigate(["/"]);
     };
     SessionService.prototype.removeToken = function () {
@@ -96,11 +101,11 @@ var SessionService = (function () {
     SessionService.prototype.saveToken = function () {
         sessionStorage.setItem("cdskey", this.token);
     };
+    SessionService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [router_1.Router, http_1.Http])
+    ], SessionService);
     return SessionService;
 }());
-SessionService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [router_1.Router, http_1.Http])
-], SessionService);
 exports.SessionService = SessionService;
 //# sourceMappingURL=SessionService.js.map

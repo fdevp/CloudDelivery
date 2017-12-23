@@ -8,42 +8,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var login_component_1 = require("./Shared/Login/login.component");
-var redirect_component_1 = require("./Shared/Redirect/redirect.component");
-var CarrierGuard_1 = require("./Services/Guards/CarrierGuard");
+var AuthGuard_1 = require("./Services/Guards/AuthGuard");
+var login_component_1 = require("./Modules/Shared/Login/login.component");
 var appRoutes = [
     {
         path: '',
-        component: redirect_component_1.RedirectComponent
-    },
-    {
-        path: 'admin',
-        loadChildren: "app/modules/admin/admin.module#AdminModule",
-    },
-    {
-        path: 'carrier',
-        canLoad: [CarrierGuard_1.CarrierGuard],
-        loadChildren: "app/modules/carrier/carrier.module#CarrierModule",
+        canActivate: [AuthGuard_1.AuthGuard],
+        loadChildren: "app/modules/layout.module#LayoutModule",
     },
     {
         path: 'login',
         component: login_component_1.LoginComponent
     },
+    { path: '**', redirectTo: '' }
 ];
-var AppRouting = (function () {
+var AppRouting = /** @class */ (function () {
     function AppRouting() {
     }
+    AppRouting = __decorate([
+        core_1.NgModule({
+            imports: [
+                router_1.RouterModule.forRoot(appRoutes, { enableTracing: true })
+            ],
+            exports: [
+                router_1.RouterModule
+            ]
+        })
+    ], AppRouting);
     return AppRouting;
 }());
-AppRouting = __decorate([
-    core_1.NgModule({
-        imports: [
-            router_1.RouterModule.forRoot(appRoutes, { enableTracing: true })
-        ],
-        exports: [
-            router_1.RouterModule
-        ]
-    })
-], AppRouting);
 exports.AppRouting = AppRouting;
 //# sourceMappingURL=app.routing.js.map

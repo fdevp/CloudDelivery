@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var SessionService_1 = require("../SessionService");
-var AuthGuard = (function () {
+var AuthGuard = /** @class */ (function () {
     function AuthGuard(sessionService, router) {
         this.sessionService = sessionService;
         this.router = router;
@@ -34,11 +34,11 @@ var AuthGuard = (function () {
         // Navigate to the login page with extras
         this.router.navigate(['/login']);
     };
+    AuthGuard = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [SessionService_1.SessionService, router_1.Router])
+    ], AuthGuard);
     return AuthGuard;
 }());
-AuthGuard = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [SessionService_1.SessionService, router_1.Router])
-], AuthGuard);
 exports.AuthGuard = AuthGuard;
 //# sourceMappingURL=AuthGuard.js.map

@@ -16,7 +16,7 @@ namespace CloudDelivery.Services
         /// <param name="identityId">ApplicationUser id</param>
         /// <param name="organisationId">add user to organisation</param>
         /// <returns>new user id</returns>
-        int AddUser(string identityId, int? organisationId);
+        int AddUser(string identityId, string name,int? organisationId);
 
 
         /// <summary>
@@ -63,6 +63,13 @@ namespace CloudDelivery.Services
         User GetUser(int id);
 
         /// <summary>
+        /// get user by identity Id
+        /// </summary>
+        /// <param name="identityId"></param>
+        /// <returns></returns>
+        User GetUser(string identityId);
+
+        /// <summary>
         /// change user role
         /// </summary>
         /// <param name="id"></param>
@@ -78,18 +85,19 @@ namespace CloudDelivery.Services
         void SetOrganisation(int id, int organisationId);
 
         /// <summary>
-        /// set user phone
+        /// set user data
         /// </summary>
-        /// <param name="id">user id</param>
-        /// <param name="phone">phone</param>
-        void SetPhone(int id, string phone);
+        /// <param name="id"></param>
+        /// <param name="phone"></param>
+        /// <param name="name"></param>
+        void SetData(int id, string phone, string name);
 
 
         /// <summary>
-        /// set user descrpition
+        /// set user description
         /// </summary>
-        /// <param name="id">user id</param>
-        /// <param name="description">description</param>
+        /// <param name="id"></param>
+        /// <param name="description"></param>
         void SetDescription(int id, string description);
     }
 }

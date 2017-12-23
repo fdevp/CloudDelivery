@@ -9,8 +9,6 @@ namespace CloudDelivery.Data.Entities
     [Table("SalePoints")]
     public class SalePoint : BaseModel<int>
     {
-        public string Name { get; set; }
-
         [ForeignKey("User")]
         public int? UserId { get; set; }
 

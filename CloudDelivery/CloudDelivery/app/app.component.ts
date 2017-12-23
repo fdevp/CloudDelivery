@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { SessionService } from './Services/SessionService';
+import { ModalFactoryService } from './Services/Layout/ModalFactoryService';
 import { Router } from '@angular/router';
+import { BsModalService } from 'ngx-bootstrap';
 
 @Component({
     selector: 'my-app',
     template: `<router-outlet></router-outlet>`,
 })
 export class AppComponent {
-    constructor() { }
+    constructor(private bsmodalService: BsModalService, private modalService: ModalFactoryService) {
+        this.modalService.setNgxService(bsmodalService);
+    }
 }

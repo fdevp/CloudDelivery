@@ -17,9 +17,9 @@ namespace CloudDelivery.Services
             this.ctxFactory = ctxFactory;
         }
 
-        public int AddUser(string identityId, int? organisationId)
+        public int AddUser(string identityId, string name, int? organisationId)
         {
-            User newUser = new User { IdentityId = identityId, OrganisationId = organisationId };
+            User newUser = new User { IdentityId = identityId, Name = name, OrganisationId = organisationId };
 
             using (var ctx = ctxFactory.GetContext())
             {
@@ -44,7 +44,7 @@ namespace CloudDelivery.Services
                 ctx.UserRoles.Where(x => x.UserId == userToRemove.IdentityId)
                              .ToList()
                              .ForEach(x => ctx.UserRoles.Remove(x));
-                
+
                 //remove identity data
                 var ApplicationUser = ctx.Users
                                          .Where(x => x.Id == userToRemove.IdentityId)
@@ -65,10 +65,10 @@ namespace CloudDelivery.Services
 
             using (var ctx = ctxFactory.GetContext())
             {
-                var usrs= ctx.UserData
-                             .Include(x=>x.AspNetUser)
-                             .Include(x=>x.AspNetUser.Roles)
-                             .Include(x=>x.Organisation)
+                var usrs = ctx.UserData
+                             .Include(x => x.AspNetUser)
+                             .Include(x => x.AspNetUser.Roles)
+                             .Include(x => x.Organisation)
                              .ToList();
                 return usrs;
             }
@@ -131,10 +131,27 @@ namespace CloudDelivery.Services
             using (var ctx = ctxFactory.GetContext())
             {
                 var user = ctx.UserData
-                              .Include(x=>x.AspNetUser)
+                              .Include(x => x.AspNetUser)
                               .Include(x => x.AspNetUser.Roles)
                               .Include(x => x.Organisation)
                               .Where(x => x.Id == id)
+                              .FirstOrDefault();
+                if (user == null)
+                    throw new NullReferenceException("Nie znaleziono użytkownika");
+
+                return user;
+            }
+        }
+
+        public User GetUser(string identityId)
+        {
+            using (var ctx = ctxFactory.GetContext())
+            {
+                var user = ctx.UserData
+                              .Include(x => x.AspNetUser)
+                              .Include(x => x.AspNetUser.Roles)
+                              .Include(x => x.Organisation)
+                              .Where(x => x.IdentityId == identityId)
                               .FirstOrDefault();
                 if (user == null)
                     throw new NullReferenceException("Nie znaleziono użytkownika");
@@ -152,7 +169,7 @@ namespace CloudDelivery.Services
                 if (user == null)
                     throw new NullReferenceException("Nie znaleziono użytkownika");
 
-                if(!ctx.Roles.Any(x=>x.Id == roleId))
+                if (!ctx.Roles.Any(x => x.Id == roleId))
                     throw new NullReferenceException("Nie znaleziono roli");
 
                 //clear current roles
@@ -184,16 +201,17 @@ namespace CloudDelivery.Services
         }
 
 
-        public void SetPhone(int id, string phone)
+        public void SetData(int id, string phone,  string name)
         {
             using (var ctx = ctxFactory.GetContext())
             {
-                var user = ctx.UserData.Where(x => x.Id == id).FirstOrDefault();
+                var user = ctx.UserData.Include(x => x.AspNetUser).Where(x => x.Id == id).FirstOrDefault();
 
                 if (user == null)
                     throw new NullReferenceException("Nie znaleziono użytkownika");
 
                 user.AspNetUser.PhoneNumber = phone;
+                user.Name = name;
 
                 ctx.SaveChanges();
             }
@@ -203,7 +221,7 @@ namespace CloudDelivery.Services
         {
             using (var ctx = ctxFactory.GetContext())
             {
-                var user = ctx.UserData.Where(x => x.Id == id).FirstOrDefault();
+                var user = ctx.UserData.Include(x => x.AspNetUser).Where(x => x.Id == id).FirstOrDefault();
 
                 if (user == null)
                     throw new NullReferenceException("Nie znaleziono użytkownika");

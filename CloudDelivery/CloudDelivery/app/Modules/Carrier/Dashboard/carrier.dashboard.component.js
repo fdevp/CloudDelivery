@@ -7,16 +7,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var CarrierDashboardComponent = (function () {
+var CarrierDashboardComponent = /** @class */ (function () {
     function CarrierDashboardComponent() {
     }
+    CarrierDashboardComponent = __decorate([
+        core_1.Component({
+            selector: 'app-carrier-dashboard',
+            templateUrl: './carrier.dashboard.component.html'
+        })
+    ], CarrierDashboardComponent);
     return CarrierDashboardComponent;
 }());
-CarrierDashboardComponent = __decorate([
-    core_1.Component({
-        selector: 'app-carrier-dashboard',
-        templateUrl: './carrier.dashboard.component.html'
-    })
-], CarrierDashboardComponent);
 exports.CarrierDashboardComponent = CarrierDashboardComponent;
 //# sourceMappingURL=carrier.dashboard.component.js.map

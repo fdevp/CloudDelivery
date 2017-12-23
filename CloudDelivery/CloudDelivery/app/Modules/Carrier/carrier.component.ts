@@ -1,8 +1,6 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '../../models/user';
 import { MenuItem } from '../../models/MenuItem';
-import { MenuService } from "../../Services/MenuService"
 //import { ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
 
 
@@ -11,17 +9,12 @@ import { MenuService } from "../../Services/MenuService"
     templateUrl: './carrier.component.html'
 })
 export class CarrierComponent implements OnInit, OnDestroy {
-    public mylinks: Array<MenuItem> = [];
-    //public toastrConfig: ToasterConfig;
-
-
     public skin = 'skin-black';
 
     constructor(
         //private sessionService: SessionService,
         //private toastr: ToasterService,
-        private route: ActivatedRoute,
-        private menuService: MenuService
+        private route: ActivatedRoute
     ) {
         const param = route.snapshot.data[0];
 
@@ -30,9 +23,6 @@ export class CarrierComponent implements OnInit, OnDestroy {
         //    showCloseButton: true,
         //    tapToDismiss: false
         //});
-
-
-        this.mylinks = this.menuService.getMenu();
     }
 
     public ngOnInit() {

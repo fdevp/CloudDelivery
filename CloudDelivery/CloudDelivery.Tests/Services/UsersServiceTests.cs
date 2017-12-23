@@ -31,9 +31,11 @@ namespace CloudDelivery.Tests.Services
         {
             string identity = "identityId";
             int organisationId = 1;
-            int id = service.AddUser(identity, organisationId);
+            string name = "username1";
+            int id = service.AddUser(identity, name ,organisationId);
             var user = service.GetUser(id);
             Assert.AreEqual(identity, user.IdentityId);
+            Assert.AreEqual(name, user.Name);
             Assert.AreEqual(organisationId, user.OrganisationId);
         }
 
@@ -168,15 +170,17 @@ namespace CloudDelivery.Tests.Services
         }
 
         [TestMethod()]
-        public void SetPhone_ShouldSetPhoneNumber()
+        public void SetData_ShouldSetData()
         {
             var user = service.GetUsersList().FirstOrDefault();
             var identityUser = ctx.Users.FirstOrDefault();
             user.IdentityId = identityUser.Id;
             user.AspNetUser = identityUser;
             string phone = "111111111";
-            service.SetPhone(user.Id, phone);
+            string name = "username";
+            service.SetData(user.Id, phone,name);
             Assert.AreEqual(identityUser.PhoneNumber, phone);
+            Assert.AreEqual(user.Name, name);
         }
 
 
@@ -187,6 +191,44 @@ namespace CloudDelivery.Tests.Services
             string desc = "new description";
             service.SetDescription(user.Id, desc);
             Assert.AreEqual(user.Description, desc);
+        }
+
+
+        [TestMethod()]
+        public void GetUser_ById_ShoudReturnUser()
+        {
+            var userFromCtx = ctx.UserData.FirstOrDefault();
+            var userFromDetails = service.GetUser(userFromCtx.Id);
+            Assert.AreEqual(userFromCtx.Id, userFromDetails.Id);
+            Assert.AreEqual(userFromCtx.IdentityId, userFromDetails.IdentityId);
+            Assert.AreEqual(userFromCtx.Description, userFromDetails.Description);
+            Assert.AreEqual(userFromCtx.Name, userFromDetails.Name);
+            Assert.AreEqual(userFromCtx.OrganisationId, userFromDetails.OrganisationId);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void GetUser_ById_ShoudThrowUserNullException()
+        {
+            service.GetUser(int.MinValue);
+        }
+
+        [TestMethod()]
+        public void GetUser_ByIdentityId_ShoudReturnUser()
+        {
+            var userFromCtx = ctx.UserData.FirstOrDefault();
+            var userFromDetails = service.GetUser(userFromCtx.IdentityId);
+            Assert.AreEqual(userFromCtx.Id, userFromDetails.Id);
+            Assert.AreEqual(userFromCtx.IdentityId, userFromDetails.IdentityId);
+            Assert.AreEqual(userFromCtx.Description, userFromDetails.Description);
+            Assert.AreEqual(userFromCtx.Name, userFromDetails.Name);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void GetUser_ByIdentityId_ShoudThrowNullException()
+        {
+            service.GetUser("");
         }
 
 
@@ -229,5 +271,8 @@ namespace CloudDelivery.Tests.Services
             ctx.UserRoles.Where(x => x.UserId == user.IdentityId).ToList().ForEach(x => ctx.UserRoles.Remove(x));
             service.GetUserRolesString(user.Id);
         }
+
+
+
     }
 }

@@ -31,7 +31,6 @@ export class AdminGuard implements CanLoad, CanActivate, CanActivateChild {
 
 
     private authorize(url): Observable<boolean>{
-        console.error("admin auth");
         return this.sessionService.checkLogin().map(valid => {
             if (!valid) {
                 this.sessionService.redirectUrl = url;

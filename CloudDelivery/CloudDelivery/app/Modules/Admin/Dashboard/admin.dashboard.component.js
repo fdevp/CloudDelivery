@@ -7,16 +7,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var AdminDashboardComponent = (function () {
+var AdminDashboardComponent = /** @class */ (function () {
     function AdminDashboardComponent() {
     }
+    AdminDashboardComponent = __decorate([
+        core_1.Component({
+            selector: 'app-admin-dashboard',
+            templateUrl: './admin.dashboard.component.html'
+        })
+    ], AdminDashboardComponent);
     return AdminDashboardComponent;
 }());
-AdminDashboardComponent = __decorate([
-    core_1.Component({
-        selector: 'app-admin-dashboard',
-        templateUrl: './admin.dashboard.component.html'
-    })
-], AdminDashboardComponent);
 exports.AdminDashboardComponent = AdminDashboardComponent;
 //# sourceMappingURL=admin.dashboard.component.js.map

@@ -2,11 +2,13 @@
 using CloudDelivery.Data.Entities;
 using CloudDelivery.Models;
 using CloudDelivery.Services;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Authentication;
 using System.Web.Http;
 
 namespace CloudDelivery.Controllers
@@ -32,11 +34,11 @@ namespace CloudDelivery.Controllers
             {
                 try
                 {
-                    item.Role = usersService.GetUserRolesString(item.Id);
+                    item.Roles = usersService.GetUserRolesString(item.Id);
                 }
                 catch (Exception e)
                 {
-                    item.Role = String.Empty;
+                    item.Roles = String.Empty;
                 }
 
             }
@@ -58,11 +60,11 @@ namespace CloudDelivery.Controllers
 
             try
             {
-                user.Role = usersService.GetUserRolesString(id);
+                user.Roles = usersService.GetUserRolesString(id);
             }
             catch (Exception e)
             {
-                user.Role = String.Empty;
+                user.Roles = String.Empty;
             }
 
             return Ok(user);
@@ -91,8 +93,7 @@ namespace CloudDelivery.Controllers
         {
             try
             {
-                usersService.SetPhone(id, user.Phone);
-                usersService.SetDescription(id, user.Descripition);
+                usersService.SetData(user.Id, user.Phone, user.Name);
                 return Ok();
             }
             catch (NullReferenceException e)
@@ -108,6 +109,7 @@ namespace CloudDelivery.Controllers
         [Route("Organisation/{id}")]
         public IHttpActionResult Organisation(int id, [FromBody] int organisationId)
         {
+            var user = usersService.GetUser(this.User.Identity.GetUserId());
             try
             {
                 usersService.SetOrganisation(id, organisationId);

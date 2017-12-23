@@ -16,8 +16,10 @@ namespace CloudDelivery.App_Start
             Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<User, UserVM>()
-                .ForMember(dest => dest.Name, opt =>
+                .ForMember(dest => dest.Login, opt =>
                 opt.MapFrom(src => src.AspNetUser.UserName))
+                .ForMember(dest => dest.Name, opt =>
+                opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Organisation, opt =>
                 opt.MapFrom(src => src.Organisation.Name))
                 .ForMember(dest => dest.OrganisationId, opt =>
@@ -28,8 +30,10 @@ namespace CloudDelivery.App_Start
 
 
                 cfg.CreateMap<User, UserListVM>()
-                .ForMember(dest => dest.Name, opt =>
+                .ForMember(dest => dest.Login, opt =>
                 opt.MapFrom(src => src.AspNetUser.UserName))
+                .ForMember(dest => dest.Name, opt =>
+                opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Organisation, opt =>
                 opt.MapFrom(src => src.Organisation.Name))
                 .ForMember(dest => dest.OrganisationId, opt =>

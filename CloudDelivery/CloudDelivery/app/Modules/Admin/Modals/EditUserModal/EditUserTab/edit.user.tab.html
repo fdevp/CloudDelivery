@@ -1,0 +1,184 @@
+﻿<div class="form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Id</label>
+        <div class="col-sm-10 form-control-static">
+            <span>{{model.Id}}</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Login</label>
+        <div class="col-sm-10 form-control-static">
+            <span>{{model.Login}}</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="Name">Nazwa</label>
+        <div class="col-sm-10 form-control-static" *ngIf="formStates['Name']==elementStateEnum.Text">
+            <span [innerHtml]="model.Name | nullString"></span>
+            <span (click)="setElementState('Name',elementStateEnum.Editable)">
+                <i class="fa fa-pencil margin-left-10"></i>
+            </span>
+        </div>
+        <div class="col-sm-8" *ngIf="formStates['Name']!=elementStateEnum.Text">
+            <div class="col-sm-6 padding-left-0">
+                <input type="text" class="form-control" id="Name" placeholder="Nazwa" required [(ngModel)]="model.Name" [disabled]="formStates['Name']==elementStateEnum.Saving">
+            </div>
+            <div class="col-sm-2 padding-left-0 form-control-static" *ngIf="formStates['Name']==elementStateEnum.Editable">
+                <span>
+                    <i class="fa fa-times margin-left-10" (click)="cancelEditing('Name')"></i>
+                    <i class="fa fa-save margin-left-10" (click)="setElementState('Name',elementStateEnum.Saving)"></i>
+                </span>
+            </div>
+            <div class="col-sm-2 padding-left-0 form-control-static" *ngIf="formStates['Name']==elementStateEnum.Saving">
+                <i class="fa fa-fw fa-spinner fa-spin"></i>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="Roles">Rola</label>
+        <div class="col-sm-10 form-control-static" *ngIf="formStates['Roles']==elementStateEnum.Text">
+            <span [innerHtml]="model.Roles | roleName"></span>
+            <span (click)="setElementState('Roles',elementStateEnum.Editable)">
+                <i class="fa fa-pencil margin-left-10"></i>
+            </span>
+        </div>
+        <div class="col-sm-8" *ngIf="formStates['Roles']!=elementStateEnum.Text">
+            <!-- LOADING DATA -->
+            <i class="fa fa-spin fa-spinner fa-2x" *ngIf="formStates['Roles']==elementStateEnum.LoadingData"></i>
+
+
+            <div class="col-sm-9  padding-left-0" *ngIf="formStates['Roles']!=elementStateEnum.LoadingData">
+
+                <div class="col-sm-6 padding-left-0">
+                    <select [(ngModel)]="model.Roles" class="form-control" [disabled]="formStates['Roles']==elementStateEnum.Saving">
+                        <option value="null"></option>
+                        <option *ngFor="let role of rolesList" [ngValue]="role">{{role | roleName}}</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-2 padding-left-0 form-control-static" *ngIf="formStates['Roles']==elementStateEnum.Editable">
+                    <span>
+                        <i class="fa fa-times margin-left-10" (click)="cancelEditing('Roles')"></i>
+                        <i class="fa fa-save margin-left-10" (click)="setElementState('Roles',elementStateEnum.Saving)"></i>
+                    </span>
+                </div>
+
+
+                <!-- IN PROGRESS -->
+                <div class="col-sm-2 padding-left-0 form-control-static" *ngIf="formStates['Roles']==elementStateEnum.Saving">
+                    <i class="fa fa-fw fa-spinner fa-spin"></i>
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+    
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="Organisation">Organizacja</label>
+        <div class="col-sm-10 form-control-static" *ngIf="formStates['Organisation']==elementStateEnum.Text">
+            <span [innerHtml]="model.Organisation | nullString"></span>
+            <span (click)="setElementState('Organisation',elementStateEnum.Editable)">
+                <i class="fa fa-pencil margin-left-10"></i>
+            </span>
+        </div>
+        <div class="col-sm-8" *ngIf="formStates['Organisation']!=elementStateEnum.Text">
+            <!-- LOADING DATA -->
+            <i class="fa fa-spin fa-spinner fa-2x" *ngIf="formStates['Organisation']==elementStateEnum.LoadingData"></i>
+
+            <!-- EDITABLE -->
+            <div class="col-sm-9  padding-left-0" *ngIf="formStates['Organisation']!=elementStateEnum.LoadingData">
+
+                <div class="col-sm-6 padding-left-0">
+                    <select [(ngModel)]="model.OrganisationId" class="form-control" [disabled]="formStates['Organisation']==elementStateEnum.Saving">
+                        <option value="null"></option>
+                        <option *ngFor="let org of organisationsList" [ngValue]="org.Id">{{org.Name}}</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-2 padding-left-0 form-control-static" *ngIf="formStates['Organisation']==elementStateEnum.Editable">
+                    <span>
+                        <i class="fa fa-times margin-left-10" (click)="cancelEditing('Organisation')"></i>
+                        <i class="fa fa-save margin-left-10" (click)="setElementState('Organisation',elementStateEnum.Saving)"></i>
+                    </span>
+                </div>
+
+
+                <!-- IN PROGRESS -->
+                <div class="col-sm-2 padding-left-0 form-control-static" *ngIf="formStates['Organisation']==elementStateEnum.Saving">
+                    <i class="fa fa-fw fa-spinner fa-spin"></i>
+                </div>
+
+            </div>
+            
+           
+        </div>
+    </div>
+
+
+    <!-- TELEFON -->
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="Phone">Telefon</label>
+        <div class="col-sm-10 form-control-static" *ngIf="formStates['Phone']==elementStateEnum.Text">
+            <span [innerHtml]="model.Phone | nullString"></span>
+            <span (click)="setElementState('Phone',elementStateEnum.Editable)">
+                <i class="fa fa-pencil margin-left-10"></i>
+            </span>
+        </div>
+        <div class="col-sm-8" *ngIf="formStates['Phone']!=elementStateEnum.Text">
+            <div class="col-sm-6 padding-left-0">
+                <input type="text" class="form-control" id="Phone" placeholder="Telefon" [(ngModel)]="model.Phone" [disabled]="formStates['Phone']==elementStateEnum.Saving">
+            </div>
+            <div class="col-sm-2 padding-left-0 form-control-static" *ngIf="formStates['Phone']==elementStateEnum.Editable">
+                <span>
+                    <i class="fa fa-times margin-left-10" (click)="cancelEditing('Phone')"></i>
+                    <i class="fa fa-save margin-left-10" (click)="setElementState('Phone',elementStateEnum.Saving)"></i>
+                </span>
+            </div>
+            <div class="col-sm-2 padding-left-0 form-control-static" *ngIf="formStates['Phone']==elementStateEnum.Saving">
+                <i class="fa fa-fw fa-spinner fa-spin"></i>
+            </div>
+        </div>
+    </div>
+
+
+
+    
+    <!-- OPIS -->
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="Description">Opis</label>
+        <div class="col-sm-10 form-control-static" *ngIf="formStates['Description']==elementStateEnum.Text">
+            <span [innerHtml]="model.Description | nullString"></span>
+            <span (click)="setElementState('Description',elementStateEnum.Editable)">
+                <i class="fa fa-pencil margin-left-10"></i>
+            </span>
+        </div>
+        <div class="col-sm-8" *ngIf="formStates['Description']!=elementStateEnum.Text">
+            <div class="col-sm-6 padding-left-0">
+                <textarea class="form-control resize-vertical" id="Description" placeholder="Opis" [(ngModel)]="model.Description" [disabled]="formStates['Description']==elementStateEnum.Saving"></textarea>
+            </div>
+            <div class="col-sm-2 padding-left-0 form-control-static" *ngIf="formStates['Description']==elementStateEnum.Editable">
+                <span>
+                    <i class="fa fa-times margin-left-10" (click)="cancelEditing('Description')"></i>
+                    <i class="fa fa-save margin-left-10" (click)="setElementState('Description',elementStateEnum.Saving)"></i>
+                </span>
+            </div>
+            <div class="col-sm-2 padding-left-0 form-control-static" *ngIf="formStates['Description']==elementStateEnum.Saving">
+                <i class="fa fa-fw fa-spinner fa-spin"></i>
+            </div>
+        </div>
+
+    </div>
+
+</div>

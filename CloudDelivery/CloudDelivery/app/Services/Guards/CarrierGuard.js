@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 var Observable_1 = require("rxjs/Observable");
 var router_1 = require("@angular/router");
 var SessionService_1 = require("../SessionService");
-var CarrierGuard = (function () {
+var CarrierGuard = /** @class */ (function () {
     function CarrierGuard(sessionService, router) {
         this.sessionService = sessionService;
         this.router = router;
@@ -46,11 +46,11 @@ var CarrierGuard = (function () {
             return Observable_1.Observable.of(false);
         });
     };
+    CarrierGuard = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [SessionService_1.SessionService, router_1.Router])
+    ], CarrierGuard);
     return CarrierGuard;
 }());
-CarrierGuard = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [SessionService_1.SessionService, router_1.Router])
-], CarrierGuard);
 exports.CarrierGuard = CarrierGuard;
 //# sourceMappingURL=CarrierGuard.js.map

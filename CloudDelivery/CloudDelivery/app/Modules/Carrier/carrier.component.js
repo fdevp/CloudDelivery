@@ -11,17 +11,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var MenuService_1 = require("../../Services/MenuService");
 //import { ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
-var CarrierComponent = (function () {
+var CarrierComponent = /** @class */ (function () {
     function CarrierComponent(
         //private sessionService: SessionService,
         //private toastr: ToasterService,
-        route, menuService) {
+        route) {
         this.route = route;
-        this.menuService = menuService;
-        this.mylinks = [];
-        //public toastrConfig: ToasterConfig;
         this.skin = 'skin-black';
         var param = route.snapshot.data[0];
         //this.toastrConfig = new ToasterConfig({
@@ -29,7 +25,6 @@ var CarrierComponent = (function () {
         //    showCloseButton: true,
         //    tapToDismiss: false
         //});
-        this.mylinks = this.menuService.getMenu();
     }
     CarrierComponent.prototype.ngOnInit = function () {
         document.body.className = 'hold-transition ' + this.skin + ' layout-top-nav';
@@ -37,15 +32,14 @@ var CarrierComponent = (function () {
     CarrierComponent.prototype.ngOnDestroy = function () {
         document.body.className = '';
     };
+    CarrierComponent = __decorate([
+        core_1.Component({
+            selector: 'app-carrier',
+            templateUrl: './carrier.component.html'
+        }),
+        __metadata("design:paramtypes", [router_1.ActivatedRoute])
+    ], CarrierComponent);
     return CarrierComponent;
 }());
-CarrierComponent = __decorate([
-    core_1.Component({
-        selector: 'app-carrier',
-        templateUrl: './carrier.component.html'
-    }),
-    __metadata("design:paramtypes", [router_1.ActivatedRoute,
-        MenuService_1.MenuService])
-], CarrierComponent);
 exports.CarrierComponent = CarrierComponent;
 //# sourceMappingURL=carrier.component.js.map

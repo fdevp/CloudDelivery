@@ -8,42 +8,51 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var admin_component_1 = require("./admin.component");
 var admin_dashboard_component_1 = require("./dashboard/admin.dashboard.component");
 var admin_users_component_1 = require("./users/admin.users.component");
+var admin_organisations_component_1 = require("./organisations/admin.organisations.component");
 var AdminGuard_1 = require("../../Services/Guards/AdminGuard");
-var layoutRoutes = [
+var user_view_component_1 = require("../Shared/User/user.view.component");
+var admin_component_1 = require("./admin.component");
+var adminRoutes = [
     {
         path: '',
-        component: admin_component_1.AdminComponent,
-        canActivate: [AdminGuard_1.AdminGuard],
         canActivateChild: [AdminGuard_1.AdminGuard],
+        component: admin_component_1.AdminComponent,
         children: [
-            {
-                path: '',
-                component: admin_dashboard_component_1.AdminDashboardComponent,
-            },
             {
                 path: 'users',
                 component: admin_users_component_1.AdminUsersComponent,
+            },
+            {
+                path: 'organisations',
+                component: admin_organisations_component_1.AdminOrganisationsComponent,
+            },
+            {
+                path: 'user/:id',
+                component: user_view_component_1.UserViewComponent,
+            },
+            {
+                path: '',
+                component: admin_dashboard_component_1.AdminDashboardComponent,
             }
         ],
     },
 ];
-var AdminRouting = (function () {
+var AdminRouting = /** @class */ (function () {
     function AdminRouting() {
     }
+    AdminRouting = __decorate([
+        core_1.NgModule({
+            imports: [
+                router_1.RouterModule.forChild(adminRoutes)
+            ],
+            exports: [
+                router_1.RouterModule
+            ]
+        })
+    ], AdminRouting);
     return AdminRouting;
 }());
-AdminRouting = __decorate([
-    core_1.NgModule({
-        imports: [
-            router_1.RouterModule.forChild(layoutRoutes)
-        ],
-        exports: [
-            router_1.RouterModule
-        ]
-    })
-], AdminRouting);
 exports.AdminRouting = AdminRouting;
 //# sourceMappingURL=admin.routing.js.map

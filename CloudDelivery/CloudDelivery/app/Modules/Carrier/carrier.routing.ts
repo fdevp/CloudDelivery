@@ -5,11 +5,9 @@ import { CarrierDashboardComponent } from './dashboard/carrier.dashboard.compone
 import { CarrierUsersComponent } from './users/carrier.users.component';
 import { CarrierGuard } from '../../Services/Guards/CarrierGuard';
 
-const layoutRoutes: Routes = [
+const carrierRoutes: Routes = [
     {
         path: '',
-        component: CarrierComponent,
-        canActivate: [CarrierGuard],
         canActivateChild: [CarrierGuard],
         children: [
             {
@@ -27,7 +25,7 @@ const layoutRoutes: Routes = [
 @NgModule({
     imports: [
         RouterModule.forChild(
-            layoutRoutes
+            carrierRoutes
         )
     ],
     exports: [

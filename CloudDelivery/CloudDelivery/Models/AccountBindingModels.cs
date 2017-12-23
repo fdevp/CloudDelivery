@@ -45,11 +45,9 @@ namespace CloudDelivery.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
-
+        [StringLength(100, ErrorMessage = "Nazwa może mieć maksymalnie 100 znaków.")]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
 
         [Display(Name ="Organisation")]
         public int? OrganisationId { get; set; }

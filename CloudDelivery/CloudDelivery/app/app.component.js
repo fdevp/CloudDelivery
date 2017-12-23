@@ -10,17 +10,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var AppComponent = (function () {
-    function AppComponent() {
+var ModalFactoryService_1 = require("./Services/Layout/ModalFactoryService");
+var ngx_bootstrap_1 = require("ngx-bootstrap");
+var AppComponent = /** @class */ (function () {
+    function AppComponent(bsmodalService, modalService) {
+        this.bsmodalService = bsmodalService;
+        this.modalService = modalService;
+        this.modalService.setNgxService(bsmodalService);
     }
+    AppComponent = __decorate([
+        core_1.Component({
+            selector: 'my-app',
+            template: "<router-outlet></router-outlet>",
+        }),
+        __metadata("design:paramtypes", [ngx_bootstrap_1.BsModalService, ModalFactoryService_1.ModalFactoryService])
+    ], AppComponent);
     return AppComponent;
 }());
-AppComponent = __decorate([
-    core_1.Component({
-        selector: 'my-app',
-        template: "<router-outlet></router-outlet>",
-    }),
-    __metadata("design:paramtypes", [])
-], AppComponent);
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map

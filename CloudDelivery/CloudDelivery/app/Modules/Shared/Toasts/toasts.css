@@ -1,0 +1,19 @@
+﻿.toast-padding {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    padding-left: 10px !important;
+}
+
+.toast-gray {
+    background-color: gray;
+    opacity: 1 !important; color: white;
+}
+
+.toast-icon{
+    margin-right:10px;
+}
+
+.toast-text{
+    font-size:1.25em;
+}
+

@@ -4,39 +4,39 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AdminRouting } from './admin.routing';
 
+import { SharedModule } from '../Shared/shared.module'
 
-import { AdminComponent } from './admin.component';
 import { AdminDashboardComponent } from './dashboard/admin.dashboard.component';
 import { AdminUsersComponent } from './users/admin.users.component'
+import { AdminOrganisationsComponent } from './organisations/admin.organisations.component'
 
-import { LayoutHeaderComponent } from '../../Shared/Header/layout.header.component';
+import { UsersService } from '../../Services/UsersService';
 
-import { MenuService } from '../../Services/MenuService';
-import { SharedModule } from '../../Shared/shared.module'
+import { AppModule } from '../../app.module'
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { AdminComponent } from './admin.component';
+
 
 
 const pages = [
-    AdminComponent,
     AdminDashboardComponent,
-    AdminUsersComponent
+    AdminUsersComponent,
+    AdminOrganisationsComponent,
+    AdminComponent
 ];
 
 const modules = [
     CommonModule,
-    SharedModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    NgxDatatableModule,
+    SharedModule
 ]
 
-const providers = [
-    MenuService
-]
 
 @NgModule({
-    imports: [...modules, AdminRouting],
-    providers: [...providers],
     declarations: [...pages],
-    bootstrap: [AdminComponent]
+    imports: [...modules, AdminRouting],
 })
 export class AdminModule { }
 

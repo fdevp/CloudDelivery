@@ -12,12 +12,15 @@ using Microsoft.Owin.Security.OAuth;
 using CloudDelivery.Models;
 using CloudDelivery.Data;
 using System.Web.Security;
+using CloudDelivery.Services;
 
 namespace CloudDelivery.Providers
 {
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
         private readonly string _publicClientId;
+        private IUsersService userService;
+
 
         public ApplicationOAuthProvider(string publicClientId)
         {
@@ -47,7 +50,7 @@ namespace CloudDelivery.Providers
                 CookieAuthenticationDefaults.AuthenticationType);
             var roles = userManager.GetRoles(user.Id);
 
-            AuthenticationProperties properties = CreateProperties(user.UserName, Newtonsoft.Json.JsonConvert.SerializeObject(roles));
+            AuthenticationProperties properties = CreateProperties(user.UserName, Newtonsoft.Json.JsonConvert.SerializeObject(roles), "name");
 
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
@@ -90,11 +93,12 @@ namespace CloudDelivery.Providers
             return Task.FromResult<object>(null);
         }
 
-        public static AuthenticationProperties CreateProperties(string userName, string Roles)
+        public static AuthenticationProperties CreateProperties(string Login, string Roles, string Name)
         {
             IDictionary<string, string> data = new Dictionary<string, string>
             {
-                { "userName", userName },
+                { "Login", Login },
+                { "Roles", Name },
                 { "roles", Roles}
             };
             return new AuthenticationProperties(data);

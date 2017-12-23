@@ -2,18 +2,18 @@
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Router } from '@angular/router';
-import { User } from '../Models/User';
+import { SessionUser } from '../Models/Session/SessionUser';
+import { UserListItem } from '../Models/Users/UserListItem';
 import { Headers, Http } from '@angular/http';
 
 import 'rxjs/add/observable/of';
 import 'rxjs/Rx';
-
 @Injectable()
 export class SessionService {
     isLoggedIn = false;
     redirectUrl: string = null;
     token: string;
-    user: User = new User();
+    user: SessionUser = new SessionUser();
 
     constructor(private router: Router, private http: Http) {
     }
@@ -31,12 +31,10 @@ export class SessionService {
 
 
         return new Observable((obs: Observer<boolean>) => {
-            var httpHeaders = new Headers();
-            httpHeaders.append("Authorization", "Bearer " + this.token);
-
-            return this.http.get('/api/account/UserInfo', { headers: httpHeaders }).subscribe(data => {
+            return this.http.get('/api/account/UserInfo', { headers: this.authHeader() }).subscribe(data => {
                 var body = JSON.parse(data["_body"]);
-                this.user.name = body.UserName;
+                this.user.name = body.Name;
+                this.user.login = body.Login;
                 this.user.roles = JSON.parse(body.Roles);
 
                 this.isLoggedIn = true;
@@ -54,6 +52,12 @@ export class SessionService {
         });
     }
 
+    authHeader(): Headers {
+        var httpHeaders = new Headers();
+        httpHeaders.append("Authorization", "Bearer " + this.token);
+        return httpHeaders;
+    }
+
     login(email: string, password: string): Observable<boolean> {
         return new Observable((obs: Observer<boolean>) => {
 
@@ -66,7 +70,8 @@ export class SessionService {
 
                 //set data
                 this.token = data["access_token"];
-                this.user.name = data["userName"];
+                this.user.name = data["Login"];
+                this.user.login = data["Name"];
                 this.user.roles = JSON.parse(data["roles"]);
 
                 this.saveToken();
@@ -98,7 +103,7 @@ export class SessionService {
     logout(): void {
         this.removeToken();
         this.isLoggedIn = false;
-        this.user = new User();
+        this.user = new SessionUser();
         this.router.navigate(["/"]);
     }
 

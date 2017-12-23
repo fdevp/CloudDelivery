@@ -25,6 +25,7 @@ namespace CloudDelivery
                       "~/node_modules/font-awesome/css/font-awesome.css",
                       "~/node_modules/admin-lte/dist/css/AdminLTE.css",
                       "~/node_modules/admin-lte/dist/css/skins/_all-skins.css",
+                      //"~/app/shared/toasts/toasts.css",
                       "~/Content/site.css"));
         }
     }
