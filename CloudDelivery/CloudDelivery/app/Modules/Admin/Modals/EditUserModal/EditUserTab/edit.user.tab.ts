@@ -16,8 +16,8 @@ import { RoleNamePipe } from '../../../../Shared/Pipes/RoleNamePipe'
     templateUrl: './edit.user.tab.html',
 })
 
-export class EditUserTab implements OnInit{
-    
+export class EditUserTab implements OnInit {
+
     @Input() model: UserDetails;
     defaultValues: UserDetails = new UserDetails();
 
@@ -51,9 +51,70 @@ export class EditUserTab implements OnInit{
         this.formStates['Description'] = this.elementStateEnum.Text;
     }
 
+    changeName() {
+        this.setElementState("Name", this.elementStateEnum.Saving);
+
+        this.usersService.setName(this.model.Id, this.model.Name).subscribe(x => {
+
+            this.setElementState("Name", this.elementStateEnum.Text);
+        }, err => {
+            this.cancelEditing("Name");
+        });
+    }
+
+    changeOrganisation() {
+        this.setElementState("Organisation", this.elementStateEnum.Saving);
+
+        this.usersService.setOrganisation(this.model.Id, this.model.OrganisationId).subscribe(x => {
+            if (this.model.OrganisationId != null)
+                this.model.Organisation = this.organisationsList.find(x => x.Id == this.model.OrganisationId).Name;
+            else
+                this.model.Organisation = null;
+
+            this.setElementState("Organisation", this.elementStateEnum.Text);
+        }, err => {
+            this.cancelEditing("Organisation");
+        });
+    }
+
+    changeRoles() {
+        this.setElementState("Roles", this.elementStateEnum.Saving);
+
+        this.usersService.setRole(this.model.Id, this.model.Roles).subscribe(x => {
+
+            this.setElementState("Roles", this.elementStateEnum.Text);
+        }, err => {
+            this.cancelEditing("Roles");
+        });
+    }
+
+    changePhone() {
+        this.setElementState("Phone", this.elementStateEnum.Saving);
+
+        this.usersService.setPhone(this.model.Id, this.model.Phone).subscribe(x => {
+
+            this.setElementState("Phone", this.elementStateEnum.Text);
+        }, err => {
+            this.cancelEditing("Phone");
+        });
+    }
+
+    changeDescription() {
+        this.setElementState("Description", this.elementStateEnum.Saving);
+
+        this.usersService.setDescription(this.model.Id, this.model.Description).subscribe(x => {
+
+            this.setElementState("Description", this.elementStateEnum.Text);
+        }, err => {
+            this.cancelEditing("Description");
+        });
+    }
+
+
+
     ngOnInit(): void {
         Object.assign(this.defaultValues, this.model);
     }
 
-    
+
 }

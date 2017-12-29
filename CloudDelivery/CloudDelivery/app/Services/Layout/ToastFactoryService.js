@@ -25,8 +25,7 @@ var ToastFactoryService = /** @class */ (function () {
             toastComponent: ProgressToast_1.ProgressToast
         });
     };
-    ToastFactoryService.prototype.successCreatingUser = function (username, id) {
-        var title = "Dodano użytkownika " + username;
+    ToastFactoryService.prototype.successCreating = function (title) {
         var message = "Kliknij żeby przejść...";
         var toast = this.toastr.success(message, title, {
             "timeOut": 5000,
@@ -34,11 +33,7 @@ var ToastFactoryService = /** @class */ (function () {
             progressBar: true,
             progressAnimation: "increasing"
         });
-        //toast.onTap = Observable<any>(() => {
-        //});
-    };
-    ToastFactoryService.prototype.errorCreatingUser = function () {
-        this.toastr.error("Nie udało się utworzyć użytkownika", "Błąd");
+        return toast;
     };
     ToastFactoryService = __decorate([
         core_1.Injectable(),

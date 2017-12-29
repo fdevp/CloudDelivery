@@ -26,11 +26,15 @@ var ProgressToast_1 = require("./Modules/Shared/Toasts/ProgressToast");
 //import { AddUserModal } from './Entries/Modals/AddUserModal/add.user.modal';
 var ModalFactoryService_1 = require("./Services/Layout/ModalFactoryService");
 var admin_modals_module_1 = require("./Modules/Admin/Modals/admin.modals.module");
+var ConfirmModal_1 = require("./Modules/Shared/Modals/ConfirmModal");
+var ToastFactoryService_1 = require("./Services/Layout/ToastFactoryService");
 var pages = [
     app_component_1.AppComponent,
     login_component_1.LoginComponent
 ];
-var modals = [];
+var modals = [
+    ConfirmModal_1.ConfirmModal,
+];
 var toasts = [
     ProgressToast_1.ProgressToast
 ];
@@ -51,7 +55,8 @@ var providers = [
     UsersService_1.UsersService,
     OrganisationsService_1.OrganisationsService,
     AuthGuard_1.AuthGuard,
-    ModalFactoryService_1.ModalFactoryService
+    ModalFactoryService_1.ModalFactoryService,
+    ToastFactoryService_1.ToastFactoryService,
 ];
 var AppModule = /** @class */ (function () {
     function AppModule() {

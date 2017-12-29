@@ -9,12 +9,12 @@
         ładuje
     </div>
     <div *ngIf="!detailsProgress">
-        <tabset class="margin-bottom-30">
+        <tabset>
             <tab heading="Użytkownik">
                 <edit-user-tab [model]="details"></edit-user-tab>
             </tab>
             <tab heading="Hasło">
-                <edit-password-tab></edit-password-tab>
+                <edit-password-tab [model]="details"></edit-password-tab>
             </tab>
             <tab heading="Punkt sprzedaży">
                 <edit-salespoint-tab></edit-salespoint-tab>
@@ -24,5 +24,5 @@
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-danger pull-left" (click)="removeUser()" *ngIf="!detailsProgress">Usuń</button>
-    <button type="button" class="btn btn-default pull-right" (click)="bsModalRef.hide()">Wyjdź</button>
+    <button type="button" class="btn btn-default pull-right" (click)="closeModal()">Wyjdź</button>
 </div>

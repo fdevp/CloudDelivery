@@ -1,1 +1,50 @@
-﻿<h1>ADMIN organisations</h1>
+﻿<LINK href="/node_modules/@swimlane/ngx-datatable/release/themes/material.css" rel="stylesheet" type="text/css">
+<LINK href="/node_modules/@swimlane/ngx-datatable/release/themes/bootstrap.css" rel="stylesheet" type="text/css">
+<LINK href="/node_modules/@swimlane/ngx-datatable/release/themes/dark.css" rel="stylesheet" type="text/css">
+<LINK href="/node_modules/ngx-toastr/toastr.css" rel="stylesheet" type="text/css">
+
+<div *ngIf="initialized">
+    <section class="content-header margin-bottom-15">
+        <h1>
+            <i class="fa fa-handshake-o"></i>
+            Organizacje
+        </h1>
+    </section>
+
+    <div class="box box-default">
+        <!--<div class="box-body material">
+            <div>-->
+
+        <div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input placeholder="Wyszukaj..." type="text" class="form-control" (keyup)="keyFilter($event)" />
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <button class="btn btn-default pull-right" (click)="addOrganisation()">Dodaj</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ngx-datatable #table
+                       class="material"
+                       [rowHeight]="auto"
+                       [limit]="10"
+                       [columnMode]="'force'"
+                       [columns]="columns"
+                       [footerHeight]="50"
+                       [rows]="filteredOrgs"
+                       [selected]="selected"
+                       [selectionType]="'single'"
+                       (select)="orgSelect($event)">
+        </ngx-datatable>
+
+    </div>
+</div>
+
+
+<div class="loader-container" *ngIf="!initialized" style="width:130px;height:130px"></div>

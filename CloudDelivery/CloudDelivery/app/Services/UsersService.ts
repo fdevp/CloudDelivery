@@ -10,8 +10,7 @@ import 'rxjs/Rx';
 
 @Injectable()
 export class UsersService {
-    private usersList: Array<UserListItem> = [];
-    private listInitialized: boolean = false;
+    private sessionService: SessionService;
 
     constructor(private http: Http, private sessionServ: SessionService) {
         this.sessionService = sessionServ;
@@ -29,19 +28,33 @@ export class UsersService {
         });
     }
 
-    public list(refresh): Observable<Array<UserListItem>> {
-        if (!refresh && this.listInitialized) {
-            return Observable.of(this.usersList);
-        }
 
+    changePassword(userId, newPassword): Observable<boolean> {
+        var headers = this.sessionService.authHeader();
+        headers.append("Content-Type", "application/json")
+        var body = { Id: userId, NewPassword: newPassword };
+        var url = '/api/Account/SetPassword';
+        return new Observable((obs: Observer<boolean>) => {
+            return this.http.post(url, body, { headers: headers }).subscribe(data => {
+                obs.next(true);
+            }, err => {
+                obs.next(false);
+            })
+        });
+    }
+
+
+    refreshList() {
+
+    }
+
+    list(): Observable<Array<UserListItem>> {
         var hdrz = this.sessionService.authHeader();
         return new Observable((obs: Observer<Array<UserListItem>>) => {
             return this.http.get('/api/users/list', { headers: hdrz }).subscribe(data => {
                 var body = JSON.parse(data["_body"]);
-                this.usersList = body;
-                this.listInitialized = true;
-                obs.next(this.usersList);
-            }, e => { console.error("err", e); obs.next(this.usersList); })
+                obs.next(body);
+            }, e => { console.error("err", e); })
         });
     }
 
@@ -61,7 +74,6 @@ export class UsersService {
         var url = '/api/Users/Remove/' + userId;
         return new Observable((obs: Observer<boolean>) => {
             return this.http.delete(url, { headers: headers }).subscribe(data => {
-                var body = JSON.parse(data["_body"]);
                 obs.next(true);
             }, err => {
                 obs.next(false);
@@ -73,69 +85,63 @@ export class UsersService {
         return ["admin", "carrier", "salepoint", "organisator"];
     }
 
-    edit(userId, phone, description): Observable<boolean> {
-        var headers = this.sessionService.authHeader();
-        var body = { "phone": phone, "description": description };
-        var url = '/api/users/edit/' + userId;
-        return new Observable((obs: Observer<boolean>) => {
-            return this.http.put('/api/users/edit', body, { headers: headers }).subscribe(data => {
-                var body = JSON.parse(data["_body"]);
-                console.error("get", body);
-            })
-        });
-    }
-
     setOrganisation(userId, organisationId): Observable<boolean> {
         var headers = this.sessionService.authHeader();
-        var body = { "organisationId": organisationId };
+        headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+        var body = "=" + organisationId;
+        var url = '/api/users/organisation/' + userId;
         return new Observable((obs: Observer<boolean>) => {
-            return this.http.put('/api/users/organisation', body, { headers: headers }).subscribe(data => {
-                console.error("org data status", data.status);
+            return this.http.put(url, body, { headers: headers }).subscribe(data => {
+                obs.next(true);
             })
         });
     }
 
     setRole(userId, role): Observable<boolean> {
         var headers = this.sessionService.authHeader();
-        var body = { "organisationId": role };
+        headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+        var body = "=" + role;
+        var url = '/api/users/role/' + userId;
         return new Observable((obs: Observer<boolean>) => {
-            return this.http.put('/api/users/organisation', body, { headers: headers }).subscribe(data => {
-                console.error("org data status", data.status);
+            return this.http.put(url, body, { headers: headers }).subscribe(data => {
+                obs.next(true);
             })
         });
     }
 
-    setPhone(userId, organisationId): Observable<boolean> {
+    setPhone(userId, phone): Observable<boolean> {
         var headers = this.sessionService.authHeader();
-        var body = { "organisationId": organisationId };
+        headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+        var body = "=" + phone;
+        var url = '/api/users/phone/' + userId;
         return new Observable((obs: Observer<boolean>) => {
-            return this.http.put('/api/users/organisation', body, { headers: headers }).subscribe(data => {
-                console.error("org data status", data.status);
+            return this.http.put(url, body, { headers: headers }).subscribe(data => {
+                obs.next(true);
             })
         });
     }
 
-    setName(userId, organisationId): Observable<boolean> {
+    setName(userId, name): Observable<boolean> {
         var headers = this.sessionService.authHeader();
-        var body = { "organisationId": organisationId };
+        headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+        var body = "=" + name;
+        var url = '/api/users/name/' + userId;
         return new Observable((obs: Observer<boolean>) => {
-            return this.http.put('/api/users/organisation', body, { headers: headers }).subscribe(data => {
-                console.error("org data status", data.status);
+            return this.http.put(url, body, { headers: headers }).subscribe(data => {
+                obs.next(true);
             })
         });
     }
 
-    setDescription(userId, organisationId): Observable<boolean> {
+    setDescription(userId, description): Observable<boolean> {
         var headers = this.sessionService.authHeader();
-        var body = { "organisationId": organisationId };
+        headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+        var body = "=" + description;
+        var url = '/api/users/description/' + userId;
         return new Observable((obs: Observer<boolean>) => {
-            return this.http.put('/api/users/organisation', body, { headers: headers }).subscribe(data => {
-                console.error("org data status", data.status);
+            return this.http.put(url, body, { headers: headers }).subscribe(data => {
+                obs.next(true);
             })
         });
     }
-
-
-    private sessionService: SessionService;
-
 }

@@ -25,7 +25,6 @@ const modules = [
 
 const providers = [
     MenuFactoryService,
-    ToastFactoryService,
     AdminGuard,
     CarrierGuard
 ]

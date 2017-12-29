@@ -19,8 +19,6 @@ var UsersService = /** @class */ (function () {
     function UsersService(http, sessionServ) {
         this.http = http;
         this.sessionServ = sessionServ;
-        this.usersList = [];
-        this.listInitialized = false;
         this.sessionService = sessionServ;
     }
     UsersService.prototype.create = function (model) {
@@ -35,19 +33,30 @@ var UsersService = /** @class */ (function () {
             }, function (err) { obs.error(err); });
         });
     };
-    UsersService.prototype.list = function (refresh) {
+    UsersService.prototype.changePassword = function (userId, newPassword) {
         var _this = this;
-        if (!refresh && this.listInitialized) {
-            return Observable_1.Observable.of(this.usersList);
-        }
+        var headers = this.sessionService.authHeader();
+        headers.append("Content-Type", "application/json");
+        var body = { Id: userId, NewPassword: newPassword };
+        var url = '/api/Account/SetPassword';
+        return new Observable_1.Observable(function (obs) {
+            return _this.http.post(url, body, { headers: headers }).subscribe(function (data) {
+                obs.next(true);
+            }, function (err) {
+                obs.next(false);
+            });
+        });
+    };
+    UsersService.prototype.refreshList = function () {
+    };
+    UsersService.prototype.list = function () {
+        var _this = this;
         var hdrz = this.sessionService.authHeader();
         return new Observable_1.Observable(function (obs) {
             return _this.http.get('/api/users/list', { headers: hdrz }).subscribe(function (data) {
                 var body = JSON.parse(data["_body"]);
-                _this.usersList = body;
-                _this.listInitialized = true;
-                obs.next(_this.usersList);
-            }, function (e) { console.error("err", e); obs.next(_this.usersList); });
+                obs.next(body);
+            }, function (e) { console.error("err", e); });
         });
     };
     UsersService.prototype.details = function (userId) {
@@ -67,73 +76,72 @@ var UsersService = /** @class */ (function () {
         var url = '/api/Users/Remove/' + userId;
         return new Observable_1.Observable(function (obs) {
             return _this.http.delete(url, { headers: headers }).subscribe(function (data) {
-                var body = JSON.parse(data["_body"]);
-                console.error("get", body);
+                obs.next(true);
+            }, function (err) {
+                obs.next(false);
             });
         });
     };
     UsersService.prototype.roles = function () {
         return ["admin", "carrier", "salepoint", "organisator"];
     };
-    UsersService.prototype.edit = function (userId, phone, description) {
-        var _this = this;
-        var headers = this.sessionService.authHeader();
-        var body = { "phone": phone, "description": description };
-        var url = '/api/users/edit/' + userId;
-        return new Observable_1.Observable(function (obs) {
-            return _this.http.put('/api/users/edit', body, { headers: headers }).subscribe(function (data) {
-                var body = JSON.parse(data["_body"]);
-                console.error("get", body);
-            });
-        });
-    };
     UsersService.prototype.setOrganisation = function (userId, organisationId) {
         var _this = this;
         var headers = this.sessionService.authHeader();
-        var body = { "organisationId": organisationId };
+        headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+        var body = "=" + organisationId;
+        var url = '/api/users/organisation/' + userId;
         return new Observable_1.Observable(function (obs) {
-            return _this.http.put('/api/users/organisation', body, { headers: headers }).subscribe(function (data) {
-                console.error("org data status", data.status);
+            return _this.http.put(url, body, { headers: headers }).subscribe(function (data) {
+                obs.next(true);
             });
         });
     };
     UsersService.prototype.setRole = function (userId, role) {
         var _this = this;
         var headers = this.sessionService.authHeader();
-        var body = { "organisationId": role };
+        headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+        var body = "=" + role;
+        var url = '/api/users/role/' + userId;
         return new Observable_1.Observable(function (obs) {
-            return _this.http.put('/api/users/organisation', body, { headers: headers }).subscribe(function (data) {
-                console.error("org data status", data.status);
+            return _this.http.put(url, body, { headers: headers }).subscribe(function (data) {
+                obs.next(true);
             });
         });
     };
-    UsersService.prototype.setPhone = function (userId, organisationId) {
+    UsersService.prototype.setPhone = function (userId, phone) {
         var _this = this;
         var headers = this.sessionService.authHeader();
-        var body = { "organisationId": organisationId };
+        headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+        var body = "=" + phone;
+        var url = '/api/users/phone/' + userId;
         return new Observable_1.Observable(function (obs) {
-            return _this.http.put('/api/users/organisation', body, { headers: headers }).subscribe(function (data) {
-                console.error("org data status", data.status);
+            return _this.http.put(url, body, { headers: headers }).subscribe(function (data) {
+                obs.next(true);
             });
         });
     };
-    UsersService.prototype.setName = function (userId, organisationId) {
+    UsersService.prototype.setName = function (userId, name) {
         var _this = this;
         var headers = this.sessionService.authHeader();
-        var body = { "organisationId": organisationId };
+        headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+        var body = "=" + name;
+        var url = '/api/users/name/' + userId;
         return new Observable_1.Observable(function (obs) {
-            return _this.http.put('/api/users/organisation', body, { headers: headers }).subscribe(function (data) {
-                console.error("org data status", data.status);
+            return _this.http.put(url, body, { headers: headers }).subscribe(function (data) {
+                obs.next(true);
             });
         });
     };
-    UsersService.prototype.setDescription = function (userId, organisationId) {
+    UsersService.prototype.setDescription = function (userId, description) {
         var _this = this;
         var headers = this.sessionService.authHeader();
-        var body = { "organisationId": organisationId };
+        headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+        var body = "=" + description;
+        var url = '/api/users/description/' + userId;
         return new Observable_1.Observable(function (obs) {
-            return _this.http.put('/api/users/organisation', body, { headers: headers }).subscribe(function (data) {
-                console.error("org data status", data.status);
+            return _this.http.put(url, body, { headers: headers }).subscribe(function (data) {
+                obs.next(true);
             });
         });
     };

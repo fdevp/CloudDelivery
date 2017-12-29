@@ -1,0 +1,20 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Utwórz organizację</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="createOrgName">Nazwa</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="createOrgName" placeholder="Nazwa" required [(ngModel)]="organisationName">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="submitAction()">Utwórz</button>
+    <button type="button" class="btn btn-default pull-left" (click)="bsModalRef.hide()">Anuluj</button>
+</div>

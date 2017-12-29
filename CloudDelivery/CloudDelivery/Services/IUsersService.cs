@@ -82,15 +82,23 @@ namespace CloudDelivery.Services
         /// </summary>
         /// <param name="id"></param>
         /// <param name="organisationId"></param>
-        void SetOrganisation(int id, int organisationId);
+        void SetOrganisation(int id, int? organisationId);
+
 
         /// <summary>
-        /// set user data
+        /// set user name
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        void SetName(int id, string name);
+
+
+        /// <summary>
+        /// set user phone
         /// </summary>
         /// <param name="id"></param>
         /// <param name="phone"></param>
-        /// <param name="name"></param>
-        void SetData(int id, string phone, string name);
+        void SetPhone(int id, string phone);
 
 
         /// <summary>

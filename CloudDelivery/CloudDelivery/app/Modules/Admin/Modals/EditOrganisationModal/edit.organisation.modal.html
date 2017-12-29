@@ -1,0 +1,25 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Edycja</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div *ngIf="detailsProgress">
+        ładuje
+    </div>
+    <div *ngIf="!detailsProgress">
+        <tabset>
+            <tab heading="Organizacja">
+                <edit-organisation-tab [model]="details"></edit-organisation-tab>
+            </tab>
+            <tab heading="Członkowie">
+                <edit-org-users-tab [orgId]="details.Id"></edit-org-users-tab>
+            </tab>
+        </tabset>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger pull-left" (click)="removeUser()" *ngIf="!detailsProgress">Usuń</button>
+    <button type="button" class="btn btn-default pull-right" (click)="closeModal()">Wyjdź</button>
+</div>

@@ -11,17 +11,11 @@ var common_1 = require("@angular/common");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var layout_header_component_1 = require("./Header/layout.header.component");
-var user_view_component_1 = require("./User/user.view.component");
-var carrier_component_1 = require("./User/Carrier/carrier.component");
-var salespoint_component_1 = require("./User/SalesPoint/salespoint.component");
 var NullStringPipe_1 = require("./Pipes/NullStringPipe");
 var RoleNamePipe_1 = require("./Pipes/RoleNamePipe");
 var ShowPasswordDirective_1 = require("./Directives/ShowPasswordDirective");
 var pages = [
     layout_header_component_1.LayoutHeaderComponent,
-    user_view_component_1.UserViewComponent,
-    carrier_component_1.CarrierComponent,
-    salespoint_component_1.SalespointComponent
 ];
 var directives = [
     ShowPasswordDirective_1.ShowPasswordDirective

@@ -17,14 +17,22 @@ var edit_salespoint_tab_1 = require("./EditUserModal/EditSalesPointTab/edit.sale
 var edit_password_tab_1 = require("./EditUserModal/EditPasswordTab/edit.password.tab");
 var edit_user_tab_1 = require("./EditUserModal/EditUserTab/edit.user.tab");
 var shared_module_1 = require("../../Shared/shared.module");
+var add_organisation_modal_1 = require("./AddOrganisationModal/add.organisation.modal");
+var edit_organisation_modal_1 = require("./EditOrganisationModal/edit.organisation.modal");
+var edit_Organisation_tab_1 = require("./EditOrganisationModal/EditOrgTab/edit.Organisation.tab");
+var edit_org_users_tab_1 = require("./EditOrganisationModal/EditOrgUsersTab/edit.org.users.tab");
 var pages = [
     add_user_modal_1.AddUserModal,
-    edit_user_modal_1.EditUserModal
+    edit_user_modal_1.EditUserModal,
+    add_organisation_modal_1.AddOrganisationModal,
+    edit_organisation_modal_1.EditOrganisationModal
 ];
 var tabs = [
     edit_password_tab_1.EditPasswordTab,
     edit_salespoint_tab_1.EditSalespointTab,
-    edit_user_tab_1.EditUserTab
+    edit_user_tab_1.EditUserTab,
+    edit_Organisation_tab_1.EditOrganisationTab,
+    edit_org_users_tab_1.EditOrgUsersTab
 ];
 var modules = [
     common_1.CommonModule,

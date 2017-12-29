@@ -87,6 +87,7 @@ namespace CloudDelivery.Controllers
 
 
         // POST api/Account/SetPassword
+        [Authorize(Roles = ("admin"))]
         [Route("SetPassword")]
         public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
         {
@@ -95,7 +96,12 @@ namespace CloudDelivery.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+            var user = usersService.GetUser(model.Id);
+            if (user == null)
+                return BadRequest("Nie znaleziono użytkownika");
+
+            UserManager.RemovePassword(user.IdentityId);
+            IdentityResult result = await UserManager.AddPasswordAsync(user.IdentityId, model.NewPassword);
 
             if (!result.Succeeded)
             {

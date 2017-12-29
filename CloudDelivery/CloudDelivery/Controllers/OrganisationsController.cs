@@ -14,24 +14,32 @@ namespace CloudDelivery.Controllers
     public class OrganisationsController : ApiController
     {
         IOrganisationsService organisationsService;
+        IUsersService usersService;
 
         public OrganisationsController() { }
 
-        public OrganisationsController(IOrganisationsService organisationsService)
+        public OrganisationsController(IOrganisationsService organisationsService, IUsersService usersService)
         {
             this.organisationsService = organisationsService;
+            this.usersService = usersService;
         }
 
         [HttpGet]
         [Route("List")]
         public IHttpActionResult List()
         {
-            return Ok(Mapper.Map<List<OrganisationVM>>(organisationsService.GetOrganisationsList()));
+            var vmList = Mapper.Map<List<OrganisationVM>>(organisationsService.GetOrganisationsList());
+            foreach(var org in vmList)
+            {
+                org.MembersNumber = organisationsService.GetMembersNumber(org.Id);
+            }
+
+            return Ok(vmList);
         }
 
         [HttpPost]
         [Route("Add")]
-        public IHttpActionResult Add(string name)
+        public IHttpActionResult Add([FromBody] string name)
         {
             try
             {
@@ -63,7 +71,13 @@ namespace CloudDelivery.Controllers
         [Route("Members/{id}")]
         public IHttpActionResult Members(int id)
         {
-            return Ok(Mapper.Map<List<UserVM>>(organisationsService.GetMembersList(id)));
+            var list = organisationsService.GetMembersList(id);
+            var vmList = Mapper.Map<List<UserListVM>>(list);
+            foreach(var item in vmList)
+            {
+                item.Roles = this.usersService.GetUserRolesString(item.Id);
+            }
+            return Ok(vmList);
         }
 
     }

@@ -11,17 +11,25 @@ import { EditSalespointTab } from './EditUserModal/EditSalesPointTab/edit.salesp
 import { EditPasswordTab } from './EditUserModal/EditPasswordTab/edit.password.tab';
 import { EditUserTab } from './EditUserModal/EditUserTab/edit.user.tab';
 import { SharedModule } from '../../Shared/shared.module';
+import { AddOrganisationModal } from './AddOrganisationModal/add.organisation.modal';
+import { EditOrganisationModal } from './EditOrganisationModal/edit.organisation.modal';
+import { EditOrganisationTab } from './EditOrganisationModal/EditOrgTab/edit.Organisation.tab';
+import { EditOrgUsersTab } from './EditOrganisationModal/EditOrgUsersTab/edit.org.users.tab';
 
 
 const pages = [
     AddUserModal,
-    EditUserModal
+    EditUserModal,
+    AddOrganisationModal,
+    EditOrganisationModal
 ];
 
 const tabs = [
     EditPasswordTab,
     EditSalespointTab,
-    EditUserTab
+    EditUserTab,
+    EditOrganisationTab,
+    EditOrgUsersTab
 ];
 
 const modules = [

@@ -236,9 +236,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountBindingModels.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\OrganisationVM.cs" />
+    <Compile Include="Models\Account\AccountBindingModels.cs" />
+    <Compile Include="Models\Account\AccountViewModels.cs" />
+    <Compile Include="Models\Organisations\OrganisationVM.cs" />
     <Compile Include="Models\Users\RoleVM.cs" />
     <Compile Include="Models\Users\UserListVM.cs" />
     <Compile Include="Models\Users\UserVM.cs" />
@@ -247,19 +247,25 @@
     <Compile Include="Providers\Implementations\ApplicationOAuthProvider.cs" />
     <Compile Include="Providers\Implementations\CacheProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Services\ICarrierService.cs" />
+    <Compile Include="Services\Implementations\CarrierService.cs" />
     <Compile Include="Services\Implementations\OrganisationsService.cs" />
+    <Compile Include="Services\Implementations\SalespointService.cs" />
     <Compile Include="Services\Implementations\UsersService.cs" />
     <Compile Include="Services\IOrganisationsService.cs" />
+    <Compile Include="Services\ISalepointsService.cs" />
     <Compile Include="Services\IUsersService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\Modules\Admin\Modals\AddOrganisationModal\add.organisation.modal.html" />
+    <Content Include="app\Modules\Admin\Modals\EditOrganisationModal\edit.organisation.modal.html" />
+    <Content Include="app\Modules\Admin\Modals\EditOrganisationModal\EditOrgTab\edit.organisation.tab.html" />
+    <Content Include="app\Modules\Admin\Modals\EditOrganisationModal\EditOrgUsersTab\edit.org.users.tab.html" />
     <Content Include="app\Modules\Shared\Login\login.component.html" />
-    <Content Include="app\Modules\Admin\Modals\AddUserModal\add-user-modal.css" />
     <Content Include="app\Modules\Admin\Modals\AddUserModal\add.user.modal.html" />
     <Content Include="app\Modules\Shared\Toasts\toasts.css" />
     <Content Include="app\Modules\Admin\Dashboard\admin.dashboard.component.html" />
-    <Content Include="app\Modules\Admin\Modals\EditUserModal\edit-user-modal.css" />
     <Content Include="app\Modules\Admin\Modals\EditUserModal\edit.user.modal.html" />
     <Content Include="app\Modules\Admin\Modals\EditUserModal\EditPasswordTab\edit.password.tab.html" />
     <Content Include="app\Modules\Admin\Modals\EditUserModal\EditSalesPointTab\edit.salespoint.tab.html" />
@@ -316,8 +322,6 @@
     <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\Modules\Admin\Modals\AddOrganisationModal\" />
-    <Folder Include="app\Modules\Admin\Modals\EditOrganisationModal\" />
     <Folder Include="app\Modules\OrganisationOwner\" />
     <Folder Include="app\Modules\SalePoint\" />
     <Folder Include="App_Data\" />
@@ -351,6 +355,10 @@
     <TypeScriptCompile Include="app\app.component.ts" />
     <TypeScriptCompile Include="app\app.module.ts" />
     <TypeScriptCompile Include="app\app.routing.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\Modals\AddOrganisationModal\add.organisation.modal.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\Modals\EditOrganisationModal\edit.organisation.modal.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\Modals\EditOrganisationModal\EditOrgTab\edit.organisation.tab.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\Modals\EditOrganisationModal\EditOrgUsersTab\edit.org.users.tab.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\Login\login.component.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\Modals\ConfirmModal.ts" />
     <TypeScriptCompile Include="app\Models\Enums\FormElementState.ts" />
@@ -358,7 +366,6 @@
     <TypeScriptCompile Include="app\Modules\Admin\Modals\AddUserModal\add.user.modal.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\Toasts\ProgressToast.ts" />
     <TypeScriptCompile Include="app\Models\Organisations\Organisation.ts" />
-    <TypeScriptCompile Include="app\Models\Organisations\OrganisationListItem.ts" />
     <TypeScriptCompile Include="app\Models\Users\UserDetails.ts" />
     <TypeScriptCompile Include="app\Models\Users\UserEditModel.ts" />
     <TypeScriptCompile Include="app\Models\Users\UserListItem.ts" />

@@ -183,7 +183,7 @@ namespace CloudDelivery.Services
         }
 
 
-        public void SetOrganisation(int id, int organisationId)
+        public void SetOrganisation(int id, int? organisationId)
         {
             using (var ctx = this.ctxFactory.GetContext())
             {
@@ -192,7 +192,7 @@ namespace CloudDelivery.Services
                 if (user == null)
                     throw new NullReferenceException("Nie znaleziono użytkownika");
 
-                if (!ctx.Organisations.Any(x => x.Id == organisationId))
+                if (organisationId != null && !ctx.Organisations.Any(x => x.Id == organisationId))
                     throw new NullReferenceException("Nie znaleziono organizacji");
 
                 user.OrganisationId = organisationId;
@@ -201,7 +201,22 @@ namespace CloudDelivery.Services
         }
 
 
-        public void SetData(int id, string phone,  string name)
+        public void SetName(int id, string name)
+        {
+            using (var ctx = ctxFactory.GetContext())
+            {
+                var user = ctx.UserData.Where(x => x.Id == id).FirstOrDefault();
+
+                if (user == null)
+                    throw new NullReferenceException("Nie znaleziono użytkownika");
+
+                user.Name = name;
+
+                ctx.SaveChanges();
+            }
+        }
+
+        public void SetPhone(int id, string phone)
         {
             using (var ctx = ctxFactory.GetContext())
             {
@@ -211,11 +226,11 @@ namespace CloudDelivery.Services
                     throw new NullReferenceException("Nie znaleziono użytkownika");
 
                 user.AspNetUser.PhoneNumber = phone;
-                user.Name = name;
 
                 ctx.SaveChanges();
             }
         }
+
 
         public void SetDescription(int id, string description)
         {

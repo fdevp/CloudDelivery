@@ -12,12 +12,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var add_user_modal_1 = require("../../Modules/Admin/Modals/AddUserModal/add.user.modal");
 var edit_user_modal_1 = require("../../Modules/Admin/Modals/EditUserModal/edit.user.modal");
+var ConfirmModal_1 = require("../../Modules/Shared/Modals/ConfirmModal");
+var add_organisation_modal_1 = require("../../Modules/Admin/Modals/AddOrganisationModal/add.organisation.modal");
+var edit_organisation_modal_1 = require("../../Modules/Admin/Modals/EditOrganisationModal/edit.organisation.modal");
 var ModalFactoryService = /** @class */ (function () {
     function ModalFactoryService() {
         this.ngxService = null;
         this.modals = {
             "AddUserModal": add_user_modal_1.AddUserModal,
-            "EditUserModal": edit_user_modal_1.EditUserModal
+            "AddOrganisationModal": add_organisation_modal_1.AddOrganisationModal,
+            "EditOrganisationModal": edit_organisation_modal_1.EditOrganisationModal,
+            "EditUserModal": edit_user_modal_1.EditUserModal,
+            "ConfirmModal": ConfirmModal_1.ConfirmModal,
         };
     }
     ModalFactoryService.prototype.setNgxService = function (service) {
@@ -31,6 +37,11 @@ var ModalFactoryService = /** @class */ (function () {
     };
     ModalFactoryService.prototype.addModal = function (name, component) {
         this.modals[name] = component;
+    };
+    ModalFactoryService.prototype.ConfirmModal = function (message) {
+        var modal = this.ngxService.show(ConfirmModal_1.ConfirmModal);
+        modal.content.message = message;
+        return modal.content.submit;
     };
     ModalFactoryService = __decorate([
         core_1.Injectable(),

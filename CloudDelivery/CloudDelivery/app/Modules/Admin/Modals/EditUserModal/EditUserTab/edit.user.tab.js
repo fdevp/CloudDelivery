@@ -39,6 +39,55 @@ var EditUserTab = /** @class */ (function () {
         this.model[element] = this.defaultValues[element];
         this.setElementState(element, this.elementStateEnum.Text);
     };
+    EditUserTab.prototype.changeName = function () {
+        var _this = this;
+        this.setElementState("Name", this.elementStateEnum.Saving);
+        this.usersService.setName(this.model.Id, this.model.Name).subscribe(function (x) {
+            _this.setElementState("Name", _this.elementStateEnum.Text);
+        }, function (err) {
+            _this.cancelEditing("Name");
+        });
+    };
+    EditUserTab.prototype.changeOrganisation = function () {
+        var _this = this;
+        this.setElementState("Organisation", this.elementStateEnum.Saving);
+        this.usersService.setOrganisation(this.model.Id, this.model.OrganisationId).subscribe(function (x) {
+            if (_this.model.OrganisationId != null)
+                _this.model.Organisation = _this.organisationsList.find(function (x) { return x.Id == _this.model.OrganisationId; }).Name;
+            else
+                _this.model.Organisation = null;
+            _this.setElementState("Organisation", _this.elementStateEnum.Text);
+        }, function (err) {
+            _this.cancelEditing("Organisation");
+        });
+    };
+    EditUserTab.prototype.changeRoles = function () {
+        var _this = this;
+        this.setElementState("Roles", this.elementStateEnum.Saving);
+        this.usersService.setRole(this.model.Id, this.model.Roles).subscribe(function (x) {
+            _this.setElementState("Roles", _this.elementStateEnum.Text);
+        }, function (err) {
+            _this.cancelEditing("Roles");
+        });
+    };
+    EditUserTab.prototype.changePhone = function () {
+        var _this = this;
+        this.setElementState("Phone", this.elementStateEnum.Saving);
+        this.usersService.setPhone(this.model.Id, this.model.Phone).subscribe(function (x) {
+            _this.setElementState("Phone", _this.elementStateEnum.Text);
+        }, function (err) {
+            _this.cancelEditing("Phone");
+        });
+    };
+    EditUserTab.prototype.changeDescription = function () {
+        var _this = this;
+        this.setElementState("Description", this.elementStateEnum.Saving);
+        this.usersService.setDescription(this.model.Id, this.model.Description).subscribe(function (x) {
+            _this.setElementState("Description", _this.elementStateEnum.Text);
+        }, function (err) {
+            _this.cancelEditing("Description");
+        });
+    };
     EditUserTab.prototype.ngOnInit = function () {
         Object.assign(this.defaultValues, this.model);
     };

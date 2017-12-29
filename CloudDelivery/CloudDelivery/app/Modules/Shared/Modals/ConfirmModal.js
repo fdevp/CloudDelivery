@@ -18,16 +18,16 @@ var ConfirmModal = /** @class */ (function () {
     }
     ConfirmModal.prototype.confirm = function () {
         this.submit.emit(true);
-        this.modalRef.hide();
+        this.bsModalRef.hide();
     };
     ConfirmModal.prototype.decline = function () {
         this.submit.emit(false);
-        this.modalRef.hide();
+        this.bsModalRef.hide();
     };
     ConfirmModal = __decorate([
         core_1.Component({
             selector: 'confirm-modal',
-            template: "\n    <ng-template #template>\n      <div class=\"modal-body text-center\">\n        <p>{{message}}</p>\n        <button type=\"button\" class=\"btn btn-default\" (click)=\"confirm()\" >Tak</button>\n        <button type=\"button\" class=\"btn btn-primary\" (click)=\"decline()\" >Nie</button>\n      </div>\n    </ng-template>\n",
+            template: "\n      <div class=\"modal-body text-center\">\n        <p>{{message}}</p>\n        <button type=\"button\" class=\"btn btn-default\" (click)=\"confirm()\" >Tak</button>\n        <button type=\"button\" class=\"btn btn-primary\" (click)=\"decline()\" >Nie</button>\n      </div>\n",
         }),
         __metadata("design:paramtypes", [ngx_bootstrap_1.BsModalRef])
     ], ConfirmModal);

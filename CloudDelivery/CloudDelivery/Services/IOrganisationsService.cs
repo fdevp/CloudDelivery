@@ -17,6 +17,8 @@ namespace CloudDelivery.Services
 
         List<User> GetMembersList(int organisationId);
 
+        int GetMembersNumber(int organisationId);
+
         void RemoveMember(int userId);
 
         /// <summary>

@@ -14,6 +14,7 @@ var UsersService_1 = require("../../../Services/UsersService");
 var ModalFactoryService_1 = require("../../../Services/Layout/ModalFactoryService");
 var ToastFactoryService_1 = require("../../../Services/Layout/ToastFactoryService");
 var router_1 = require("@angular/router");
+var Observable_1 = require("rxjs/Observable");
 var AdminUsersComponent = /** @class */ (function () {
     function AdminUsersComponent(usersService, modalService, toastService, router) {
         this.usersService = usersService;
@@ -25,7 +26,7 @@ var AdminUsersComponent = /** @class */ (function () {
             { prop: 'Login', name: 'Login' },
             { prop: 'Name', name: 'Nazwa' },
             { prop: 'Organisation', name: 'Organizacja' },
-            { prop: 'Roles', name: 'Role' }
+            { prop: 'Roles', name: 'Rola' }
         ];
         this.selected = [];
         this.users = [];
@@ -35,7 +36,7 @@ var AdminUsersComponent = /** @class */ (function () {
     }
     AdminUsersComponent.prototype.initializeUsersList = function () {
         var _this = this;
-        this.usersService.list(false).subscribe(function (usersList) {
+        this.usersService.list().subscribe(function (usersList) {
             _this.users = usersList;
             _this.filteredUsers = usersList;
             _this.initialized = true;
@@ -48,11 +49,15 @@ var AdminUsersComponent = /** @class */ (function () {
         modal.content.submit.subscribe(function (model) {
             progressToast = _this.toastService.progress("Dodawanie użytkownika");
             _this.usersService.create(model).subscribe(function (id) {
-                _this.toastService.successCreatingUser(model.Login, id.toString());
+                var toast = _this.toastService.successCreating("Dodano użytkownika " + model.Login);
+                toast.onTap = new Observable_1.Observable(function () {
+                    var modal = _this.modalService.showModal("EditUserModal", { class: "modal-lg" });
+                    modal.content.initUserDetails(id);
+                });
                 progressToast.toastRef.close();
-                _this.usersService.list(true);
+                _this.usersService.list();
             }, function (err) {
-                _this.toastService.errorCreatingUser();
+                _this.toastService.toastr.error("Błąd", "Nie udało się utworzyć użytkownika");
                 progressToast.toastRef.close();
             });
         });

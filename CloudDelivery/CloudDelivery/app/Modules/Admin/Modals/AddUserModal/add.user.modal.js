@@ -26,7 +26,6 @@ var AddUserModal = /** @class */ (function () {
         core_1.Component({
             selector: 'add-user-modal',
             templateUrl: './add.user.modal.html',
-            styleUrls: ['./add-user-modal.css']
         }),
         __metadata("design:paramtypes", [ngx_bootstrap_1.BsModalRef])
     ], AddUserModal);

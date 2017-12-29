@@ -9,5 +9,7 @@ namespace CloudDelivery.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
+        public int MembersNumber { get; set; }
     }
 }

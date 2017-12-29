@@ -8,6 +8,9 @@ import { AddUserModal } from '../Modals/AddUserModal/add.user.modal';
 import { ActiveToast } from 'ngx-toastr'
 import { Router } from '@angular/router';
 
+import { RoleNamePipe } from '../../Shared/Pipes/RoleNamePipe'
+import { Observable } from 'rxjs/Observable';
+
 @Component({
     selector: 'app-admin-users',
     templateUrl: './admin.users.component.html',
@@ -15,7 +18,7 @@ import { Router } from '@angular/router';
 
 export class AdminUsersComponent {
 
-    constructor(private usersService: UsersService, private modalService: ModalFactoryService, private toastService: ToastFactoryService,private router: Router) {
+    constructor(private usersService: UsersService, private modalService: ModalFactoryService, private toastService: ToastFactoryService, private router: Router) {
         this.initializeUsersList();
     }
 
@@ -24,9 +27,8 @@ export class AdminUsersComponent {
         { prop: 'Login', name: 'Login' },
         { prop: 'Name', name: 'Nazwa' },
         { prop: 'Organisation', name: 'Organizacja' },
-        { prop: 'Roles', name: 'Role' }
+        { prop: 'Roles', name: 'Rola' }
     ];
-
     public selected = [];
 
     public users: Array<UserListItem> = [];
@@ -36,7 +38,7 @@ export class AdminUsersComponent {
 
 
     public initializeUsersList(): void {
-        this.usersService.list(false).subscribe(usersList => {
+        this.usersService.list().subscribe(usersList => {
             this.users = usersList;
             this.filteredUsers = usersList;
             this.initialized = true;
@@ -45,6 +47,7 @@ export class AdminUsersComponent {
 
 
     public addUser() {
+
         var modal = this.modalService.showModal("AddUserModal");
         var progressToast: ActiveToast;
 
@@ -53,15 +56,20 @@ export class AdminUsersComponent {
             progressToast = this.toastService.progress("Dodawanie użytkownika");
 
             this.usersService.create(model).subscribe(id => {
-                this.toastService.successCreatingUser(model.Login, id.toString());
+                var toast = this.toastService.successCreating("Dodano użytkownika " + model.Login);
+                toast.onTap = new Observable<any>(() => {
+                    var modal = this.modalService.showModal("EditUserModal", { class: "modal-lg" });
+                    modal.content.initUserDetails(id);
+                });
+
+
                 progressToast.toastRef.close();
-                this.usersService.list(true);
+                this.usersService.list();
             }, err => {
-                this.toastService.errorCreatingUser();
+                this.toastService.toastr.error("Błąd", "Nie udało się utworzyć użytkownika");
                 progressToast.toastRef.close();
             });
         });
-
 
     }
 
@@ -70,7 +78,7 @@ export class AdminUsersComponent {
         var modal = this.modalService.showModal("EditUserModal", { class: "modal-lg" });
         modal.content.initUserDetails(selected[0].Id);
         //this.router.navigate(["admin/user", selected[0].Id]);
-      }
+    }
 
 
     public keyFilter(event): void {

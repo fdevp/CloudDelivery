@@ -151,6 +151,16 @@ namespace CloudDelivery.Tests.Services
             Assert.AreEqual(organisation.Id, user.OrganisationId);
         }
 
+        [TestMethod()]
+        public void SetOrganisation_ShouldClearOrganisation()
+        {
+            var user = ctx.UserData.FirstOrDefault();
+            var organisation = ctx.Organisations.FirstOrDefault();
+            user.OrganisationId = 1;
+            service.SetOrganisation(user.Id, null);
+            Assert.AreEqual(null, user.OrganisationId);
+        }
+
 
         [TestMethod()]
         [ExpectedException(typeof(NullReferenceException))]
@@ -170,18 +180,27 @@ namespace CloudDelivery.Tests.Services
         }
 
         [TestMethod()]
-        public void SetData_ShouldSetData()
+        public void SetPhone_ShouldSetPhone()
         {
             var user = service.GetUsersList().FirstOrDefault();
             var identityUser = ctx.Users.FirstOrDefault();
             user.IdentityId = identityUser.Id;
             user.AspNetUser = identityUser;
             string phone = "111111111";
-            string name = "username";
-            service.SetData(user.Id, phone,name);
+            service.SetPhone(user.Id, phone);
             Assert.AreEqual(identityUser.PhoneNumber, phone);
+        }
+
+
+        [TestMethod()]
+        public void SetName_ShouldSetName()
+        {
+            var user = service.GetUsersList().FirstOrDefault();
+            string name = "username";
+            service.SetName(user.Id, name);
             Assert.AreEqual(user.Name, name);
         }
+
 
 
         [TestMethod()]
@@ -271,8 +290,5 @@ namespace CloudDelivery.Tests.Services
             ctx.UserRoles.Where(x => x.UserId == user.IdentityId).ToList().ForEach(x => ctx.UserRoles.Remove(x));
             service.GetUserRolesString(user.Id);
         }
-
-
-
     }
 }

@@ -88,12 +88,30 @@ namespace CloudDelivery.Controllers
 
 
         [HttpPut]
-        [Route("Edit/{id}")]
-        public IHttpActionResult Edit(int id, [FromBody] UserVM user)
+        [Route("Phone/{id}")]
+        public IHttpActionResult Phone(int id, [FromBody] string phone)
         {
             try
             {
-                usersService.SetData(user.Id, user.Phone, user.Name);
+                usersService.SetPhone(id, phone);
+                return Ok();
+            }
+            catch (NullReferenceException e)
+            {
+                return InternalServerError(e);
+            }
+
+
+        }
+
+
+        [HttpPut]
+        [Route("Name/{id}")]
+        public IHttpActionResult Name(int id, [FromBody] string name)
+        {
+            try
+            {
+                usersService.SetName(id, name);
                 return Ok();
             }
             catch (NullReferenceException e)
@@ -107,7 +125,7 @@ namespace CloudDelivery.Controllers
 
         [HttpPut]
         [Route("Organisation/{id}")]
-        public IHttpActionResult Organisation(int id, [FromBody] int organisationId)
+        public IHttpActionResult Organisation(int id, [FromBody] int? organisationId)
         {
             var user = usersService.GetUser(this.User.Identity.GetUserId());
             try
@@ -121,6 +139,24 @@ namespace CloudDelivery.Controllers
             }
 
         }
+        [HttpPut]
+        [Route("Role/{id}")]
+        public IHttpActionResult Role(int id, [FromBody] string role)
+        {
+            role = role.ToLower();
+            var user = usersService.GetUser(this.User.Identity.GetUserId());
+            var roleId = usersService.GetRolesList().FirstOrDefault(x => x.Name.ToLower() == role)?.Id;
+            try
+            {
+                usersService.SetSingleRole(id, roleId);
+                return Ok();
+            }
+            catch (NullReferenceException e)
+            {
+                return InternalServerError(e);
+            }
+        }
+
 
         private IUsersService usersService;
     }

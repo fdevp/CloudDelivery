@@ -14,7 +14,6 @@ var layout_component_1 = require("./layout.component");
 var layout_routing_1 = require("./layout.routing");
 var shared_module_1 = require("./Shared/shared.module");
 var MenuFactoryService_1 = require("../Services/Layout/MenuFactoryService");
-var ToastFactoryService_1 = require("../Services/Layout/ToastFactoryService");
 var AdminGuard_1 = require("../Services/Guards/AdminGuard");
 var CarrierGuard_1 = require("../Services/Guards/CarrierGuard");
 var pages = [
@@ -28,7 +27,6 @@ var modules = [
 ];
 var providers = [
     MenuFactoryService_1.MenuFactoryService,
-    ToastFactoryService_1.ToastFactoryService,
     AdminGuard_1.AdminGuard,
     CarrierGuard_1.CarrierGuard
 ];

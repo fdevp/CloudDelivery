@@ -142,5 +142,19 @@ namespace CloudDelivery.Tests.Services
             organisationsService.RemoveOrganisation(int.MinValue);
         }
 
+
+        [TestMethod()]
+        public void GetMembersNumber_ShouldReturnMembersNumber()
+        {
+            int newOrgId = organisationsService.AddOrganisation("new org");
+            var users = usersService.GetUsersList().OrderByDescending(x => x.Id).Take(3);
+
+            foreach (var user in users)
+            {
+                usersService.SetOrganisation(user.Id, newOrgId);
+            }
+
+            Assert.AreEqual(3,organisationsService.GetMembersNumber(newOrgId));
+        }
     }
 }

@@ -5,8 +5,6 @@ import { AdminUsersComponent } from './users/admin.users.component'
 import { AdminOrganisationsComponent } from './organisations/admin.organisations.component'
 import { AdminGuard } from '../../Services/Guards/AdminGuard';
 
-import { UserViewComponent } from '../Shared/User/user.view.component';
-
 import { AdminComponent } from './admin.component';
 
 const adminRoutes: Routes = [
@@ -23,10 +21,6 @@ const adminRoutes: Routes = [
             {
                 path: 'organisations',
                 component: AdminOrganisationsComponent,
-            },
-            {
-                path: 'user/:id',
-                component: UserViewComponent,
             },
             {
                 path: '',

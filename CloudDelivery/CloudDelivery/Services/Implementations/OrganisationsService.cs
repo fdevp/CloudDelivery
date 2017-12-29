@@ -41,7 +41,7 @@ namespace CloudDelivery.Services
                 if (user.OrganisationId == null)
                     throw new NullReferenceException("Użytkownik nie jest przypisany do organizacji.");
 
-                return ctx.Organisations.Where(x=>x.Id == user.OrganisationId).FirstOrDefault();
+                return ctx.Organisations.Where(x => x.Id == user.OrganisationId).FirstOrDefault();
             }
         }
 
@@ -50,6 +50,19 @@ namespace CloudDelivery.Services
             using (var ctx = this.ctxFactory.GetContext())
             {
                 return ctx.Organisations.ToList();
+            }
+        }
+
+        public int GetMembersNumber(int organisationId)
+        {
+            using (var ctx = this.ctxFactory.GetContext())
+            {
+                var organisation = ctx.Organisations.Where(x => x.Id == organisationId).FirstOrDefault();
+
+                if (organisation == null)
+                    throw new NullReferenceException("Nie znaleziono organizacji");
+
+                return ctx.UserData.Count(x => x.OrganisationId == organisationId);
             }
         }
 
@@ -66,7 +79,7 @@ namespace CloudDelivery.Services
                           .Include(x => x.AspNetUser)
                           .Include(x => x.AspNetUser.Roles)
                           .Include(x => x.Organisation)
-                          .Where(x=>x.OrganisationId == organisationId)
+                          .Where(x => x.OrganisationId == organisationId)
                           .ToList();
             }
         }
@@ -100,10 +113,10 @@ namespace CloudDelivery.Services
                     throw new NullReferenceException("Nie znaleziono organizacji");
 
                 //remove organisationId from users belongs to organisation
-                ctx.UserData.Where(x=>x.OrganisationId == id).ToList().ForEach(x =>
-                {
-                    RemoveMember(x.Id);
-                });
+                ctx.UserData.Where(x => x.OrganisationId == id).ToList().ForEach(x =>
+                  {
+                      RemoveMember(x.Id);
+                  });
 
                 ctx.Organisations.Remove(organisation);
 

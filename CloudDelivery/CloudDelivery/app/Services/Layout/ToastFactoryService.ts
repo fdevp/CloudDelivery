@@ -1,10 +1,12 @@
 ﻿import { Injectable, } from '@angular/core';
 import { ToastrService, ActiveToast, IndividualConfig } from 'ngx-toastr';
 import { ProgressToast } from '../../Modules/Shared/Toasts/ProgressToast'
+import { Observable } from 'rxjs/Observable';
+import { ModalFactoryService } from './ModalFactoryService';
 
 @Injectable()
 export class ToastFactoryService {
-    constructor(public toastr: ToastrService) {  }
+    constructor(public toastr: ToastrService) { }
 
     progress(title: string): ActiveToast{
 
@@ -17,8 +19,7 @@ export class ToastFactoryService {
         });
     }
 
-    successCreatingUser(username: string, id: string): void {
-        var title = "Dodano użytkownika " + username;
+    successCreating(title): ActiveToast {
         var message = "Kliknij żeby przejść...";
         var toast = this.toastr.success(message, title, {
             "timeOut": 5000,
@@ -27,18 +28,7 @@ export class ToastFactoryService {
             progressAnimation: "increasing"
         });
 
-        
-        //toast.onTap = Observable<any>(() => {
-
-        //});
+        return toast;
     }
-
-    errorCreatingUser(): void {
-        this.toastr.error("Nie udało się utworzyć użytkownika", "Błąd");
-    }
-
-
-
-
     
 }

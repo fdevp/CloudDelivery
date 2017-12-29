@@ -1,0 +1,31 @@
+﻿<div *ngIf="inProgress">
+    ładuje
+</div>
+<div *ngIf="!inProgress && members.length > 0">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Użytkownik</th>
+                <th>Nazwa</th>
+                <th>Rola</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let member of members">
+                <td>{{member.Login}}</td>
+                <td>{{member.Name}}</td>
+                <td>{{member.Roles | roleName}}</td>
+                <td class="text-center">
+                    <span class="btn btn-default btn-xs" (click)="removeMember(member.Id)">
+                        <i class="fa fa-trash"></i>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="alert bg-gray" *ngIf="!inProgress && members.length == 0">
+    Brak użytkowników przypisanych do organizacji.
+</div>

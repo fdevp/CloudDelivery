@@ -29,13 +29,23 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import { AdminModalsModule } from './Modules/Admin/Modals/admin.modals.module'
 
+import { ConfirmModal } from './Modules/Shared/Modals/ConfirmModal'
+import { EditPasswordTab } from './Modules/Admin/Modals/EditUserModal/EditPasswordTab/edit.password.tab';
+import { EditSalespointTab } from './Modules/Admin/Modals/EditUserModal/EditSalesPointTab/edit.salespoint.tab';
+import { EditUserTab } from './Modules/Admin/Modals/EditUserModal/EditUserTab/edit.user.tab';
+import { AddUserModal } from './Modules/Admin/Modals/AddUserModal/add.user.modal';
+import { EditUserModal } from './Modules/Admin/Modals/EditUserModal/edit.user.modal';
+import { SharedModule } from './Modules/Shared/shared.module';
+import { ToastFactoryService } from './Services/Layout/ToastFactoryService';
+
 const pages = [
     AppComponent,
     LoginComponent
 ];
 
+
 const modals = [
-//    AddUserModal
+    ConfirmModal,
 ]
 
 const toasts = [
@@ -61,7 +71,8 @@ const providers = [
     UsersService,
     OrganisationsService,
     AuthGuard,
-    ModalFactoryService
+    ModalFactoryService,
+    ToastFactoryService,
 ]
 
 @NgModule({

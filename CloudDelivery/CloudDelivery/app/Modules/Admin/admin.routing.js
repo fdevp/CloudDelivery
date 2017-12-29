@@ -12,7 +12,6 @@ var admin_dashboard_component_1 = require("./dashboard/admin.dashboard.component
 var admin_users_component_1 = require("./users/admin.users.component");
 var admin_organisations_component_1 = require("./organisations/admin.organisations.component");
 var AdminGuard_1 = require("../../Services/Guards/AdminGuard");
-var user_view_component_1 = require("../Shared/User/user.view.component");
 var admin_component_1 = require("./admin.component");
 var adminRoutes = [
     {
@@ -27,10 +26,6 @@ var adminRoutes = [
             {
                 path: 'organisations',
                 component: admin_organisations_component_1.AdminOrganisationsComponent,
-            },
-            {
-                path: 'user/:id',
-                component: user_view_component_1.UserViewComponent,
             },
             {
                 path: '',
