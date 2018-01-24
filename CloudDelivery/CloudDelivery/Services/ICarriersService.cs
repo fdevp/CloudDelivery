@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace CloudDelivery.Services
 {
-    interface ICarrierService
+    public interface ICarriersService
     {
         /// <summary>
-        /// create Carrier entity for user and remove other entities
+        /// create Carrier entity for user
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>carrier entity id</returns>
@@ -18,10 +18,12 @@ namespace CloudDelivery.Services
 
         Carrier GetCarrier(int userId);
 
+        Carrier GetCarrierById(int id);
+
         List<Carrier> GetCarriers();
 
-        int RemoveCarrier(int userId);
+        void RemoveCarrier(int userId);
 
-        void SetColor(int userId);
+        void SetColor(int userId, string color);   
     }
 }

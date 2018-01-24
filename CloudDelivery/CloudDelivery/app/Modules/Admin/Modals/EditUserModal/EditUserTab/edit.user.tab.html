@@ -23,7 +23,7 @@
         </div>
         <div class="col-sm-8" *ngIf="formStates['Name']!=elementStateEnum.Text">
             <div class="col-sm-6 padding-left-0">
-                <input type="text" class="form-control" id="Name" placeholder="Nazwa" required [(ngModel)]="model.Name" [disabled]="formStates['Name']==elementStateEnum.Saving">
+                <input type="text" class="form-control" id="Name" placeholder="Nazwa" required [(ngModel)]="editModel.Name" [disabled]="formStates['Name']==elementStateEnum.Saving">
             </div>
             <div class="col-sm-3 padding-left-0 form-control-static" *ngIf="formStates['Name']==elementStateEnum.Editable">
                 <span class="margin-left-10 btn btn-default btn-xs" (click)="cancelEditing('Name')">
@@ -59,7 +59,7 @@
             <div class="col-sm-9  padding-left-0" *ngIf="formStates['Roles']!=elementStateEnum.LoadingData">
 
                 <div class="col-sm-6 padding-left-0">
-                    <select [(ngModel)]="model.Roles" class="form-control" [disabled]="formStates['Roles']==elementStateEnum.Saving">
+                    <select [(ngModel)]="editModel.Roles" class="form-control" [disabled]="formStates['Roles']==elementStateEnum.Saving">
                         <option *ngFor="let role of rolesList" [ngValue]="role">{{role | roleName}}</option>
                     </select>
                 </div>
@@ -104,7 +104,7 @@
             <div class="col-sm-9  padding-left-0" *ngIf="formStates['Organisation']!=elementStateEnum.LoadingData">
 
                 <div class="col-sm-6 padding-left-0">
-                    <select [(ngModel)]="model.OrganisationId" class="form-control" [disabled]="formStates['Organisation']==elementStateEnum.Saving">
+                    <select [(ngModel)]="editModel.OrganisationId" class="form-control" [disabled]="formStates['Organisation']==elementStateEnum.Saving">
                         <option [ngValue]="null"></option>
                         <option *ngFor="let org of organisationsList" [ngValue]="org.Id">{{org.Name}}</option>
                     </select>
@@ -143,7 +143,7 @@
         </div>
         <div class="col-sm-8" *ngIf="formStates['Phone']!=elementStateEnum.Text">
             <div class="col-sm-6 padding-left-0">
-                <input type="text" class="form-control" id="Phone" placeholder="Telefon" [(ngModel)]="model.Phone" [disabled]="formStates['Phone']==elementStateEnum.Saving">
+                <input type="text" class="form-control" id="Phone" placeholder="Telefon" [(ngModel)]="editModel.Phone" [disabled]="formStates['Phone']==elementStateEnum.Saving">
             </div>
             <div class="col-sm-3 padding-left-0 form-control-static" *ngIf="formStates['Phone']==elementStateEnum.Editable">
                 <span class="margin-left-10 btn btn-default btn-xs" (click)="cancelEditing('Phone')">
@@ -173,7 +173,7 @@
         </div>
         <div class="col-sm-8" *ngIf="formStates['Description']!=elementStateEnum.Text">
             <div class="col-sm-6 padding-left-0">
-                <textarea class="form-control resize-vertical" id="Description" placeholder="Opis" [(ngModel)]="model.Description" [disabled]="formStates['Description']==elementStateEnum.Saving"></textarea>
+                <textarea class="form-control resize-vertical" id="Description" placeholder="Opis" [(ngModel)]="editModel.Description" [disabled]="formStates['Description']==elementStateEnum.Saving"></textarea>
             </div>
             <div class="col-sm-3 padding-left-0 form-control-static" *ngIf="formStates['Description']==elementStateEnum.Editable">
                 <span class="margin-left-10 btn btn-default btn-xs" (click)="cancelEditing('Description')">

@@ -4,6 +4,18 @@
     height: 100%;
 }
 
+
+.login-box-custom {
+    border-radius: 5px;
+    background-color: #eee;
+    border: 3px solid #ddd;
+}
+
+.login-logo{
+    margin-top:50px;
+
+}
+
 .content-middle {
     display: inline-block;
 }

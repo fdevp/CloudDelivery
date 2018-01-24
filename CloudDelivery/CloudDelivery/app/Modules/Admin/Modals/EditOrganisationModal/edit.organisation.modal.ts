@@ -1,12 +1,11 @@
 ﻿import { Component, Input, EventEmitter, Inject, forwardRef } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap'
 import { UserDetails } from '../../../../Models/Users/UserDetails'
-import { OrganisationListItem } from '../../../../Models/Organisations/OrganisationListItem'
+import { Organisation } from '../../../../Models/Organisations/Organisation'
 import { UsersService } from '../../../../Services/UsersService'
 import { OrganisationsService } from '../../../../Services/OrganisationsService'
 import { ModalFactoryService } from '../../../../Services/Layout/ModalFactoryService';
 import { ToastFactoryService } from '../../../../Services/Layout/ToastFactoryService';
-import { Organisation } from '../../../../Models/Organisations/Organisation';
 import { FormElementState } from '../../../../Models/Enums/FormElementState';
 
 @Component({

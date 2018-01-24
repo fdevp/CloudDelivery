@@ -19,7 +19,7 @@ var EditUserTab = /** @class */ (function () {
         var _this = this;
         this.usersService = usersService;
         this.organisationsService = organisationsService;
-        this.defaultValues = new UserDetails_1.UserDetails();
+        this.editModel = new UserDetails_1.UserDetails();
         this.formStates = new Array();
         this.elementStateEnum = FormElementState_1.FormElementState;
         this.organisationsService.list().subscribe(function (list) {
@@ -32,17 +32,21 @@ var EditUserTab = /** @class */ (function () {
         this.formStates['Phone'] = this.elementStateEnum.Text;
         this.formStates['Description'] = this.elementStateEnum.Text;
     }
+    EditUserTab.prototype.ngOnInit = function () {
+        Object.assign(this.editModel, this.model);
+    };
     EditUserTab.prototype.setElementState = function (element, state) {
         this.formStates[element] = state;
     };
     EditUserTab.prototype.cancelEditing = function (element) {
-        this.model[element] = this.defaultValues[element];
+        this.editModel[element] = this.model[element];
         this.setElementState(element, this.elementStateEnum.Text);
     };
     EditUserTab.prototype.changeName = function () {
         var _this = this;
         this.setElementState("Name", this.elementStateEnum.Saving);
-        this.usersService.setName(this.model.Id, this.model.Name).subscribe(function (x) {
+        this.usersService.setName(this.model.Id, this.editModel.Name).subscribe(function (x) {
+            _this.model.Name = _this.editModel.Name;
             _this.setElementState("Name", _this.elementStateEnum.Text);
         }, function (err) {
             _this.cancelEditing("Name");
@@ -51,7 +55,8 @@ var EditUserTab = /** @class */ (function () {
     EditUserTab.prototype.changeOrganisation = function () {
         var _this = this;
         this.setElementState("Organisation", this.elementStateEnum.Saving);
-        this.usersService.setOrganisation(this.model.Id, this.model.OrganisationId).subscribe(function (x) {
+        this.usersService.setOrganisation(this.model.Id, this.editModel.OrganisationId).subscribe(function (x) {
+            _this.model.OrganisationId = _this.editModel.OrganisationId;
             if (_this.model.OrganisationId != null)
                 _this.model.Organisation = _this.organisationsList.find(function (x) { return x.Id == _this.model.OrganisationId; }).Name;
             else
@@ -64,7 +69,8 @@ var EditUserTab = /** @class */ (function () {
     EditUserTab.prototype.changeRoles = function () {
         var _this = this;
         this.setElementState("Roles", this.elementStateEnum.Saving);
-        this.usersService.setRole(this.model.Id, this.model.Roles).subscribe(function (x) {
+        this.usersService.setRole(this.model.Id, this.editModel.Roles).subscribe(function (x) {
+            _this.model.Roles = _this.editModel.Roles;
             _this.setElementState("Roles", _this.elementStateEnum.Text);
         }, function (err) {
             _this.cancelEditing("Roles");
@@ -73,7 +79,8 @@ var EditUserTab = /** @class */ (function () {
     EditUserTab.prototype.changePhone = function () {
         var _this = this;
         this.setElementState("Phone", this.elementStateEnum.Saving);
-        this.usersService.setPhone(this.model.Id, this.model.Phone).subscribe(function (x) {
+        this.usersService.setPhone(this.model.Id, this.editModel.Phone).subscribe(function (x) {
+            _this.model.Phone = _this.editModel.Phone;
             _this.setElementState("Phone", _this.elementStateEnum.Text);
         }, function (err) {
             _this.cancelEditing("Phone");
@@ -82,14 +89,12 @@ var EditUserTab = /** @class */ (function () {
     EditUserTab.prototype.changeDescription = function () {
         var _this = this;
         this.setElementState("Description", this.elementStateEnum.Saving);
-        this.usersService.setDescription(this.model.Id, this.model.Description).subscribe(function (x) {
+        this.usersService.setDescription(this.model.Id, this.editModel.Description).subscribe(function (x) {
+            _this.model.Description = _this.editModel.Description;
             _this.setElementState("Description", _this.elementStateEnum.Text);
         }, function (err) {
             _this.cancelEditing("Description");
         });
-    };
-    EditUserTab.prototype.ngOnInit = function () {
-        Object.assign(this.defaultValues, this.model);
     };
     __decorate([
         core_1.Input(),

@@ -14,8 +14,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var FormElementState_1 = require("../../../../../Models/Enums/FormElementState");
-var OrganisationsService_1 = require("../../../../../Services/OrganisationsService");
 var Organisation_1 = require("../../../../../Models/Organisations/Organisation");
+var OrganisationsService_1 = require("../../../../../Services/OrganisationsService");
 var ngx_bootstrap_1 = require("ngx-bootstrap");
 var ModalFactoryService_1 = require("../../../../../Services/Layout/ModalFactoryService");
 var ToastFactoryService_1 = require("../../../../../Services/Layout/ToastFactoryService");

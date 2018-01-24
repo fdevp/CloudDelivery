@@ -21,15 +21,19 @@ namespace CloudDelivery
             //providers
             container.RegisterType<ICacheProvider, CacheProvider>();
 
-
             //services
             container.RegisterType<IUsersService, UsersService>(); 
             container.RegisterType<IOrganisationsService, OrganisationsService>();
+            container.RegisterType<ICarriersService, CarriersService>();
+            container.RegisterType<ISalepointsService, SalepointsService>();
+            container.RegisterType<IAuthorizationService, AuthorizationService>();
 
             //controllers
-            container.RegisterType<AccountController>(new InjectionConstructor(typeof(IUsersService)));
+            container.RegisterType<AccountController>(new InjectionConstructor(typeof(IUsersService), typeof(IAuthorizationService)));
             container.RegisterType<UsersController>();
             container.RegisterType<OrganisationsController>();
+            container.RegisterType<SalepointsController>();
+            container.RegisterType<CarriersController>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

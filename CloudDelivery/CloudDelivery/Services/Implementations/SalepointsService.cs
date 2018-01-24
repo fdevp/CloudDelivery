@@ -4,13 +4,15 @@ using CloudDelivery.Providers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web;
 
-namespace CloudDelivery.Services.Implementations
+namespace CloudDelivery.Services
 {
-    public class SalespointService : ISalepointsService
+    public class SalepointsService : ISalepointsService
     {
-        public SalespointService(ICacheProvider cacheProvider, ICDContextFactory ctxFactory)
+        public SalepointsService(ICacheProvider cacheProvider, ICDContextFactory ctxFactory)
         {
             this.cacheProvider = cacheProvider;
             this.ctxFactory = ctxFactory;
@@ -79,18 +81,13 @@ namespace CloudDelivery.Services.Implementations
         {
             using (var ctx = ctxFactory.GetContext())
             {
+                if (!ctx.UserData.Any(x => x.Id == userId))
+                    throw new NullReferenceException("Użytkownik nie istnieje.");
 
-                SalePoint sp = ctx.SalePoints.Where(x => x.UserId == userId).FirstOrDefault();
-                if (sp != null)
-                    throw new NullReferenceException("Punkt sprzedaży już istnieje");
+                if (ctx.SalePoints.Any(x => x.UserId == userId))
+                    throw new ArgumentException("Punkt sprzedaży już istnieje");
 
-
-                Carrier carrier = ctx.Carriers.Where(x => x.UserId == userId).FirstOrDefault();
-                if (carrier != null)
-                    ctx.Carriers.Remove(carrier);
-
-
-                SalePoint newSalepoint = new SalePoint() { UserId = userId};
+                SalePoint newSalepoint = new SalePoint() { UserId = userId };
                 ctx.SalePoints.Add(newSalepoint);
                 ctx.SaveChanges();
 
@@ -112,19 +109,65 @@ namespace CloudDelivery.Services.Implementations
             }
         }
 
-        public SalePoint GetSalePoint(int id)
+        public SalePoint GetSalePoint(int userId)
         {
-            throw new NotImplementedException();
+            using (var ctx = ctxFactory.GetContext())
+            {
+                SalePoint sp = ctx.SalePoints
+                                  .Include(x=>x.User)
+                                  .Where(x => x.Id == userId).FirstOrDefault();
+
+                if (sp == null)
+                    throw new NullReferenceException("Użytkownik nie ma przypisanego punktu sprzedaży.");
+
+
+                return sp;
+            }
         }
+
+        public SalePoint GetSalePointById(int id)
+        {
+            using (var ctx = ctxFactory.GetContext())
+            {
+                SalePoint sp = ctx.SalePoints
+                                  .Include(x => x.User)
+                                  .Where(x => x.Id == id).FirstOrDefault();
+
+                if (sp == null)
+                    throw new NullReferenceException("Nie znaleziono punktu sprzedaży.");
+
+                return sp;
+            }
+        }
+
 
         public List<SalePoint> GetSalePoints()
         {
-            throw new NotImplementedException();
+            using(var ctx = ctxFactory.GetContext())
+            {
+                var sps = ctx.SalePoints
+                             .Include(x => x.User)
+                             .ToList();
+
+                return sps;
+            }
         }
 
         public List<SalePoint> GetOrganisationSalePoints(int organisationId)
         {
-            throw new NotImplementedException();
+            using(var ctx= ctxFactory.GetContext())
+            {
+                if (!ctx.Organisations.Any(x => x.Id == organisationId))
+                    throw new NullReferenceException("Nie znaleziono organizacji.");
+
+
+                var sps = ctx.SalePoints
+                             .Include(x => x.User)
+                             .Where(x=> x.User!= null && x.User.OrganisationId == organisationId)
+                             .ToList();
+
+                return sps;
+            }
         }
 
         private ICacheProvider cacheProvider;

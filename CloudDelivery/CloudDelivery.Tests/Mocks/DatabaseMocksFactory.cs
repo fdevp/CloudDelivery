@@ -38,6 +38,13 @@ namespace CloudDelivery.Tests.Initialize
             var organisations = Builder<Organisation>.CreateListOfSize(10).All().With(x => x.Members = new List<User>()).Build();
             ctxMock.Setup(x => x.Organisations).Returns(GetDbSetMock<Organisation>(10, organisations).Object);
 
+            //salespoints
+            ctxMock.Setup(x => x.SalePoints).Returns(GetDbSetMock<SalePoint>(10).Object);
+
+
+            //carriers
+            ctxMock.Setup(x => x.Carriers).Returns(GetDbSetMock<Carrier>(10).Object);
+
             return ctxMock;
         }
 

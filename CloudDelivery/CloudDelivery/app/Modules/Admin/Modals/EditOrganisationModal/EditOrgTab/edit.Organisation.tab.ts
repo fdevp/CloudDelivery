@@ -2,14 +2,13 @@
 
 import { UserDetails } from '../../../../../Models/Users/UserDetails'
 import { FormElementState } from '../../../../../Models/Enums/FormElementState'
-import { OrganisationListItem } from '../../../../../Models/Organisations/OrganisationListItem'
+import { Organisation } from '../../../../../Models/Organisations/Organisation'
 
 import { UsersService } from '../../../../../Services/UsersService'
 import { OrganisationsService } from '../../../../../Services/OrganisationsService'
 
 import { NullStringPipe } from '../../../../Shared/Pipes/NullStringPipe'
 import { RoleNamePipe } from '../../../../Shared/Pipes/RoleNamePipe'
-import { Organisation } from '../../../../../Models/Organisations/Organisation';
 import { BsModalRef } from 'ngx-bootstrap';
 import { ModalFactoryService } from '../../../../../Services/Layout/ModalFactoryService';
 import { ToastFactoryService } from '../../../../../Services/Layout/ToastFactoryService';

@@ -3,7 +3,7 @@ import { OrganisationsService } from '../../../Services/OrganisationsService';
 import { ModalFactoryService } from '../../../Services/Layout/ModalFactoryService';
 import { Router } from '@angular/router';
 import { ToastFactoryService } from '../../../Services/Layout/ToastFactoryService';
-import { OrganisationListItem } from '../../../Models/Organisations/OrganisationListItem';
+import { Organisation } from '../../../Models/Organisations/Organisation';
 import { ActiveToast } from 'ngx-toastr';
 import { Observable } from 'rxjs/Observable';
 
@@ -22,8 +22,8 @@ export class AdminOrganisationsComponent {
 
     public selected = [];
 
-    private orgs: Array<OrganisationListItem> = [];
-    private filteredOrgs: Array<OrganisationListItem> = [];
+    private orgs: Array<Organisation> = [];
+    private filteredOrgs: Array<Organisation> = [];
 
     public initialized: boolean = false;
 
@@ -90,6 +90,5 @@ export class AdminOrganisationsComponent {
                 progressToast.toastRef.close();
             });
         });
-
     }
 }

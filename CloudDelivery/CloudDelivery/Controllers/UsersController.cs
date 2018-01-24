@@ -15,21 +15,25 @@ namespace CloudDelivery.Controllers
 {
     [Authorize(Roles = "admin")]
     [RoutePrefix("api/Users")]
-    public class UsersController : ApiController
+    public class UsersController : BaseController
     {
-        public UsersController() { }
+        private IUsersService usersService;
+        private ICarriersService carriersService;
+        private ISalepointsService salepointsService;
 
-        public UsersController(IUsersService usersService, IOrganisationsService organisationsService)
+        public UsersController(IUsersService usersService, ICarriersService carriersService, ISalepointsService salepointsService,IAuthorizationService authService) : base(authService)
         {
             this.usersService = usersService;
+            this.carriersService = carriersService;
+            this.salepointsService = salepointsService;
         }
 
         [HttpGet]
         [Route("List")]
         public IHttpActionResult List()
         {
-            var asd = usersService.GetUsersList();
-            List<UserListVM> usersVmList = Mapper.Map<List<UserListVM>>(asd);
+            var dbList = usersService.GetUsersList();
+            List<UserListVM> usersVmList = Mapper.Map<List<UserListVM>>(dbList);
             foreach (var item in usersVmList)
             {
                 try
@@ -74,16 +78,8 @@ namespace CloudDelivery.Controllers
         [Route("Remove/{id}")]
         public IHttpActionResult Remove(int id)
         {
-            try
-            {
-                usersService.RemoveUser(id);
-                return Ok();
-            }
-            catch (NullReferenceException e)
-            {
-                return InternalServerError(e);
-            }
-
+            usersService.RemoveUser(id);
+            return Ok();
         }
 
 
@@ -91,17 +87,8 @@ namespace CloudDelivery.Controllers
         [Route("Phone/{id}")]
         public IHttpActionResult Phone(int id, [FromBody] string phone)
         {
-            try
-            {
-                usersService.SetPhone(id, phone);
-                return Ok();
-            }
-            catch (NullReferenceException e)
-            {
-                return InternalServerError(e);
-            }
-
-
+            usersService.SetPhone(id, phone);
+            return Ok();
         }
 
 
@@ -109,17 +96,8 @@ namespace CloudDelivery.Controllers
         [Route("Name/{id}")]
         public IHttpActionResult Name(int id, [FromBody] string name)
         {
-            try
-            {
-                usersService.SetName(id, name);
-                return Ok();
-            }
-            catch (NullReferenceException e)
-            {
-                return InternalServerError(e);
-            }
-
-
+            usersService.SetName(id, name);
+            return Ok();
         }
 
 
@@ -128,15 +106,8 @@ namespace CloudDelivery.Controllers
         public IHttpActionResult Organisation(int id, [FromBody] int? organisationId)
         {
             var user = usersService.GetUser(this.User.Identity.GetUserId());
-            try
-            {
-                usersService.SetOrganisation(id, organisationId);
-                return Ok();
-            }
-            catch (NullReferenceException e)
-            {
-                return InternalServerError(e);
-            }
+            usersService.SetOrganisation(id, organisationId);
+            return Ok();
 
         }
         [HttpPut]
@@ -146,18 +117,33 @@ namespace CloudDelivery.Controllers
             role = role.ToLower();
             var user = usersService.GetUser(this.User.Identity.GetUserId());
             var roleId = usersService.GetRolesList().FirstOrDefault(x => x.Name.ToLower() == role)?.Id;
+            usersService.SetSingleRole(id, roleId);
+            switch (role)
+            {
+                case "salepoint":
+                    this.salepointsService.SetSalepoint(id);
+                    break;
+                case "carrier":
+                    this.carriersService.SetCarrier(id);
+                    break;
+            }
+           
             try
             {
-                usersService.SetSingleRole(id, roleId);
-                return Ok();
+                switch (role)
+                {
+                    case "salepoint":
+                        this.carriersService.RemoveCarrier(id);
+                        break;
+                    case "carrier":
+                        this.salepointsService.RemoveSalepoint(id);
+                        break;
+                }
+                
             }
-            catch (NullReferenceException e)
-            {
-                return InternalServerError(e);
-            }
+            catch (Exception e) {}
+
+            return Ok();
         }
-
-
-        private IUsersService usersService;
     }
 }

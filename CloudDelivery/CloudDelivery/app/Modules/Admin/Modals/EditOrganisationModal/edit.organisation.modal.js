@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var ngx_bootstrap_1 = require("ngx-bootstrap");
-var OrganisationsService_1 = require("../../../../Services/OrganisationsService");
 var Organisation_1 = require("../../../../Models/Organisations/Organisation");
+var OrganisationsService_1 = require("../../../../Services/OrganisationsService");
 var EditOrganisationModal = /** @class */ (function () {
     function EditOrganisationModal(bsModalRef, orgService) {
         this.bsModalRef = bsModalRef;

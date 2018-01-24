@@ -1,9 +1,12 @@
 ﻿<div class="login-box">
-    <div class="login-logo">
-        
-    </div>
+   
     <!-- /.login-logo -->
-    <div class="login-box-body">
+    <div class="login-box-body login-box-custom">
+
+        <div class="login-logo">
+
+        </div>
+
         <form>
 
             <div class="form-group has-feedback">
@@ -22,20 +25,18 @@
                 <!--<input type="password" class="form-control" placeholder="Password" required minlength="8" name="passwd" [(ngModel)]="password">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>-->
             </div>
-            <div class="row" *ngIf="errorOccured">
+            <div class="form-group" *ngIf="errorOccured">
                 <div class="callout callout-danger">
                     <h4>Błąd</h4>
                     <span>{{errorMessage}}</span>
                 </div>
             </div>
-            <div class="row">
+            <div class="form-group">
                 <!-- /.col -->
-                <div class="col-xs-4 pull-right">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat" [ngClass]="{'disabled':inProgress}" (click)="signIn()">
-                        <i [ngClass]="{'fa fa-fw fa-spinner fa-spin':inProgress}"></i>
-                        Zaloguj
-                    </button>
-                </div>
+                <button type="submit" class="btn btn-primary btn-block" [ngClass]="{'disabled':inProgress}" (click)="signIn()">
+                    <i [ngClass]="{'fa fa-fw fa-spinner fa-spin':inProgress}"></i>
+                    Zaloguj
+                </button>
             </div>
         </form>
     </div>

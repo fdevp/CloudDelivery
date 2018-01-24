@@ -7,16 +7,18 @@ using System.Threading.Tasks;
 
 namespace CloudDelivery.Services
 {
-    interface ISalepointsService
+    public interface ISalepointsService
     {
         /// <summary>
-        /// set Salepoint entity for user and remove other entities
+        /// set Salepoint entity for user
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>salepoint entity id</returns>
         int SetSalepoint(int userId);
 
-        SalePoint GetSalePoint(int id);
+        SalePoint GetSalePoint(int userId);
+
+        SalePoint GetSalePointById(int id);
 
         List<SalePoint> GetSalePoints();
 

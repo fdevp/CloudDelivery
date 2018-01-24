@@ -1,7 +1,7 @@
 ﻿import { Component, Input, EventEmitter, Inject, forwardRef } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap'
 import { UserDetails } from '../../../../Models/Users/UserDetails'
-import { OrganisationListItem } from '../../../../Models/Organisations/OrganisationListItem'
+import { Organisation } from '../../../../Models/Organisations/Organisation'
 import { UsersService } from '../../../../Services/UsersService'
 import { OrganisationsService } from '../../../../Services/OrganisationsService'
 import { ModalFactoryService } from '../../../../Services/Layout/ModalFactoryService';
@@ -49,6 +49,14 @@ export class EditUserModal {
 
         })
 
+    }
+
+    isCarrier(): boolean {
+        return this.details != null && this.details.Roles.indexOf("carrier") > -1;
+    }
+
+    isSalepoint(): boolean {
+        return this.details != null && this.details.Roles.indexOf("salepoint") > -1;
     }
 
     closeModal() {

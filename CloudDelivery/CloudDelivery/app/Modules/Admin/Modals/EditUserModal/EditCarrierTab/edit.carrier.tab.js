@@ -10,40 +10,41 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var FormElementState_1 = require("../../../../../Models/Enums/FormElementState");
 var UsersService_1 = require("../../../../../Services/UsersService");
-var EditSalespointTab = /** @class */ (function () {
-    function EditSalespointTab(usersService) {
+var FormElementState_1 = require("../../../../../Models/Enums/FormElementState");
+var EditCarrierTab = /** @class */ (function () {
+    function EditCarrierTab(usersService) {
         this.usersService = usersService;
         this.formStates = new Array();
         this.elementStateEnum = FormElementState_1.FormElementState;
-        this.formStates['City'] = this.elementStateEnum.Text;
-        this.formStates['Address'] = this.elementStateEnum.Text;
-        this.formStates['Color'] = this.elementStateEnum.Text;
-        this.formStates['LatLng'] = this.elementStateEnum.Text;
+        this.formStates['Name'] = this.elementStateEnum.Text;
+        this.formStates['Organisation'] = this.elementStateEnum.Text;
+        this.formStates['Roles'] = this.elementStateEnum.Text;
+        this.formStates['Phone'] = this.elementStateEnum.Text;
+        this.formStates['Description'] = this.elementStateEnum.Text;
     }
-    EditSalespointTab.prototype.ngOnInit = function () {
+    EditCarrierTab.prototype.ngOnInit = function () {
         Object.assign(this.editModel, this.model);
     };
-    EditSalespointTab.prototype.setElementState = function (element, state) {
+    EditCarrierTab.prototype.setElementState = function (element, state) {
         this.formStates[element] = state;
     };
-    EditSalespointTab.prototype.cancelEditing = function (element) {
+    EditCarrierTab.prototype.cancelEditing = function (element) {
         this.editModel[element] = this.model[element];
         this.setElementState(element, this.elementStateEnum.Text);
     };
     __decorate([
         core_1.Input(),
         __metadata("design:type", Number)
-    ], EditSalespointTab.prototype, "userId", void 0);
-    EditSalespointTab = __decorate([
+    ], EditCarrierTab.prototype, "userId", void 0);
+    EditCarrierTab = __decorate([
         core_1.Component({
-            selector: 'edit-salespoint-tab',
-            templateUrl: './edit.salespoint.tab.html',
+            selector: 'edit-carrier-tab',
+            templateUrl: './edit.carrier.tab.html',
         }),
         __metadata("design:paramtypes", [UsersService_1.UsersService])
-    ], EditSalespointTab);
-    return EditSalespointTab;
+    ], EditCarrierTab);
+    return EditCarrierTab;
 }());
-exports.EditSalespointTab = EditSalespointTab;
-//# sourceMappingURL=edit.salespoint.tab.js.map
+exports.EditCarrierTab = EditCarrierTab;
+//# sourceMappingURL=edit.carrier.tab.js.map

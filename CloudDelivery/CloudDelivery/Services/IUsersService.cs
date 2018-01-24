@@ -18,7 +18,6 @@ namespace CloudDelivery.Services
         /// <returns>new user id</returns>
         int AddUser(string identityId, string name,int? organisationId);
 
-
         /// <summary>
         /// remove user and clear Identity data
         /// </summary>

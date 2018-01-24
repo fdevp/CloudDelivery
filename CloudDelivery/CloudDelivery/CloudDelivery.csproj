@@ -230,15 +230,20 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CarriersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrganisationsController.cs" />
+    <Compile Include="Controllers\SalepointsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\AccountBindingModels.cs" />
     <Compile Include="Models\Account\AccountViewModels.cs" />
+    <Compile Include="Models\Carriers\CarrierVM.cs" />
     <Compile Include="Models\Organisations\OrganisationVM.cs" />
+    <Compile Include="Models\Salepoints\SalepointVM.cs" />
     <Compile Include="Models\Users\RoleVM.cs" />
     <Compile Include="Models\Users\UserListVM.cs" />
     <Compile Include="Models\Users\UserVM.cs" />
@@ -247,10 +252,12 @@
     <Compile Include="Providers\Implementations\ApplicationOAuthProvider.cs" />
     <Compile Include="Providers\Implementations\CacheProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
-    <Compile Include="Services\ICarrierService.cs" />
-    <Compile Include="Services\Implementations\CarrierService.cs" />
+    <Compile Include="Services\IAuthorizationService.cs" />
+    <Compile Include="Services\ICarriersService.cs" />
+    <Compile Include="Services\Implementations\AuthorizationService.cs" />
+    <Compile Include="Services\Implementations\CarriersService.cs" />
     <Compile Include="Services\Implementations\OrganisationsService.cs" />
-    <Compile Include="Services\Implementations\SalespointService.cs" />
+    <Compile Include="Services\Implementations\SalepointsService.cs" />
     <Compile Include="Services\Implementations\UsersService.cs" />
     <Compile Include="Services\IOrganisationsService.cs" />
     <Compile Include="Services\ISalepointsService.cs" />
@@ -262,6 +269,7 @@
     <Content Include="app\Modules\Admin\Modals\EditOrganisationModal\edit.organisation.modal.html" />
     <Content Include="app\Modules\Admin\Modals\EditOrganisationModal\EditOrgTab\edit.organisation.tab.html" />
     <Content Include="app\Modules\Admin\Modals\EditOrganisationModal\EditOrgUsersTab\edit.org.users.tab.html" />
+    <Content Include="app\Modules\Admin\Modals\EditUserModal\EditCarrierTab\edit.carrier.tab.html" />
     <Content Include="app\Modules\Shared\Login\login.component.html" />
     <Content Include="app\Modules\Admin\Modals\AddUserModal\add.user.modal.html" />
     <Content Include="app\Modules\Shared\Toasts\toasts.css" />
@@ -291,6 +299,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="package.json" />
+    <None Include="Properties\PublishProfiles\CloudDelivery - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -320,6 +329,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="tsconfig.json" />
+    <Content Include="azureConnection.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\Modules\OrganisationOwner\" />
@@ -359,6 +369,7 @@
     <TypeScriptCompile Include="app\Modules\Admin\Modals\EditOrganisationModal\edit.organisation.modal.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\Modals\EditOrganisationModal\EditOrgTab\edit.organisation.tab.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\Modals\EditOrganisationModal\EditOrgUsersTab\edit.org.users.tab.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\Modals\EditUserModal\EditCarrierTab\edit.carrier.tab.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\Login\login.component.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\Modals\ConfirmModal.ts" />
     <TypeScriptCompile Include="app\Models\Enums\FormElementState.ts" />
@@ -400,6 +411,8 @@
     <TypeScriptCompile Include="app\Services\Layout\MenuFactoryService.ts" />
     <TypeScriptCompile Include="app\Services\Layout\ModalFactoryService.ts" />
     <TypeScriptCompile Include="app\Services\OrganisationsService.ts" />
+    <TypeScriptCompile Include="app\Services\CarrierService.ts" />
+    <TypeScriptCompile Include="app\Services\SalepointService.ts" />
     <TypeScriptCompile Include="app\Services\UsersService.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\Models\Session\SessionUser.ts" />

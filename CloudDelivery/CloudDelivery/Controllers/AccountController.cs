@@ -26,20 +26,20 @@ namespace CloudDelivery.Controllers
 {
     [Authorize]
     [RoutePrefix("api/Account")]
-    public class AccountController : ApiController
+    public class AccountController : BaseController
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
         private IUsersService usersService;
 
-        public AccountController(IUsersService usersService)
+        public AccountController(IUsersService usersService, IAuthorizationService authService) : base(authService)
         {
             this.usersService = usersService;
         }
 
         public AccountController(ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat,
-            IUsersService usersService)
+            IUsersService usersService, IAuthorizationService authService) : base(authService)
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
