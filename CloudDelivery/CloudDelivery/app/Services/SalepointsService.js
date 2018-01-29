@@ -15,13 +15,12 @@ var Observable_1 = require("rxjs/Observable");
 var SessionService_1 = require("../Services/SessionService");
 require("rxjs/add/observable/of");
 require("rxjs/Rx");
-var SalepointService = /** @class */ (function () {
-    function SalepointService(http, sessionServ) {
+var SalepointsService = /** @class */ (function () {
+    function SalepointsService(http, sessionService) {
         this.http = http;
-        this.sessionServ = sessionServ;
-        this.sessionService = sessionServ;
+        this.sessionService = sessionService;
     }
-    SalepointService.prototype.list = function () {
+    SalepointsService.prototype.list = function () {
         var _this = this;
         var hdrz = this.sessionService.authHeader();
         return new Observable_1.Observable(function (obs) {
@@ -31,7 +30,7 @@ var SalepointService = /** @class */ (function () {
             }, function (e) { console.error("err", e); });
         });
     };
-    SalepointService.prototype.listOrg = function (orgId) {
+    SalepointsService.prototype.listOrg = function (orgId) {
         var _this = this;
         var headers = this.sessionService.authHeader();
         var url = '/api/Salepoints/details/' + orgId;
@@ -42,18 +41,18 @@ var SalepointService = /** @class */ (function () {
             });
         });
     };
-    SalepointService.prototype.details = function (userId) {
+    SalepointsService.prototype.details = function (userId) {
         var _this = this;
         var headers = this.sessionService.authHeader();
         var url = '/api/Salepoints/details/' + userId;
         return new Observable_1.Observable(function (obs) {
             return _this.http.get(url, { headers: headers }).subscribe(function (data) {
-                var body = JSON.parse(data["_body"]);
-                obs.next(body);
+                var sp = JSON.parse(data["_body"]);
+                obs.next(sp);
             });
         });
     };
-    SalepointService.prototype.setCity = function (userId, city) {
+    SalepointsService.prototype.setCity = function (userId, city) {
         var _this = this;
         var headers = this.sessionService.authHeader();
         headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
@@ -65,7 +64,7 @@ var SalepointService = /** @class */ (function () {
             });
         });
     };
-    SalepointService.prototype.setAddress = function (userId, address) {
+    SalepointsService.prototype.setAddress = function (userId, address) {
         var _this = this;
         var headers = this.sessionService.authHeader();
         headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
@@ -77,11 +76,12 @@ var SalepointService = /** @class */ (function () {
             });
         });
     };
-    SalepointService.prototype.setLatLng = function (userId, latlng) {
+    SalepointsService.prototype.setLatLng = function (userId, latlng) {
         var _this = this;
         var headers = this.sessionService.authHeader();
         headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-        var body = "=" + latlng;
+        var body = "=" + JSON.stringify(latlng);
+        ;
         var url = '/api/Salepoints/latlng/' + userId;
         return new Observable_1.Observable(function (obs) {
             return _this.http.put(url, body, { headers: headers }).subscribe(function (data) {
@@ -89,7 +89,7 @@ var SalepointService = /** @class */ (function () {
             });
         });
     };
-    SalepointService.prototype.setColor = function (userId, color) {
+    SalepointsService.prototype.setColor = function (userId, color) {
         var _this = this;
         var headers = this.sessionService.authHeader();
         headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
@@ -101,11 +101,11 @@ var SalepointService = /** @class */ (function () {
             });
         });
     };
-    SalepointService = __decorate([
+    SalepointsService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [http_1.Http, SessionService_1.SessionService])
-    ], SalepointService);
-    return SalepointService;
+    ], SalepointsService);
+    return SalepointsService;
 }());
-exports.SalepointService = SalepointService;
-//# sourceMappingURL=SalepointService.js.map
+exports.SalepointsService = SalepointsService;
+//# sourceMappingURL=SalepointsService.js.map

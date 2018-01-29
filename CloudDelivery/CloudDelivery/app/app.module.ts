@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr'
 import { ModalModule } from 'ngx-bootstrap'
 import { TabsModule } from 'ngx-bootstrap';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 
 import { LoginComponent } from './Modules/Shared/Login/login.component';
 
@@ -30,13 +31,13 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { AdminModalsModule } from './Modules/Admin/Modals/admin.modals.module'
 
 import { ConfirmModal } from './Modules/Shared/Modals/ConfirmModal'
-import { EditPasswordTab } from './Modules/Admin/Modals/EditUserModal/EditPasswordTab/edit.password.tab';
-import { EditSalespointTab } from './Modules/Admin/Modals/EditUserModal/EditSalesPointTab/edit.salespoint.tab';
-import { EditUserTab } from './Modules/Admin/Modals/EditUserModal/EditUserTab/edit.user.tab';
 import { AddUserModal } from './Modules/Admin/Modals/AddUserModal/add.user.modal';
 import { EditUserModal } from './Modules/Admin/Modals/EditUserModal/edit.user.modal';
 import { SharedModule } from './Modules/Shared/shared.module';
 import { ToastFactoryService } from './Services/Layout/ToastFactoryService';
+import { CarriersService } from './Services/CarriersService';
+import { SalepointsService } from './Services/SalepointsService';
+import { GMapsService } from './Services/GMapsService';
 
 const pages = [
     AppComponent,
@@ -61,6 +62,9 @@ const modules = [
     ToastrModule.forRoot(),
     ModalModule.forRoot(),
     TabsModule.forRoot(),
+    AgmCoreModule.forRoot({
+        apiKey: 'AIzaSyCHX0R_iy25XKld2oyehvuVi26teOlXYWE'
+    }),
     AdminModalsModule
 ]
 
@@ -70,6 +74,10 @@ const providers = [
     SessionService,
     UsersService,
     OrganisationsService,
+    SalepointsService,
+    CarriersService,
+    GoogleMapsAPIWrapper,
+    GMapsService,
     AuthGuard,
     ModalFactoryService,
     ToastFactoryService,

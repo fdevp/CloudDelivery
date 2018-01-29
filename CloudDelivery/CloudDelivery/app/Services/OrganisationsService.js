@@ -16,11 +16,10 @@ var SessionService_1 = require("../Services/SessionService");
 require("rxjs/add/observable/of");
 require("rxjs/Rx");
 var OrganisationsService = /** @class */ (function () {
-    function OrganisationsService(http, sessionServ) {
+    function OrganisationsService(http, sessionService) {
         this.http = http;
-        this.sessionServ = sessionServ;
+        this.sessionService = sessionService;
         this.lista = new Array();
-        this.sessionService = sessionServ;
     }
     OrganisationsService.prototype.refreshList = function () {
     };

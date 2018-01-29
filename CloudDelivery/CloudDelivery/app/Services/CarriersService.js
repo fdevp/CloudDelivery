@@ -15,13 +15,12 @@ var Observable_1 = require("rxjs/Observable");
 var SessionService_1 = require("../Services/SessionService");
 require("rxjs/add/observable/of");
 require("rxjs/Rx");
-var CarrierService = /** @class */ (function () {
-    function CarrierService(http, sessionServ) {
+var CarriersService = /** @class */ (function () {
+    function CarriersService(http, sessionService) {
         this.http = http;
-        this.sessionServ = sessionServ;
-        this.sessionService = sessionServ;
+        this.sessionService = sessionService;
     }
-    CarrierService.prototype.list = function () {
+    CarriersService.prototype.list = function () {
         var _this = this;
         var hdrz = this.sessionService.authHeader();
         return new Observable_1.Observable(function (obs) {
@@ -31,7 +30,7 @@ var CarrierService = /** @class */ (function () {
             }, function (e) { console.error("err", e); });
         });
     };
-    CarrierService.prototype.details = function (userId) {
+    CarriersService.prototype.details = function (userId) {
         var _this = this;
         var headers = this.sessionService.authHeader();
         var url = '/api/carriers/details/' + userId;
@@ -42,7 +41,7 @@ var CarrierService = /** @class */ (function () {
             });
         });
     };
-    CarrierService.prototype.setColor = function (userId, color) {
+    CarriersService.prototype.setColor = function (userId, color) {
         var _this = this;
         var headers = this.sessionService.authHeader();
         headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
@@ -54,11 +53,11 @@ var CarrierService = /** @class */ (function () {
             });
         });
     };
-    CarrierService = __decorate([
+    CarriersService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [http_1.Http, SessionService_1.SessionService])
-    ], CarrierService);
-    return CarrierService;
+    ], CarriersService);
+    return CarriersService;
 }());
-exports.CarrierService = CarrierService;
-//# sourceMappingURL=CarrierService.js.map
+exports.CarriersService = CarriersService;
+//# sourceMappingURL=CarriersService.js.map

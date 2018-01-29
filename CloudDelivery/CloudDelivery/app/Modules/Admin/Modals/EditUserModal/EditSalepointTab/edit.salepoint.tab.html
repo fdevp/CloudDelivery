@@ -1,0 +1,137 @@
+﻿<div *ngIf="dataLoading">
+    ładuje
+</div>
+<div class="form-horizontal" *ngIf="!dataLoading">
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="Name">Adres</label>
+        <div class="col-sm-10 form-control-static" *ngIf="formStates['Address']==elementStateEnum.Text">
+            <span [innerHtml]="model.Address | nullString"></span>
+            <span (click)="setElementState('Address',elementStateEnum.Editable)" class="margin-left-10 btn btn-default btn-xs">
+                <i class="fa fa-pencil"></i>
+            </span>
+        </div>
+        <div class="col-sm-8" *ngIf="formStates['Address']!=elementStateEnum.Text">
+            <div class="col-sm-6 padding-left-0">
+                <input type="text" class="form-control" id="Address" placeholder="Adres" required [(ngModel)]="editModel.Address" [disabled]="formStates['Address']==elementStateEnum.Saving">
+            </div>
+            <div class="col-sm-3 padding-left-0 form-control-static" *ngIf="formStates['Address']==elementStateEnum.Editable">
+                <span class="margin-left-10 btn btn-default btn-xs" (click)="cancelEditing('Address')">
+                    <i class="fa fa-times"></i>
+                </span>
+                <span class="margin-left-5 btn btn-default btn-xs" (click)="changeAddress()">
+                    <i class="fa fa-save"></i>
+                </span>
+            </div>
+            <div class="col-sm-2 padding-left-0 form-control-static" *ngIf="formStates['Address']==elementStateEnum.Saving">
+                <i class="fa fa-fw fa-spinner fa-spin"></i>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="Name">Miejscowość</label>
+        <div class="col-sm-10 form-control-static" *ngIf="formStates['City']==elementStateEnum.Text">
+            <span [innerHtml]="model.City | nullString"></span>
+            <span (click)="setElementState('City',elementStateEnum.Editable)" class="margin-left-10 btn btn-default btn-xs">
+                <i class="fa fa-pencil"></i>
+            </span>
+        </div>
+        <div class="col-sm-8" *ngIf="formStates['City']!=elementStateEnum.Text">
+            <div class="col-sm-6 padding-left-0">
+                <input type="text" class="form-control" id="City" placeholder="Miasto" required [(ngModel)]="editModel.City" [disabled]="formStates['City']==elementStateEnum.Saving">
+            </div>
+            <div class="col-sm-3 padding-left-0 form-control-static" *ngIf="formStates['City']==elementStateEnum.Editable">
+                <span class="margin-left-10 btn btn-default btn-xs" (click)="cancelEditing('City')">
+                    <i class="fa fa-times"></i>
+                </span>
+                <span class="margin-left-5 btn btn-default btn-xs" (click)="changeCity()">
+                    <i class="fa fa-save"></i>
+                </span>
+            </div>
+            <div class="col-sm-2 padding-left-0 form-control-static" *ngIf="formStates['City']==elementStateEnum.Saving">
+                <i class="fa fa-fw fa-spinner fa-spin"></i>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="Name">Kolor</label>
+        <div class="col-sm-10 form-control-static" *ngIf="formStates['Color']==elementStateEnum.Text">
+            <span [innerHtml]="model.Color | nullString"></span>
+            <span (click)="setElementState('Color',elementStateEnum.Editable)" class="margin-left-10 btn btn-default btn-xs">
+                <i class="fa fa-pencil"></i>
+            </span>
+        </div>
+        <div class="col-sm-8" *ngIf="formStates['Color']!=elementStateEnum.Text">
+            <div class="col-sm-6 padding-left-0">
+                <input type="text" class="form-control" id="Color" placeholder="Kolor" required [(ngModel)]="editModel.Color" [disabled]="formStates['Color']==elementStateEnum.Saving">
+            </div>
+            <div class="col-sm-3 padding-left-0 form-control-static" *ngIf="formStates['Color']==elementStateEnum.Editable">
+                <span class="margin-left-10 btn btn-default btn-xs" (click)="cancelEditing('Color')">
+                    <i class="fa fa-times"></i>
+                </span>
+                <span class="margin-left-5 btn btn-default btn-xs" (click)="changeColor()">
+                    <i class="fa fa-save"></i>
+                </span>
+            </div>
+            <div class="col-sm-2 padding-left-0 form-control-static" *ngIf="formStates['Color']==elementStateEnum.Saving">
+                <i class="fa fa-fw fa-spinner fa-spin"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group modal-map-control">
+        <div class="">
+            <div class="col-md-4 padding-right-5">
+                <input type="text" class="form-control" placeholder="Szukaj miejsca.." [(ngModel)]="searchQuery" [disabled]="querySearchProgress">
+            </div>
+            <div class="col-md-1 padding-left-0">
+                <button class="btn btn-default" (click)="findInputLocation()" [disabled]="querySearchProgress">
+                    <span><i class="fa fa-search" *ngIf="!querySearchProgress"></i></span>
+                    <span><i class="fa fa-spinner fa-spin" *ngIf="querySearchProgress"></i></span>
+                </button>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-4 text-right">
+                <button class="btn btn-default" (click)="findAddressLocation()" [disabled]="addressSearchProgress">
+                    <span><i class="fa fa-compass" *ngIf="!addressSearchProgress"></i></span>
+                    <span><i class="fa fa-spinner fa-spin" *ngIf="addressSearchProgress"></i></span>
+                </button>
+                <button class="btn btn-success" (click)="changeLatLng()" [disabled]="formStates['LatLng']==elementStateEnum.Saving">
+                    <span><i class="fa fa-save" *ngIf="formStates['LatLng']!=elementStateEnum.Saving"></i></span>
+                    <span><i class="fa fa-spinner fa-spin" *ngIf="formStates['LatLng']==elementStateEnum.Saving"></i></span>
+                </button>
+            </div>
+        </div>
+        
+    </div>
+    <div class="form-group">
+        <div class="map-modal">
+            <agm-map [latitude]="editModel.LatLng.lat"
+                     [longitude]="editModel.LatLng.lng"
+                     [zoom]="12"
+                     [disableDefaultUI]="false"
+                     [streetViewControl]="false"
+                     [zoomControl]="true">
+
+                <agm-marker [latitude]="editModel.LatLng.lat"
+                            [longitude]="editModel.LatLng.lng"
+                            [markerDraggable]="true"
+                            (dragEnd)="markerDragEnd(m, $event)">
+                </agm-marker> 
+            </agm-map>
+        </div>
+    </div>
+    <div class="form-group modal-map-latlng">
+        <div class="col-md-3 padding-right-0">
+            <input type="number" class="form-control no-spinners" [(ngModel)]="editModel.LatLng.lat">
+        </div>
+        <div class="col-md-3 padding-right-0">
+            <input type="number" class="form-control no-spinners" [(ngModel)]="editModel.LatLng.lng">
+        </div>
+    </div>
+</div>

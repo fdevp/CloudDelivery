@@ -17,10 +17,10 @@
                 <edit-password-tab [model]="details"></edit-password-tab>
             </tab>
             <tab heading="Punkt sprzedaży" *ngIf="isSalepoint()">
-                <edit-salespoint-tab></edit-salespoint-tab>
+                <edit-salepoint-tab [userId]="details.Id"></edit-salepoint-tab>
             </tab>
             <tab heading="Dostawca" *ngIf="isCarrier()">
-                <edit-salespoint-tab></edit-salespoint-tab>
+                <edit-carrier-tab [userId]="details.Id"></edit-carrier-tab>
             </tab>
         </tabset>
     </div>

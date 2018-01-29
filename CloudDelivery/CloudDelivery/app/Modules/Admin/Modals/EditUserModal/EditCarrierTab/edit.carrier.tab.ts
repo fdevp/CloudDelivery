@@ -4,6 +4,8 @@ import { UsersService } from '../../../../../Services/UsersService';
 import { UserDetails } from '../../../../../Models/Users/UserDetails';
 import { ToastFactoryService } from '../../../../../Services/Layout/ToastFactoryService';
 import { FormElementState } from '../../../../../Models/Enums/FormElementState';
+import { Carrier } from '../../../../../Models/Carriers/Carrier';
+import { CarriersService } from '../../../../../Services/CarriersService';
 
 @Component({
     selector: 'edit-carrier-tab',
@@ -12,23 +14,24 @@ import { FormElementState } from '../../../../../Models/Enums/FormElementState';
 
 export class EditCarrierTab implements OnInit  {
     @Input() userId: number;
-    model: any;
-    editModel: any;
+    model: Carrier = new Carrier();
+    editModel: Carrier = new Carrier();
 
     formStates = new Array<FormElementState>();
     elementStateEnum = FormElementState;
 
+    dataLoading: boolean = true;
 
-    constructor(private usersService: UsersService) {
-        this.formStates['Name'] = this.elementStateEnum.Text;
-        this.formStates['Organisation'] = this.elementStateEnum.Text;
-        this.formStates['Roles'] = this.elementStateEnum.Text;
-        this.formStates['Phone'] = this.elementStateEnum.Text;
-        this.formStates['Description'] = this.elementStateEnum.Text;
+    constructor(private carrierService: CarriersService) {
+        this.formStates['Color'] = this.elementStateEnum.Text;
     }
 
     ngOnInit(): void {
-        Object.assign(this.editModel, this.model);
+        this.carrierService.details(this.userId).subscribe(details => {
+            this.model = details;
+            Object.assign(this.editModel, this.model);
+            this.dataLoading = false;
+        }, err => { })
     }
 
     setElementState(element, state: FormElementState) {
@@ -40,6 +43,15 @@ export class EditCarrierTab implements OnInit  {
         this.setElementState(element, this.elementStateEnum.Text);
     }
 
+    changeColor() {
+        this.setElementState("Color", this.elementStateEnum.Saving);
 
+        this.carrierService.setColor(this.userId, this.editModel.Color).subscribe(x => {
+            this.model.Color = this.editModel.Color;
+            this.setElementState("Color", this.elementStateEnum.Text);
+        }, err => {
+            this.cancelEditing("Color");
+        });
+    }
 
 }

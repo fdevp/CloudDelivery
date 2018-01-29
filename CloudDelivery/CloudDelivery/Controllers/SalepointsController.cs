@@ -51,7 +51,7 @@ namespace CloudDelivery.Controllers
         [Route("Details/{userId}")]
         public IHttpActionResult Details(int userId)
         {
-            var salepoint = Mapper.Map<SalepointVM>(salepointsService.GetSalePointById(userId));
+            var salepoint = Mapper.Map<SalepointVM>(salepointsService.GetSalePoint(userId));
             return Ok(salepoint);
         }
 

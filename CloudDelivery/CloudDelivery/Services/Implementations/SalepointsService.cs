@@ -115,7 +115,7 @@ namespace CloudDelivery.Services
             {
                 SalePoint sp = ctx.SalePoints
                                   .Include(x=>x.User)
-                                  .Where(x => x.Id == userId).FirstOrDefault();
+                                  .Where(x => x.UserId == userId).FirstOrDefault();
 
                 if (sp == null)
                     throw new NullReferenceException("Użytkownik nie ma przypisanego punktu sprzedaży.");

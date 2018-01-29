@@ -10,10 +10,8 @@ import 'rxjs/Rx';
 
 @Injectable()
 export class UsersService {
-    private sessionService: SessionService;
+    constructor(private http: Http, private sessionService: SessionService) {
 
-    constructor(private http: Http, private sessionServ: SessionService) {
-        this.sessionService = sessionServ;
     }
 
     create(model: UserEditModel): Observable<number> {

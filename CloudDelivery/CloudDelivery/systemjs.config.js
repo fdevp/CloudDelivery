@@ -30,6 +30,7 @@
             '@swimlane/ngx-datatable': 'npm:@swimlane/ngx-datatable/release/index.js',
             'ngx-bootstrap' : 'npm:ngx-bootstrap/bundles/ngx-bootstrap.umd.js',
             'ngx-toastr': 'npm:ngx-toastr/toastr.umd.js',
+            '@agm/core': 'npm:@agm/core/core.umd.js',
             // other libraries
             'rxjs': 'npm:rxjs',
             'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'

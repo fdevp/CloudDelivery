@@ -16,10 +16,9 @@ var SessionService_1 = require("../Services/SessionService");
 require("rxjs/add/observable/of");
 require("rxjs/Rx");
 var UsersService = /** @class */ (function () {
-    function UsersService(http, sessionServ) {
+    function UsersService(http, sessionService) {
         this.http = http;
-        this.sessionServ = sessionServ;
-        this.sessionService = sessionServ;
+        this.sessionService = sessionService;
     }
     UsersService.prototype.create = function (model) {
         var _this = this;

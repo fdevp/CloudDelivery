@@ -21,6 +21,7 @@ var animations_1 = require("@angular/platform-browser/animations");
 var ngx_toastr_1 = require("ngx-toastr");
 var ngx_bootstrap_1 = require("ngx-bootstrap");
 var ngx_bootstrap_2 = require("ngx-bootstrap");
+var core_2 = require("@agm/core");
 var login_component_1 = require("./Modules/Shared/Login/login.component");
 var ProgressToast_1 = require("./Modules/Shared/Toasts/ProgressToast");
 //import { AddUserModal } from './Entries/Modals/AddUserModal/add.user.modal';
@@ -28,6 +29,9 @@ var ModalFactoryService_1 = require("./Services/Layout/ModalFactoryService");
 var admin_modals_module_1 = require("./Modules/Admin/Modals/admin.modals.module");
 var ConfirmModal_1 = require("./Modules/Shared/Modals/ConfirmModal");
 var ToastFactoryService_1 = require("./Services/Layout/ToastFactoryService");
+var CarriersService_1 = require("./Services/CarriersService");
+var SalepointsService_1 = require("./Services/SalepointsService");
+var GMapsService_1 = require("./Services/GMapsService");
 var pages = [
     app_component_1.AppComponent,
     login_component_1.LoginComponent
@@ -47,6 +51,9 @@ var modules = [
     ngx_toastr_1.ToastrModule.forRoot(),
     ngx_bootstrap_1.ModalModule.forRoot(),
     ngx_bootstrap_2.TabsModule.forRoot(),
+    core_2.AgmCoreModule.forRoot({
+        apiKey: 'AIzaSyCHX0R_iy25XKld2oyehvuVi26teOlXYWE'
+    }),
     admin_modals_module_1.AdminModalsModule
 ];
 var providers = [
@@ -54,6 +61,10 @@ var providers = [
     SessionService_1.SessionService,
     UsersService_1.UsersService,
     OrganisationsService_1.OrganisationsService,
+    SalepointsService_1.SalepointsService,
+    CarriersService_1.CarriersService,
+    core_2.GoogleMapsAPIWrapper,
+    GMapsService_1.GMapsService,
     AuthGuard_1.AuthGuard,
     ModalFactoryService_1.ModalFactoryService,
     ToastFactoryService_1.ToastFactoryService,

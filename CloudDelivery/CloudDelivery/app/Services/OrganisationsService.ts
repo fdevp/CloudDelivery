@@ -16,8 +16,7 @@ export class OrganisationsService {
 
     lista = new Array<OrganisationListItem>();
 
-    constructor(private http: Http, private sessionServ: SessionService) {
-        this.sessionService = sessionServ;
+    constructor(private http: Http, private sessionService: SessionService) {
     }
 
 
@@ -80,6 +79,4 @@ export class OrganisationsService {
             })
         });
     }
-
-    private sessionService: SessionService;
 }

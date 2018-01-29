@@ -10,21 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var UsersService_1 = require("../../../../../Services/UsersService");
 var FormElementState_1 = require("../../../../../Models/Enums/FormElementState");
+var Carrier_1 = require("../../../../../Models/Carriers/Carrier");
+var CarriersService_1 = require("../../../../../Services/CarriersService");
 var EditCarrierTab = /** @class */ (function () {
-    function EditCarrierTab(usersService) {
-        this.usersService = usersService;
+    function EditCarrierTab(carrierService) {
+        this.carrierService = carrierService;
+        this.model = new Carrier_1.Carrier();
+        this.editModel = new Carrier_1.Carrier();
         this.formStates = new Array();
         this.elementStateEnum = FormElementState_1.FormElementState;
-        this.formStates['Name'] = this.elementStateEnum.Text;
-        this.formStates['Organisation'] = this.elementStateEnum.Text;
-        this.formStates['Roles'] = this.elementStateEnum.Text;
-        this.formStates['Phone'] = this.elementStateEnum.Text;
-        this.formStates['Description'] = this.elementStateEnum.Text;
+        this.dataLoading = true;
+        this.formStates['Color'] = this.elementStateEnum.Text;
     }
     EditCarrierTab.prototype.ngOnInit = function () {
-        Object.assign(this.editModel, this.model);
+        var _this = this;
+        this.carrierService.details(this.userId).subscribe(function (details) {
+            _this.model = details;
+            Object.assign(_this.editModel, _this.model);
+            _this.dataLoading = false;
+        }, function (err) { });
     };
     EditCarrierTab.prototype.setElementState = function (element, state) {
         this.formStates[element] = state;
@@ -32,6 +37,16 @@ var EditCarrierTab = /** @class */ (function () {
     EditCarrierTab.prototype.cancelEditing = function (element) {
         this.editModel[element] = this.model[element];
         this.setElementState(element, this.elementStateEnum.Text);
+    };
+    EditCarrierTab.prototype.changeColor = function () {
+        var _this = this;
+        this.setElementState("Color", this.elementStateEnum.Saving);
+        this.carrierService.setColor(this.userId, this.editModel.Color).subscribe(function (x) {
+            _this.model.Color = _this.editModel.Color;
+            _this.setElementState("Color", _this.elementStateEnum.Text);
+        }, function (err) {
+            _this.cancelEditing("Color");
+        });
     };
     __decorate([
         core_1.Input(),
@@ -42,7 +57,7 @@ var EditCarrierTab = /** @class */ (function () {
             selector: 'edit-carrier-tab',
             templateUrl: './edit.carrier.tab.html',
         }),
-        __metadata("design:paramtypes", [UsersService_1.UsersService])
+        __metadata("design:paramtypes", [CarriersService_1.CarriersService])
     ], EditCarrierTab);
     return EditCarrierTab;
 }());

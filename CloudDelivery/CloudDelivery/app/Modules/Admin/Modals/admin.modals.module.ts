@@ -7,7 +7,8 @@ import { TabsModule } from 'ngx-bootstrap'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddUserModal } from './AddUserModal/add.user.modal'
 import { EditUserModal } from './EditUserModal/edit.user.modal'
-import { EditSalespointTab } from './EditUserModal/EditSalesPointTab/edit.salespoint.tab';
+import { EditSalepointTab } from './EditUserModal/EditSalepointTab/edit.salepoint.tab';
+import { EditCarrierTab } from './EditUserModal/EditCarrierTab/edit.carrier.tab';
 import { EditPasswordTab } from './EditUserModal/EditPasswordTab/edit.password.tab';
 import { EditUserTab } from './EditUserModal/EditUserTab/edit.user.tab';
 import { SharedModule } from '../../Shared/shared.module';
@@ -15,7 +16,7 @@ import { AddOrganisationModal } from './AddOrganisationModal/add.organisation.mo
 import { EditOrganisationModal } from './EditOrganisationModal/edit.organisation.modal';
 import { EditOrganisationTab } from './EditOrganisationModal/EditOrgTab/edit.Organisation.tab';
 import { EditOrgUsersTab } from './EditOrganisationModal/EditOrgUsersTab/edit.org.users.tab';
-
+import { AgmCoreModule } from '@agm/core';
 
 const pages = [
     AddUserModal,
@@ -26,8 +27,9 @@ const pages = [
 
 const tabs = [
     EditPasswordTab,
-    EditSalespointTab,
+    EditSalepointTab,
     EditUserTab,
+    EditCarrierTab,
     EditOrganisationTab,
     EditOrgUsersTab
 ];
@@ -37,7 +39,8 @@ const modules = [
     RouterModule,
     FormsModule,
     TabsModule,
-    SharedModule
+    SharedModule,
+    AgmCoreModule
 ];
 
 

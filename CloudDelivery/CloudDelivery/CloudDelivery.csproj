@@ -276,7 +276,7 @@
     <Content Include="app\Modules\Admin\Dashboard\admin.dashboard.component.html" />
     <Content Include="app\Modules\Admin\Modals\EditUserModal\edit.user.modal.html" />
     <Content Include="app\Modules\Admin\Modals\EditUserModal\EditPasswordTab\edit.password.tab.html" />
-    <Content Include="app\Modules\Admin\Modals\EditUserModal\EditSalesPointTab\edit.salespoint.tab.html" />
+    <Content Include="app\Modules\Admin\Modals\EditUserModal\EditSalepointTab\edit.salepoint.tab.html" />
     <Content Include="app\Modules\Admin\Modals\EditUserModal\EditUserTab\edit.user.tab.html" />
     <Content Include="app\Modules\Admin\Organisations\admin.organisations.component.html" />
     <Content Include="app\Modules\Admin\Users\admin.users.component.html" />
@@ -365,6 +365,9 @@
     <TypeScriptCompile Include="app\app.component.ts" />
     <TypeScriptCompile Include="app\app.module.ts" />
     <TypeScriptCompile Include="app\app.routing.ts" />
+    <TypeScriptCompile Include="app\Models\Carriers\Carrier.ts" />
+    <TypeScriptCompile Include="app\Models\GeoPosition.ts" />
+    <TypeScriptCompile Include="app\Models\Salepoints\Salepoint.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\Modals\AddOrganisationModal\add.organisation.modal.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\Modals\EditOrganisationModal\edit.organisation.modal.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\Modals\EditOrganisationModal\EditOrgTab\edit.organisation.tab.ts" />
@@ -387,7 +390,7 @@
     <TypeScriptCompile Include="app\Modules\Admin\Dashboard\admin.dashboard.component.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\Modals\EditUserModal\edit.user.modal.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\Modals\EditUserModal\EditPasswordTab\edit.password.tab.ts" />
-    <TypeScriptCompile Include="app\Modules\Admin\Modals\EditUserModal\EditSalesPointTab\edit.salespoint.tab.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\Modals\EditUserModal\EditSalepointTab\edit.salepoint.tab.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\Modals\EditUserModal\EditUserTab\edit.user.tab.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\Organisations\admin.organisations.component.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\Users\admin.users.component.ts" />
@@ -404,6 +407,7 @@
     <TypeScriptCompile Include="app\Modules\Shared\Pipes\NullStringPipe.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\Pipes\RoleNamePipe.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\shared.module.ts" />
+    <TypeScriptCompile Include="app\Services\GMapsService.ts" />
     <TypeScriptCompile Include="app\Services\Layout\ToastFactoryService.ts" />
     <TypeScriptCompile Include="app\Models\MenuItem.ts" />
     <TypeScriptCompile Include="app\Services\Guards\AdminGuard.ts" />
@@ -411,8 +415,8 @@
     <TypeScriptCompile Include="app\Services\Layout\MenuFactoryService.ts" />
     <TypeScriptCompile Include="app\Services\Layout\ModalFactoryService.ts" />
     <TypeScriptCompile Include="app\Services\OrganisationsService.ts" />
-    <TypeScriptCompile Include="app\Services\CarrierService.ts" />
-    <TypeScriptCompile Include="app\Services\SalepointService.ts" />
+    <TypeScriptCompile Include="app\Services\CarriersService.ts" />
+    <TypeScriptCompile Include="app\Services\SalepointsService.ts" />
     <TypeScriptCompile Include="app\Services\UsersService.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\Models\Session\SessionUser.ts" />
