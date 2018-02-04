@@ -242,6 +242,7 @@
     <Compile Include="Models\Account\AccountBindingModels.cs" />
     <Compile Include="Models\Account\AccountViewModels.cs" />
     <Compile Include="Models\Carriers\CarrierVM.cs" />
+    <Compile Include="Models\Orders\OrderStatus.cs" />
     <Compile Include="Models\Organisations\OrganisationVM.cs" />
     <Compile Include="Models\Salepoints\SalepointVM.cs" />
     <Compile Include="Models\Users\RoleVM.cs" />

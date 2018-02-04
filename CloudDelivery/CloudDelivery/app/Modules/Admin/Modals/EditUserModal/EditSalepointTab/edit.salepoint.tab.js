@@ -28,7 +28,7 @@ var EditSalepointTab = /** @class */ (function () {
         this.addressSearchProgress = false;
         this.formStates['City'] = this.elementStateEnum.Text;
         this.formStates['Address'] = this.elementStateEnum.Text;
-        this.formStates['Color'] = this.elementStateEnum.Text;
+        this.formStates['Marker'] = this.elementStateEnum.Text;
         this.formStates['LatLng'] = this.elementStateEnum.Text;
         this.editModel.LatLng = gmapsService.getBaseLocation();
     }
@@ -75,14 +75,14 @@ var EditSalepointTab = /** @class */ (function () {
             _this.cancelEditing("City");
         });
     };
-    EditSalepointTab.prototype.changeColor = function () {
+    EditSalepointTab.prototype.changeMarker = function () {
         var _this = this;
-        this.setElementState("Color", this.elementStateEnum.Saving);
-        this.salepointsService.setColor(this.userId, this.editModel.Color).subscribe(function (x) {
-            _this.model.Color = _this.editModel.Color;
-            _this.setElementState("Color", _this.elementStateEnum.Text);
+        this.setElementState("Marker", this.elementStateEnum.Saving);
+        this.salepointsService.setColor(this.userId, this.editModel.Marker).subscribe(function (x) {
+            _this.model.Marker = _this.editModel.Marker;
+            _this.setElementState("Marker", _this.elementStateEnum.Text);
         }, function (err) {
-            _this.cancelEditing("Color");
+            _this.cancelEditing("Marker");
         });
     };
     EditSalepointTab.prototype.changeLatLng = function () {

@@ -8,5 +8,5 @@ export class Salepoint {
     City: string;
     Address: string;
     LatLng: GeoPosition;
-    Color: string;
+    Marker: string;
 }

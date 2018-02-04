@@ -99,6 +99,7 @@
     <Compile Include="Entities\Package.cs" />
     <Compile Include="Entities\SalePoint.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Enums\Orders\OrderStatus.cs" />
     <Compile Include="Migrations\201710161620193_InitialMigration.cs" />
     <Compile Include="Migrations\201710161620193_InitialMigration.Designer.cs">
       <DependentUpon>201710161620193_InitialMigration.cs</DependentUpon>
@@ -110,6 +111,10 @@
     <Compile Include="Migrations\201802041103593_ticket78.cs" />
     <Compile Include="Migrations\201802041103593_ticket78.Designer.cs">
       <DependentUpon>201802041103593_ticket78.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802041305122_OrderStatus.cs" />
+    <Compile Include="Migrations\201802041305122_OrderStatus.Designer.cs">
+      <DependentUpon>201802041305122_OrderStatus.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -126,6 +131,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802041103593_ticket78.resx">
       <DependentUpon>201802041103593_ticket78.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802041305122_OrderStatus.resx">
+      <DependentUpon>201802041305122_OrderStatus.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

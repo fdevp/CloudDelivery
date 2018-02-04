@@ -15,6 +15,6 @@ namespace CloudDelivery.Models
 
         public string LatLng { get; set; }
 
-        public string Color { get; set; }
+        public string Marker { get; set; }
     }
 }

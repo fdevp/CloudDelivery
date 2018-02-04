@@ -9,6 +9,6 @@ namespace CloudDelivery.Models
     {
         public int UserId { get; set; }
 
-        public string Color { get; set; }
+        public string Marker { get; set; }
     }
 }

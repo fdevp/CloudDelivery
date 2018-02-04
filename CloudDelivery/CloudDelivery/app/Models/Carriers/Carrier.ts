@@ -1,4 +1,4 @@
 ﻿export class Carrier {
     UserId: number;
-    Color: string;
+    Marker: string;
 }

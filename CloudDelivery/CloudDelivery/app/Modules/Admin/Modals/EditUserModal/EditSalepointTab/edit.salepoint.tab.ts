@@ -38,7 +38,7 @@ export class EditSalepointTab implements OnInit  {
     constructor(private salepointsService: SalepointsService, private gmapsService: GMapsService) {
         this.formStates['City'] = this.elementStateEnum.Text;
         this.formStates['Address'] = this.elementStateEnum.Text;
-        this.formStates['Color'] = this.elementStateEnum.Text;
+        this.formStates['Marker'] = this.elementStateEnum.Text;
         this.formStates['LatLng'] = this.elementStateEnum.Text;
 
         this.editModel.LatLng = gmapsService.getBaseLocation();
@@ -95,14 +95,14 @@ export class EditSalepointTab implements OnInit  {
     }
 
 
-    changeColor() {
-        this.setElementState("Color", this.elementStateEnum.Saving);
+    changeMarker() {
+        this.setElementState("Marker", this.elementStateEnum.Saving);
 
-        this.salepointsService.setColor(this.userId, this.editModel.Color).subscribe(x => {
-            this.model.Color = this.editModel.Color;
-            this.setElementState("Color", this.elementStateEnum.Text);
+        this.salepointsService.setColor(this.userId, this.editModel.Marker).subscribe(x => {
+            this.model.Marker = this.editModel.Marker;
+            this.setElementState("Marker", this.elementStateEnum.Text);
         }, err => {
-            this.cancelEditing("Color");
+            this.cancelEditing("Marker");
         });
     }
 

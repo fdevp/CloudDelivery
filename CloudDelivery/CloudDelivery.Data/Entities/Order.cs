@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CloudDelivery.Models.Orders;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -37,6 +38,8 @@ namespace CloudDelivery.Data.Entities
         public string DestinationAddress { get; set; }
 
         public int Priority { get; set; }
+
+        public OrderStatus Status { get; set; }
 
         public string TraceJSON { get; set; }
 

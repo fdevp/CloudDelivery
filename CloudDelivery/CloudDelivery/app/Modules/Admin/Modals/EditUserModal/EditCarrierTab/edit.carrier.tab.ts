@@ -23,7 +23,7 @@ export class EditCarrierTab implements OnInit  {
     dataLoading: boolean = true;
 
     constructor(private carrierService: CarriersService) {
-        this.formStates['Color'] = this.elementStateEnum.Text;
+        this.formStates['Marker'] = this.elementStateEnum.Text;
     }
 
     ngOnInit(): void {
@@ -43,14 +43,14 @@ export class EditCarrierTab implements OnInit  {
         this.setElementState(element, this.elementStateEnum.Text);
     }
 
-    changeColor() {
-        this.setElementState("Color", this.elementStateEnum.Saving);
+    changeMarker() {
+        this.setElementState("Marker", this.elementStateEnum.Saving);
 
-        this.carrierService.setColor(this.userId, this.editModel.Color).subscribe(x => {
-            this.model.Color = this.editModel.Color;
-            this.setElementState("Color", this.elementStateEnum.Text);
+        this.carrierService.setColor(this.userId, this.editModel.Marker).subscribe(x => {
+            this.model.Marker = this.editModel.Marker;
+            this.setElementState("Marker", this.elementStateEnum.Text);
         }, err => {
-            this.cancelEditing("Color");
+            this.cancelEditing("Marker");
         });
     }
 

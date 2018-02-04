@@ -21,7 +21,7 @@ var EditCarrierTab = /** @class */ (function () {
         this.formStates = new Array();
         this.elementStateEnum = FormElementState_1.FormElementState;
         this.dataLoading = true;
-        this.formStates['Color'] = this.elementStateEnum.Text;
+        this.formStates['Marker'] = this.elementStateEnum.Text;
     }
     EditCarrierTab.prototype.ngOnInit = function () {
         var _this = this;
@@ -38,14 +38,14 @@ var EditCarrierTab = /** @class */ (function () {
         this.editModel[element] = this.model[element];
         this.setElementState(element, this.elementStateEnum.Text);
     };
-    EditCarrierTab.prototype.changeColor = function () {
+    EditCarrierTab.prototype.changeMarker = function () {
         var _this = this;
-        this.setElementState("Color", this.elementStateEnum.Saving);
-        this.carrierService.setColor(this.userId, this.editModel.Color).subscribe(function (x) {
-            _this.model.Color = _this.editModel.Color;
-            _this.setElementState("Color", _this.elementStateEnum.Text);
+        this.setElementState("Marker", this.elementStateEnum.Saving);
+        this.carrierService.setColor(this.userId, this.editModel.Marker).subscribe(function (x) {
+            _this.model.Marker = _this.editModel.Marker;
+            _this.setElementState("Marker", _this.elementStateEnum.Text);
         }, function (err) {
-            _this.cancelEditing("Color");
+            _this.cancelEditing("Marker");
         });
     };
     __decorate([
