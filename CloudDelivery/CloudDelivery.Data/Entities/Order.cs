@@ -26,13 +26,19 @@ namespace CloudDelivery.Data.Entities
 
         public DateTime? RequiredPickUpTime { get; set; }
 
-        public DateTime? RequiredDeliveryTime { get; set; }
-
         public DateTime? FinalPickUpTime { get; set; }
 
         public DateTime? FinalDeliveryTime { get; set; }
         
         public string StartLatLng { get; set; }
+
+        public string DestinationCity { get; set; }
+        
+        public string DestinationAddress { get; set; }
+
+        public int Priority { get; set; }
+
+        public string TraceJSON { get; set; }
 
         public string EndLatLng { get; set; }
 

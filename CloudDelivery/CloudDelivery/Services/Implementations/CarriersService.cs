@@ -46,7 +46,7 @@ namespace CloudDelivery.Services
                 if (carrier == null)
                     throw new NullReferenceException("Nie znaleziono dostawcy");
 
-                carrier.Color = color;
+                carrier.Marker = color;
                 ctx.SaveChanges();
             }
         }

@@ -14,6 +14,6 @@ namespace CloudDelivery.Data.Entities
 
         public virtual User User { get; set; }
     
-        public string Color { get; set; }
+        public string Marker { get; set; }
     }
 }

@@ -56,7 +56,7 @@ namespace CloudDelivery.Services.Tests
         {
             var carrier = ctx.Carriers.FirstOrDefault();
             this.carriersService.SetColor(carrier.UserId.Value, "red");
-            Assert.AreEqual("red", carrier.Color);
+            Assert.AreEqual("red", carrier.Marker);
         }
 
         [TestMethod()]

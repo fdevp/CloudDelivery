@@ -57,7 +57,7 @@ namespace CloudDelivery.Services
                 if (sp == null)
                     throw new NullReferenceException("Nie znaleziono punktu sprzedaży");
 
-                sp.Color = color;
+                sp.Marker = color;
 
                 ctx.SaveChanges();
             }

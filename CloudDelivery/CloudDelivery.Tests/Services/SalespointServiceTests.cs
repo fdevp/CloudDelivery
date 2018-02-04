@@ -47,7 +47,7 @@ namespace CloudDelivery.Services.Tests
         {
             var salepoint = ctx.SalePoints.FirstOrDefault();
             this.salespointsService.SetColor(salepoint.UserId.Value, "red");
-            Assert.AreEqual("red", salepoint.Color);
+            Assert.AreEqual("red", salepoint.Marker);
         }
 
         [TestMethod()]
