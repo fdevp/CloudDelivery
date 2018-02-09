@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CloudDelivery.Data.Entities;
 using CloudDelivery.Models;
 using CloudDelivery.Services;
 using System;
@@ -28,13 +29,13 @@ namespace CloudDelivery.Controllers
         [Route("List")]
         public IHttpActionResult List()
         {
-            var vmList = Mapper.Map<List<OrganisationVM>>(organisationsService.GetOrganisationsList());
-            foreach(var org in vmList)
+            List<OrganisationVM> orgVMList = Mapper.Map<List<OrganisationVM>>(organisationsService.GetOrganisationsList());
+            foreach(OrganisationVM org in orgVMList)
             {
                 org.MembersNumber = organisationsService.GetMembersNumber(org.Id);
             }
 
-            return Ok(vmList);
+            return Ok(orgVMList);
         }
 
         [HttpPost]
@@ -71,9 +72,9 @@ namespace CloudDelivery.Controllers
         [Route("Members/{id}")]
         public IHttpActionResult Members(int id)
         {
-            var list = organisationsService.GetMembersList(id);
-            var vmList = Mapper.Map<List<UserListVM>>(list);
-            foreach(var item in vmList)
+            List<User> list = organisationsService.GetMembersList(id);
+            List<UserListVM> vmList = Mapper.Map<List<UserListVM>>(list);
+            foreach(UserListVM item in vmList)
             {
                 item.Roles = this.usersService.GetUserRolesString(item.Id);
             }

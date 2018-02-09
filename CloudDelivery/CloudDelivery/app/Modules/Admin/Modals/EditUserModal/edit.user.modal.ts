@@ -55,7 +55,7 @@ export class EditUserModal {
         return this.details != null && this.details.Roles.indexOf("carrier") > -1;
     }
 
-    isSalepoint(): boolean {
+    isSalePoint(): boolean {
         return this.details != null && this.details.Roles.indexOf("salepoint") > -1;
     }
 

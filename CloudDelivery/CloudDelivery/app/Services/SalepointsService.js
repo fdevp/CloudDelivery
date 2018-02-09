@@ -15,25 +15,25 @@ var Observable_1 = require("rxjs/Observable");
 var SessionService_1 = require("../Services/SessionService");
 require("rxjs/add/observable/of");
 require("rxjs/Rx");
-var SalepointsService = /** @class */ (function () {
-    function SalepointsService(http, sessionService) {
+var SalePointsService = /** @class */ (function () {
+    function SalePointsService(http, sessionService) {
         this.http = http;
         this.sessionService = sessionService;
     }
-    SalepointsService.prototype.list = function () {
+    SalePointsService.prototype.list = function () {
         var _this = this;
         var hdrz = this.sessionService.authHeader();
         return new Observable_1.Observable(function (obs) {
-            return _this.http.get('/api/Salepoints/list', { headers: hdrz }).subscribe(function (data) {
+            return _this.http.get('/api/SalePoints/list', { headers: hdrz }).subscribe(function (data) {
                 var body = JSON.parse(data["_body"]);
                 obs.next(body);
             }, function (e) { console.error("err", e); });
         });
     };
-    SalepointsService.prototype.listOrg = function (orgId) {
+    SalePointsService.prototype.listOrg = function (orgId) {
         var _this = this;
         var headers = this.sessionService.authHeader();
-        var url = '/api/Salepoints/details/' + orgId;
+        var url = '/api/SalePoints/details/' + orgId;
         return new Observable_1.Observable(function (obs) {
             return _this.http.get(url, { headers: headers }).subscribe(function (data) {
                 var body = JSON.parse(data["_body"]);
@@ -41,10 +41,10 @@ var SalepointsService = /** @class */ (function () {
             });
         });
     };
-    SalepointsService.prototype.details = function (userId) {
+    SalePointsService.prototype.details = function (userId) {
         var _this = this;
         var headers = this.sessionService.authHeader();
-        var url = '/api/Salepoints/details/' + userId;
+        var url = '/api/SalePoints/details/' + userId;
         return new Observable_1.Observable(function (obs) {
             return _this.http.get(url, { headers: headers }).subscribe(function (data) {
                 var sp = JSON.parse(data["_body"]);
@@ -52,60 +52,60 @@ var SalepointsService = /** @class */ (function () {
             });
         });
     };
-    SalepointsService.prototype.setCity = function (userId, city) {
+    SalePointsService.prototype.setCity = function (userId, city) {
         var _this = this;
         var headers = this.sessionService.authHeader();
         headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
         var body = "=" + city;
-        var url = '/api/Salepoints/city/' + userId;
+        var url = '/api/SalePoints/city/' + userId;
         return new Observable_1.Observable(function (obs) {
             return _this.http.put(url, body, { headers: headers }).subscribe(function (data) {
                 obs.next(true);
             });
         });
     };
-    SalepointsService.prototype.setAddress = function (userId, address) {
+    SalePointsService.prototype.setAddress = function (userId, address) {
         var _this = this;
         var headers = this.sessionService.authHeader();
         headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
         var body = "=" + address;
-        var url = '/api/Salepoints/address/' + userId;
+        var url = '/api/SalePoints/address/' + userId;
         return new Observable_1.Observable(function (obs) {
             return _this.http.put(url, body, { headers: headers }).subscribe(function (data) {
                 obs.next(true);
             });
         });
     };
-    SalepointsService.prototype.setLatLng = function (userId, latlng) {
+    SalePointsService.prototype.setLatLng = function (userId, latlng) {
         var _this = this;
         var headers = this.sessionService.authHeader();
         headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
         var body = "=" + JSON.stringify(latlng);
         ;
-        var url = '/api/Salepoints/latlng/' + userId;
+        var url = '/api/SalePoints/latlng/' + userId;
         return new Observable_1.Observable(function (obs) {
             return _this.http.put(url, body, { headers: headers }).subscribe(function (data) {
                 obs.next(true);
             });
         });
     };
-    SalepointsService.prototype.setColor = function (userId, color) {
+    SalePointsService.prototype.setColor = function (userId, color) {
         var _this = this;
         var headers = this.sessionService.authHeader();
         headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
         var body = "=" + color;
-        var url = '/api/Salepoints/color/' + userId;
+        var url = '/api/SalePoints/color/' + userId;
         return new Observable_1.Observable(function (obs) {
             return _this.http.put(url, body, { headers: headers }).subscribe(function (data) {
                 obs.next(true);
             });
         });
     };
-    SalepointsService = __decorate([
+    SalePointsService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [http_1.Http, SessionService_1.SessionService])
-    ], SalepointsService);
-    return SalepointsService;
+    ], SalePointsService);
+    return SalePointsService;
 }());
-exports.SalepointsService = SalepointsService;
-//# sourceMappingURL=SalepointsService.js.map
+exports.SalePointsService = SalePointsService;
+//# sourceMappingURL=SalePointsService.js.map

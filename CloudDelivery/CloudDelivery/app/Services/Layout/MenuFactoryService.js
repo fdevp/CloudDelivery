@@ -87,7 +87,7 @@ var MenuFactoryService = /** @class */ (function () {
                 'link': ['/', '/home']
             }
         ];
-        this.salePointMenu = [
+        this.SalePointMenu = [
             {
                 'title': 'Panel',
                 'icon': null,
@@ -128,7 +128,7 @@ var MenuFactoryService = /** @class */ (function () {
         else if (this.sessionService.hasRole("organisation"))
             return this.organisationMenu;
         else if (this.sessionService.hasRole("salepoint"))
-            return this.salePointMenu;
+            return this.SalePointMenu;
     };
     MenuFactoryService = __decorate([
         core_1.Injectable(),

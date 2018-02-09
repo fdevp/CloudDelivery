@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CloudDelivery.Data.Entities;
 using CloudDelivery.Models;
 using CloudDelivery.Services;
 using System;
@@ -28,7 +29,7 @@ namespace CloudDelivery.Controllers
         [Route("List")]
         public IHttpActionResult List()
         {
-            var dbList = carriersService.GetCarriers();
+            List<Carrier> dbList = carriersService.GetCarriers();
             List<CarrierVM> carrierVmList = Mapper.Map<List<CarrierVM>>(dbList);
             return Ok(carrierVmList);
         }
@@ -38,7 +39,7 @@ namespace CloudDelivery.Controllers
         [Route("Details/{userId}")]
         public IHttpActionResult Details(int userId)
         {
-            var carrier = Mapper.Map<CarrierVM>(carriersService.GetCarrier(userId));
+            CarrierVM carrier = Mapper.Map<CarrierVM>(carriersService.GetCarrier(userId));
             return Ok(carrier);
         }
 

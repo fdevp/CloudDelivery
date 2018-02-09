@@ -68,8 +68,8 @@
     <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
@@ -236,13 +236,23 @@
     <Compile Include="Controllers\OrganisationsController.cs" />
     <Compile Include="Controllers\SalepointsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\AccountBindingModels.cs" />
     <Compile Include="Models\Account\AccountViewModels.cs" />
     <Compile Include="Models\Carriers\CarrierVM.cs" />
-    <Compile Include="Models\Orders\OrderStatus.cs" />
+    <Compile Include="Models\GeoPosition.cs" />
+    <Compile Include="Models\GoogleApis\DirectionsResponse.cs" />
+    <Compile Include="Models\GoogleApis\DistanceMatrixResponse.cs" />
+    <Compile Include="Models\GoogleApis\GeocodeResponse.cs" />
+    <Compile Include="Models\GoogleApis\GoogleSharedClasses.cs" />
+    <Compile Include="Models\Orders\ApproximateTrace.cs" />
+    <Compile Include="Models\TraceProperties.cs" />
+    <Compile Include="Models\Orders\OrderEditModel.cs" />
+    <Compile Include="Models\Orders\OrderFiltersModel.cs" />
+    <Compile Include="Models\Orders\OrderTrace.cs" />
     <Compile Include="Models\Organisations\OrganisationVM.cs" />
     <Compile Include="Models\Salepoints\SalepointVM.cs" />
     <Compile Include="Models\Users\RoleVM.cs" />
@@ -250,16 +260,22 @@
     <Compile Include="Models\Users\UserVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ICacheProvider.cs" />
+    <Compile Include="Providers\IGMapsProvider.cs" />
+    <Compile Include="Providers\IHttpProvider.cs" />
     <Compile Include="Providers\Implementations\ApplicationOAuthProvider.cs" />
     <Compile Include="Providers\Implementations\CacheProvider.cs" />
+    <Compile Include="Providers\Implementations\GMapsProvider.cs" />
+    <Compile Include="Providers\Implementations\HttpProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Services\IAuthorizationService.cs" />
     <Compile Include="Services\ICarriersService.cs" />
     <Compile Include="Services\Implementations\AuthorizationService.cs" />
     <Compile Include="Services\Implementations\CarriersService.cs" />
+    <Compile Include="Services\Implementations\OrdersService.cs" />
     <Compile Include="Services\Implementations\OrganisationsService.cs" />
     <Compile Include="Services\Implementations\SalepointsService.cs" />
     <Compile Include="Services\Implementations\UsersService.cs" />
+    <Compile Include="Services\IOrdersService.cs" />
     <Compile Include="Services\IOrganisationsService.cs" />
     <Compile Include="Services\ISalepointsService.cs" />
     <Compile Include="Services\IUsersService.cs" />
@@ -335,7 +351,6 @@
   <ItemGroup>
     <Folder Include="app\Modules\OrganisationOwner\" />
     <Folder Include="app\Modules\SalePoint\" />
-    <Folder Include="App_Data\" />
     <Folder Include="Views\Organisations\" />
   </ItemGroup>
   <ItemGroup>

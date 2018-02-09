@@ -53,7 +53,7 @@ var EditUserModal = /** @class */ (function () {
     EditUserModal.prototype.isCarrier = function () {
         return this.details != null && this.details.Roles.indexOf("carrier") > -1;
     };
-    EditUserModal.prototype.isSalepoint = function () {
+    EditUserModal.prototype.isSalePoint = function () {
         return this.details != null && this.details.Roles.indexOf("salepoint") > -1;
     };
     EditUserModal.prototype.closeModal = function () {

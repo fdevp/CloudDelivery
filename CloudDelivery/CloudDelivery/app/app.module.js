@@ -30,7 +30,7 @@ var admin_modals_module_1 = require("./Modules/Admin/Modals/admin.modals.module"
 var ConfirmModal_1 = require("./Modules/Shared/Modals/ConfirmModal");
 var ToastFactoryService_1 = require("./Services/Layout/ToastFactoryService");
 var CarriersService_1 = require("./Services/CarriersService");
-var SalepointsService_1 = require("./Services/SalepointsService");
+var SalePointsService_1 = require("./Services/SalePointsService");
 var GMapsService_1 = require("./Services/GMapsService");
 var pages = [
     app_component_1.AppComponent,
@@ -61,7 +61,7 @@ var providers = [
     SessionService_1.SessionService,
     UsersService_1.UsersService,
     OrganisationsService_1.OrganisationsService,
-    SalepointsService_1.SalepointsService,
+    SalePointsService_1.SalePointsService,
     CarriersService_1.CarriersService,
     core_2.GoogleMapsAPIWrapper,
     GMapsService_1.GMapsService,

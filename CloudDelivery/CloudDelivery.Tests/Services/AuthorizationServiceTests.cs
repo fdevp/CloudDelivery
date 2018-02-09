@@ -1,4 +1,5 @@
 ﻿using CloudDelivery.Data;
+using CloudDelivery.Data.Entities;
 using CloudDelivery.Providers;
 using CloudDelivery.Services;
 using CloudDelivery.Tests.Initialize;
@@ -21,7 +22,7 @@ namespace CloudDelivery.Tests.Services
 
         public AuthorizationServiceTests()
         {
-            var ctxFactory = DatabaseMocksFactory.GetCtxFactoryMock().Object;
+            ICDContextFactory ctxFactory = DatabaseMocksFactory.GetCtxFactoryMock().Object;
             var cache = new CacheProvider();
             ctx = ctxFactory.GetContext();
             authService = new AuthorizationService(cache, ctxFactory);
@@ -31,7 +32,7 @@ namespace CloudDelivery.Tests.Services
         [TestMethod()]
         public void IsUserInOrg_ShouldCheckIsUserInOrgByUserId()
         {
-            var user = usersService.GetUsersList().FirstOrDefault();
+            User user = usersService.GetUsersList().FirstOrDefault();
             usersService.SetOrganisation(user.Id, 1);
             Assert.IsTrue(authService.IsUserInOrg(user.Id, 1));
         }
@@ -39,7 +40,7 @@ namespace CloudDelivery.Tests.Services
         [TestMethod()]
         public void IsUserInOrg_ShouldCheckIsUserInOrgByIdentityId()
         {
-            var user = usersService.GetUsersList().FirstOrDefault();
+            User user = usersService.GetUsersList().FirstOrDefault();
             usersService.SetOrganisation(user.Id, 1);
             Assert.IsTrue(authService.IsUserInOrg(user.IdentityId, 1));
         }
@@ -47,15 +48,15 @@ namespace CloudDelivery.Tests.Services
         [TestMethod()]
         public void UserIsSalePoint_ShouldCheckUserIsSalePointById()
         {
-            var sp = ctx.SalePoints.FirstOrDefault();
+            SalePoint sp = ctx.SalePoints.FirstOrDefault();
             Assert.IsTrue(authService.UserIsSalePoint(sp.UserId.Value, sp.Id));
         }
 
         [TestMethod()]
         public void UserIsSalePoint_ShouldCheckUserIsSalePointByIdentity()
         {
-            var sp = ctx.SalePoints.FirstOrDefault();
-            var user = ctx.UserData.FirstOrDefault();
+            SalePoint sp = ctx.SalePoints.FirstOrDefault();
+            User user = ctx.UserData.FirstOrDefault();
             user.AspNetUser = ctx.Users.Where(x => x.Id == user.IdentityId).FirstOrDefault();
             sp.User = user;
 
@@ -65,15 +66,15 @@ namespace CloudDelivery.Tests.Services
         [TestMethod()]
         public void UserIsCarrier_ShouldCheckUserIsCarrierById()
         {
-            var carrier = ctx.Carriers.FirstOrDefault();
+            Carrier carrier = ctx.Carriers.FirstOrDefault();
             Assert.IsTrue(authService.UserIsCarrier(carrier.UserId.Value, carrier.Id));
         }
 
         [TestMethod()]
         public void UserIsCarrier_ShouldCheckUserIsCarrierByIdentity()
         {
-            var carrier = ctx.Carriers.FirstOrDefault();
-            var user = ctx.UserData.FirstOrDefault();
+            Carrier carrier = ctx.Carriers.FirstOrDefault();
+            User user = ctx.UserData.FirstOrDefault();
             user.AspNetUser = ctx.Users.Where(x => x.Id == user.IdentityId).FirstOrDefault();
             carrier.User = user;
 
@@ -84,7 +85,7 @@ namespace CloudDelivery.Tests.Services
         [TestMethod()]
         public void GetUserId_ShouldReturnUserId()
         {
-            var user = ctx.UserData.FirstOrDefault();
+            User user = ctx.UserData.FirstOrDefault();
             Assert.AreEqual(user.Id, authService.GetUserId(user.IdentityId));
         }
 
@@ -92,7 +93,7 @@ namespace CloudDelivery.Tests.Services
         [TestMethod()]
         public void GetUserOrganisationId_ShouldReturnUserOrganisationIdById()
         {
-            var user = ctx.UserData.FirstOrDefault();
+            User user = ctx.UserData.FirstOrDefault();
             usersService.SetOrganisation(user.Id, 1);
             Assert.AreEqual(1, authService.GetUserOrganisationId(user.IdentityId));
         }
@@ -102,7 +103,7 @@ namespace CloudDelivery.Tests.Services
         [TestMethod()]
         public void GetUserOrganisationId_ShouldReturnUserOrganisationIdByIdentity()
         {
-            var user = ctx.UserData.FirstOrDefault();
+            User user = ctx.UserData.FirstOrDefault();
             usersService.SetOrganisation(user.Id, 1);
             Assert.AreEqual(1, authService.GetUserOrganisationId(user.Id));
         }

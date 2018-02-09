@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace CloudDelivery.Models.Orders
+namespace CloudDelivery.Data.Enums
 {
     public enum OrderStatus : int
     {

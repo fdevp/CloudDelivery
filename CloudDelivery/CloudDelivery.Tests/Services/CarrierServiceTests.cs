@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using CloudDelivery.Data;
 using CloudDelivery.Tests.Initialize;
 using CloudDelivery.Providers;
+using CloudDelivery.Data.Entities;
 
 namespace CloudDelivery.Services.Tests
 {
@@ -20,19 +21,20 @@ namespace CloudDelivery.Services.Tests
 
         public CarrierServiceTests()
         {
-            var ctxFactory = DatabaseMocksFactory.GetCtxFactoryMock().Object;
+            ICDContextFactory ctxFactory = DatabaseMocksFactory.GetCtxFactoryMock().Object;
             var cache = new CacheProvider();
             ctx = ctxFactory.GetContext();
             carriersService = new CarriersService(cache, ctxFactory);
             usersService = new UsersService(cache, ctxFactory);
         }
 
+
         [TestMethod()]
         public void SetCarrier_ShouldSetCarrierForUser()
         {
             int userId = this.usersService.AddUser("test1", "test1", null);
             this.carriersService.SetCarrier(userId);
-            var carrier = ctx.Carriers.Where(x => x.UserId == userId).FirstOrDefault();
+            Carrier carrier = ctx.Carriers.Where(x => x.UserId == userId).FirstOrDefault();
             Assert.IsNotNull(carrier);
         }
 
@@ -40,8 +42,8 @@ namespace CloudDelivery.Services.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void SetCarrier_ShouldThrowArgumentException()
         {
-            var user = this.ctx.UserData.FirstOrDefault();
-            this.carriersService.SetCarrier(user.Id);
+            Carrier carrier = this.ctx.Carriers.FirstOrDefault();
+            this.carriersService.SetCarrier(carrier.UserId.Value);
         }
 
         [TestMethod()]
@@ -54,7 +56,7 @@ namespace CloudDelivery.Services.Tests
         [TestMethod()]
         public void SetColor_ShouldSetColor()
         {
-            var carrier = ctx.Carriers.FirstOrDefault();
+            Carrier carrier = ctx.Carriers.FirstOrDefault();
             this.carriersService.SetColor(carrier.UserId.Value, "red");
             Assert.AreEqual("red", carrier.Marker);
         }
@@ -62,7 +64,7 @@ namespace CloudDelivery.Services.Tests
         [TestMethod()]
         public void RemoveCarrier_ShouldRemoveCarrier()
         {
-            var carrier = this.ctx.Carriers.FirstOrDefault();
+            Carrier carrier = this.ctx.Carriers.FirstOrDefault();
             this.carriersService.RemoveCarrier(carrier.UserId.Value);
             Assert.IsFalse(ctx.Carriers.Any(x => x.Id == carrier.Id));
         }
@@ -77,8 +79,8 @@ namespace CloudDelivery.Services.Tests
         [TestMethod()]
         public void GetCarrierById_ShouldReturnCarrier()
         {
-            var carrier = ctx.Carriers.FirstOrDefault();
-            var getCarrier = this.carriersService.GetCarrierById(carrier.Id);
+            Carrier carrier = ctx.Carriers.FirstOrDefault();
+            Carrier getCarrier = this.carriersService.GetCarrierById(carrier.Id);
             Assert.AreEqual(carrier, getCarrier);
         }
 
@@ -99,8 +101,8 @@ namespace CloudDelivery.Services.Tests
         [TestMethod()]
         public void GetCarrier_ShouldReturnCarrier()
         {
-            var carrier = ctx.Carriers.FirstOrDefault();
-            var getCarrier = this.carriersService.GetCarrier(carrier.UserId.Value);
+            Carrier carrier = ctx.Carriers.FirstOrDefault();
+            Carrier getCarrier = this.carriersService.GetCarrier(carrier.UserId.Value);
             Assert.AreEqual(carrier, getCarrier);
         }
 
@@ -116,7 +118,7 @@ namespace CloudDelivery.Services.Tests
         [ExpectedException(typeof(NullReferenceException))]
         public void GetCarrier_ShouldThrowCarrierNullException()
         {
-            var carrier = ctx.Carriers.FirstOrDefault();
+            Carrier carrier = ctx.Carriers.FirstOrDefault();
             this.carriersService.RemoveCarrier(carrier.Id);
             this.carriersService.GetCarrier(carrier.UserId.Value);
         }

@@ -36,7 +36,7 @@ import { EditUserModal } from './Modules/Admin/Modals/EditUserModal/edit.user.mo
 import { SharedModule } from './Modules/Shared/shared.module';
 import { ToastFactoryService } from './Services/Layout/ToastFactoryService';
 import { CarriersService } from './Services/CarriersService';
-import { SalepointsService } from './Services/SalepointsService';
+import { SalePointsService } from './Services/SalePointsService';
 import { GMapsService } from './Services/GMapsService';
 
 const pages = [
@@ -74,7 +74,7 @@ const providers = [
     SessionService,
     UsersService,
     OrganisationsService,
-    SalepointsService,
+    SalePointsService,
     CarriersService,
     GoogleMapsAPIWrapper,
     GMapsService,

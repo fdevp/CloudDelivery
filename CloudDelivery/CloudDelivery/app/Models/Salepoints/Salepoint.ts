@@ -1,6 +1,6 @@
 ﻿import { GeoPosition } from "../GeoPosition";
 
-export class Salepoint {
+export class SalePoint {
     constructor() {
         this.LatLng = new GeoPosition();
     }

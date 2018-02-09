@@ -21,7 +21,7 @@ namespace CloudDelivery.Services
         {
             Organisation newOrganisation = new Organisation { Name = name };
 
-            using (var ctx = this.ctxFactory.GetContext())
+            using (ICDContext ctx = this.ctxFactory.GetContext())
             {
                 ctx.Organisations.Add(newOrganisation);
                 ctx.SaveChanges();
@@ -31,9 +31,9 @@ namespace CloudDelivery.Services
 
         public Organisation GetUserOrganisation(int userId)
         {
-            using (var ctx = this.ctxFactory.GetContext())
+            using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                var user = ctx.UserData.Where(x => x.Id == userId).FirstOrDefault();
+                User user = ctx.UserData.Where(x => x.Id == userId).FirstOrDefault();
 
                 if (user == null)
                     throw new NullReferenceException("Nie znaleziono użytkownika.");
@@ -47,7 +47,7 @@ namespace CloudDelivery.Services
 
         public List<Organisation> GetOrganisationsList()
         {
-            using (var ctx = this.ctxFactory.GetContext())
+            using (ICDContext ctx = this.ctxFactory.GetContext())
             {
                 return ctx.Organisations.ToList();
             }
@@ -55,9 +55,9 @@ namespace CloudDelivery.Services
 
         public int GetMembersNumber(int organisationId)
         {
-            using (var ctx = this.ctxFactory.GetContext())
+            using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                var organisation = ctx.Organisations.Where(x => x.Id == organisationId).FirstOrDefault();
+                Organisation organisation = ctx.Organisations.Where(x => x.Id == organisationId).FirstOrDefault();
 
                 if (organisation == null)
                     throw new NullReferenceException("Nie znaleziono organizacji");
@@ -68,9 +68,9 @@ namespace CloudDelivery.Services
 
         public List<User> GetMembersList(int organisationId)
         {
-            using (var ctx = this.ctxFactory.GetContext())
+            using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                var organisation = ctx.Organisations.Where(x => x.Id == organisationId).FirstOrDefault();
+                Organisation organisation = ctx.Organisations.Where(x => x.Id == organisationId).FirstOrDefault();
 
                 if (organisation == null)
                     throw new NullReferenceException("Nie znaleziono organizacji");
@@ -86,9 +86,9 @@ namespace CloudDelivery.Services
 
         public void RemoveMember(int userId)
         {
-            using (var ctx = this.ctxFactory.GetContext())
+            using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                var user = ctx.UserData.Where(x => x.Id == userId).FirstOrDefault();
+                User user = ctx.UserData.Where(x => x.Id == userId).FirstOrDefault();
 
                 if (user == null)
                     throw new NullReferenceException("Nie znaleziono użytkownika.");
@@ -105,9 +105,9 @@ namespace CloudDelivery.Services
         public void RemoveOrganisation(int id)
         {
 
-            using (var ctx = this.ctxFactory.GetContext())
+            using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                var organisation = ctx.Organisations.Where(x => x.Id == id).FirstOrDefault();
+                Organisation organisation = ctx.Organisations.Where(x => x.Id == id).FirstOrDefault();
 
                 if (organisation == null)
                     throw new NullReferenceException("Nie znaleziono organizacji");

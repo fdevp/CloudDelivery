@@ -16,7 +16,7 @@
             <tab heading="Hasło">
                 <edit-password-tab [model]="details"></edit-password-tab>
             </tab>
-            <tab heading="Punkt sprzedaży" *ngIf="isSalepoint()">
+            <tab heading="Punkt sprzedaży" *ngIf="isSalePoint()">
                 <edit-salepoint-tab [userId]="details.Id"></edit-salepoint-tab>
             </tab>
             <tab heading="Dostawca" *ngIf="isCarrier()">

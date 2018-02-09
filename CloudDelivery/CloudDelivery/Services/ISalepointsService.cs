@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace CloudDelivery.Services
 {
-    public interface ISalepointsService
+    public interface ISalePointsService
     {
         /// <summary>
-        /// set Salepoint entity for user
+        /// set SalePoint entity for user
         /// </summary>
         /// <param name="userId"></param>
-        /// <returns>salepoint entity id</returns>
-        int SetSalepoint(int userId);
+        /// <returns>SalePoint entity id</returns>
+        int SetSalePoint(int userId);
 
         SalePoint GetSalePoint(int userId);
 
@@ -24,7 +24,7 @@ namespace CloudDelivery.Services
 
         List<SalePoint> GetOrganisationSalePoints(int organisationId);
 
-        void RemoveSalepoint(int userId);
+        void RemoveSalePoint(int userId);
 
         void SetCity(int userId, string city);
 

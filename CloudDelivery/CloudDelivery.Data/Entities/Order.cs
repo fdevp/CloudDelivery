@@ -1,4 +1,4 @@
-﻿using CloudDelivery.Models.Orders;
+﻿using CloudDelivery.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,7 +11,7 @@ namespace CloudDelivery.Data.Entities
     public class Order : BaseModel<int>
     {
         [ForeignKey("Carrier")]
-        public int CarrierId { get; set; }
+        public int? CarrierId { get; set; }
 
         public virtual Carrier Carrier { get; set; }
 
@@ -25,11 +25,17 @@ namespace CloudDelivery.Data.Entities
 
         public virtual Package Package { get; set; }
 
+        public DateTime? AddedTime { get; set; }
+
+        public DateTime? AcceptedTime { get; set; }
+
+        public DateTime? CancellationTime { get; set; }
+
         public DateTime? RequiredPickUpTime { get; set; }
 
-        public DateTime? FinalPickUpTime { get; set; }
+        public DateTime? PickUpTime { get; set; }
 
-        public DateTime? FinalDeliveryTime { get; set; }
+        public DateTime? DeliveredTime { get; set; } 
         
         public string StartLatLng { get; set; }
 

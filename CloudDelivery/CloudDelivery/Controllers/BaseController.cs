@@ -21,7 +21,7 @@ namespace CloudDelivery.Controllers
             if (authService.GetUserId(this.User.Identity.GetUserId()) == targetUserId || this.IsAdmin())
                 return true;
 
-            var orgId = authService.GetUserOrganisationId(targetUserId);
+            int? orgId = authService.GetUserOrganisationId(targetUserId);
 
             return orgId.HasValue && this.IsOrganisator(orgId.Value);
         }

@@ -7,7 +7,7 @@ import { TabsModule } from 'ngx-bootstrap'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddUserModal } from './AddUserModal/add.user.modal'
 import { EditUserModal } from './EditUserModal/edit.user.modal'
-import { EditSalepointTab } from './EditUserModal/EditSalepointTab/edit.salepoint.tab';
+import { EditSalePointTab } from './EditUserModal/EditSalePointTab/edit.SalePoint.tab';
 import { EditCarrierTab } from './EditUserModal/EditCarrierTab/edit.carrier.tab';
 import { EditPasswordTab } from './EditUserModal/EditPasswordTab/edit.password.tab';
 import { EditUserTab } from './EditUserModal/EditUserTab/edit.user.tab';
@@ -27,7 +27,7 @@ const pages = [
 
 const tabs = [
     EditPasswordTab,
-    EditSalepointTab,
+    EditSalePointTab,
     EditUserTab,
     EditCarrierTab,
     EditOrganisationTab,

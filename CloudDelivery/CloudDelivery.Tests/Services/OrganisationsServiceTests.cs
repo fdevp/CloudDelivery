@@ -1,4 +1,5 @@
 ﻿using CloudDelivery.Data;
+using CloudDelivery.Data.Entities;
 using CloudDelivery.Providers;
 using CloudDelivery.Services;
 using CloudDelivery.Tests.Initialize;
@@ -21,7 +22,7 @@ namespace CloudDelivery.Tests.Services
 
         public OrganisationsServiceTests()
         {
-            var ctxFactory = DatabaseMocksFactory.GetCtxFactoryMock().Object;
+            ICDContextFactory ctxFactory = DatabaseMocksFactory.GetCtxFactoryMock().Object;
             var cache = new CacheProvider();
             ctx = ctxFactory.GetContext();
             organisationsService = new OrganisationsService(cache, ctxFactory);
@@ -38,14 +39,14 @@ namespace CloudDelivery.Tests.Services
         }
 
 
-     
+
 
         [TestMethod()]
         public void GetUserOrganisation_ShouldReturnUserOrganisation()
         {
-            var user = ctx.UserData.FirstOrDefault();
-            var organisation = organisationsService.GetOrganisationsList().FirstOrDefault();
-            usersService.SetOrganisation(user.Id,organisation.Id);
+            User user = ctx.UserData.FirstOrDefault();
+            Organisation organisation = organisationsService.GetOrganisationsList().FirstOrDefault();
+            usersService.SetOrganisation(user.Id, organisation.Id);
             Assert.AreEqual(organisation.Id, organisationsService.GetUserOrganisation(user.Id).Id);
         }
 
@@ -60,7 +61,7 @@ namespace CloudDelivery.Tests.Services
         [ExpectedException(typeof(NullReferenceException))]
         public void GetUserOrganisation_ShouldThrowUserOrganisationNullException()
         {
-            var user = ctx.UserData.FirstOrDefault();
+            User user = ctx.UserData.FirstOrDefault();
             organisationsService.RemoveMember(user.Id);
             organisationsService.GetUserOrganisation(user.Id);
         }
@@ -68,12 +69,12 @@ namespace CloudDelivery.Tests.Services
         [TestMethod()]
         public void MembersList_ShouldReturnOrganisationMembers()
         {
-            var user1 = ctx.UserData.FirstOrDefault();
-            var user2 = ctx.UserData.Where(x => x.Id != user1.Id).FirstOrDefault();
-            var organisation = organisationsService.GetOrganisationsList().FirstOrDefault();
+            User user1 = ctx.UserData.FirstOrDefault();
+            User user2 = ctx.UserData.Where(x => x.Id != user1.Id).FirstOrDefault();
+            Organisation organisation = organisationsService.GetOrganisationsList().FirstOrDefault();
             usersService.SetOrganisation(user1.Id, organisation.Id);
             usersService.SetOrganisation(user2.Id, organisation.Id);
-            var membersList = organisationsService.GetMembersList(organisation.Id);
+            List<User> membersList = organisationsService.GetMembersList(organisation.Id);
             Assert.IsTrue(membersList.Any(x => x.Id == user1.Id));
             Assert.IsTrue(membersList.Any(x => x.Id == user2.Id));
         }
@@ -88,13 +89,13 @@ namespace CloudDelivery.Tests.Services
         [TestMethod()]
         public void RemoveMember_ShouldRemoveMemberFromOrganisation()
         {
-            var user1 = ctx.UserData.FirstOrDefault();
-            var user2 = ctx.UserData.Where(x => x.Id != user1.Id).FirstOrDefault();
-            var organisation = organisationsService.GetOrganisationsList().FirstOrDefault();
+            User user1 = ctx.UserData.FirstOrDefault();
+            User user2 = ctx.UserData.Where(x => x.Id != user1.Id).FirstOrDefault();
+            Organisation organisation = organisationsService.GetOrganisationsList().FirstOrDefault();
             usersService.SetOrganisation(user1.Id, organisation.Id);
             usersService.SetOrganisation(user2.Id, organisation.Id);
             organisationsService.RemoveMember(user1.Id);
-            Assert.IsFalse(organisationsService.GetMembersList(organisation.Id).Any(x=>x.Id == user1.Id));
+            Assert.IsFalse(organisationsService.GetMembersList(organisation.Id).Any(x => x.Id == user1.Id));
         }
 
         [TestMethod()]
@@ -108,7 +109,7 @@ namespace CloudDelivery.Tests.Services
         [ExpectedException(typeof(NullReferenceException))]
         public void RemoveMember_ShouldThrowUserOrganisationNullException()
         {
-            var user = ctx.UserData.FirstOrDefault();
+            User user = ctx.UserData.FirstOrDefault();
             user.OrganisationId = null;
             organisationsService.RemoveMember(user.Id);
         }
@@ -116,7 +117,7 @@ namespace CloudDelivery.Tests.Services
         [TestMethod()]
         public void RemoveOrganisation_ShouldRemoveOrganisation()
         {
-            var organisation = organisationsService.GetOrganisationsList().FirstOrDefault();
+            Organisation organisation = organisationsService.GetOrganisationsList().FirstOrDefault();
             organisationsService.RemoveOrganisation(organisation.Id);
             Assert.IsFalse(organisationsService.GetOrganisationsList().Any(x => x.Id == organisation.Id));
         }
@@ -124,9 +125,9 @@ namespace CloudDelivery.Tests.Services
         [TestMethod()]
         public void RemoveOrganisation_ShouldRemoveOrganisationMembers()
         {
-            var user1 = ctx.UserData.FirstOrDefault();
-            var user2 = ctx.UserData.Where(x => x.Id != user1.Id).FirstOrDefault();
-            var organisation = organisationsService.GetOrganisationsList().FirstOrDefault();
+            User user1 = ctx.UserData.FirstOrDefault();
+            User user2 = ctx.UserData.Where(x => x.Id != user1.Id).FirstOrDefault();
+            Organisation organisation = organisationsService.GetOrganisationsList().FirstOrDefault();
             usersService.SetOrganisation(user1.Id, organisation.Id);
             usersService.SetOrganisation(user2.Id, organisation.Id);
             organisationsService.RemoveOrganisation(organisation.Id);
@@ -146,15 +147,20 @@ namespace CloudDelivery.Tests.Services
         [TestMethod()]
         public void GetMembersNumber_ShouldReturnMembersNumber()
         {
-            int newOrgId = organisationsService.AddOrganisation("new org");
-            var users = usersService.GetUsersList().OrderByDescending(x => x.Id).Take(3);
+            Organisation organisation = ctx.Organisations.FirstOrDefault();
 
-            foreach (var user in users)
+            List<User> usersNotInOrg = ctx.UserData.Where(x => x.OrganisationId != organisation.Id).ToList();
+            int usersInOrgCount = ctx.UserData.Where(x => x.OrganisationId == organisation.Id).Count();
+
+            Assert.AreEqual(usersInOrgCount, organisationsService.GetMembersNumber(organisation.Id));
+
+            //after add new members
+            foreach (User user in usersNotInOrg.Take(2))
             {
-                usersService.SetOrganisation(user.Id, newOrgId);
+                usersService.SetOrganisation(user.Id, organisation.Id);
             }
 
-            Assert.AreEqual(3,organisationsService.GetMembersNumber(newOrgId));
+            Assert.AreEqual(usersInOrgCount + 2, organisationsService.GetMembersNumber(organisation.Id));
         }
     }
 }

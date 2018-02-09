@@ -19,22 +19,22 @@ namespace CloudDelivery.Controllers
     {
         private IUsersService usersService;
         private ICarriersService carriersService;
-        private ISalepointsService salepointsService;
+        private ISalePointsService SalePointsService;
 
-        public UsersController(IUsersService usersService, ICarriersService carriersService, ISalepointsService salepointsService,IAuthorizationService authService) : base(authService)
+        public UsersController(IUsersService usersService, ICarriersService carriersService, ISalePointsService SalePointsService,IAuthorizationService authService) : base(authService)
         {
             this.usersService = usersService;
             this.carriersService = carriersService;
-            this.salepointsService = salepointsService;
+            this.SalePointsService = SalePointsService;
         }
 
         [HttpGet]
         [Route("List")]
         public IHttpActionResult List()
         {
-            var dbList = usersService.GetUsersList();
+            List<User> dbList = usersService.GetUsersList();
             List<UserListVM> usersVmList = Mapper.Map<List<UserListVM>>(dbList);
-            foreach (var item in usersVmList)
+            foreach (UserListVM item in usersVmList)
             {
                 try
                 {
@@ -60,7 +60,7 @@ namespace CloudDelivery.Controllers
         [Route("Details/{id}")]
         public IHttpActionResult Details(int id)
         {
-            var user = Mapper.Map<UserVM>(usersService.GetUser(id));
+            UserVM user = Mapper.Map<UserVM>(usersService.GetUser(id));
 
             try
             {
@@ -105,7 +105,7 @@ namespace CloudDelivery.Controllers
         [Route("Organisation/{id}")]
         public IHttpActionResult Organisation(int id, [FromBody] int? organisationId)
         {
-            var user = usersService.GetUser(this.User.Identity.GetUserId());
+            User user = usersService.GetUser(this.User.Identity.GetUserId());
             usersService.SetOrganisation(id, organisationId);
             return Ok();
 
@@ -115,13 +115,13 @@ namespace CloudDelivery.Controllers
         public IHttpActionResult Role(int id, [FromBody] string role)
         {
             role = role.ToLower();
-            var user = usersService.GetUser(this.User.Identity.GetUserId());
-            var roleId = usersService.GetRolesList().FirstOrDefault(x => x.Name.ToLower() == role)?.Id;
+            User user = usersService.GetUser(this.User.Identity.GetUserId());
+            string roleId = usersService.GetRolesList().FirstOrDefault(x => x.Name.ToLower() == role)?.Id;
             usersService.SetSingleRole(id, roleId);
             switch (role)
             {
                 case "salepoint":
-                    this.salepointsService.SetSalepoint(id);
+                    this.SalePointsService.SetSalePoint(id);
                     break;
                 case "carrier":
                     this.carriersService.SetCarrier(id);
@@ -136,7 +136,7 @@ namespace CloudDelivery.Controllers
                         this.carriersService.RemoveCarrier(id);
                         break;
                     case "carrier":
-                        this.salepointsService.RemoveSalepoint(id);
+                        this.SalePointsService.RemoveSalePoint(id);
                         break;
                 }
                 

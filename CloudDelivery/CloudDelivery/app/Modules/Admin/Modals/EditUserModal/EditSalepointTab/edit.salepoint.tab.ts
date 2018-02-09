@@ -1,7 +1,7 @@
 ﻿import { Component, Input, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { FormElementState } from '../../../../../Models/Enums/FormElementState';
-import { SalepointsService } from '../../../../../Services/SalepointsService';
-import { Salepoint } from '../../../../../Models/Salepoints/Salepoint';
+import { SalePointsService } from '../../../../../Services/SalePointsService';
+import { SalePoint } from '../../../../../Models/SalePoints/SalePoint';
 import { GeoPosition } from '../../../../../Models/GeoPosition';
 import { GMapsService } from '../../../../../Services/GMapsService';
 import { Marker } from '@agm/core/services/google-maps-types';
@@ -12,12 +12,12 @@ import { AgmMap, AgmMarker } from '@agm/core';
     templateUrl: './edit.salepoint.tab.html',
 })
 
-export class EditSalepointTab implements OnInit  {
+export class EditSalePointTab implements OnInit  {
     
 
     @Input() userId: number;
-    model: Salepoint = new Salepoint();
-    editModel: Salepoint = new Salepoint();
+    model: SalePoint = new SalePoint();
+    editModel: SalePoint = new SalePoint();
 
     @ViewChild(AgmMap) agmMap: AgmMap;
     @ViewChild(AgmMarker) positionMarker: AgmMarker;
@@ -35,7 +35,7 @@ export class EditSalepointTab implements OnInit  {
     addressSearchProgress: boolean = false;
 
 
-    constructor(private salepointsService: SalepointsService, private gmapsService: GMapsService) {
+    constructor(private SalePointsService: SalePointsService, private gmapsService: GMapsService) {
         this.formStates['City'] = this.elementStateEnum.Text;
         this.formStates['Address'] = this.elementStateEnum.Text;
         this.formStates['Marker'] = this.elementStateEnum.Text;
@@ -47,7 +47,7 @@ export class EditSalepointTab implements OnInit  {
     ngOnInit(): void {
         var baseLoc = this.gmapsService.getBaseLocation();
 
-        this.salepointsService.details(this.userId).subscribe(details => {
+        this.SalePointsService.details(this.userId).subscribe(details => {
             this.model = details;
             if (this.model.LatLng == null) {
                 console.log("wszed", this.model);
@@ -75,7 +75,7 @@ export class EditSalepointTab implements OnInit  {
     changeAddress() {
         this.setElementState("Address", this.elementStateEnum.Saving);
 
-        this.salepointsService.setAddress(this.userId, this.editModel.Address).subscribe(x => {
+        this.SalePointsService.setAddress(this.userId, this.editModel.Address).subscribe(x => {
             this.model.Address = this.editModel.Address;
             this.setElementState("Address", this.elementStateEnum.Text);
         }, err => {
@@ -86,7 +86,7 @@ export class EditSalepointTab implements OnInit  {
     changeCity() {
         this.setElementState("City", this.elementStateEnum.Saving);
 
-        this.salepointsService.setCity(this.userId, this.editModel.City).subscribe(x => {
+        this.SalePointsService.setCity(this.userId, this.editModel.City).subscribe(x => {
             this.model.City = this.editModel.City;
             this.setElementState("City", this.elementStateEnum.Text);
         }, err => {
@@ -98,7 +98,7 @@ export class EditSalepointTab implements OnInit  {
     changeMarker() {
         this.setElementState("Marker", this.elementStateEnum.Saving);
 
-        this.salepointsService.setColor(this.userId, this.editModel.Marker).subscribe(x => {
+        this.SalePointsService.setColor(this.userId, this.editModel.Marker).subscribe(x => {
             this.model.Marker = this.editModel.Marker;
             this.setElementState("Marker", this.elementStateEnum.Text);
         }, err => {
@@ -110,7 +110,7 @@ export class EditSalepointTab implements OnInit  {
     changeLatLng() {
         this.setElementState("LatLng", this.elementStateEnum.Saving);
 
-        this.salepointsService.setLatLng(this.userId, this.editModel.LatLng).subscribe(x => {
+        this.SalePointsService.setLatLng(this.userId, this.editModel.LatLng).subscribe(x => {
             this.model.LatLng = this.editModel.LatLng;
             this.setElementState("LatLng", this.elementStateEnum.Text);
         }, err => {

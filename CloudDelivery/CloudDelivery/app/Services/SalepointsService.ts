@@ -5,28 +5,28 @@ import { Observer } from 'rxjs/Observer';
 import { SessionService } from '../Services/SessionService'
 import 'rxjs/add/observable/of';
 import 'rxjs/Rx';
-import { Salepoint } from '../Models/Salepoints/Salepoint';
+import { SalePoint } from '../Models/SalePoints/SalePoint';
 
 @Injectable()
-export class SalepointsService {
+export class SalePointsService {
     constructor(private http: Http, private sessionService: SessionService) {
 
     }
 
-    list(): Observable<Array<Salepoint>> {
+    list(): Observable<Array<SalePoint>> {
         var hdrz = this.sessionService.authHeader();
-        return new Observable((obs: Observer<Array<Salepoint>>) => {
-            return this.http.get('/api/Salepoints/list', { headers: hdrz }).subscribe(data => {
+        return new Observable((obs: Observer<Array<SalePoint>>) => {
+            return this.http.get('/api/SalePoints/list', { headers: hdrz }).subscribe(data => {
                 var body = JSON.parse(data["_body"]);
                 obs.next(body);
             }, e => { console.error("err", e); })
         });
     }
 
-    listOrg(orgId): Observable<Salepoint> {
+    listOrg(orgId): Observable<SalePoint> {
         var headers = this.sessionService.authHeader();
-        var url = '/api/Salepoints/details/' + orgId;
-        return new Observable((obs: Observer<Salepoint>) => {
+        var url = '/api/SalePoints/details/' + orgId;
+        return new Observable((obs: Observer<SalePoint>) => {
             return this.http.get(url, { headers: headers }).subscribe(data => {
                 var body = JSON.parse(data["_body"]);
                 obs.next(body);
@@ -34,12 +34,12 @@ export class SalepointsService {
         });
     }
 
-    details(userId): Observable<Salepoint> {
+    details(userId): Observable<SalePoint> {
         var headers = this.sessionService.authHeader();
-        var url = '/api/Salepoints/details/' + userId;
-        return new Observable((obs: Observer<Salepoint>) => {
+        var url = '/api/SalePoints/details/' + userId;
+        return new Observable((obs: Observer<SalePoint>) => {
             return this.http.get(url, { headers: headers }).subscribe(data => {
-                var sp: Salepoint = JSON.parse(data["_body"]);
+                var sp: SalePoint = JSON.parse(data["_body"]);
                 obs.next(sp);
             })
         });
@@ -49,7 +49,7 @@ export class SalepointsService {
         var headers = this.sessionService.authHeader();
         headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
         var body = "=" + city;
-        var url = '/api/Salepoints/city/' + userId;
+        var url = '/api/SalePoints/city/' + userId;
         return new Observable((obs: Observer<boolean>) => {
             return this.http.put(url, body, { headers: headers }).subscribe(data => {
                 obs.next(true);
@@ -62,7 +62,7 @@ export class SalepointsService {
         var headers = this.sessionService.authHeader();
         headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
         var body = "=" + address;
-        var url = '/api/Salepoints/address/' + userId;
+        var url = '/api/SalePoints/address/' + userId;
         return new Observable((obs: Observer<boolean>) => {
             return this.http.put(url, body, { headers: headers }).subscribe(data => {
                 obs.next(true);
@@ -75,7 +75,7 @@ export class SalepointsService {
         var headers = this.sessionService.authHeader();
         headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
         var body = "=" + JSON.stringify(latlng);;
-        var url = '/api/Salepoints/latlng/' + userId;
+        var url = '/api/SalePoints/latlng/' + userId;
         return new Observable((obs: Observer<boolean>) => {
             return this.http.put(url, body, { headers: headers }).subscribe(data => {
                 obs.next(true);
@@ -87,7 +87,7 @@ export class SalepointsService {
         var headers = this.sessionService.authHeader();
         headers.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
         var body = "=" + color;
-        var url = '/api/Salepoints/color/' + userId;
+        var url = '/api/SalePoints/color/' + userId;
         return new Observable((obs: Observer<boolean>) => {
             return this.http.put(url, body, { headers: headers }).subscribe(data => {
                 obs.next(true);

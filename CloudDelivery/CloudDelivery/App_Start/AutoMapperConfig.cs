@@ -44,7 +44,7 @@ namespace CloudDelivery.App_Start
                 cfg.CreateMap<IdentityRole,RoleVM>();
                 cfg.CreateMap<Organisation, OrganisationVM>();
                 cfg.CreateMap<Carrier, CarrierVM>();
-                cfg.CreateMap<SalePoint, SalepointVM>();
+                cfg.CreateMap<SalePoint, SalePointVM>();
             });
         }
     }

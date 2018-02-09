@@ -10,9 +10,9 @@ using System.Web;
 
 namespace CloudDelivery.Services
 {
-    public class SalepointsService : ISalepointsService
+    public class SalePointsService : ISalePointsService
     {
-        public SalepointsService(ICacheProvider cacheProvider, ICDContextFactory ctxFactory)
+        public SalePointsService(ICacheProvider cacheProvider, ICDContextFactory ctxFactory)
         {
             this.cacheProvider = cacheProvider;
             this.ctxFactory = ctxFactory;
@@ -20,7 +20,7 @@ namespace CloudDelivery.Services
 
         public void SetAddress(int userId, string address)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 SalePoint sp = ctx.SalePoints.Where(x => x.UserId == userId).FirstOrDefault();
 
@@ -35,7 +35,7 @@ namespace CloudDelivery.Services
 
         public void SetCity(int userId, string city)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 SalePoint sp = ctx.SalePoints.Where(x => x.UserId == userId).FirstOrDefault();
 
@@ -50,7 +50,7 @@ namespace CloudDelivery.Services
 
         public void SetColor(int userId, string color)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 SalePoint sp = ctx.SalePoints.Where(x => x.UserId == userId).FirstOrDefault();
 
@@ -65,7 +65,7 @@ namespace CloudDelivery.Services
 
         public void SetLatLng(int userId, string latlng)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 SalePoint sp = ctx.SalePoints.Where(x => x.UserId == userId).FirstOrDefault();
 
@@ -77,9 +77,9 @@ namespace CloudDelivery.Services
             }
         }
 
-        public int SetSalepoint(int userId)
+        public int SetSalePoint(int userId)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 if (!ctx.UserData.Any(x => x.Id == userId))
                     throw new NullReferenceException("Użytkownik nie istnieje.");
@@ -87,17 +87,17 @@ namespace CloudDelivery.Services
                 if (ctx.SalePoints.Any(x => x.UserId == userId))
                     throw new ArgumentException("Punkt sprzedaży już istnieje");
 
-                SalePoint newSalepoint = new SalePoint() { UserId = userId };
-                ctx.SalePoints.Add(newSalepoint);
+                SalePoint newSalePoint = new SalePoint() { UserId = userId };
+                ctx.SalePoints.Add(newSalePoint);
                 ctx.SaveChanges();
 
-                return newSalepoint.Id;
+                return newSalePoint.Id;
             }
         }
 
-        public void RemoveSalepoint(int userId)
+        public void RemoveSalePoint(int userId)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 SalePoint sp = ctx.SalePoints.Where(x => x.UserId == userId).FirstOrDefault();
 
@@ -111,7 +111,7 @@ namespace CloudDelivery.Services
 
         public SalePoint GetSalePoint(int userId)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 SalePoint sp = ctx.SalePoints
                                   .Include(x=>x.User)
@@ -127,7 +127,7 @@ namespace CloudDelivery.Services
 
         public SalePoint GetSalePointById(int id)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 SalePoint sp = ctx.SalePoints
                                   .Include(x => x.User)
@@ -143,11 +143,11 @@ namespace CloudDelivery.Services
 
         public List<SalePoint> GetSalePoints()
         {
-            using(var ctx = ctxFactory.GetContext())
+            using(ICDContext ctx = ctxFactory.GetContext())
             {
-                var sps = ctx.SalePoints
-                             .Include(x => x.User)
-                             .ToList();
+                List<SalePoint> sps = ctx.SalePoints
+                                        .Include(x => x.User)
+                                        .ToList();
 
                 return sps;
             }
@@ -155,16 +155,16 @@ namespace CloudDelivery.Services
 
         public List<SalePoint> GetOrganisationSalePoints(int organisationId)
         {
-            using(var ctx= ctxFactory.GetContext())
+            using(ICDContext ctx= ctxFactory.GetContext())
             {
                 if (!ctx.Organisations.Any(x => x.Id == organisationId))
                     throw new NullReferenceException("Nie znaleziono organizacji.");
 
 
-                var sps = ctx.SalePoints
-                             .Include(x => x.User)
-                             .Where(x=> x.User!= null && x.User.OrganisationId == organisationId)
-                             .ToList();
+                List<SalePoint> sps = ctx.SalePoints
+                                        .Include(x => x.User)
+                                        .Where(x=> x.User!= null && x.User.OrganisationId == organisationId)
+                                        .ToList();
 
                 return sps;
             }

@@ -13,7 +13,7 @@ var forms_1 = require("@angular/forms");
 var ngx_bootstrap_1 = require("ngx-bootstrap");
 var add_user_modal_1 = require("./AddUserModal/add.user.modal");
 var edit_user_modal_1 = require("./EditUserModal/edit.user.modal");
-var edit_salepoint_tab_1 = require("./EditUserModal/EditSalepointTab/edit.salepoint.tab");
+var edit_SalePoint_tab_1 = require("./EditUserModal/EditSalePointTab/edit.SalePoint.tab");
 var edit_carrier_tab_1 = require("./EditUserModal/EditCarrierTab/edit.carrier.tab");
 var edit_password_tab_1 = require("./EditUserModal/EditPasswordTab/edit.password.tab");
 var edit_user_tab_1 = require("./EditUserModal/EditUserTab/edit.user.tab");
@@ -31,7 +31,7 @@ var pages = [
 ];
 var tabs = [
     edit_password_tab_1.EditPasswordTab,
-    edit_salepoint_tab_1.EditSalepointTab,
+    edit_SalePoint_tab_1.EditSalePointTab,
     edit_user_tab_1.EditUserTab,
     edit_carrier_tab_1.EditCarrierTab,
     edit_Organisation_tab_1.EditOrganisationTab,

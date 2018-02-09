@@ -3,6 +3,7 @@ using CloudDelivery.Data;
 using CloudDelivery.Providers;
 using CloudDelivery.Services;
 using Microsoft.Practices.Unity;
+using System.Net.Http;
 using System.Web.Http;
 using Unity.WebApi;
 
@@ -20,19 +21,21 @@ namespace CloudDelivery
 
             //providers
             container.RegisterType<ICacheProvider, CacheProvider>();
+            container.RegisterType<IHttpProvider, HttpProvider>(new InjectionConstructor(typeof(HttpClient)));
+            container.RegisterType<IGMapsProvider, GMapsProvider>();
 
             //services
             container.RegisterType<IUsersService, UsersService>(); 
             container.RegisterType<IOrganisationsService, OrganisationsService>();
             container.RegisterType<ICarriersService, CarriersService>();
-            container.RegisterType<ISalepointsService, SalepointsService>();
+            container.RegisterType<ISalePointsService, SalePointsService>();
             container.RegisterType<IAuthorizationService, AuthorizationService>();
 
             //controllers
             container.RegisterType<AccountController>(new InjectionConstructor(typeof(IUsersService), typeof(IAuthorizationService)));
             container.RegisterType<UsersController>();
             container.RegisterType<OrganisationsController>();
-            container.RegisterType<SalepointsController>();
+            container.RegisterType<SalePointsController>();
             container.RegisterType<CarriersController>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);

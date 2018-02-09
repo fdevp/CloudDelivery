@@ -21,7 +21,7 @@ namespace CloudDelivery.Services
         public int SetCarrier(int userId)
         {
 
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 if (!ctx.UserData.Any(x => x.Id == userId))
                     throw new NullReferenceException("Użytkownik nie istnieje.");
@@ -39,7 +39,7 @@ namespace CloudDelivery.Services
 
         public void SetColor(int userId, string color)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 Carrier carrier = ctx.Carriers.Where(x => x.UserId == userId).FirstOrDefault();
 
@@ -53,7 +53,7 @@ namespace CloudDelivery.Services
 
         public void RemoveCarrier(int userId)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 Carrier carrier = ctx.Carriers.Where(x => x.UserId == userId).FirstOrDefault();
 
@@ -67,7 +67,7 @@ namespace CloudDelivery.Services
 
         public Carrier GetCarrier(int userId)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 Carrier carrier = ctx.Carriers
                      .Include(x => x.User)
@@ -82,9 +82,9 @@ namespace CloudDelivery.Services
 
         public List<Carrier> GetCarriers()
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
-                var carriers = ctx.Carriers
+                List<Carrier> carriers = ctx.Carriers
                              .Include(x => x.User)
                              .ToList();
 
@@ -94,7 +94,7 @@ namespace CloudDelivery.Services
 
         public Carrier GetCarrierById(int id)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 Carrier carrier = ctx.Carriers
                      .Include(x => x.User)

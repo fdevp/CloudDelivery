@@ -21,7 +21,7 @@ namespace CloudDelivery.Services
         {
             User newUser = new User { IdentityId = identityId, Name = name, OrganisationId = organisationId };
 
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 ctx.UserData.Add(newUser);
                 ctx.SaveChanges();
@@ -32,7 +32,7 @@ namespace CloudDelivery.Services
 
         public void RemoveUser(int id)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 User userToRemove = ctx.UserData.Where(x => x.Id == id).FirstOrDefault();
 
@@ -63,7 +63,7 @@ namespace CloudDelivery.Services
         public List<User> GetUsersList()
         {
 
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 var usrs = ctx.UserData
                              .Include(x => x.AspNetUser)
@@ -78,7 +78,7 @@ namespace CloudDelivery.Services
         public List<IdentityRole> GetRolesList()
         {
 
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 return ctx.Roles.ToList();
             }
@@ -86,7 +86,7 @@ namespace CloudDelivery.Services
 
         public List<IdentityUserRole> GetUserRoles(int id)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 string identityId = ctx.UserData
                                        .Where(x => x.Id == id)
@@ -104,7 +104,7 @@ namespace CloudDelivery.Services
 
         public string GetUserRolesString(int id)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 var user = ctx.UserData.Where(x => x.Id == id).FirstOrDefault();
 
@@ -128,7 +128,7 @@ namespace CloudDelivery.Services
 
         public User GetUser(int id)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 var user = ctx.UserData
                               .Include(x => x.AspNetUser)
@@ -145,7 +145,7 @@ namespace CloudDelivery.Services
 
         public User GetUser(string identityId)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 var user = ctx.UserData
                               .Include(x => x.AspNetUser)
@@ -162,7 +162,7 @@ namespace CloudDelivery.Services
 
         public void SetSingleRole(int id, string roleId)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 var user = ctx.UserData.Where(x => x.Id == id).FirstOrDefault();
 
@@ -185,7 +185,7 @@ namespace CloudDelivery.Services
 
         public void SetOrganisation(int id, int? organisationId)
         {
-            using (var ctx = this.ctxFactory.GetContext())
+            using (ICDContext ctx = this.ctxFactory.GetContext())
             {
                 var user = ctx.UserData.Where(x => x.Id == id).FirstOrDefault();
 
@@ -203,7 +203,7 @@ namespace CloudDelivery.Services
 
         public void SetName(int id, string name)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 var user = ctx.UserData.Where(x => x.Id == id).FirstOrDefault();
 
@@ -218,7 +218,7 @@ namespace CloudDelivery.Services
 
         public void SetPhone(int id, string phone)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 var user = ctx.UserData.Include(x => x.AspNetUser).Where(x => x.Id == id).FirstOrDefault();
 
@@ -234,7 +234,7 @@ namespace CloudDelivery.Services
 
         public void SetDescription(int id, string description)
         {
-            using (var ctx = ctxFactory.GetContext())
+            using (ICDContext ctx = ctxFactory.GetContext())
             {
                 var user = ctx.UserData.Include(x => x.AspNetUser).Where(x => x.Id == id).FirstOrDefault();
 

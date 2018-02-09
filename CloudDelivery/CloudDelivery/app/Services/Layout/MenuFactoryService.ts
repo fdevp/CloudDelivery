@@ -84,7 +84,7 @@ export class MenuFactoryService {
         }
     ];
 
-    private salePointMenu = [
+    private SalePointMenu = [
         {
             'title': 'Panel',
             'icon': null,
@@ -126,6 +126,6 @@ export class MenuFactoryService {
         else if (this.sessionService.hasRole("organisation"))
             return this.organisationMenu;
         else if (this.sessionService.hasRole("salepoint"))
-            return this.salePointMenu;
+            return this.SalePointMenu;
     }
 }

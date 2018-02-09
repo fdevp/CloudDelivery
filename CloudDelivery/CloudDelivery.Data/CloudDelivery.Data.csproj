@@ -116,6 +116,14 @@
     <Compile Include="Migrations\201802041305122_OrderStatus.Designer.cs">
       <DependentUpon>201802041305122_OrderStatus.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802051912543_order_time_fields.cs" />
+    <Compile Include="Migrations\201802051912543_order_time_fields.Designer.cs">
+      <DependentUpon>201802051912543_order_time_fields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802081749475_ticket92.cs" />
+    <Compile Include="Migrations\201802081749475_ticket92.Designer.cs">
+      <DependentUpon>201802081749475_ticket92.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -134,6 +142,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802041305122_OrderStatus.resx">
       <DependentUpon>201802041305122_OrderStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802051912543_order_time_fields.resx">
+      <DependentUpon>201802051912543_order_time_fields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802081749475_ticket92.resx">
+      <DependentUpon>201802081749475_ticket92.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace CloudDelivery.Models
 {
-    public class SalepointVM
+    public class SalePointVM
     {
         public int UserId { get; set; }
 

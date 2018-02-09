@@ -7,29 +7,30 @@ using System.Threading.Tasks;
 using CloudDelivery.Data;
 using CloudDelivery.Tests.Initialize;
 using CloudDelivery.Providers;
+using CloudDelivery.Data.Entities;
 
 namespace CloudDelivery.Services.Tests
 {
     [TestClass()]
     public class SalespointServiceTests
     {
-        SalepointsService salespointsService;
+        SalePointsService salespointsService;
         UsersService usersService;
         ICDContext ctx;
 
         public SalespointServiceTests()
         {
-            var ctxFactory = DatabaseMocksFactory.GetCtxFactoryMock().Object;
+            ICDContextFactory ctxFactory = DatabaseMocksFactory.GetCtxFactoryMock().Object;
             var cache = new CacheProvider();
             ctx = ctxFactory.GetContext();
-            salespointsService = new SalepointsService(cache, ctxFactory);
+            salespointsService = new SalePointsService(cache, ctxFactory);
             usersService = new UsersService(cache, ctxFactory);
         }
 
         [TestMethod()]
         public void SetAddress_ShouldSetAddress()
         {
-            var salepoint = ctx.SalePoints.FirstOrDefault();
+            SalePoint salepoint = ctx.SalePoints.FirstOrDefault();
             this.salespointsService.SetAddress(salepoint.UserId.Value, "str33t");
             Assert.AreEqual("str33t", salepoint.Address);
         }
@@ -37,7 +38,7 @@ namespace CloudDelivery.Services.Tests
         [TestMethod()]
         public void SetCity_ShouldSetCity()
         {
-            var salepoint = ctx.SalePoints.FirstOrDefault();
+            SalePoint salepoint = ctx.SalePoints.FirstOrDefault();
             this.salespointsService.SetCity(salepoint.UserId.Value, "warsaw");
             Assert.AreEqual("warsaw", salepoint.City);
         }
@@ -45,69 +46,69 @@ namespace CloudDelivery.Services.Tests
         [TestMethod()]
         public void SetColor_ShouldSetColor()
         {
-            var salepoint = ctx.SalePoints.FirstOrDefault();
-            this.salespointsService.SetColor(salepoint.UserId.Value, "red");
-            Assert.AreEqual("red", salepoint.Marker);
+            SalePoint SalePoint = ctx.SalePoints.FirstOrDefault();
+            this.salespointsService.SetColor(SalePoint.UserId.Value, "red");
+            Assert.AreEqual("red", SalePoint.Marker);
         }
 
         [TestMethod()]
         public void SetLatLng_ShouldSetLatLng()
         {
-            var salepoint = ctx.SalePoints.FirstOrDefault();
-            this.salespointsService.SetLatLng(salepoint.UserId.Value, "{'lat':'54.46405','lng':'17.02872'}");
-            Assert.AreEqual("{'lat':'54.46405','lng':'17.02872'}", salepoint.LatLng);
+            SalePoint SalePoint = ctx.SalePoints.FirstOrDefault();
+            this.salespointsService.SetLatLng(SalePoint.UserId.Value, "{'lat':'54.46405','lng':'17.02872'}");
+            Assert.AreEqual("{'lat':'54.46405','lng':'17.02872'}", SalePoint.LatLng);
         }
 
         [TestMethod()]
-        public void SetSalepoint_ShouldSetSalepointForUser()
+        public void SetSalePoint_ShouldSetSalePointForUser()
         {
             int userId = this.usersService.AddUser("test1", "test1", null);
-            this.salespointsService.SetSalepoint(userId);
-            var newSp = ctx.SalePoints.Where(x => x.UserId == userId).FirstOrDefault();
+            this.salespointsService.SetSalePoint(userId);
+            SalePoint newSp = ctx.SalePoints.Where(x => x.UserId == userId).FirstOrDefault();
             Assert.IsNotNull(newSp);
         }
 
         [TestMethod()]
         [ExpectedException(typeof(ArgumentException))]
-        public void SetSalepoint_ShouldThrowArgumentException()
+        public void SetSalePoint_ShouldThrowArgumentException()
         {
-            var user = this.ctx.UserData.FirstOrDefault();
-            this.salespointsService.SetSalepoint(user.Id);
+            User user = this.ctx.UserData.FirstOrDefault();
+            this.salespointsService.SetSalePoint(user.Id);
         }
 
         [TestMethod()]
         [ExpectedException(typeof(NullReferenceException))]
-        public void SetSalepoint_ShouldThrowUserNullException()
+        public void SetSalePoint_ShouldThrowUserNullException()
         {
-            this.salespointsService.SetSalepoint(int.MinValue);
+            this.salespointsService.SetSalePoint(int.MinValue);
         }
 
         [TestMethod()]
-        public void RemoveSalepoint_ShouldRemoveSalepoint()
+        public void RemoveSalePoint_ShouldRemoveSalePoint()
         {
-            var salepoint = this.ctx.SalePoints.FirstOrDefault();
-            this.salespointsService.RemoveSalepoint(salepoint.UserId.Value);
-            Assert.IsFalse(ctx.SalePoints.Any(x => x.Id == salepoint.Id));
-        }
-
-        [TestMethod()]
-        [ExpectedException(typeof(NullReferenceException))]
-        public void RemoveSalepoint_ShouldThrowSalepointNullException()
-        {
-            this.salespointsService.RemoveSalepoint(int.MinValue);
-        }
-
-        [TestMethod()]
-        public void GetSalePoint_ShouldReturnSalepoint()
-        {
-            var salepoint = ctx.SalePoints.FirstOrDefault();
-            var sp = this.salespointsService.GetSalePoint(salepoint.UserId.Value);
-            Assert.AreEqual(salepoint, sp);
+            SalePoint SalePoint = this.ctx.SalePoints.FirstOrDefault();
+            this.salespointsService.RemoveSalePoint(SalePoint.UserId.Value);
+            Assert.IsFalse(ctx.SalePoints.Any(x => x.Id == SalePoint.Id));
         }
 
         [TestMethod()]
         [ExpectedException(typeof(NullReferenceException))]
-        public void GetSalePoint_ShouldThrowSalepointNullException()
+        public void RemoveSalePoint_ShouldThrowSalePointNullException()
+        {
+            this.salespointsService.RemoveSalePoint(int.MinValue);
+        }
+
+        [TestMethod()]
+        public void GetSalePoint_ShouldReturnSalePoint()
+        {
+            SalePoint SalePoint = ctx.SalePoints.FirstOrDefault();
+            SalePoint sp = this.salespointsService.GetSalePoint(SalePoint.UserId.Value);
+            Assert.AreEqual(SalePoint, sp);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void GetSalePoint_ShouldThrowSalePointNullException()
         {
             this.salespointsService.GetSalePoint(int.MinValue);
         }
@@ -115,9 +116,9 @@ namespace CloudDelivery.Services.Tests
         [TestMethod()]
         public void GetSalePointById_ShouldReturnSalePoint()
         {
-            var salepoint = ctx.SalePoints.FirstOrDefault();
-            var sp = this.salespointsService.GetSalePointById(salepoint.Id);
-            Assert.AreEqual(salepoint.Id, sp.Id);
+            SalePoint SalePoint = ctx.SalePoints.FirstOrDefault();
+            SalePoint sp = this.salespointsService.GetSalePointById(SalePoint.Id);
+            Assert.AreEqual(SalePoint.Id, sp.Id);
         }
 
         [TestMethod()]
@@ -129,30 +130,33 @@ namespace CloudDelivery.Services.Tests
 
         [TestMethod()]
         [ExpectedException(typeof(NullReferenceException))]
-        public void GetSalePointById_ShouldThrowSalepointNullException()
+        public void GetSalePointById_ShouldThrowSalePointNullException()
         {
-            var salepoint = ctx.SalePoints.FirstOrDefault();
-            this.salespointsService.RemoveSalepoint(salepoint.UserId.Value);
-            this.salespointsService.GetSalePointById(salepoint.UserId.Value);
+            SalePoint SalePoint = ctx.SalePoints.FirstOrDefault();
+            this.salespointsService.RemoveSalePoint(SalePoint.UserId.Value);
+            this.salespointsService.GetSalePointById(SalePoint.UserId.Value);
         }
 
         [TestMethod()]
-        public void GetSalePoints_ShouldReturnAllSalepoints()
+        public void GetSalePoints_ShouldReturnAllSalePoints()
         {
             Assert.AreEqual(ctx.SalePoints.Count(),this.salespointsService.GetSalePoints().Count);
         }
 
         [TestMethod()]
-        public void GetOrganisationSalePoints_ShouldReturnOrganisationSalepoints()
+        public void GetOrganisationSalePoints_ShouldReturnOrganisationSalePoints()
         {
-            var users = ctx.UserData.Take(3).ToList();
-            foreach (var user in users)
+            Organisation organisation = ctx.Organisations.FirstOrDefault();
+            int salepointsCount = ctx.SalePoints.Where(x => x.User.OrganisationId == organisation.Id).Count();
+
+            List<SalePoint> spNotInOrganisation = ctx.SalePoints.Where(x=>x.User.OrganisationId != organisation.Id).Take(3).ToList();
+
+            foreach (SalePoint sp in spNotInOrganisation)
             {
-                this.usersService.SetOrganisation(user.Id, 1);
-                var sp = this.salespointsService.GetSalePoint(user.Id);
-                sp.User = user;
+                this.usersService.SetOrganisation(sp.UserId.Value, organisation.Id);
             }
-            Assert.AreEqual(3, this.salespointsService.GetOrganisationSalePoints(1).Count);
+
+            Assert.AreEqual(salepointsCount + 3, this.salespointsService.GetOrganisationSalePoints(organisation.Id).Count);
         }
 
         [TestMethod()]

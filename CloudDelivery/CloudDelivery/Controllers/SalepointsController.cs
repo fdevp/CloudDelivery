@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CloudDelivery.Data.Entities;
 using CloudDelivery.Models;
 using CloudDelivery.Services;
 using System;
@@ -12,14 +13,14 @@ using System.Web.Http;
 namespace CloudDelivery.Controllers
 {
     [Authorize]
-    [RoutePrefix("api/Salepoints")]
-    public class SalepointsController : BaseController
+    [RoutePrefix("api/SalePoints")]
+    public class SalePointsController : BaseController
     {
-        ISalepointsService salepointsService;
+        ISalePointsService SalePointsService;
 
-        public SalepointsController(ISalepointsService salepointsService, IAuthorizationService authService) : base(authService)
+        public SalePointsController(ISalePointsService SalePointsService, IAuthorizationService authService) : base(authService)
         {
-            this.salepointsService = salepointsService;
+            this.SalePointsService = SalePointsService;
         }
 
         [HttpGet]
@@ -27,8 +28,8 @@ namespace CloudDelivery.Controllers
         [Route("List")]
         public IHttpActionResult List()
         {
-            var dbList = salepointsService.GetSalePoints();
-            List<SalepointVM> spVmList = Mapper.Map<List<SalepointVM>>(dbList);
+            List<SalePoint> dbList = SalePointsService.GetSalePoints();
+            List<SalePointVM> spVmList = Mapper.Map<List<SalePointVM>>(dbList);
             return Ok(spVmList);
         }
 
@@ -41,8 +42,8 @@ namespace CloudDelivery.Controllers
                 throw new HttpException(401, "Brak dostepu do zasobu");
 
 
-            var dbList = salepointsService.GetOrganisationSalePoints(organisationId);
-            List<SalepointVM> spVmList = Mapper.Map<List<SalepointVM>>(dbList);
+            List<SalePoint> dbList = SalePointsService.GetOrganisationSalePoints(organisationId);
+            List<SalePointVM> spVmList = Mapper.Map<List<SalePointVM>>(dbList);
             return Ok(spVmList);
         }
 
@@ -51,7 +52,7 @@ namespace CloudDelivery.Controllers
         [Route("Details/{userId}")]
         public IHttpActionResult Details(int userId)
         {
-            var salepoint = Mapper.Map<SalepointVM>(salepointsService.GetSalePoint(userId));
+            SalePointVM salepoint = Mapper.Map<SalePointVM>(SalePointsService.GetSalePoint(userId));
             return Ok(salepoint);
         }
 
@@ -61,7 +62,7 @@ namespace CloudDelivery.Controllers
         [Route("City/{userId}")]
         public IHttpActionResult City(int userId, [FromBody] string city)
         {
-            salepointsService.SetCity(userId, city);
+            SalePointsService.SetCity(userId, city);
             return Ok();
         }
 
@@ -71,7 +72,7 @@ namespace CloudDelivery.Controllers
         [Route("Address/{userId}")]
         public IHttpActionResult Address(int userId, [FromBody] string address)
         {
-            salepointsService.SetAddress(userId, address);
+            SalePointsService.SetAddress(userId, address);
             return Ok();
         }
 
@@ -81,7 +82,7 @@ namespace CloudDelivery.Controllers
         [Route("LatLng/{userId}")]
         public IHttpActionResult LatLng(int userId, [FromBody] string latlng)
         {
-            salepointsService.SetLatLng(userId, latlng);
+            SalePointsService.SetLatLng(userId, latlng);
             return Ok();
         }
 
@@ -90,7 +91,7 @@ namespace CloudDelivery.Controllers
         [Route("Color/{userId}")]
         public IHttpActionResult Color(int userId, [FromBody] string color)
         {
-            salepointsService.SetColor(userId, color);
+            SalePointsService.SetColor(userId, color);
             return Ok();
         }
     }
