@@ -11,7 +11,7 @@ namespace CloudDelivery.Data
 {
     public interface ICDContext : IDisposable
     {
-        DbSet<User> UserData { get; set; }
+        DbSet<User> AppUsers { get; set; }
         DbSet<Organisation> Organisations { get; set; }
         DbSet<SalePoint> SalePoints { get; set; }
         DbSet<Carrier> Carriers { get; set; }
@@ -20,7 +20,7 @@ namespace CloudDelivery.Data
         DbSet<Package> Packages { get; set; }
         DbSet<IdentityUserRole> UserRoles { get; set; }
         IDbSet<IdentityRole> Roles { get; set; }
-        IDbSet<ApplicationUser> Users { get; set; }
+        IDbSet<ExtendedIdentityUser> Users { get; set; }
 
         int SaveChanges();
     }

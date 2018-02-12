@@ -23,7 +23,7 @@ namespace CloudDelivery.Services
 
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                ctx.UserData.Add(newUser);
+                ctx.AppUsers.Add(newUser);
                 ctx.SaveChanges();
             }
 
@@ -34,7 +34,7 @@ namespace CloudDelivery.Services
         {
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                User userToRemove = ctx.UserData.Where(x => x.Id == id).FirstOrDefault();
+                User userToRemove = ctx.AppUsers.Where(x => x.Id == id).FirstOrDefault();
 
                 if (userToRemove == null)
                     throw new NullReferenceException("Nie znaleziono użytkownika");
@@ -53,7 +53,7 @@ namespace CloudDelivery.Services
                 ctx.Users.Remove(ApplicationUser);
 
                 //remove user
-                ctx.UserData.Remove(userToRemove);
+                ctx.AppUsers.Remove(userToRemove);
 
                 ctx.SaveChanges();
 
@@ -65,7 +65,7 @@ namespace CloudDelivery.Services
 
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                var usrs = ctx.UserData
+                var usrs = ctx.AppUsers
                              .Include(x => x.AspNetUser)
                              .Include(x => x.AspNetUser.Roles)
                              .Include(x => x.Organisation)
@@ -88,7 +88,7 @@ namespace CloudDelivery.Services
         {
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                string identityId = ctx.UserData
+                string identityId = ctx.AppUsers
                                        .Where(x => x.Id == id)
                                        .FirstOrDefault()?
                                        .IdentityId;
@@ -106,7 +106,7 @@ namespace CloudDelivery.Services
         {
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                var user = ctx.UserData.Where(x => x.Id == id).FirstOrDefault();
+                var user = ctx.AppUsers.Where(x => x.Id == id).FirstOrDefault();
 
                 if (user == null)
                     throw new NullReferenceException("Nie znaleziono użytkownika");
@@ -130,7 +130,7 @@ namespace CloudDelivery.Services
         {
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                var user = ctx.UserData
+                var user = ctx.AppUsers
                               .Include(x => x.AspNetUser)
                               .Include(x => x.AspNetUser.Roles)
                               .Include(x => x.Organisation)
@@ -147,7 +147,7 @@ namespace CloudDelivery.Services
         {
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                var user = ctx.UserData
+                var user = ctx.AppUsers
                               .Include(x => x.AspNetUser)
                               .Include(x => x.AspNetUser.Roles)
                               .Include(x => x.Organisation)
@@ -164,7 +164,7 @@ namespace CloudDelivery.Services
         {
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                var user = ctx.UserData.Where(x => x.Id == id).FirstOrDefault();
+                var user = ctx.AppUsers.Where(x => x.Id == id).FirstOrDefault();
 
                 if (user == null)
                     throw new NullReferenceException("Nie znaleziono użytkownika");
@@ -187,7 +187,7 @@ namespace CloudDelivery.Services
         {
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                var user = ctx.UserData.Where(x => x.Id == id).FirstOrDefault();
+                var user = ctx.AppUsers.Where(x => x.Id == id).FirstOrDefault();
 
                 if (user == null)
                     throw new NullReferenceException("Nie znaleziono użytkownika");
@@ -205,7 +205,7 @@ namespace CloudDelivery.Services
         {
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                var user = ctx.UserData.Where(x => x.Id == id).FirstOrDefault();
+                var user = ctx.AppUsers.Where(x => x.Id == id).FirstOrDefault();
 
                 if (user == null)
                     throw new NullReferenceException("Nie znaleziono użytkownika");
@@ -220,7 +220,7 @@ namespace CloudDelivery.Services
         {
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                var user = ctx.UserData.Include(x => x.AspNetUser).Where(x => x.Id == id).FirstOrDefault();
+                var user = ctx.AppUsers.Include(x => x.AspNetUser).Where(x => x.Id == id).FirstOrDefault();
 
                 if (user == null)
                     throw new NullReferenceException("Nie znaleziono użytkownika");
@@ -236,7 +236,7 @@ namespace CloudDelivery.Services
         {
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                var user = ctx.UserData.Include(x => x.AspNetUser).Where(x => x.Id == id).FirstOrDefault();
+                var user = ctx.AppUsers.Include(x => x.AspNetUser).Where(x => x.Id == id).FirstOrDefault();
 
                 if (user == null)
                     throw new NullReferenceException("Nie znaleziono użytkownika");

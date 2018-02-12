@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CloudDelivery.Data.Entities;
 using CloudDelivery.Models;
+using CloudDelivery.Models.Orders;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace CloudDelivery.App_Start
         {
             Mapper.Initialize(cfg =>
             {
+                //users
                 cfg.CreateMap<User, UserVM>()
                 .ForMember(dest => dest.Login, opt =>
                 opt.MapFrom(src => src.AspNetUser.UserName))
@@ -39,9 +41,30 @@ namespace CloudDelivery.App_Start
                 .ForMember(dest => dest.OrganisationId, opt =>
                 opt.MapFrom(src => src.OrganisationId));
 
+                //orders
+                cfg.CreateMap<OrderEditModel, Order>()
+                .ForMember(dest => dest.EndLatLng, opt=> 
+                opt.MapFrom(src => src.EndLatLng.ToJsonString()));
+
+                cfg.CreateMap<Order, OrderVM>()
+                .ForMember(dest => dest.SalepointName, opt =>
+                opt.MapFrom(src => src.SalePoint.User.Name))
+                .ForMember(dest => dest.CarrierName, opt =>
+                opt.MapFrom(src => src.Carrier.User.Name));
+
+                cfg.CreateMap<Order, OrderListVM>()
+                .ForMember(dest => dest.SalepointName, opt =>
+                opt.MapFrom(src => src.SalePoint.User.Name))
+                .ForMember(dest => dest.CarrierName, opt =>
+                opt.MapFrom(src => src.Carrier.User.Name));
+
+                cfg.CreateMap<Order, PendingOrderListVM>()
+               .ForMember(dest => dest.SalepointName, opt =>
+               opt.MapFrom(src => src.SalePoint.User.Name));
 
 
-                cfg.CreateMap<IdentityRole,RoleVM>();
+
+                cfg.CreateMap<IdentityRole, RoleVM>();
                 cfg.CreateMap<Organisation, OrganisationVM>();
                 cfg.CreateMap<Carrier, CarrierVM>();
                 cfg.CreateMap<SalePoint, SalePointVM>();

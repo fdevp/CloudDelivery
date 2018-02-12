@@ -37,7 +37,9 @@ namespace CloudDelivery.Providers
             var data = this.ParamsDictWithKey();
             data.Add("address", query);
 
-            GeocodeRoot geocodeObject = await this.httpProvider.GetAsync<GeocodeRoot>(this.geocodeUri, data);
+
+            string response = await this.httpProvider.GetAsync(this.geocodeUri, data);
+            GeocodeRoot geocodeObject = JsonConvert.DeserializeObject<GeocodeRoot>(response);
 
             if (geocodeObject.status != "OK")
                 throw new Exception(geocodeObject.status);
@@ -60,7 +62,8 @@ namespace CloudDelivery.Providers
             data.Add("origins", origin);
             data.Add("destinations", destination);
 
-            var matrixObject = await this.httpProvider.GetAsync<DistanceMatrixRoot>(this.distanceMatrixUri, data);
+            string response = await this.httpProvider.GetAsync(this.distanceMatrixUri, data);
+            DistanceMatrixRoot matrixObject = JsonConvert.DeserializeObject<DistanceMatrixRoot>(response);
 
             if (matrixObject.status != "OK")
                 throw new Exception(matrixObject.status);
@@ -79,7 +82,8 @@ namespace CloudDelivery.Providers
             data.Add("origins", origins);
             data.Add("destinations", destinations.ToString());
 
-            var matrixObject = await this.httpProvider.GetAsync<DistanceMatrixRoot>(this.distanceMatrixUri, data);
+            string response = await this.httpProvider.GetAsync(this.distanceMatrixUri, data);
+            DistanceMatrixRoot matrixObject = JsonConvert.DeserializeObject<DistanceMatrixRoot>(response);
 
             if (matrixObject.status != "OK")
                 throw new Exception(matrixObject.status);
@@ -109,7 +113,7 @@ namespace CloudDelivery.Providers
 
 
             OrderTrace trace = new OrderTrace();
-            trace.TraceJSON = await this.httpProvider.GetAsync<string>(this.directionsUri, data);
+            trace.TraceJSON = await this.httpProvider.GetAsync(this.directionsUri, data);
 
             DirectionsRoot traceObject = JsonConvert.DeserializeObject<DirectionsRoot>(trace.TraceJSON);
 
@@ -161,7 +165,7 @@ namespace CloudDelivery.Providers
 
             
             OrderTrace trace = new OrderTrace();
-            trace.TraceJSON = await this.httpProvider.GetAsync<string>(this.directionsUri, data);
+            trace.TraceJSON = await this.httpProvider.GetAsync(this.directionsUri, data);
 
             DirectionsRoot traceObject = JsonConvert.DeserializeObject<DirectionsRoot>(trace.TraceJSON);
 

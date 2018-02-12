@@ -10,9 +10,9 @@ namespace CloudDelivery
 {
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
 
-    public class ApplicationUserManager : UserManager<ApplicationUser>
+    public class ApplicationUserManager : UserManager<ExtendedIdentityUser>
     {
-        public ApplicationUserManager(IUserStore<ApplicationUser> store)
+        public ApplicationUserManager(IUserStore<ExtendedIdentityUser> store)
             : base(store)
         {
         }
@@ -20,10 +20,10 @@ namespace CloudDelivery
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             //new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(new CDContext()));
+            var manager = new ApplicationUserManager(new UserStore<ExtendedIdentityUser>(new CDContext()));
             //var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
             // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<ApplicationUser>(manager)
+            manager.UserValidator = new UserValidator<ExtendedIdentityUser>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
@@ -40,7 +40,7 @@ namespace CloudDelivery
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                manager.UserTokenProvider = new DataProtectorTokenProvider<ExtendedIdentityUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
         }

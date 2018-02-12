@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using CloudDelivery.Data.Entities;
+using System.Security.Principal;
+using Microsoft.AspNet.Identity;
 
 namespace CloudDelivery.Services
 {
@@ -18,94 +20,133 @@ namespace CloudDelivery.Services
             this.ctxFactory = ctxFactory;
         }
 
-        public bool IsUserInOrg(int userId, int orgId)
+        public int GetAppUserId(IPrincipal user)
         {
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                return ctx.UserData.Any(x => x.OrganisationId == orgId && x.Id == userId);
+                string identityId = user.Identity.GetUserId();
+                var appUser = ctx.AppUsers.Where(x => x.IdentityId == identityId).FirstOrDefault();
+                if (appUser == null)
+                    throw new NullReferenceException("Brak użytkownika przypisanego do konta.");
+
+                return appUser.Id;
             }
         }
 
-        public bool IsUserInOrg(string identityId, int orgId)
+        public int GetCarrierId(IPrincipal user)
         {
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                return ctx.UserData.Any(x => x.OrganisationId == orgId && x.IdentityId == identityId);
+                string identityId = user.Identity.GetUserId();
+                var carrier = ctx.Carriers.Include(x => x.User).Where(x => x.User.IdentityId == identityId).FirstOrDefault();
+                if (carrier == null)
+                    throw new NullReferenceException("Brak dostawcy przypisanego do konta.");
+
+                return carrier.Id;
             }
         }
 
-        public bool UserIsSalePoint(int userId, int spId)
+        public int GetSalePointId(IPrincipal user)
         {
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                return ctx.SalePoints.Any(x => x.UserId == userId && x.Id == spId);
+                string identityId = user.Identity.GetUserId();
+                var salePoint = ctx.SalePoints.Include(x => x.User).Where(x => x.User.IdentityId == identityId).FirstOrDefault();
+                if (salePoint == null)
+                    throw new NullReferenceException("Brak punktu sprzedaży przypisanego do konta.");
+
+                return salePoint.Id;
             }
         }
 
-
-        public bool UserIsSalePoint(string identityId, int spId)
+        public int? GetOrganisationId(IPrincipal user)
         {
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                return ctx.SalePoints.Include(x => x.User).Any(x => x.User.IdentityId == identityId && x.Id == spId);
+                string identityId = user.Identity.GetUserId();
+                var appUser = ctx.AppUsers.Where(x => x.IdentityId == identityId).FirstOrDefault();
+                return appUser.OrganisationId;
             }
         }
 
-        public bool UserIsCarrier(int userId, int carrierId)
+        public bool CanCheckOrderDetails(int orderId, IPrincipal user)
         {
+            if (this.isAdministrator(user))
+                return true;
+
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                return ctx.Carriers.Any(x => x.UserId == userId && x.Id == carrierId);
+                Order order = ctx.Orders.Include(x => x.Carrier.User).Include(x => x.SalePoint.User).Where(x => x.Id == orderId).FirstOrDefault();
+                if (order == null)
+                    return false;
+
+                string identityId = user.Identity.GetUserId();
+
+                //is carrier
+                if (order.CarrierId != null && order.Carrier.User.IdentityId == identityId)
+                    return true;
+
+                //is salepoint
+                if (order.SalePoint.User.IdentityId == identityId)
+                    return true;
+
+                //is organisator
+                User appUser = ctx.AppUsers.Where(x => x.IdentityId == identityId).FirstOrDefault();
+
+                if (user.IsInRole("organisator") && appUser != null && order.SalePoint.User.OrganisationId == appUser.OrganisationId)
+                    return true;
+
+                return false;
             }
         }
 
-
-        public bool UserIsCarrier(string identityId, int carrierId)
+        public bool HasCarrierPerms(int orderId, IPrincipal user)
         {
+            if (this.isAdministrator(user))
+                return true;
+
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                return ctx.Carriers.Include(x => x.User).Any(x => x.User.IdentityId == identityId && x.Id == carrierId);
+                string identityId = user.Identity.GetUserId();
+                return user.IsInRole("carrier") &&
+                       ctx.Orders.Include(x => x.Carrier.User)
+                                 .Any(x => x.Id == orderId &&
+                                           x.CarrierId != null &&
+                                           x.Carrier.User.IdentityId == identityId);
             }
         }
 
-
-        public int GetUserId(string identityId)
+        public bool HasSalepointPerms(int orderId, IPrincipal user)
         {
+            if (this.isAdministrator(user))
+                return true;
+
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                User user = ctx.UserData.Where(x => x.IdentityId == identityId).FirstOrDefault();
-
-                if (user == null)
-                    throw new NullReferenceException("Nie znaleziono użytkownika");
-
-                return (user.Id);
+                string identityId = user.Identity.GetUserId();
+                return user.IsInRole("salepoint") &&
+                       ctx.Orders.Include(x => x.SalePoint.User)
+                                 .Any(x => x.Id == orderId &&
+                                           x.SalePoint.User.IdentityId == identityId);
             }
         }
 
-        public int? GetUserOrganisationId(string identityId)
+        public bool HasOrganisatorPerms(int organisationId, IPrincipal user)
         {
+            if (this.isAdministrator(user))
+                return true;
+
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                User user = ctx.UserData.Where(x => x.IdentityId == identityId).FirstOrDefault();
-
-                if (user == null)
-                    throw new NullReferenceException("Nie znaleziono użytkownika");
-
-                return (user.OrganisationId);
+                string identityId = user.Identity.GetUserId();
+                return user.IsInRole("organisator") && ctx.AppUsers.Any(x => x.OrganisationId == organisationId &&
+                                                                            x.IdentityId == identityId);
             }
         }
 
-        public int? GetUserOrganisationId(int userId)
+        private bool isAdministrator(IPrincipal user)
         {
-            using (ICDContext ctx = ctxFactory.GetContext())
-            {
-                User user = ctx.UserData.Where(x => x.Id == userId).FirstOrDefault();
-
-                if (user == null)
-                    throw new NullReferenceException("Nie znaleziono użytkownika");
-
-                return (user.OrganisationId);
-            }
+            return user.IsInRole("admin");
         }
 
         private ICacheProvider cacheProvider;

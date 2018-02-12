@@ -144,6 +144,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mocks\PrincipalMocks.cs" />
     <Compile Include="Mocks\DatabaseFactoryMocks.cs" />
     <Compile Include="Mocks\HttpClientMocks.cs" />
     <Compile Include="Mocks\HttpProviderMocks.cs" />

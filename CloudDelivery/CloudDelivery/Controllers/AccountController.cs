@@ -125,7 +125,7 @@ namespace CloudDelivery.Controllers
 
             string email = model.Login + "@cd.com";
 
-            var user = new ApplicationUser() { UserName = model.Login, Email = email };
+            var user = new ExtendedIdentityUser() { UserName = model.Login, Email = email };
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)

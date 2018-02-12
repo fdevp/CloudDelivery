@@ -33,7 +33,7 @@ namespace CloudDelivery.Services
         {
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                User user = ctx.UserData.Where(x => x.Id == userId).FirstOrDefault();
+                User user = ctx.AppUsers.Where(x => x.Id == userId).FirstOrDefault();
 
                 if (user == null)
                     throw new NullReferenceException("Nie znaleziono użytkownika.");
@@ -62,7 +62,7 @@ namespace CloudDelivery.Services
                 if (organisation == null)
                     throw new NullReferenceException("Nie znaleziono organizacji");
 
-                return ctx.UserData.Count(x => x.OrganisationId == organisationId);
+                return ctx.AppUsers.Count(x => x.OrganisationId == organisationId);
             }
         }
 
@@ -75,7 +75,7 @@ namespace CloudDelivery.Services
                 if (organisation == null)
                     throw new NullReferenceException("Nie znaleziono organizacji");
 
-                return ctx.UserData
+                return ctx.AppUsers
                           .Include(x => x.AspNetUser)
                           .Include(x => x.AspNetUser.Roles)
                           .Include(x => x.Organisation)
@@ -88,7 +88,7 @@ namespace CloudDelivery.Services
         {
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                User user = ctx.UserData.Where(x => x.Id == userId).FirstOrDefault();
+                User user = ctx.AppUsers.Where(x => x.Id == userId).FirstOrDefault();
 
                 if (user == null)
                     throw new NullReferenceException("Nie znaleziono użytkownika.");
@@ -113,7 +113,7 @@ namespace CloudDelivery.Services
                     throw new NullReferenceException("Nie znaleziono organizacji");
 
                 //remove organisationId from users belongs to organisation
-                ctx.UserData.Where(x => x.OrganisationId == id).ToList().ForEach(x =>
+                ctx.AppUsers.Where(x => x.OrganisationId == id).ToList().ForEach(x =>
                   {
                       RemoveMember(x.Id);
                   });

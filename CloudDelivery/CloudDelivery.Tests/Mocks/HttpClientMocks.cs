@@ -41,21 +41,9 @@ namespace CloudDelivery.Tests.Mocks
                 {
                     return request.CreateErrorResponse(HttpStatusCode.NotFound, new Exception("Requested URL not found on this server."));
                 }
-                if(request.RequestUri.AbsoluteUri == "http://test.com/")
+                if (request.RequestUri.AbsoluteUri == "http://test.com/action?key=apikey&getparam1=getparam1&getparam2=getparam2")
                 {
-                    //data to check
-                    var data = new Dictionary<string, string>();
-                    data.Add("key", "apikey");
-                    data.Add("getparam1", "getparam1");
-                    data.Add("getparam2", "getparam2");
-
-                    //check data
-                    string content = request.Content.ReadAsStringAsync().Result;
-
-                    if (content == "key=apikey&getparam1=getparam1&getparam2=getparam2")
-                    {
-                        return request.CreateResponse(HttpStatusCode.OK, "response", new HttpConfiguration());
-                    }
+                    return request.CreateResponse(HttpStatusCode.OK, "response", new HttpConfiguration());
                 }
 
                 throw new Exception("");
@@ -67,7 +55,7 @@ namespace CloudDelivery.Tests.Mocks
                 {
                     return request.CreateErrorResponse(HttpStatusCode.NotFound, new Exception("Requested URL not found on this server."));
                 }
-                if(request.RequestUri.AbsoluteUri == "http://test.com/")
+                if (request.RequestUri.AbsoluteUri == "http://test.com/action")
                 {
                     //data to check
                     var data = new Dictionary<string, string>();
@@ -81,14 +69,14 @@ namespace CloudDelivery.Tests.Mocks
 
                     if (dictContent.CompareTo<string, string>(data))
                     {
-                        return request.CreateResponse(HttpStatusCode.OK, "response",new HttpConfiguration());
+                        return request.CreateResponse(HttpStatusCode.OK, "response", new HttpConfiguration());
                     }
 
                 }
 
                 throw new Exception("");
             }
-            
+
         }
 
     }

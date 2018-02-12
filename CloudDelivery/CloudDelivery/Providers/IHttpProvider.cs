@@ -15,7 +15,7 @@ namespace CloudDelivery.Providers
         /// <typeparam name="T"></typeparam>
         /// <param name="resource">url</param>
         /// <returns></returns>
-        Task<T> GetAsync<T>(string resource, Dictionary<string, string> data = null);
+        Task<string> GetAsync(string resource, Dictionary<string, string> data = null);
 
         /// <summary>
         /// post
@@ -24,6 +24,6 @@ namespace CloudDelivery.Providers
         /// <param name="resource">url</param>
         /// <param name="data">data</param>
         /// <returns></returns>
-        Task<T> PostAsync<T>(string resource, object data = null);
+        Task<string> PostAsync(string resource, object data = null);
     }
 }

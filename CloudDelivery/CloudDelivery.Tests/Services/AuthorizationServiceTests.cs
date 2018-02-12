@@ -3,11 +3,13 @@ using CloudDelivery.Data.Entities;
 using CloudDelivery.Providers;
 using CloudDelivery.Services;
 using CloudDelivery.Tests.Initialize;
+using CloudDelivery.Tests.Mocks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,87 +27,231 @@ namespace CloudDelivery.Tests.Services
             ICDContextFactory ctxFactory = DatabaseMocksFactory.GetCtxFactoryMock().Object;
             var cache = new CacheProvider();
             ctx = ctxFactory.GetContext();
+
             authService = new AuthorizationService(cache, ctxFactory);
             usersService = new UsersService(cache, ctxFactory);
         }
-
+        
         [TestMethod()]
-        public void IsUserInOrg_ShouldCheckIsUserInOrgByUserId()
+        public void GetAppUserId_ShouldReturnAppUserId()
         {
-            User user = usersService.GetUsersList().FirstOrDefault();
-            usersService.SetOrganisation(user.Id, 1);
-            Assert.IsTrue(authService.IsUserInOrg(user.Id, 1));
+            User user = ctx.AppUsers.FirstOrDefault();
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "").Object;
+
+            Assert.AreEqual(user.Id,this.authService.GetAppUserId(principal));
         }
 
         [TestMethod()]
-        public void IsUserInOrg_ShouldCheckIsUserInOrgByIdentityId()
+        [ExpectedException(typeof(NullReferenceException))]
+        public void GetAppUserId_ShouldThrowUserNullReferenceException()
         {
-            User user = usersService.GetUsersList().FirstOrDefault();
-            usersService.SetOrganisation(user.Id, 1);
-            Assert.IsTrue(authService.IsUserInOrg(user.IdentityId, 1));
+            var user = new User();
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "").Object;
+            this.authService.GetAppUserId(principal);
         }
 
         [TestMethod()]
-        public void UserIsSalePoint_ShouldCheckUserIsSalePointById()
-        {
-            SalePoint sp = ctx.SalePoints.FirstOrDefault();
-            Assert.IsTrue(authService.UserIsSalePoint(sp.UserId.Value, sp.Id));
-        }
-
-        [TestMethod()]
-        public void UserIsSalePoint_ShouldCheckUserIsSalePointByIdentity()
-        {
-            SalePoint sp = ctx.SalePoints.FirstOrDefault();
-            User user = ctx.UserData.FirstOrDefault();
-            user.AspNetUser = ctx.Users.Where(x => x.Id == user.IdentityId).FirstOrDefault();
-            sp.User = user;
-
-            Assert.IsTrue(authService.UserIsSalePoint(sp.User.IdentityId, sp.Id));
-        }
-
-        [TestMethod()]
-        public void UserIsCarrier_ShouldCheckUserIsCarrierById()
+        public void GetCarrierId_ShouldReturnCarrierId()
         {
             Carrier carrier = ctx.Carriers.FirstOrDefault();
-            Assert.IsTrue(authService.UserIsCarrier(carrier.UserId.Value, carrier.Id));
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(carrier.User, "").Object;
+
+            Assert.AreEqual(carrier.Id, this.authService.GetCarrierId(principal));
         }
 
         [TestMethod()]
-        public void UserIsCarrier_ShouldCheckUserIsCarrierByIdentity()
+        [ExpectedException(typeof(NullReferenceException))]
+        public void GetCarrierId_ShouldThrowCarrierNullReferenceException()
         {
-            Carrier carrier = ctx.Carriers.FirstOrDefault();
-            User user = ctx.UserData.FirstOrDefault();
-            user.AspNetUser = ctx.Users.Where(x => x.Id == user.IdentityId).FirstOrDefault();
-            carrier.User = user;
+            var user = new User();
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "").Object;
+            this.authService.GetCarrierId(principal);
+        }
 
-            Assert.IsTrue(authService.UserIsCarrier(carrier.User.IdentityId, carrier.Id));
+        [TestMethod()]
+        public void GetSalePointId_ShouldReturnSalePointId()
+        {
+            SalePoint salePoint = ctx.SalePoints.FirstOrDefault();
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(salePoint.User, "").Object;
+
+            Assert.AreEqual(salePoint.Id, this.authService.GetAppUserId(principal));
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void GetSalePointId_ShouldThrowSalePointNullReferenceException()
+        {
+            var user = new User();
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "").Object;
+            this.authService.GetSalePointId(principal);
         }
 
 
         [TestMethod()]
-        public void GetUserId_ShouldReturnUserId()
+        public void GetOrganisationId_ShouldReturnOrganisationId()
         {
-            User user = ctx.UserData.FirstOrDefault();
-            Assert.AreEqual(user.Id, authService.GetUserId(user.IdentityId));
+            User user = ctx.AppUsers.FirstOrDefault();
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "").Object;
+
+            Assert.AreEqual(user.OrganisationId, this.authService.GetOrganisationId(principal));
+        }
+
+        [TestMethod()]
+        public void CanCheckOrderDetails_ShouldReturnTrueForAdmin()
+        {
+            User user = ctx.AppUsers.FirstOrDefault();
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "admin").Object;
+            Order order = ctx.Orders.FirstOrDefault();
+
+            Assert.IsTrue(this.authService.CanCheckOrderDetails(order.Id, principal));
+        }
+
+        [TestMethod()]
+        public void CanCheckOrderDetails_ShouldReturnTrueForCarrier()
+        {
+            Order order = ctx.Orders.Where(x=>x.CarrierId != null).FirstOrDefault();
+            Carrier carrier = ctx.Carriers.Where(x => x.Id == order.CarrierId).FirstOrDefault();
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(carrier.User, "carrier").Object;
+
+            Assert.IsTrue(this.authService.CanCheckOrderDetails(order.Id, principal));
+        }
+
+        [TestMethod()]
+        public void CanCheckOrderDetails_ShouldReturnTrueForSalePoint()
+        {
+            Order order = ctx.Orders.FirstOrDefault();
+            SalePoint sp = ctx.SalePoints.Where(x => x.Id == order.SalePointId).FirstOrDefault();
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(sp.User, "salepoint").Object;
+
+            Assert.IsTrue(this.authService.CanCheckOrderDetails(order.Id, principal));
         }
 
 
         [TestMethod()]
-        public void GetUserOrganisationId_ShouldReturnUserOrganisationIdById()
+        public void CanCheckOrderDetails_ShouldReturnTrueForOrganisator()
         {
-            User user = ctx.UserData.FirstOrDefault();
-            usersService.SetOrganisation(user.Id, 1);
-            Assert.AreEqual(1, authService.GetUserOrganisationId(user.IdentityId));
+            Order order = ctx.Orders.FirstOrDefault();
+            SalePoint sp = ctx.SalePoints.Where(x => x.Id == order.SalePointId).FirstOrDefault();
+            User organisator = ctx.AppUsers.Where(x => x.Id != sp.UserId && x.OrganisationId == sp.User.OrganisationId).FirstOrDefault();
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(sp.User, "organisator").Object;
+
+            Assert.IsTrue(this.authService.CanCheckOrderDetails(order.Id, principal));
         }
 
+        [TestMethod()]
+        public void CanCheckOrderDetails_ShouldReturnFalse()
+        {
+            Order order = ctx.Orders.FirstOrDefault();
+            Order orderSec = ctx.Orders.Where(x => x.CarrierId != order.CarrierId).FirstOrDefault();
+
+            User user = ctx.AppUsers.Where(x => x.Id == orderSec.Carrier.UserId).FirstOrDefault();
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "carrier").Object;
+
+            Assert.IsFalse(this.authService.CanCheckOrderDetails(order.Id, principal));
+        }
 
 
         [TestMethod()]
-        public void GetUserOrganisationId_ShouldReturnUserOrganisationIdByIdentity()
+        public void HasCarrierPerms_ShouldReturnFalse()
         {
-            User user = ctx.UserData.FirstOrDefault();
-            usersService.SetOrganisation(user.Id, 1);
-            Assert.AreEqual(1, authService.GetUserOrganisationId(user.Id));
+            Order order = ctx.Orders.FirstOrDefault();
+            Order orderSec = ctx.Orders.Where(x => x.CarrierId != order.CarrierId).FirstOrDefault();
+
+            User user = ctx.AppUsers.Where(x => x.Id == orderSec.Carrier.UserId).FirstOrDefault();
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "carrier").Object;
+
+            Assert.IsFalse(this.authService.HasCarrierPerms(order.Id, principal));
         }
+
+        [TestMethod()]
+        public void HasCarrierPerms_ShouldReturnTrueForAdmin()
+        {
+            User user = ctx.AppUsers.FirstOrDefault();
+            Order order = ctx.Orders.FirstOrDefault();
+
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "admin").Object;
+
+            Assert.IsTrue(this.authService.HasCarrierPerms(order.Id, principal));
+        }
+
+        [TestMethod()]
+        public void HasCarrierPerms_ShouldReturnTrueForCarrier()
+        {
+            Order order = ctx.Orders.Where(x => x.CarrierId != null).FirstOrDefault();
+            User user = order.Carrier.User;
+
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "carrier").Object;
+
+            Assert.IsTrue(this.authService.HasCarrierPerms(order.Id, principal));
+        }
+
+
+        [TestMethod()]
+        public void HasSalepointPerms_ShouldReturnFalse()
+        {
+            Order order = ctx.Orders.FirstOrDefault();
+            Order orderSec = ctx.Orders.Where(x => x.SalePointId != order.SalePointId).FirstOrDefault();
+
+            User user = ctx.AppUsers.Where(x => x.Id == orderSec.SalePoint.UserId).FirstOrDefault();
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "salepoint").Object;
+
+            Assert.IsFalse(this.authService.HasSalepointPerms(order.Id, principal));
+        }
+
+        [TestMethod()]
+        public void HasSalepointPerms_ShouldReturnTrueForAdmin()
+        {
+            User user = ctx.AppUsers.FirstOrDefault();
+            Order order = ctx.Orders.FirstOrDefault();
+
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "admin").Object;
+
+            Assert.IsTrue(this.authService.HasSalepointPerms(order.Id, principal));
+        }
+
+        [TestMethod()]
+        public void HasSalepointPerms_ShouldReturnTrueForSalePoint()
+        {
+            Order order = ctx.Orders.FirstOrDefault();
+            User user = order.SalePoint.User;
+
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "salepoint").Object;
+
+            Assert.IsTrue(this.authService.HasSalepointPerms(order.Id, principal));
+        }
+
+        [TestMethod()]
+        public void HasOrganisatorPerms_ShouldReturnFalse()
+        {
+            Organisation organisation = ctx.Organisations.FirstOrDefault();
+            User user = ctx.AppUsers.Where(x => x.OrganisationId != organisation.Id).FirstOrDefault();
+
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "organisator").Object;
+
+            Assert.IsFalse(this.authService.HasOrganisatorPerms(organisation.Id, principal));
+        }
+
+        [TestMethod()]
+        public void HasOrganisatorPerms_ShouldReturnTrueForAdmin()
+        {
+            Organisation organisation = ctx.Organisations.FirstOrDefault();
+            User user = ctx.AppUsers.FirstOrDefault();
+
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "admin").Object;
+
+            Assert.IsTrue(this.authService.HasOrganisatorPerms(organisation.Id, principal));
+        }
+
+        [TestMethod()]
+        public void HasOrganisatorPerms_ShouldReturnTrueForOrganisator()
+        {
+            Organisation organisation = ctx.Organisations.FirstOrDefault();
+            User user = ctx.AppUsers.Where(x => x.OrganisationId == organisation.Id).FirstOrDefault();
+
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "organisator").Object;
+
+            Assert.IsTrue(this.authService.HasOrganisatorPerms(organisation.Id, principal));
+        }
+
     }
 }

@@ -16,27 +16,6 @@ namespace CloudDelivery.Controllers
             this.authService = authService;
         }
 
-        public bool CanCheckUserDetails(int targetUserId)
-        {
-            if (authService.GetUserId(this.User.Identity.GetUserId()) == targetUserId || this.IsAdmin())
-                return true;
-
-            int? orgId = authService.GetUserOrganisationId(targetUserId);
-
-            return orgId.HasValue && this.IsOrganisator(orgId.Value);
-        }
-
-
-        protected bool IsAdmin()
-        {
-            return this.User.IsInRole("admin");
-        }
-
-        protected bool IsOrganisator(int organisationId)
-        {
-            return this.User.IsInRole("organisator") && authService.IsUserInOrg(this.User.Identity.GetUserId(),organisationId);
-        }
-
         protected IAuthorizationService authService;
     }
 }

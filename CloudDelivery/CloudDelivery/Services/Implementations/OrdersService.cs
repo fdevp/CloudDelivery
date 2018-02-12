@@ -45,15 +45,15 @@ namespace CloudDelivery.Services
             }
         }
 
-        public int AddOrder(Order order, int SalePointId)
+        public int AddOrder(Order order, int salePointId)
         {
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                if (!ctx.SalePoints.Any(x => x.Id == SalePointId))
+                if (!ctx.SalePoints.Any(x => x.Id == salePointId))
                     throw new NullReferenceException("Punkt sprzedaży nie istnieje.");
 
                 order.AddedTime = DateTime.Now;
-                order.SalePointId = SalePointId;
+                order.SalePointId = salePointId;
                 order.Status = OrderStatus.Added;
 
                 ctx.Orders.Add(order);
@@ -109,7 +109,7 @@ namespace CloudDelivery.Services
         {
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                Order order = ctx.Orders.Where(x => x.Id == orderId).Include(x => x.SalePoint).FirstOrDefault();
+                Order order = ctx.Orders.Where(x => x.Id == orderId).Include(x => x.SalePoint.User).Include(x=>x.Carrier.User).FirstOrDefault();
 
                 if (order == null)
                     throw new NullReferenceException("Zamówienie nie istnieje.");
@@ -198,7 +198,7 @@ namespace CloudDelivery.Services
                     throw new NullReferenceException("Zamówienie nie istnieje.");
 
                 if (order.Status != OrderStatus.InDelivery)
-                    throw new ArgumentException("Na tym etapie nie można zakończyń dostawy.");
+                    throw new ArgumentException("Na tym etapie nie można zakończyć dostawy.");
 
                 order.DeliveredTime = DateTime.Now;
 
@@ -257,6 +257,11 @@ namespace CloudDelivery.Services
 
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
+                Order orderToSave = ctx.Orders.Where(x => x.Id == order.Id).FirstOrDefault();
+                orderToSave.ExpectedMinutes = response.properties.Time / 60;
+                orderToSave.DistanceMeters = response.properties.Distance;
+                orderToSave.TraceJSON = response.TraceJSON;
+                orderToSave.StartLatLng = startLocation.ToJsonString();
                 ctx.SaveChanges();
             }
 

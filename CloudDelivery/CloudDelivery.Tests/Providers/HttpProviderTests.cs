@@ -28,16 +28,16 @@ namespace CloudDelivery.Tests.Providers
             data.Add("getparam1","getparam1");
             data.Add("getparam2","getparam2");
 
-            string response = this.httpProvider.GetAsync<string>("http://test.com", data).Result;
+            string response = this.httpProvider.GetAsync("http://test.com/action", data).Result;
 
-            Assert.AreEqual("response", response);
+            Assert.AreEqual("\"response\"", response);
         }
 
 
         [TestMethod()]
         public void GetAsync_ShouldThrowHttpRequestException()
         {
-            Assert.ThrowsExceptionAsync<HttpRequestException>(async () => await this.httpProvider.GetAsync<string>("http://error404.com/resource"));
+            Assert.ThrowsExceptionAsync<HttpRequestException>(async () => await this.httpProvider.GetAsync("http://error404.com/resource"));
         }
 
         [TestMethod()]
@@ -48,16 +48,16 @@ namespace CloudDelivery.Tests.Providers
             data.Add("postparam1", "postparam1");
             data.Add("postparam2", "postparam2");
 
-            string response = this.httpProvider.PostAsync<string>("http://test.com", data).Result;
+            string response = this.httpProvider.PostAsync("http://test.com/action", data).Result;
 
-            Assert.AreEqual("response", response);
+            Assert.AreEqual("\"response\"", response);
         }
 
 
         [TestMethod()]
         public void PostAsync_ShouldThrowHttpRequestException()
         {
-            Assert.ThrowsExceptionAsync<HttpRequestException>(async () => await this.httpProvider.PostAsync<string>("http://error404.com/resource"));
+            Assert.ThrowsExceptionAsync<HttpRequestException>(async () => await this.httpProvider.PostAsync("http://error404.com/resource"));
         }
 
     }

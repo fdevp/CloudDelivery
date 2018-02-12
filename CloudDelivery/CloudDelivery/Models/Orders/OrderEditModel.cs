@@ -7,7 +7,7 @@ namespace CloudDelivery.Models.Orders
 {
     public class OrderEditModel
     {
-        public DateTime RequiredPickUpTime { get; set; }
+        public DateTime? RequiredPickUpTime { get; set; }
 
         public string DestinationCity { get; set; }
 

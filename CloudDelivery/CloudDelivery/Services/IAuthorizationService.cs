@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,34 +9,20 @@ namespace CloudDelivery.Services
 {
     public interface IAuthorizationService
     {
-        /// <summary>
-        /// check if user is organisation member
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="orgId"></param>
-        /// <returns></returns>
-        bool IsUserInOrg(int userId, int orgId);
+        int GetAppUserId(IPrincipal user);
 
-        /// <summary>
-        /// check if user is organisation member
-        /// </summary>
-        /// <param name="identityId"></param>
-        /// <param name="orgId"></param>
-        /// <returns></returns>
-        bool IsUserInOrg(string identityId, int orgId);
+        int GetCarrierId(IPrincipal user);
 
-        bool UserIsSalePoint(int userId, int spId);
+        int GetSalePointId(IPrincipal user);
 
-        bool UserIsSalePoint(string identityId, int spId);
+        int? GetOrganisationId(IPrincipal user);
 
-        bool UserIsCarrier(int userId, int carrierId);
+        bool CanCheckOrderDetails(int orderId, IPrincipal user);
 
-        bool UserIsCarrier(string identityId, int carrierId);
+        bool HasCarrierPerms(int orderId, IPrincipal user);
 
-        int GetUserId(string identityId);
+        bool HasSalepointPerms(int orderId, IPrincipal user);
 
-        int? GetUserOrganisationId(int userId);
-
-        int? GetUserOrganisationId(string identityId);
+        bool HasOrganisatorPerms(int organisationId, IPrincipal user);
     }
 }

@@ -23,7 +23,7 @@ namespace CloudDelivery.Services
 
             using (ICDContext ctx = ctxFactory.GetContext())
             {
-                if (!ctx.UserData.Any(x => x.Id == userId))
+                if (!ctx.AppUsers.Any(x => x.Id == userId))
                     throw new NullReferenceException("Użytkownik nie istnieje.");
 
                 if (ctx.Carriers.Any(x => x.UserId == userId))

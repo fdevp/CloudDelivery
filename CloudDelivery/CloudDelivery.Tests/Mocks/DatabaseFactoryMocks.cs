@@ -35,29 +35,36 @@ namespace CloudDelivery.Tests.Initialize
         public static Mock<ICDContext> GetContextMock()
         {
             var ctxMock = new Mock<ICDContext>();
+
             //organisations
             IList<Organisation> organisationsData = Builder<Organisation>.CreateListOfSize(OrganisationsCount).All().Build();
-            ctxMock.Setup(x => x.Organisations).Returns(GetDbSetMock<Organisation>(organisationsData).Object);
+            ctxMock.Setup(x => x.Organisations).Returns(DbSetMockBehaviour<Organisation>(organisationsData).Object);
 
             //users
-            IList<ApplicationUser> identityUsersData = Builder<ApplicationUser>.CreateListOfSize(UsersCount).All().Build();
-            ctxMock.Setup(x => x.Users).Returns(GetDbSetMock<ApplicationUser>(identityUsersData).Object);
-
+            //usersIdentity
+            IList<ExtendedIdentityUser> identityUsersData = Builder<ExtendedIdentityUser>.CreateListOfSize(UsersCount).All().Build();
+            ctxMock.Setup(x => x.Users).Returns(DbSetMockBehaviour<ExtendedIdentityUser>(identityUsersData).Object);
+            //usersApp
             IList<User> usersData = Builder<User>.CreateListOfSize(UsersCount).All()
                                          .With(x => x.OrganisationId = x.Id % OrganisationsCount + 1)
+                                         .With(x=>x.IdentityId = identityUsersData[x.Id-1].Id)
                                          .Build();
             foreach (User user in usersData)
             {
                 user.Organisation = organisationsData.Where(x => x.Id == user.OrganisationId).FirstOrDefault();
+                user.AspNetUser = identityUsersData.Where(x => x.Id == user.IdentityId).FirstOrDefault();
             }
-            ctxMock.Setup(x => x.UserData).Returns(GetDbSetMock<User>(usersData).Object);
+            ctxMock.Setup(x => x.AppUsers).Returns(DbSetMockBehaviour<User>(usersData).Object);
+
 
             //roles
             IList<IdentityRole> rolesData = Builder<IdentityRole>.CreateListOfSize(RolesCount).All().Build();
-            ctxMock.Setup(x => x.Roles).Returns(GetDbSetMock<IdentityRole>(rolesData).Object);
+
+
+            ctxMock.Setup(x => x.Roles).Returns(DbSetMockBehaviour<IdentityRole>(rolesData).Object);
 
             IList<IdentityUserRole> userRolesData = Builder<IdentityUserRole>.CreateListOfSize(RolesCount).All().Build();
-            ctxMock.Setup(x => x.UserRoles).Returns(GetDbSetMock<IdentityUserRole>(userRolesData).Object);
+            ctxMock.Setup(x => x.UserRoles).Returns(DbSetMockBehaviour<IdentityUserRole>(userRolesData).Object);
 
 
 
@@ -67,7 +74,7 @@ namespace CloudDelivery.Tests.Initialize
             {
                 SalePoint.User = usersData.Where(x => x.Id == SalePoint.UserId).FirstOrDefault();
             }
-            ctxMock.Setup(x => x.SalePoints).Returns(GetDbSetMock<SalePoint>(salePointsData).Object);
+            ctxMock.Setup(x => x.SalePoints).Returns(DbSetMockBehaviour<SalePoint>(salePointsData).Object);
 
 
             //carriers
@@ -78,12 +85,12 @@ namespace CloudDelivery.Tests.Initialize
             {
                 carrier.User = usersData.Where(x => x.Id == carrier.UserId).FirstOrDefault();
             }
-            ctxMock.Setup(x => x.Carriers).Returns(GetDbSetMock<Carrier>(carriersData).Object);
+            ctxMock.Setup(x => x.Carriers).Returns(DbSetMockBehaviour<Carrier>(carriersData).Object);
 
 
             //packages
             IList<Package> packagesData = Builder<Package>.CreateListOfSize(PackagesCount).All().Build();
-            ctxMock.Setup(x => x.Packages).Returns(GetDbSetMock<Package>(packagesData).Object);
+            ctxMock.Setup(x => x.Packages).Returns(DbSetMockBehaviour<Package>(packagesData).Object);
 
             SetupOrders(ctxMock, salePointsData, carriersData, packagesData);
 
@@ -126,11 +133,11 @@ namespace CloudDelivery.Tests.Initialize
             ordersData[0].Carrier = null;
             ordersData[0].CarrierId = null;
 
-            mock.Setup(x => x.Orders).Returns(GetDbSetMock<Order>(ordersData).Object);
+            mock.Setup(x => x.Orders).Returns(DbSetMockBehaviour<Order>(ordersData).Object);
         }
 
 
-        private static Mock<DbSet<T>> GetDbSetMock<T>(IList<T> items) where T : class
+        private static Mock<DbSet<T>> DbSetMockBehaviour<T>(IList<T> items) where T : class
         {
             IQueryable<T> itemsQ = items.AsQueryable();
             var dbSetMock = new Mock<DbSet<T>>();

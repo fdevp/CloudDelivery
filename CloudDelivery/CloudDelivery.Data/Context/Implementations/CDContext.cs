@@ -14,9 +14,9 @@ using System.Web;
 namespace CloudDelivery.Data
 {
 
-    public class ApplicationUser : IdentityUser
+    public class ExtendedIdentityUser : IdentityUser
     {
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ExtendedIdentityUser> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
@@ -25,7 +25,7 @@ namespace CloudDelivery.Data
         }
     }
 
-    public class CDContext : IdentityDbContext<ApplicationUser>, ICDContext
+    public class CDContext : IdentityDbContext<ExtendedIdentityUser>, ICDContext
     {
         #region init
         public CDContext()
@@ -52,7 +52,7 @@ namespace CloudDelivery.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<ApplicationUser>().ToTable("AspNetUsers").Property(p => p.Id);
+            modelBuilder.Entity<ExtendedIdentityUser>().ToTable("AspNetUsers").Property(p => p.Id);
             modelBuilder.Entity<IdentityUserLogin>().ToTable("AspNetUserLogins");
             modelBuilder.Entity<IdentityUserRole>().ToTable("AspNetUserRoles");
             modelBuilder.Entity<IdentityUserClaim>().ToTable("AspNetUserClaims").Property(p => p.Id);
@@ -60,7 +60,7 @@ namespace CloudDelivery.Data
 
         #endregion
 
-        public virtual DbSet<User> UserData { get; set; }
+        public virtual DbSet<User> AppUsers { get; set; }
         public virtual DbSet<Organisation> Organisations { get; set; }
         public virtual DbSet<SalePoint> SalePoints { get; set; }
         public virtual DbSet<Carrier> Carriers { get; set; }

@@ -15,7 +15,7 @@ namespace CloudDelivery.Services
         /// add new order ad
         /// </summary>
         /// <param name="order">order details</param>
-        /// <param name="userId">SalePoint which added ad</param>
+        /// <param name="SalePointId">SalePoint which added ad</param>
         /// <returns></returns>
         int AddOrder(Order order, int SalePointId);
 
@@ -46,7 +46,7 @@ namespace CloudDelivery.Services
         /// accept order and change status
         /// </summary>
         /// <param name="orderId"></param>
-        /// <param name="userId">carrier who accepted order</param>
+        /// <param name="carrierId">carrier who accepted order</param>
         /// <returns></returns>
         void AcceptOrder(int orderId, int carrierId);
 

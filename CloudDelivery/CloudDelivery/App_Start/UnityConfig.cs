@@ -3,6 +3,7 @@ using CloudDelivery.Data;
 using CloudDelivery.Providers;
 using CloudDelivery.Services;
 using Microsoft.Practices.Unity;
+using System;
 using System.Net.Http;
 using System.Web.Http;
 using Unity.WebApi;
@@ -19,9 +20,16 @@ namespace CloudDelivery
             container.RegisterType<ICDContext, CDContext>();
             container.RegisterType<ICDContextFactory, CDContextFactory>();
 
+
+            //httpclient
+            TimeSpan.FromSeconds(20);
+            HttpClient httpClient = new HttpClient() { Timeout= TimeSpan.FromSeconds(20) };
+            InjectionFactory httpClientInjectionFactory = new InjectionFactory(x => httpClient);
+            container.RegisterType<HttpClient>(httpClientInjectionFactory);
+
             //providers
             container.RegisterType<ICacheProvider, CacheProvider>();
-            container.RegisterType<IHttpProvider, HttpProvider>(new InjectionConstructor(typeof(HttpClient)));
+            container.RegisterType<IHttpProvider, HttpProvider>();
             container.RegisterType<IGMapsProvider, GMapsProvider>();
 
             //services
@@ -30,6 +38,7 @@ namespace CloudDelivery
             container.RegisterType<ICarriersService, CarriersService>();
             container.RegisterType<ISalePointsService, SalePointsService>();
             container.RegisterType<IAuthorizationService, AuthorizationService>();
+            container.RegisterType<IOrdersService, OrdersService>();
 
             //controllers
             container.RegisterType<AccountController>(new InjectionConstructor(typeof(IUsersService), typeof(IAuthorizationService)));
@@ -37,6 +46,7 @@ namespace CloudDelivery
             container.RegisterType<OrganisationsController>();
             container.RegisterType<SalePointsController>();
             container.RegisterType<CarriersController>();
+            container.RegisterType<OrdersController>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

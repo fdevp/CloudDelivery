@@ -19,15 +19,14 @@ namespace CloudDelivery.Providers
             this.httpClient = httpClient;
         }
 
-        public async Task<T> GetAsync<T>(string resource, Dictionary<string, string> data = null)
+        public async Task<string> GetAsync(string resource, Dictionary<string, string> data = null)
         {
-            using (var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, resource))
+            //data
+            var content = new FormUrlEncodedContent(data);
+            string query = String.Concat(resource, "?", content.ReadAsStringAsync().Result);
+
+            using (var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, query))
             {
-                //data
-                var content = new FormUrlEncodedContent(data);
-
-                httpRequestMessage.Content = content;
-
                 var response = await httpClient.SendAsync(httpRequestMessage);
 
                 //error response handling
@@ -35,18 +34,17 @@ namespace CloudDelivery.Providers
                 {
                     throw new HttpRequestException(response.StatusCode.ToString());
                 }
-
-                return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
+                return await response.Content.ReadAsStringAsync();
             }
         }
 
 
-        public async Task<T> PostAsync<T>(string resource, object data = null)
+        public async Task<string> PostAsync(string resource, object data = null)
         {
             using (var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, resource))
             {
                 //data
-                if(data != null)
+                if (data != null)
                 {
                     httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
                 }
@@ -59,7 +57,7 @@ namespace CloudDelivery.Providers
                     throw new HttpRequestException(response.StatusCode.ToString());
                 }
 
-                return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
+                return await response.Content.ReadAsStringAsync();
             }
         }
     }

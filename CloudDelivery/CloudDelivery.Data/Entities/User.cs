@@ -13,7 +13,7 @@ namespace CloudDelivery.Data.Entities
         [ForeignKey("AspNetUser")]
         public string IdentityId { get; set; }
 
-        public virtual ApplicationUser AspNetUser { get; set; }
+        public virtual ExtendedIdentityUser AspNetUser { get; set; }
 
         [ForeignKey("Organisation")]
         public int? OrganisationId { get; set; }

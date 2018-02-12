@@ -38,7 +38,7 @@ namespace CloudDelivery.Controllers
         [Authorize(Roles = "admin, organisator")]
         public IHttpActionResult OrganisationList(int organisationId)
         {
-            if (!IsOrganisator(organisationId) && !IsAdmin())
+            if (!this.authService.HasOrganisatorPerms(organisationId, this.User))
                 throw new HttpException(401, "Brak dostepu do zasobu");
 
 

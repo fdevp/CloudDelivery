@@ -53,7 +53,7 @@ namespace CloudDelivery.Tests.Services
         public void RemoveUser_ShouldRemoveIdentityUser()
         {
             User user = service.GetUsersList().FirstOrDefault();
-            ApplicationUser identityUser = ctx.Users.FirstOrDefault();
+            ExtendedIdentityUser identityUser = ctx.Users.FirstOrDefault();
             user.IdentityId = identityUser.Id;
             service.RemoveUser(user.Id);
             Assert.IsFalse(ctx.Users.Any(x => x.Id == identityUser.Id));
@@ -146,7 +146,7 @@ namespace CloudDelivery.Tests.Services
         [TestMethod()]
         public void SetOrganisation_ShouldSetOrganisation()
         {
-            User user = ctx.UserData.FirstOrDefault();
+            User user = ctx.AppUsers.FirstOrDefault();
             Organisation organisation = ctx.Organisations.FirstOrDefault();
             service.SetOrganisation(organisation.Id, user.Id);
             Assert.AreEqual(organisation.Id, user.OrganisationId);
@@ -155,7 +155,7 @@ namespace CloudDelivery.Tests.Services
         [TestMethod()]
         public void SetOrganisation_ShouldClearOrganisation()
         {
-            User user = ctx.UserData.FirstOrDefault();
+            User user = ctx.AppUsers.FirstOrDefault();
             Organisation organisation = ctx.Organisations.FirstOrDefault();
             user.OrganisationId = 1;
             service.SetOrganisation(user.Id, null);
@@ -176,7 +176,7 @@ namespace CloudDelivery.Tests.Services
         [ExpectedException(typeof(NullReferenceException))]
         public void AddMember_ShouldThrowOrganisationNullException()
         {
-            User user = ctx.UserData.FirstOrDefault();
+            User user = ctx.AppUsers.FirstOrDefault();
             service.SetOrganisation(int.MinValue, user.Id);
         }
 
@@ -184,7 +184,7 @@ namespace CloudDelivery.Tests.Services
         public void SetPhone_ShouldSetPhone()
         {
             User user = service.GetUsersList().FirstOrDefault();
-            ApplicationUser identityUser = ctx.Users.FirstOrDefault();
+            ExtendedIdentityUser identityUser = ctx.Users.FirstOrDefault();
             user.IdentityId = identityUser.Id;
             user.AspNetUser = identityUser;
             string phone = "111111111";
@@ -217,7 +217,7 @@ namespace CloudDelivery.Tests.Services
         [TestMethod()]
         public void GetUser_ById_ShoudReturnUser()
         {
-            User userFromCtx = ctx.UserData.FirstOrDefault();
+            User userFromCtx = ctx.AppUsers.FirstOrDefault();
             User userFromDetails = service.GetUser(userFromCtx.Id);
             Assert.AreEqual(userFromCtx.Id, userFromDetails.Id);
             Assert.AreEqual(userFromCtx.IdentityId, userFromDetails.IdentityId);
@@ -236,7 +236,7 @@ namespace CloudDelivery.Tests.Services
         [TestMethod()]
         public void GetUser_ByIdentityId_ShoudReturnUser()
         {
-            User userFromCtx = ctx.UserData.FirstOrDefault();
+            User userFromCtx = ctx.AppUsers.FirstOrDefault();
             User userFromDetails = service.GetUser(userFromCtx.IdentityId);
             Assert.AreEqual(userFromCtx.Id, userFromDetails.Id);
             Assert.AreEqual(userFromCtx.IdentityId, userFromDetails.IdentityId);

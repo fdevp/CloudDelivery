@@ -72,7 +72,7 @@ namespace CloudDelivery.Services.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void SetSalePoint_ShouldThrowArgumentException()
         {
-            User user = this.ctx.UserData.FirstOrDefault();
+            User user = this.ctx.AppUsers.FirstOrDefault();
             this.salespointsService.SetSalePoint(user.Id);
         }
 
