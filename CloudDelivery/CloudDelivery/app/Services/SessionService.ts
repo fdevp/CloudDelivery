@@ -72,7 +72,7 @@ export class SessionService {
                 this.token = data["access_token"];
                 this.user.name = data["Login"];
                 this.user.login = data["Name"];
-                this.user.roles = JSON.parse(data["roles"]);
+                this.user.roles = JSON.parse(data["Roles"]);
 
                 this.saveToken();
 

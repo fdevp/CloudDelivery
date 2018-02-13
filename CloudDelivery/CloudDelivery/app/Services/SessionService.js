@@ -67,7 +67,7 @@ var SessionService = /** @class */ (function () {
                 _this.token = data["access_token"];
                 _this.user.name = data["Login"];
                 _this.user.login = data["Name"];
-                _this.user.roles = JSON.parse(data["roles"]);
+                _this.user.roles = JSON.parse(data["Roles"]);
                 _this.saveToken();
                 _this.isLoggedIn = true;
                 if (_this.redirectUrl != null) {

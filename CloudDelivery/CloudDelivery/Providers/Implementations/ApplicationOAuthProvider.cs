@@ -48,9 +48,16 @@ namespace CloudDelivery.Providers
                OAuthDefaults.AuthenticationType);
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
                 CookieAuthenticationDefaults.AuthenticationType);
+
             var roles = userManager.GetRoles(user.Id);
 
-            AuthenticationProperties properties = CreateProperties(user.UserName, Newtonsoft.Json.JsonConvert.SerializeObject(roles), "name");
+            string appName;
+            using(var ctx = new CDContext())
+            {
+                appName = ctx.AppUsers.Where(x => x.IdentityId == user.Id).FirstOrDefault()?.Name;
+            }
+
+            AuthenticationProperties properties = CreateProperties(user.UserName, Newtonsoft.Json.JsonConvert.SerializeObject(roles), appName);
 
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
@@ -98,8 +105,8 @@ namespace CloudDelivery.Providers
             IDictionary<string, string> data = new Dictionary<string, string>
             {
                 { "Login", Login },
-                { "Roles", Name },
-                { "roles", Roles}
+                { "Roles", Roles },
+                { "Name", Name}
             };
             return new AuthenticationProperties(data);
         }
