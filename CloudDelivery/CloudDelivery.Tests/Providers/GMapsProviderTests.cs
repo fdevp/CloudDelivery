@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CloudDelivery.Tests.Mocks;
+using CloudDelivery.Models;
 
 namespace CloudDelivery.Providers.Tests
 {
@@ -34,37 +35,33 @@ namespace CloudDelivery.Providers.Tests
         {
             var resp = gMapsProvider.DistanceMatrix("Washington,DC", "New York City,NY").Result;
             Assert.AreEqual(361715, resp.Distance);
-            Assert.AreEqual(13725, resp.Time);
+            Assert.AreEqual(13725, resp.Duration);
         }
 
-        [TestMethod()]
-        public void DistanceMatrix_ShouldReturnDistanceAndTimeBetweenCarrierSalePointEndpoint()
-        {
-            var resp = gMapsProvider.DistanceMatrix("52.406563,16.925853", "51.766664,19.478922", "52.227799,20.985093").Result;
-
-            Assert.AreEqual(216020, resp.CarrierToSalePoint.Distance);
-            Assert.AreEqual(8296, resp.CarrierToSalePoint.Time);
-
-            Assert.AreEqual(127627, resp.SalePointToEndpoint.Distance);
-            Assert.AreEqual(5228, resp.SalePointToEndpoint.Time);
-        }
 
         [TestMethod()]
         public void Directions_ShouldReturnDirectionBetweenTwoPoints()
         {
-            var resp = gMapsProvider.Directions("Disneyland", "Universal Studios Hollywood4").Result;
-            Assert.AreEqual(57964, resp.properties.Distance);
-            Assert.AreEqual(2952, resp.properties.Time);
+            GeoPosition originPosition = new GeoPosition { lat= "54.410392", lng= "18.565325" };
+            GeoPosition destinationPosition = new GeoPosition { lat = "54.421006", lng = "18.572821" };
+            var resp = gMapsProvider.Directions(originPosition, destinationPosition).Result;
+            Assert.AreEqual(1937, resp.Distance);
+            Assert.AreEqual(353, resp.Duration);
         }
 
         [TestMethod()]
         public void Directions_ShouldReturnDirectionBetweenTwoPointsWithWaypoints()
         {
-            List<string> points = new List<string> { "52.227799,20.985093" };
-            var resp = gMapsProvider.Directions("52.406563,16.925853", "51.766664,19.478922", points).Result;
+            GeoPosition originPosition = new GeoPosition { lat = "52.406563", lng = "16.925853" };
+            GeoPosition destinationPosition = new GeoPosition { lat = "51.766664", lng = "19.478922" };
 
-            Assert.AreEqual(436248, resp.properties.Distance);
-            Assert.AreEqual(16049, resp.properties.Time);
+            List<GeoPosition> waypoints = new List<GeoPosition>();
+            waypoints.Add(new GeoPosition { lat="52.227799", lng= "20.985093" });
+
+            var resp = gMapsProvider.Directions(originPosition, destinationPosition, waypoints).Result;
+
+            Assert.AreEqual(436248, resp.Distance);
+            Assert.AreEqual(16049, resp.Duration);
         }
     }
 }

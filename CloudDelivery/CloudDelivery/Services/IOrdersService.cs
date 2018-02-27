@@ -34,13 +34,6 @@ namespace CloudDelivery.Services
         /// <returns></returns>
         List<Order> List(OrderFiltersModel filters);
 
-        /// <summary>
-        /// check distance and time between location and endpoint through SalePoint
-        /// </summary>
-        /// <param name="orderId"></param>
-        /// <param name="startLocation"></param>
-        /// <returns></returns>
-        Task<ApproximateTrace> CheckDistanceTime(int orderId, GeoPosition startLocation);
 
         /// <summary>
         /// accept order and change status
@@ -63,24 +56,16 @@ namespace CloudDelivery.Services
         void SetDelivered(int orderId);
 
         /// <summary>
-        /// 
+        /// cancel order by salepoint
         /// </summary>
         /// <param name="orderId"></param>
         void CancelOrder(int orderId);
 
-        /// <summary>
-        /// set order trace
-        /// </summary>
-        /// <param name="orderId"></param>
-        /// <param name="startLocation"></param>
-        /// <returns></returns>
-        Task<string> SetTrace(int orderId, GeoPosition startLocation);
 
         /// <summary>
-        /// return string JSON with Google Directions Trace
+        /// drop accepted order by carrier
         /// </summary>
         /// <param name="orderId"></param>
-        /// <returns></returns>
-        string GetTrace(int orderId);
+        void DiscardOrder(int orderId);
     }
 }

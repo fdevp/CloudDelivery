@@ -60,8 +60,11 @@ namespace CloudDelivery.App_Start
 
                 cfg.CreateMap<Order, PendingOrderListVM>()
                .ForMember(dest => dest.SalepointName, opt =>
-               opt.MapFrom(src => src.SalePoint.User.Name));
-
+               opt.MapFrom(src => src.SalePoint.User.Name))
+               .ForMember(dest => dest.SalepointCity, opt =>
+               opt.MapFrom(src => src.SalePoint.City))
+               .ForMember(dest => dest.SalepointAddress, opt =>
+               opt.MapFrom(src => src.SalePoint.Address));
 
 
                 cfg.CreateMap<IdentityRole, RoleVM>();

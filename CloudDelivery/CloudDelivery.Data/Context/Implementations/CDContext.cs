@@ -52,6 +52,7 @@ namespace CloudDelivery.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<RoutePoint>().HasRequired(x => x.Route).WithMany(x => x.Points).HasForeignKey<int>(x => x.RouteId);
             modelBuilder.Entity<ExtendedIdentityUser>().ToTable("AspNetUsers").Property(p => p.Id);
             modelBuilder.Entity<IdentityUserLogin>().ToTable("AspNetUserLogins");
             modelBuilder.Entity<IdentityUserRole>().ToTable("AspNetUserRoles");
@@ -68,5 +69,7 @@ namespace CloudDelivery.Data
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Package> Packages { get; set; }
         public virtual DbSet<IdentityUserRole> UserRoles { get; set; }
+        public virtual DbSet<Route> Routes { get; set; }
+        public virtual DbSet<RoutePoint> RoutePoints { get; set; }
     }
 }

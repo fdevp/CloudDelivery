@@ -1,5 +1,5 @@
 ﻿using CloudDelivery.Models;
-using CloudDelivery.Models.Orders;
+using CloudDelivery.Models.GoogleApis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,17 +24,8 @@ namespace CloudDelivery.Providers
         /// <param name="origin"></param>
         /// <param name="destination"></param>
         /// <returns></returns>
-        Task<TraceProperties> DistanceMatrix(string origin, string destination);
+        Task<DistanceDuration> DistanceMatrix(string origin, string destination);
 
-
-       /// <summary>
-       /// distance time with waypoint
-       /// </summary>
-       /// <param name="carrierPos"></param>
-       /// <param name="SalePointPos"></param>
-       /// <param name="destPos"></param>
-       /// <returns></returns>
-        Task<ApproximateTrace> DistanceMatrix(string carrierPos, string SalePointPos, string destPos);
 
         /// <summary>
         /// Get trace
@@ -42,7 +33,7 @@ namespace CloudDelivery.Providers
         /// <param name="origin"></param>
         /// <param name="destination"></param>
         /// <returns></returns>
-        Task<OrderTrace> Directions(string origin, string destination);
+        Task<DirectionsResponse> Directions(GeoPosition origin, GeoPosition destination);
 
 
 
@@ -51,6 +42,6 @@ namespace CloudDelivery.Providers
         /// </summary>
         /// <param name="points">First element is origin and last element is destination</param>
         /// <returns></returns>
-        Task<OrderTrace> Directions(string origin, string destination, List<string> waypoints);
+        Task<DirectionsResponse> Directions(GeoPosition origin, GeoPosition destination, List<GeoPosition> waypoints);
     }
 }

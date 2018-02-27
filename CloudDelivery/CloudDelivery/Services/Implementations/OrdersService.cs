@@ -16,11 +16,10 @@ namespace CloudDelivery.Services
 {
     public class OrdersService : IOrdersService
     {
-        public OrdersService(ICacheProvider cacheProvider, IGMapsProvider gMapsProvider, ICDContextFactory ctxFactory)
+        public OrdersService(ICacheProvider cacheProvider, ICDContextFactory ctxFactory)
         {
             this.cacheProvider = cacheProvider;
             this.ctxFactory = ctxFactory;
-            this.gMapsProvider = gMapsProvider;
         }
 
         public void AcceptOrder(int orderId, int carrierId)
@@ -84,32 +83,11 @@ namespace CloudDelivery.Services
             }
         }
 
-        public async Task<ApproximateTrace> CheckDistanceTime(int orderId, GeoPosition startLocation)
-        {
-            Order order = null;
-            using (ICDContext ctx = this.ctxFactory.GetContext())
-            {
-                order = ctx.Orders.Where(x => x.Id == orderId).Include(x => x.SalePoint).FirstOrDefault();
-
-                if (order == null)
-                    throw new NullReferenceException("Zamówienie nie istnieje.");
-
-                if (order.Status != OrderStatus.Added)
-                    throw new ArgumentException("Na tym etapie nie możesz sprawdzić dystansu.");
-            }
-
-            GeoPosition spPos = JsonConvert.DeserializeObject<GeoPosition>(order.SalePoint.LatLng);
-            GeoPosition endPos = JsonConvert.DeserializeObject<GeoPosition>(order.EndLatLng);
-
-            return await this.gMapsProvider.DistanceMatrix(startLocation.ToGoogleString(), spPos.ToGoogleString(), endPos.ToGoogleString());
-
-        }
-
         public Order Details(int orderId)
         {
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                Order order = ctx.Orders.Where(x => x.Id == orderId).Include(x => x.SalePoint.User).Include(x=>x.Carrier.User).FirstOrDefault();
+                Order order = ctx.Orders.Where(x => x.Id == orderId).Include(x => x.SalePoint.User).Include(x => x.Carrier.User).FirstOrDefault();
 
                 if (order == null)
                     throw new NullReferenceException("Zamówienie nie istnieje.");
@@ -173,16 +151,11 @@ namespace CloudDelivery.Services
                     query = query.Where(x => x.Priority <= filters.PriorityMax.Value);
 
                 //delivery minutes
-                if (filters.DeliveryMinutesMin.HasValue)
-                    query = query.Where(x => x.FinalMinutes >= filters.DeliveryMinutesMin.Value);
-                if (filters.DeliveryMinutesMax.HasValue)
-                    query = query.Where(x => x.FinalMinutes <= filters.DeliveryMinutesMax.Value);
+                if (filters.DurationMin.HasValue)
+                    query = query.Where(x => x.Duration >= filters.DurationMin.Value);
+                if (filters.DurationMax.HasValue)
+                    query = query.Where(x => x.Duration <= filters.DurationMax.Value);
 
-                //distance
-                if (filters.DistanceMin.HasValue)
-                    query = query.Where(x => x.DistanceMeters >= filters.DistanceMin.Value);
-                if (filters.DistanceMax.HasValue)
-                    query = query.Where(x => x.DistanceMeters <= filters.DistanceMax.Value);
 
                 return query.ToList();
             }
@@ -203,7 +176,7 @@ namespace CloudDelivery.Services
                 order.DeliveredTime = DateTime.Now;
 
                 TimeSpan deliveryTime = order.PickUpTime.Value.Subtract(order.DeliveredTime.Value);
-                order.FinalMinutes = deliveryTime.Minutes;
+                order.Duration = deliveryTime.Minutes;
 
                 order.Status = OrderStatus.Delivered;
 
@@ -230,63 +203,26 @@ namespace CloudDelivery.Services
             }
         }
 
-        public async Task<string> SetTrace(int orderId, GeoPosition startLocation)
+        public void DiscardOrder(int orderId)
         {
-            Order order = null;
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                order = ctx.Orders.Where(x => x.Id == orderId).Include(x => x.SalePoint).FirstOrDefault();
+                Order order = ctx.Orders.Where(x => x.Id == orderId).FirstOrDefault();
+
                 if (order == null)
                     throw new NullReferenceException("Zamówienie nie istnieje.");
 
-                if (order.Status == OrderStatus.Delivered || order.Status == OrderStatus.Cancelled)
-                    throw new ArgumentException("Na tym etapie nie możesz wyznaczyć trasy.");
-            }
+                if (order.Status != OrderStatus.Accepted)
+                    throw new ArgumentException("Na tym etapie nie można porzucić zamówienia.");
 
+                order.PickUpTime = null;
+                order.Status = OrderStatus.Added;
 
-            GeoPosition spPos = JsonConvert.DeserializeObject<GeoPosition>(order.SalePoint.LatLng);
-            GeoPosition endPos = JsonConvert.DeserializeObject<GeoPosition>(order.EndLatLng);
-
-            List<string> points = new List<string> { spPos.ToGoogleString() };
-            OrderTrace response = await this.gMapsProvider.Directions(startLocation.ToGoogleString(), endPos.ToGoogleString(), points);
-
-            order.ExpectedMinutes = response.properties.Time / 60;
-            order.DistanceMeters = response.properties.Distance;
-            order.TraceJSON = response.TraceJSON;
-            order.StartLatLng = startLocation.ToJsonString();
-
-            using (ICDContext ctx = this.ctxFactory.GetContext())
-            {
-                Order orderToSave = ctx.Orders.Where(x => x.Id == order.Id).FirstOrDefault();
-                orderToSave.ExpectedMinutes = response.properties.Time / 60;
-                orderToSave.DistanceMeters = response.properties.Distance;
-                orderToSave.TraceJSON = response.TraceJSON;
-                orderToSave.StartLatLng = startLocation.ToJsonString();
                 ctx.SaveChanges();
-            }
-
-            return order.TraceJSON;
-        }
-
-        public string GetTrace(int orderId)
-        {
-            Order order = null;
-            using (ICDContext ctx = this.ctxFactory.GetContext())
-            {
-                order = ctx.Orders.Where(x => x.Id == orderId).FirstOrDefault();
-
-                if (order == null)
-                    throw new NullReferenceException("Zamówienie nie istnieje.");
-
-                if (String.IsNullOrEmpty(order.TraceJSON))
-                    throw new ArgumentException("Trasa nie została wygenerowana.");
-
-                return order.TraceJSON;
             }
         }
 
         private ICacheProvider cacheProvider;
         private ICDContextFactory ctxFactory;
-        private IGMapsProvider gMapsProvider;
     }
 }

@@ -75,15 +75,6 @@ namespace CloudDelivery.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        [Authorize(Roles = "carrier")]
-        [Route("CheckDistanceTime/{orderId}")]
-        public async Task<IHttpActionResult> CheckDistanceTime(int orderId, [FromUri] GeoPosition startLocation)
-        {
-            ApproximateTrace distance = await this.ordersService.CheckDistanceTime(orderId, startLocation);
-            return Ok(distance);
-        }
-
 
         [HttpGet]
         [Route("List")]
@@ -147,26 +138,16 @@ namespace CloudDelivery.Controllers
 
 
         [HttpPut]
-        [Authorize(Roles="carrier")]
-        [Route("settrace/{orderId}")]
-        public async Task<IHttpActionResult> SetTrace(int orderId, [FromBody] GeoPosition startLocation)
+        [Authorize(Roles = "carrier")]
+        [Route("discard/{orderId}")]
+        public IHttpActionResult Discard(int orderId)
         {
             if (!this.authService.HasCarrierPerms(orderId, this.User))
                 return Unauthorized();
 
-            string googleDirectionsTrace = await this.ordersService.SetTrace(orderId, startLocation);
+            this.ordersService.DiscardOrder(orderId);
 
-            return Ok(googleDirectionsTrace);
-        }
-
-        [HttpGet]
-        [Route("gettrace/{orderId}")]
-        public IHttpActionResult GetTrace(int orderId)
-        {
-            if (!this.authService.CanCheckOrderDetails(orderId, this.User))
-                return Unauthorized();
-
-            return Ok(this.ordersService.GetTrace(orderId));
+            return Ok();
         }
 
     }

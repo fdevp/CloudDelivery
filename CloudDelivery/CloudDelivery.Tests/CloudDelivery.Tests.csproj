@@ -152,6 +152,7 @@
     <Compile Include="Providers\GMapsProviderTests.cs" />
     <Compile Include="Providers\HttpProviderTests.cs" />
     <Compile Include="Services\CarrierServiceTests.cs" />
+    <Compile Include="Services\RoutesServiceTests.cs" />
     <Compile Include="Services\OrdersServiceTests.cs" />
     <Compile Include="Services\SalespointServiceTests.cs" />
     <Compile Include="Services\OrganisationsServiceTests.cs" />
@@ -176,6 +177,7 @@
       <Name>CloudDelivery</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

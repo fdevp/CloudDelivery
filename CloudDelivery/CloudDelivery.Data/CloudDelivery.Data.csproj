@@ -97,9 +97,13 @@
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\Organisation.cs" />
     <Compile Include="Entities\Package.cs" />
+    <Compile Include="Entities\Route.cs" />
+    <Compile Include="Entities\RoutePoint.cs" />
     <Compile Include="Entities\SalePoint.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Enums\Orders\OrderStatus.cs" />
+    <Compile Include="Enums\Routes\RoutePointType.cs" />
+    <Compile Include="Enums\Routes\RouteStatus.cs" />
     <Compile Include="Migrations\201710161620193_InitialMigration.cs" />
     <Compile Include="Migrations\201710161620193_InitialMigration.Designer.cs">
       <DependentUpon>201710161620193_InitialMigration.cs</DependentUpon>
@@ -123,6 +127,10 @@
     <Compile Include="Migrations\201802081749475_ticket92.cs" />
     <Compile Include="Migrations\201802081749475_ticket92.Designer.cs">
       <DependentUpon>201802081749475_ticket92.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802261452166_routes.cs" />
+    <Compile Include="Migrations\201802261452166_routes.Designer.cs">
+      <DependentUpon>201802261452166_routes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -148,6 +156,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802081749475_ticket92.resx">
       <DependentUpon>201802081749475_ticket92.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802261452166_routes.resx">
+      <DependentUpon>201802261452166_routes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

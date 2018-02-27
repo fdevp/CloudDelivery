@@ -17,6 +17,8 @@ namespace CloudDelivery.Data
         DbSet<Carrier> Carriers { get; set; }
         DbSet<Log> Logs { get; set; }
         DbSet<Order> Orders { get; set; }
+        DbSet<Route> Routes { get; set; }
+        DbSet<RoutePoint> RoutePoints { get; set; }
         DbSet<Package> Packages { get; set; }
         DbSet<IdentityUserRole> UserRoles { get; set; }
         IDbSet<IdentityRole> Roles { get; set; }

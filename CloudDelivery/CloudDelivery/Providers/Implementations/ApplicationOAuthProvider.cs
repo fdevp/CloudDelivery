@@ -19,8 +19,6 @@ namespace CloudDelivery.Providers
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
         private readonly string _publicClientId;
-        private IUsersService userService;
-
 
         public ApplicationOAuthProvider(string publicClientId)
         {

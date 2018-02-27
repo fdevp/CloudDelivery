@@ -12,6 +12,10 @@ namespace CloudDelivery.Models.Orders
         
         public string SalepointName { get; set; }
 
+        public string SalepointCity { get; set; }
+
+        public string SalepointAddress { get; set; }
+
         public int SalepointId { get; set; }
 
         public string SalepointLatLng { get; set; }

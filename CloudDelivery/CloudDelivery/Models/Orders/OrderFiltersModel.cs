@@ -29,13 +29,9 @@ namespace CloudDelivery.Models.Orders
 
         public OrderStatus? Status { get; set; }
 
-        public int? DistanceMin { get; set; }
+        public int? DurationMin { get; set; }
 
-        public int? DistanceMax { get; set; }
-
-        public int? DeliveryMinutesMin { get; set; }
-
-        public int? DeliveryMinutesMax { get; set; }
+        public int? DurationMax { get; set; }
 
         public int? PriorityMin { get; set; }
 

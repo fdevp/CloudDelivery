@@ -28,11 +28,8 @@ namespace CloudDelivery.Services.Tests
             ICDContextFactory ctxFactory = DatabaseMocksFactory.GetCtxFactoryMock().Object;
             ctx = ctxFactory.GetContext();
 
-            Mock<IHttpProvider> httpProvider = HttpProviderMocks.GMapsHttpProviderMock();
-            var gMapsProvider = new GMapsProvider(httpProvider.Object);
-
             var cache = new CacheProvider();
-            ordersService = new OrdersService(cache, gMapsProvider, ctxFactory);
+            ordersService = new OrdersService(cache, ctxFactory);
         }
 
         [TestMethod()]
@@ -128,36 +125,6 @@ namespace CloudDelivery.Services.Tests
         {
             Order order = ctx.Orders.Where(x => x.Status > OrderStatus.Accepted).FirstOrDefault();
             this.ordersService.CancelOrder(order.Id);
-        }
-
-
-        [TestMethod()]
-        public void CheckDistanceTime_ShouldReturnDistanceAndTimeToEndpointThroughSalePoint()
-        {
-            GeoPosition geoPos = new GeoPosition { lat = "52.406563", lng = "16.925853" };
-            Order order = ctx.Orders.Where(x => x.EndLatLng == @"{'lat':'52.227799','lng':'20.985093'}").FirstOrDefault();
-
-            ApproximateTrace trace = this.ordersService.CheckDistanceTime(order.Id, geoPos).Result;
-
-
-            Assert.AreEqual(8296, trace.CarrierToSalePoint.Time);
-            Assert.AreEqual(216020, trace.CarrierToSalePoint.Distance);
-
-            Assert.AreEqual(5228, trace.SalePointToEndpoint.Time);
-            Assert.AreEqual(127627, trace.SalePointToEndpoint.Distance);
-        }
-
-        [TestMethod()]
-        public void CheckDistanceTime_ShouldThrowOrderNullReferenceException()
-        {
-            Assert.ThrowsExceptionAsync<NullReferenceException>(async () => await this.ordersService.CheckDistanceTime(int.MinValue, new GeoPosition()));
-        }
-
-        [TestMethod()]
-        public void CheckDistanceTime_ShouldThrowInvalidStatusArgumentException()
-        {
-            Order order = ctx.Orders.Where(x => x.Status != OrderStatus.Added).FirstOrDefault();
-            Assert.ThrowsExceptionAsync<ArgumentException>(async ()=> await this.ordersService.CheckDistanceTime(order.Id, new GeoPosition()));
         }
 
         [TestMethod()]
@@ -283,16 +250,6 @@ namespace CloudDelivery.Services.Tests
             Assert.AreEqual(ordersCount, listCount);
         }
 
-        [TestMethod()]
-        public void List_ShouldReturnListWithDistanceFilter()
-        {
-            var filters = new OrderFiltersModel { DistanceMax = 1500, DistanceMin = 500 };
-            int ordersCount = ctx.Orders.Where(x => x.DistanceMeters >= filters.DistanceMin && x.DistanceMeters <= filters.DistanceMax).Count();
-
-            int listCount = this.ordersService.List(filters).Count;
-
-            Assert.AreEqual(ordersCount, listCount);
-        }
 
         [TestMethod()]
         public void List_ShouldReturnListWithAllFilters()
@@ -305,14 +262,11 @@ namespace CloudDelivery.Services.Tests
             filters.DeliveredTimeStart = new DateTime(2018, 02, 21);
             filters.DeliveredTimeEnd = new DateTime(2018, 03, 04);
 
-            filters.DistanceMax = 2300;
-            filters.DistanceMin = 1500;
-
             filters.PriorityMax = 9;
             filters.PriorityMin = 3;
 
-            filters.DeliveryMinutesMax = 20;
-            filters.DeliveryMinutesMin = 14;
+            filters.DurationMax = 20;
+            filters.DurationMin = 14;
 
             filters.OrganisationId = 1;
 
@@ -329,15 +283,12 @@ namespace CloudDelivery.Services.Tests
                                 
                                     x.DeliveredTime >= filters.DeliveredTimeStart &&
                                     x.DeliveredTime <= filters.DeliveredTimeEnd &&
-                                
-                                    x.DistanceMeters >= filters.DistanceMin &&
-                                    x.DistanceMeters <= filters.DistanceMax &&
 
                                     x.Priority >= filters.PriorityMin &&
                                     x.Priority <= filters.PriorityMax &&
 
-                                    x.FinalMinutes >= filters.DeliveryMinutesMin &&
-                                    x.FinalMinutes <= filters.DeliveryMinutesMax &&
+                                    x.Duration >= filters.DurationMin &&
+                                    x.Duration <= filters.DurationMax &&
 
                                     (x.SalePoint.User.OrganisationId == filters.OrganisationId || x.Carrier.User.OrganisationId == filters.OrganisationId) &&
                                 
@@ -358,7 +309,6 @@ namespace CloudDelivery.Services.Tests
         public void SetDelivered_ShouldSetDeliveredStatus()
         {
             Order order = ctx.Orders.Where(x => x.Status == OrderStatus.InDelivery).FirstOrDefault();
-            order.FinalMinutes = null;
             order.DeliveredTime = null;
             order.PickUpTime = DateTime.Now;
 
@@ -366,7 +316,6 @@ namespace CloudDelivery.Services.Tests
 
             Assert.IsNotNull(order.DeliveredTime);
             Assert.AreEqual(OrderStatus.Delivered, order.Status);
-            Assert.IsTrue(order.FinalMinutes.Value >= 0);
         }
 
         [TestMethod()]
@@ -411,64 +360,32 @@ namespace CloudDelivery.Services.Tests
             this.ordersService.SetPickup(order.Id);
         }
 
-        [TestMethod()]
-        public void SetTrace_ShouldSetNewTrace()
-        {
-            Order order = ctx.Orders.Where(x => x.EndLatLng == @"{'lat':'51.766664','lng':'19.478922'}").FirstOrDefault();
-            var geoPos = new GeoPosition { lat = "52.406563", lng = "16.925853" };
-
-            order.ExpectedMinutes = null;
-            order.DistanceMeters = null;
-            order.TraceJSON = null;
-            order.StartLatLng = null;
-
-
-            string traceJSON = this.ordersService.SetTrace(order.Id, geoPos).Result;
-
-            Assert.IsFalse(String.IsNullOrEmpty(traceJSON));
-            Assert.AreEqual(traceJSON, order.TraceJSON);
-            Assert.AreEqual(267, order.ExpectedMinutes);
-            Assert.AreEqual(436248, order.DistanceMeters);
-            Assert.AreEqual(geoPos.ToJsonString(), order.StartLatLng);
-        }
-
-        [TestMethod()]
-        public void SetTrace_ShouldThrowOrderNullReferenceException()
-        {
-            Assert.ThrowsExceptionAsync<NullReferenceException>(async () => await this.ordersService.SetTrace(int.MinValue, new GeoPosition()));
-        }
-
-        [TestMethod()]
-        public void SetTrace_ShouldThrowInvalidStatusArgumentException()
-        {
-            Order order = ctx.Orders.Where(x => x.Status == OrderStatus.Delivered).FirstOrDefault();
-            Assert.ThrowsExceptionAsync<ArgumentException>(async () => await this.ordersService.SetTrace(order.Id, new GeoPosition()));
-        }
 
 
         [TestMethod()]
-        public void GetTrace_ShouldReturnTraceJSON()
+        public void DiscardOrder_ShouldDiscardOrder()
         {
-            Order order = ctx.Orders.FirstOrDefault();
-            string trace = this.ordersService.GetTrace(order.Id);
-            Assert.AreEqual(order.TraceJSON, trace);
-        }
+            Order order = ctx.Orders.Where(x => x.Status == OrderStatus.Accepted).FirstOrDefault();
 
+            this.ordersService.DiscardOrder(order.Id);
+
+            Assert.IsNull(order.PickUpTime);
+            Assert.AreEqual(OrderStatus.Added, order.Status);
+        }
 
         [TestMethod()]
         [ExpectedException(typeof(NullReferenceException))]
-        public void GetTrace_ShouldThrowOrderNullReferenceException()
+        public void DiscardOrder_ShouldThrowOrderNullReferenceException()
         {
-            this.ordersService.GetTrace(int.MinValue);
+            this.ordersService.DiscardOrder(int.MinValue);
         }
 
         [TestMethod()]
         [ExpectedException(typeof(ArgumentException))]
-        public void GetTrace_ShouldThrowNoTraceArgumentException()
+        public void DiscardOrder_ShouldThrowInvalidStatusArgumentException()
         {
-            Order order = this.ctx.Orders.FirstOrDefault();
-            order.TraceJSON = "";
-            this.ordersService.GetTrace(order.Id);
+            Order order = ctx.Orders.Where(x => x.Status != OrderStatus.Accepted).FirstOrDefault();
+            this.ordersService.DiscardOrder(order.Id);
         }
     }
 }

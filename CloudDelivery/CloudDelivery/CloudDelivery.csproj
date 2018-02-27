@@ -38,6 +38,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\CloudDelivery.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -245,18 +246,19 @@
     <Compile Include="Models\Account\AccountViewModels.cs" />
     <Compile Include="Models\Carriers\CarrierVM.cs" />
     <Compile Include="Models\GeoPosition.cs" />
-    <Compile Include="Models\GoogleApis\DirectionsResponse.cs" />
-    <Compile Include="Models\GoogleApis\DistanceMatrixResponse.cs" />
-    <Compile Include="Models\GoogleApis\GeocodeResponse.cs" />
+    <Compile Include="Models\GoogleApis\DirectionsRoot.cs" />
+    <Compile Include="Models\GoogleApis\DistanceMatrixRoot.cs" />
+    <Compile Include="Models\GoogleApis\GeocodeRoot.cs" />
     <Compile Include="Models\GoogleApis\GoogleSharedClasses.cs" />
-    <Compile Include="Models\Orders\ApproximateTrace.cs" />
     <Compile Include="Models\Orders\OrderListVM.cs" />
     <Compile Include="Models\Orders\OrderVM.cs" />
     <Compile Include="Models\Orders\PendingOrderListVM.cs" />
+    <Compile Include="Models\GoogleApis\DirectionsResponse.cs" />
+    <Compile Include="Models\Routes\RouteFiltersModel.cs" />
+    <Compile Include="Models\Routes\RoutePointEditModel.cs" />
     <Compile Include="Models\TraceProperties.cs" />
     <Compile Include="Models\Orders\OrderEditModel.cs" />
     <Compile Include="Models\Orders\OrderFiltersModel.cs" />
-    <Compile Include="Models\Orders\OrderTrace.cs" />
     <Compile Include="Models\Organisations\OrganisationVM.cs" />
     <Compile Include="Models\Salepoints\SalepointVM.cs" />
     <Compile Include="Models\Users\RoleVM.cs" />
@@ -277,10 +279,12 @@
     <Compile Include="Services\Implementations\CarriersService.cs" />
     <Compile Include="Services\Implementations\OrdersService.cs" />
     <Compile Include="Services\Implementations\OrganisationsService.cs" />
+    <Compile Include="Services\Implementations\RoutesService.cs" />
     <Compile Include="Services\Implementations\SalepointsService.cs" />
     <Compile Include="Services\Implementations\UsersService.cs" />
     <Compile Include="Services\IOrdersService.cs" />
     <Compile Include="Services\IOrganisationsService.cs" />
+    <Compile Include="Services\IRoutesService.cs" />
     <Compile Include="Services\ISalepointsService.cs" />
     <Compile Include="Services\IUsersService.cs" />
     <Compile Include="Startup.cs" />

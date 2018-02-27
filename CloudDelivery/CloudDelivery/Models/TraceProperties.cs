@@ -5,11 +5,11 @@ using System.Web;
 
 namespace CloudDelivery.Models
 {
-    public class TraceProperties
+    public class DistanceDuration
     {
         public int Distance { get; set; }
 
         //in seconds
-        public int Time { get; set; }
+        public int Duration { get; set; }
     }
 }
