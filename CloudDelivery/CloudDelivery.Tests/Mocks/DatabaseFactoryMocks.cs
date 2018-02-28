@@ -192,10 +192,10 @@ namespace CloudDelivery.Tests.Initialize
         {
             //routes for all carriers except one
             routesData = Builder<Route>.CreateListOfSize(routesCount).All()
-                                   .With(x => x.AddedTime = x.AddedTime.Value.AddDays(x.Id % 30))
+                                   .With(x => x.AddedTime = x.AddedTime.AddDays(x.Id % 30))
                                    .With(x => x.CarrierId = x.CarrierId % (carriersCount - 1) + 1)
                                    .With(x => x.Distance = x.Distance * 100)
-                                   .With(x => x.FinishTime = x.Status == RouteStatus.Finished ? x.AddedTime.Value.AddMinutes(x.Id % 120 + 30) : (DateTime?)null)
+                                   .With(x => x.FinishTime = x.Status == RouteStatus.Finished ? x.AddedTime.AddMinutes(x.Id % 120 + 30) : (DateTime?)null)
                                    .Build();
 
             routePointsData = new List<RoutePoint>();

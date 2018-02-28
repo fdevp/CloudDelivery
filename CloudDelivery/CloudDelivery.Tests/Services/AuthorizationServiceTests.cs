@@ -150,6 +150,39 @@ namespace CloudDelivery.Tests.Services
             Assert.IsFalse(this.authService.CanCheckOrderDetails(order.Id, principal));
         }
 
+        [TestMethod()]
+        public void CanCheckRouteDetails_ShouldReturnTrueForAdmin()
+        {
+            Route route = ctx.Routes.FirstOrDefault();
+            User user = ctx.AppUsers.FirstOrDefault();
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "admin").Object;
+
+            Assert.IsTrue(this.authService.CanCheckOrderDetails(route.Id, principal));
+        }
+
+
+        [TestMethod()]
+        public void CanCheckRouteDetails_ShouldReturnTrueForCarrier()
+        {
+            Route route = ctx.Routes.FirstOrDefault();
+            User user = ctx.Carriers.Where(x => x.Id == route.CarrierId).FirstOrDefault().User;
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "carrier").Object;
+
+            Assert.IsTrue(this.authService.CanCheckOrderDetails(route.Id, principal));
+        }
+
+        [TestMethod()]
+        public void CanCheckRouteDetails_ShouldReturnFalse()
+        {
+            Route route = ctx.Routes.FirstOrDefault();
+            Route routeSec = ctx.Routes.Where(x => x.CarrierId != route.CarrierId).FirstOrDefault();
+
+            User user = ctx.AppUsers.Where(x => x.Id == routeSec.Carrier.UserId).FirstOrDefault();
+            IPrincipal principal = PrincipalMocks.PrincipalWithRole(user, "carrier").Object;
+
+            Assert.IsFalse(this.authService.CanCheckOrderDetails(route.Id, principal));
+        }
+
 
         [TestMethod()]
         public void HasCarrierPerms_ShouldReturnFalse()

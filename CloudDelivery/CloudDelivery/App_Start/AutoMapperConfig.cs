@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using CloudDelivery.Data.Entities;
+using CloudDelivery.Data.Enums.Routes;
 using CloudDelivery.Models;
 using CloudDelivery.Models.Orders;
+using CloudDelivery.Models.Routes;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -43,7 +45,7 @@ namespace CloudDelivery.App_Start
 
                 //orders
                 cfg.CreateMap<OrderEditModel, Order>()
-                .ForMember(dest => dest.EndLatLng, opt=> 
+                .ForMember(dest => dest.EndLatLng, opt =>
                 opt.MapFrom(src => src.EndLatLng.ToJsonString()));
 
                 cfg.CreateMap<Order, OrderVM>()
@@ -58,7 +60,7 @@ namespace CloudDelivery.App_Start
                 .ForMember(dest => dest.CarrierName, opt =>
                 opt.MapFrom(src => src.Carrier.User.Name));
 
-                cfg.CreateMap<Order, PendingOrderListVM>()
+                cfg.CreateMap<Order, OrderMapVM>()
                .ForMember(dest => dest.SalepointName, opt =>
                opt.MapFrom(src => src.SalePoint.User.Name))
                .ForMember(dest => dest.SalepointCity, opt =>
@@ -67,6 +69,8 @@ namespace CloudDelivery.App_Start
                opt.MapFrom(src => src.SalePoint.Address));
 
 
+                cfg.CreateMap<Route, RouteVM>();
+                cfg.CreateMap<RoutePoint, RoutePointViewModel>();
                 cfg.CreateMap<IdentityRole, RoleVM>();
                 cfg.CreateMap<Organisation, OrganisationVM>();
                 cfg.CreateMap<Carrier, CarrierVM>();

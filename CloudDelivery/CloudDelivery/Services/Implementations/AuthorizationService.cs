@@ -100,6 +100,27 @@ namespace CloudDelivery.Services
             }
         }
 
+
+        public bool CanCheckRouteDetails(int routeId, IPrincipal user)
+        {
+            if (this.isAdministrator(user))
+                return true;
+
+            using (ICDContext ctx = ctxFactory.GetContext())
+            {
+                Route route = ctx.Routes.Include(x => x.Carrier.User).Where(x => x.Id == routeId).FirstOrDefault();
+                if (route == null)
+                    return false;
+
+                string identityId = user.Identity.GetUserId();
+
+                if (route.Carrier.User.IdentityId == identityId)
+                    return true;
+
+                return false;
+            }
+        }
+
         public bool HasCarrierPerms(int orderId, IPrincipal user)
         {
             if (this.isAdministrator(user))

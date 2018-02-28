@@ -2,6 +2,7 @@ using CloudDelivery.Controllers;
 using CloudDelivery.Data;
 using CloudDelivery.Providers;
 using CloudDelivery.Services;
+using CloudDelivery.Services.Implementations;
 using Microsoft.Practices.Unity;
 using System;
 using System.Net.Http;
@@ -39,6 +40,7 @@ namespace CloudDelivery
             container.RegisterType<ISalePointsService, SalePointsService>();
             container.RegisterType<IAuthorizationService, AuthorizationService>();
             container.RegisterType<IOrdersService, OrdersService>();
+            container.RegisterType<IRoutesService, RoutesService>();
 
             //controllers
             container.RegisterType<AccountController>(new InjectionConstructor(typeof(IUsersService), typeof(IAuthorizationService)));
@@ -47,6 +49,7 @@ namespace CloudDelivery
             container.RegisterType<SalePointsController>();
             container.RegisterType<CarriersController>();
             container.RegisterType<OrdersController>();
+            container.RegisterType<RoutesController>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

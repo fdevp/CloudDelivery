@@ -1,27 +1,22 @@
 ﻿using CloudDelivery.Data.Enums.Routes;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace CloudDelivery.Data.Entities
+namespace CloudDelivery.Models.Routes.Route
 {
-    [Table("Routes")]
-    public class Route : BaseModel<int>
+    public class RouteListVM
     {
-        public virtual ICollection<RoutePoint> Points { get; set; }
+        public int Id { get; set; }
 
-        [ForeignKey("Carrier")]
         public int CarrierId { get; set; }
-
-        public virtual Carrier Carrier { get; set; }
 
         public RouteStatus Status { get; set; }
 
         public DateTime AddedTime { get; set; }
 
-        public DateTime? FinishTime { get; set; }
+        public DateTime FinishTime { get; set; }
 
         public string StartLatLng { get; set; }
 

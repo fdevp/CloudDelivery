@@ -37,8 +37,6 @@ namespace CloudDelivery.Data.Entities
 
         public DateTime? DeliveredTime { get; set; } 
         
-        public string StartLatLng { get; set; }
-
         public string DestinationCity { get; set; }
         
         public string DestinationAddress { get; set; }

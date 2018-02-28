@@ -19,6 +19,8 @@ namespace CloudDelivery.Services
 
         bool CanCheckOrderDetails(int orderId, IPrincipal user);
 
+        bool CanCheckRouteDetails(int routeId, IPrincipal user);
+
         bool HasCarrierPerms(int orderId, IPrincipal user);
 
         bool HasSalepointPerms(int orderId, IPrincipal user);

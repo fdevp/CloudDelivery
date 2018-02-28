@@ -6,7 +6,7 @@ using System.Web;
 
 namespace CloudDelivery.Models.Orders
 {
-    public class PendingOrderListVM
+    public class OrderMapVM
     {
         public int Id { get; set; }
         

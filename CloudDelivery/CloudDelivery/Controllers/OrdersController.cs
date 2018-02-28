@@ -104,7 +104,7 @@ namespace CloudDelivery.Controllers
         {
             var filters = new OrderFiltersModel() { Status = Data.Enums.OrderStatus.Added };
             List<Order> ordersDb = this.ordersService.List(filters);
-            List<PendingOrderListVM> orders = Mapper.Map<List<PendingOrderListVM>>(ordersDb);
+            List<OrderMapVM> orders = Mapper.Map<List<OrderMapVM>>(ordersDb);
             
             return Ok(orders);
         }

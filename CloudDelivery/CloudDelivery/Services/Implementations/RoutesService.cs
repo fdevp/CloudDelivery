@@ -79,7 +79,7 @@ namespace CloudDelivery.Services.Implementations
         {
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                Route route = ctx.Routes.Where(x => x.Id == routeId).Include(x => x.Carrier).Include(x => x.Points).FirstOrDefault();
+                Route route = ctx.Routes.Where(x => x.Id == routeId).Include(x => x.Carrier.User).Include("Points.Order.SalePoint.User").FirstOrDefault();
 
                 if (route == null)
                     throw new NullReferenceException("Trasa nie istnieje.");
@@ -111,7 +111,7 @@ namespace CloudDelivery.Services.Implementations
         {
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                IQueryable<Route> query = ctx.Routes.Include(x => x.Points).Include(x => x.Carrier);
+                IQueryable<Route> query = ctx.Routes.Include(x => x.Carrier);
 
                 //no filters
                 if (filters == null)
@@ -159,24 +159,17 @@ namespace CloudDelivery.Services.Implementations
             }
         }
 
-        private GeoPosition GetPositionFromPoint(RoutePoint point)
+        public Route ActiveRouteDetails(int carrierId)
         {
-            GeoPosition pointPosition;
-
-            try
+            using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                if (point.Type == RoutePointType.EndPoint)
-                    pointPosition = JsonConvert.DeserializeObject<GeoPosition>(point.Order.EndLatLng);
-                else
-                    pointPosition = JsonConvert.DeserializeObject<GeoPosition>(point.Order.SalePoint.LatLng);
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Problem przy przetwarzaniu pozycji");
-            }
+                Route route = ctx.Routes.Where(x => x.CarrierId == carrierId && x.Status == RouteStatus.Active).Include(x => x.Carrier.User).Include("Points.Order.SalePoint.User").FirstOrDefault();
 
+                if (route == null)
+                    throw new NullReferenceException("Nie znaleziono aktywnej trasy.");
 
-            return pointPosition;
+                return route;
+            }
         }
 
         private ICacheProvider cacheProvider;

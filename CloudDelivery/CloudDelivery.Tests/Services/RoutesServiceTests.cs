@@ -92,7 +92,7 @@ namespace CloudDelivery.Services.Tests
 
         [TestMethod()]
         [ExpectedException(typeof(ArgumentException))]
-        public void Add_ShouldThrowWrongPointException()
+        public void Add_ShouldThrowWrongPointStatusException()
         {
             //find carrier who has no active routes and has orders with accepted status
             List<Carrier> carriers = ctx.Carriers.Where(x => !ctx.Routes.Any(y => y.CarrierId == x.Id && y.Status == RouteStatus.Active)).ToList();
@@ -107,6 +107,31 @@ namespace CloudDelivery.Services.Tests
 
             //add point with incorrect type
             Order deliveredOrder = ctx.Orders.Where(x => x.CarrierId == carrierId && x.Status == OrderStatus.Delivered).FirstOrDefault();
+            pointsEM.Add(new RoutePointEditModel { Index = index++, OrderId = deliveredOrder.Id, Type = RoutePointType.SalePoint });
+
+
+            //add route
+            int addedRouteId = routesService.Add(carrierId, pointsEM, new GeoPosition { lat = "", lng = "" });
+        }
+
+
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Add_ShouldThrowWrongPointCarrierException()
+        {
+            //find carrier who has no active routes and has orders with accepted status
+            List<Carrier> carriers = ctx.Carriers.Where(x => !ctx.Routes.Any(y => y.CarrierId == x.Id && y.Status == RouteStatus.Active)).ToList();
+            int carrierId = carriers.Where(x => ctx.Orders.Any(y => y.CarrierId == x.Id && y.Status == OrderStatus.Accepted)).FirstOrDefault().Id;
+
+            //find orders taken by carrier and with status accepted
+            List<Order> orders = ctx.Orders.Where(x => x.CarrierId == carrierId && x.Status == OrderStatus.Accepted).ToList();
+
+            //create RoutePointEMs
+            int index = 0;
+            List<RoutePointEditModel> pointsEM = orders.Select(x => new RoutePointEditModel { Index = index++, OrderId = x.Id, Type = (RoutePointType)(index % 2) }).ToList();
+
+            //add point with incorrect carrierId
+            Order deliveredOrder = ctx.Orders.Where(x =>x.Status == OrderStatus.Accepted).FirstOrDefault();
             pointsEM.Add(new RoutePointEditModel { Index = index++, OrderId = deliveredOrder.Id, Type = RoutePointType.SalePoint });
 
 
@@ -133,6 +158,25 @@ namespace CloudDelivery.Services.Tests
         {
             routesService.Details(int.MinValue);
         }
+
+        //GetActiveRoute
+        [TestMethod()]
+        public void ActiveRouteDetails_ShouldReturnActiveRouteDetails()
+        {
+            int carrierId = ctx.Carriers.Where(x => ctx.Routes.Any(y => y.CarrierId == x.Id && y.Status == RouteStatus.Active)).FirstOrDefault().Id;
+            Route dbActiveRoute = ctx.Routes.Where(x => x.CarrierId == carrierId && x.Status == RouteStatus.Active).FirstOrDefault();
+            Route activeRoute = routesService.ActiveRouteDetails(carrierId);
+            Assert.AreEqual(dbActiveRoute.Id, activeRoute.Id);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void ActiveRouteDetails_ShouldThrowRouteNullException()
+        {
+            int carrierId = ctx.Carriers.Where(x => !ctx.Routes.Any(y => y.CarrierId == x.Id && y.Status == RouteStatus.Active)).FirstOrDefault().Id;
+            routesService.ActiveRouteDetails(carrierId);
+        }
+
 
         [TestMethod()]
         public void Finish_ShouldFinishRoute()

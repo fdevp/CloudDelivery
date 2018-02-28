@@ -14,6 +14,8 @@ namespace CloudDelivery.Services
     {
         int Add(int carrierId, List<RoutePointEditModel> points, GeoPosition startPosition);
 
+        Route ActiveRouteDetails(int carrierId);
+
         void Finish(int routeId);
 
         Route Details(int routeId);
