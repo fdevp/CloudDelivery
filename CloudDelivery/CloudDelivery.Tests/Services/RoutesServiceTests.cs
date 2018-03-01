@@ -46,9 +46,8 @@ namespace CloudDelivery.Services.Tests
             List<RoutePointEditModel> pointsEM = orders.Select(x => new RoutePointEditModel { Index = index++, OrderId = x.Id, Type = (RoutePointType)(index % 2) }).ToList();
 
             //add route and get results
-            int addedRouteId = routesService.Add(carrierId, pointsEM, new GeoPosition { lat = "", lng = "" });
-            Route addedRoute = ctx.Routes.Where(x => x.Id == addedRouteId).FirstOrDefault();
-            List<RoutePoint> points = ctx.RoutePoints.Where(x => x.Id == addedRouteId).OrderBy(x => x.Index).ToList();
+            Route addedRoute = routesService.Add(carrierId, pointsEM, new GeoPosition { lat = "", lng = "" });
+            List<RoutePoint> points = ctx.RoutePoints.Where(x => x.Id == addedRoute.Id).OrderBy(x => x.Index).ToList();
 
             //validate points
             for (int i = 0; i < points.Count; i++)
@@ -56,7 +55,7 @@ namespace CloudDelivery.Services.Tests
                 Assert.AreEqual(pointsEM[i].Index, points[i].Index);
                 Assert.AreEqual(pointsEM[i].OrderId, points[i].OrderId);
                 Assert.AreEqual(pointsEM[i].Type, points[i].Type);
-                Assert.AreEqual(addedRouteId, points[i].RouteId);
+                Assert.AreEqual(addedRoute.Id, points[i].RouteId);
             }
 
             //validate route
@@ -111,7 +110,7 @@ namespace CloudDelivery.Services.Tests
 
 
             //add route
-            int addedRouteId = routesService.Add(carrierId, pointsEM, new GeoPosition { lat = "", lng = "" });
+            Route addedRoute = routesService.Add(carrierId, pointsEM, new GeoPosition { lat = "", lng = "" });
         }
 
 
@@ -136,7 +135,7 @@ namespace CloudDelivery.Services.Tests
 
 
             //add route
-            int addedRouteId = routesService.Add(carrierId, pointsEM, new GeoPosition { lat = "", lng = "" });
+            Route addedRoute = routesService.Add(carrierId, pointsEM, new GeoPosition { lat = "", lng = "" });
         }
 
 

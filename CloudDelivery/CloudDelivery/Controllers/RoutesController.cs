@@ -27,9 +27,9 @@ namespace CloudDelivery.Controllers
         public IHttpActionResult Add([FromBody] RouteEditModel model)
         {
             int carrierId = this.authService.GetCarrierId(this.User);
-            int newRouteId = this.routesService.Add(carrierId, model.EditPoints, model.StartPosition);
-
-            return Ok(newRouteId);
+            Route newRoute = this.routesService.Add(carrierId, model.EditPoints, model.StartPosition);
+            RouteVM route = Mapper.Map<RouteVM>(newRoute);
+            return Ok(route);
         }
 
         [HttpPut]
@@ -52,8 +52,8 @@ namespace CloudDelivery.Controllers
                 return Unauthorized();
 
             Route routeDb = this.routesService.Details(routeId);
-            RouteVM order = Mapper.Map<RouteVM>(routeDb);
-            return Ok(order);
+            RouteVM route = Mapper.Map<RouteVM>(routeDb);
+            return Ok(route);
         }
 
 

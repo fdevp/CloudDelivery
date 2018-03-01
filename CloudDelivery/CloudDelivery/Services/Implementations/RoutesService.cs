@@ -24,7 +24,7 @@ namespace CloudDelivery.Services.Implementations
             this.ctxFactory = ctxFactory;
         }
 
-        public int Add(int carrierId, List<RoutePointEditModel> points, GeoPosition startPosition)
+        public Route Add(int carrierId, List<RoutePointEditModel> points, GeoPosition startPosition)
         {
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
@@ -71,7 +71,10 @@ namespace CloudDelivery.Services.Implementations
 
                 ctx.SaveChanges();
 
-                return route.Id;
+                route.Carrier = ctx.Carriers.Where(x => x.Id == route.CarrierId).FirstOrDefault();
+                route.Points = ctx.RoutePoints.Include(x=>x.Order.SalePoint.User).Where(x => x.RouteId == route.Id).OrderBy(x => x.Index).ToList();
+
+                return route;
             }
         }
 

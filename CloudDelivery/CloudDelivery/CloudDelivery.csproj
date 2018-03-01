@@ -317,9 +317,6 @@
     <Content Include="app\Modules\Shared\Header\layout.header.component.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\fonts\fa-brands-400.svg" />
-    <Content Include="Content\fonts\fa-regular-400.svg" />
-    <Content Include="Content\fonts\fa-solid-900.svg" />
     <Content Include="Content\Images\ducati.jpg" />
     <Content Include="Content\Images\loader.gif" />
     <Content Include="Content\Images\logo.svg" />
@@ -332,18 +329,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="package.json" />
-    <Content Include="Content\fonts\fa-brands-400.eot" />
-    <Content Include="Content\fonts\fa-brands-400.ttf" />
-    <Content Include="Content\fonts\fa-brands-400.woff" />
-    <Content Include="Content\fonts\fa-brands-400.woff2" />
-    <Content Include="Content\fonts\fa-regular-400.eot" />
-    <Content Include="Content\fonts\fa-regular-400.ttf" />
-    <Content Include="Content\fonts\fa-regular-400.woff" />
-    <Content Include="Content\fonts\fa-regular-400.woff2" />
-    <Content Include="Content\fonts\fa-solid-900.eot" />
-    <Content Include="Content\fonts\fa-solid-900.ttf" />
-    <Content Include="Content\fonts\fa-solid-900.woff" />
-    <Content Include="Content\fonts\fa-solid-900.woff2" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
     <None Include="Properties\PublishProfiles\CloudDelivery - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
