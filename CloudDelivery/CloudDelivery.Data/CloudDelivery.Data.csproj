@@ -136,6 +136,10 @@
     <Compile Include="Migrations\201802281421398_ticket111.Designer.cs">
       <DependentUpon>201802281421398_ticket111.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803021240389_PointPassedTime.cs" />
+    <Compile Include="Migrations\201803021240389_PointPassedTime.Designer.cs">
+      <DependentUpon>201803021240389_PointPassedTime.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -166,6 +170,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802281421398_ticket111.resx">
       <DependentUpon>201802281421398_ticket111.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803021240389_PointPassedTime.resx">
+      <DependentUpon>201803021240389_PointPassedTime.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
