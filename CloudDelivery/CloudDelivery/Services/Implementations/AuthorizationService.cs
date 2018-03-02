@@ -170,6 +170,25 @@ namespace CloudDelivery.Services
             return user.IsInRole("admin");
         }
 
+        public bool CanPassPoint(int pointId, IPrincipal user)
+        {
+            if (this.isAdministrator(user))
+                return true;
+
+            using (ICDContext ctx = ctxFactory.GetContext())
+            {
+                RoutePoint point = ctx.RoutePoints.Include(x => x.Order.Carrier.User).Where(x => x.Id == pointId).FirstOrDefault();
+
+                if (point == null)
+                    return false;
+
+                if (point.Order.Carrier.User.IdentityId == user.Identity.GetUserId())
+                    return true;
+
+                return false;
+            }
+        }
+
         private ICacheProvider cacheProvider;
         private ICDContextFactory ctxFactory;
     }

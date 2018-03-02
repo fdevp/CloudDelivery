@@ -9,7 +9,11 @@ namespace CloudDelivery.Models.Routes
 {
     public class RoutePointViewModel
     {
+        public int Id { get; set; }
+
         public int Index { get; set; }
+
+        public DateTime? PassedTime { get; set; }
 
         public RoutePointType Type { get; set; }
 

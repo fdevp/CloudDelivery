@@ -56,6 +56,16 @@ namespace CloudDelivery.Controllers
             return Ok(route);
         }
 
+        [HttpPut]
+        [Route("PassPoint/{pointId}")]
+        public IHttpActionResult PassPoint(int pointId)
+        {
+            if (!this.authService.CanPassPoint(pointId, this.User))
+                return Unauthorized();
+
+            this.routesService.PassPoint(pointId);
+            return Ok();
+        }
 
         [HttpGet]
         [Route("List")]

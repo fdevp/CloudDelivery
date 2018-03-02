@@ -228,6 +228,7 @@ namespace CloudDelivery.Tests.Initialize
                 IList<RoutePoint> points = Builder<RoutePoint>.CreateListOfSize(pointsCount).All()
                                            .With(x => x.OrderId += routesOrdersStartId)
                                            .With(x => x.RouteId = route.Id)
+                                           .With(x => x.PassedTime = null)
                                            .Build();
 
                 //set points objects
@@ -273,6 +274,10 @@ namespace CloudDelivery.Tests.Initialize
             q.Setup(m => m.ElementType).Returns(itemsQ.ElementType);
             q.Setup(m => m.GetEnumerator()).Returns(() => itemsQ.GetEnumerator());
             dbSetMock.Setup(m => m.Add(It.IsAny<T>())).Callback<T>(items.Add);
+            dbSetMock.Setup(m => m.AddRange(It.IsAny<IEnumerable<T>>())).Callback<IEnumerable<T>>(addedItems => {
+                foreach (var item in addedItems)
+                    items.Add(item);
+            });
             dbSetMock.Setup(m => m.Remove(It.IsAny<T>())).Callback<T>(i => items.Remove(i));
             dbSetMock.Setup(m => m.Include(It.IsAny<string>())).Returns(() => dbSetMock.Object);
             return dbSetMock;

@@ -19,6 +19,8 @@ namespace CloudDelivery.Data.Entities
 
         public int Index { get; set; }
 
+        public DateTime? PassedTime { get; set; }
+
         [ForeignKey("Order")]
         public int? OrderId { get; set; }
 

@@ -18,6 +18,8 @@ namespace CloudDelivery.Services
 
         void Finish(int routeId);
 
+        void PassPoint(int pointId);
+
         Route Details(int routeId);
 
         List<Route> List(RouteFiltersModel filters);

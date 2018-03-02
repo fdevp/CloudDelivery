@@ -57,6 +57,7 @@ namespace CloudDelivery.Services.Implementations
                 ctx.SaveChanges();
 
                 //add points to route
+                List<RoutePoint> pointsToAdd = new List<RoutePoint>();
                 foreach (RoutePointEditModel point in points)
                 {
                     var dbPoint = new RoutePoint();
@@ -66,9 +67,9 @@ namespace CloudDelivery.Services.Implementations
                     dbPoint.OrderId = point.OrderId;
                     dbPoint.Type = point.Type;
 
-                    ctx.RoutePoints.Add(dbPoint);
+                    pointsToAdd.Add(dbPoint);
                 }
-
+                ctx.RoutePoints.AddRange(pointsToAdd);
                 ctx.SaveChanges();
 
                 route.Carrier = ctx.Carriers.Where(x => x.Id == route.CarrierId).FirstOrDefault();
@@ -105,6 +106,24 @@ namespace CloudDelivery.Services.Implementations
 
                 route.FinishTime = DateTime.Now;
                 route.Status = RouteStatus.Finished;
+
+                ctx.SaveChanges();
+            }
+        }
+
+        public void PassPoint(int pointId)
+        {
+            using (ICDContext ctx = this.ctxFactory.GetContext())
+            {
+                RoutePoint point = ctx.RoutePoints.Where(x => x.Id == pointId).FirstOrDefault();
+
+                if (point == null)
+                    throw new NullReferenceException("Punkt trasy nie istnieje.");
+
+                if (point.PassedTime.HasValue)
+                    throw new ArgumentException("Punkt trasy został już odwiedzony.");
+
+                point.PassedTime = DateTime.Now;
 
                 ctx.SaveChanges();
             }

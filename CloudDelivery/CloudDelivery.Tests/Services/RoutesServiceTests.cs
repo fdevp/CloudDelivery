@@ -130,7 +130,7 @@ namespace CloudDelivery.Services.Tests
             List<RoutePointEditModel> pointsEM = orders.Select(x => new RoutePointEditModel { Index = index++, OrderId = x.Id, Type = (RoutePointType)(index % 2) }).ToList();
 
             //add point with incorrect carrierId
-            Order deliveredOrder = ctx.Orders.Where(x =>x.Status == OrderStatus.Accepted).FirstOrDefault();
+            Order deliveredOrder = ctx.Orders.Where(x => x.Status == OrderStatus.Accepted).FirstOrDefault();
             pointsEM.Add(new RoutePointEditModel { Index = index++, OrderId = deliveredOrder.Id, Type = RoutePointType.SalePoint });
 
 
@@ -199,6 +199,31 @@ namespace CloudDelivery.Services.Tests
         {
             Route route = ctx.Routes.Where(x => x.Status == RouteStatus.Finished).FirstOrDefault();
             routesService.Finish(route.Id);
+        }
+
+
+        [TestMethod()]
+        public void PassPoint_ShouldSetPointPassTime()
+        {
+            RoutePoint point = ctx.RoutePoints.Where(x => x.PassedTime == null).FirstOrDefault();
+            routesService.PassPoint(point.Id);
+            Assert.IsNotNull(point.PassedTime);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void PassPoint_ShouldThrowPointNullException()
+        {
+            routesService.PassPoint(int.MinValue);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentException))]
+        public void PassPoint_ShouldThrowPointAlreadyPassedException()
+        {
+            RoutePoint point = ctx.RoutePoints.Where(x => x.PassedTime == null).FirstOrDefault();
+            point.PassedTime = DateTime.Now;
+            routesService.PassPoint(point.Id);
         }
 
 
