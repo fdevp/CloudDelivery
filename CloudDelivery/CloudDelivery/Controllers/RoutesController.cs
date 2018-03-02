@@ -32,6 +32,16 @@ namespace CloudDelivery.Controllers
             return Ok(route);
         }
 
+        [HttpGet]
+        [Route("ActiveRouteDetails")]
+        public IHttpActionResult ActiveRouteDetails()
+        {
+            int carrierId = this.authService.GetCarrierId(this.User);
+            Route routeDb = this.routesService.ActiveRouteDetails(carrierId);
+            RouteVM route = Mapper.Map<RouteVM>(routeDb);
+            return Ok(route);
+        }
+
         [HttpPut]
         [Route("Finish/{routeId}")]
         public IHttpActionResult Finish(int routeId)
