@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CloudDelivery.Data.Entities;
+using CloudDelivery.Data.Enums;
 using CloudDelivery.Models;
 using CloudDelivery.Models.Orders;
 using CloudDelivery.Services;
@@ -98,14 +99,26 @@ namespace CloudDelivery.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles ="carrier,admin")]
+        [Authorize(Roles = "carrier,admin")]
         [Route("PendingList")]
         public IHttpActionResult PendingList()
         {
-            var filters = new OrderFiltersModel() { Status = Data.Enums.OrderStatus.Added };
+            var filters = new OrderFiltersModel() { Status = OrderStatus.Added };
             List<Order> ordersDb = this.ordersService.List(filters);
             List<OrderMapVM> orders = Mapper.Map<List<OrderMapVM>>(ordersDb);
-            
+
+            return Ok(orders);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "carrier")]
+        [Route("AcceptedList")]
+        public IHttpActionResult AcceptedList()
+        {
+            var userId = this.authService.GetAppUserId(this.User);
+            var filters = new OrderFiltersModel() { CarrierUserId = userId, Status = OrderStatus.Accepted };
+            List<Order> ordersDb = this.ordersService.List(filters);
+            List<OrderMapVM> orders = Mapper.Map<List<OrderMapVM>>(ordersDb);
             return Ok(orders);
         }
 
