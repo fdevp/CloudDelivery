@@ -35,11 +35,15 @@ namespace CloudDelivery.Data.Entities
 
         public DateTime? PickUpTime { get; set; }
 
-        public DateTime? DeliveredTime { get; set; } 
-        
+        public DateTime? DeliveredTime { get; set; }
+
         public string DestinationCity { get; set; }
-        
+
         public string DestinationAddress { get; set; }
+
+        public string CustomerPhone { get; set; }
+
+        public decimal? Price { get; set; }
 
         public int Priority { get; set; }
 

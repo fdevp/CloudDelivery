@@ -143,6 +143,11 @@ namespace CloudDelivery.Services
                 if (filters.DeliveredTimeEnd.HasValue)
                     query = query.Where(x => x.DeliveredTime <= filters.DeliveredTimeEnd.Value);
 
+                //price
+                if (filters.PriceMin.HasValue)
+                    query = query.Where(x => x.Price >= filters.PriceMin.Value);
+                if (filters.PriceMax.HasValue)
+                    query = query.Where(x => x.Price <= filters.PriceMax.Value);
 
                 //priority
                 if (filters.PriorityMin.HasValue)

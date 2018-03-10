@@ -17,6 +17,8 @@ namespace CloudDelivery.Tests.Initialize
 {
     public class DatabaseMocksFactory
     {
+        public static readonly DateTime dateTime = new DateTime(2018,2,14);
+
         public static readonly int usersCount = 40;
         public static readonly int rolesCount = 5;
         public static readonly int organisationsCount = 5;
@@ -171,7 +173,8 @@ namespace CloudDelivery.Tests.Initialize
                                    .With(x => x.PackageId = x.PackageId % packagesCount + 1)
                                    .With(x => x.Priority = x.Priority % 10)
                                    .With(x => x.Duration = x.Duration % 30)
-                                   .With(x => x.AddedTime = x.AddedTime.Value.AddHours(x.Id % 30))
+                                   .With(x => x.Price = x.Price % 30 + 10)
+                                   .With(x => x.AddedTime = dateTime.AddDays(x.Id % 30))
                                    .With(x => x.DeliveredTime = x.AddedTime.Value.AddMinutes((x.Id % 30) + 5))
                                    .With(x => x.AcceptedTime = null)
                                    .With(x => x.CancellationTime = null)
@@ -192,9 +195,8 @@ namespace CloudDelivery.Tests.Initialize
         {
             //routes for all carriers except one
             routesData = Builder<Route>.CreateListOfSize(routesCount).All()
-                                   .With(x => x.AddedTime = x.AddedTime.AddDays(x.Id % 30))
+                                   .With(x => x.AddedTime = dateTime.AddDays(x.Id % 30))
                                    .With(x => x.CarrierId = x.CarrierId % (carriersCount - 1) + 1)
-                                   .With(x => x.Distance = x.Distance * 100)
                                    .With(x => x.FinishTime = x.Status == RouteStatus.Finished ? x.AddedTime.AddMinutes(x.Id % 120 + 30) : (DateTime?)null)
                                    .Build();
 
@@ -274,7 +276,8 @@ namespace CloudDelivery.Tests.Initialize
             q.Setup(m => m.ElementType).Returns(itemsQ.ElementType);
             q.Setup(m => m.GetEnumerator()).Returns(() => itemsQ.GetEnumerator());
             dbSetMock.Setup(m => m.Add(It.IsAny<T>())).Callback<T>(items.Add);
-            dbSetMock.Setup(m => m.AddRange(It.IsAny<IEnumerable<T>>())).Callback<IEnumerable<T>>(addedItems => {
+            dbSetMock.Setup(m => m.AddRange(It.IsAny<IEnumerable<T>>())).Callback<IEnumerable<T>>(addedItems =>
+            {
                 foreach (var item in addedItems)
                     items.Add(item);
             });

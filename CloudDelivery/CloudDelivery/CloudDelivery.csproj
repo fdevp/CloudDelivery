@@ -257,7 +257,6 @@
     <Compile Include="Models\GoogleApis\DirectionsResponse.cs" />
     <Compile Include="Models\Routes\Route\RouteListVM.cs" />
     <Compile Include="Models\Routes\Route\RouteVM.cs" />
-    <Compile Include="Models\Routes\Route\RouteEditModel.cs" />
     <Compile Include="Models\Routes\Route\RouteFiltersModel.cs" />
     <Compile Include="Models\Routes\RoutePoint\RoutePointEditModel.cs" />
     <Compile Include="Models\Routes\RoutePoint\RoutePointVM.cs" />

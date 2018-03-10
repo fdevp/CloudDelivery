@@ -23,10 +23,6 @@ namespace CloudDelivery.Data.Entities
 
         public DateTime? FinishTime { get; set; }
 
-        public string StartLatLng { get; set; }
-
-        public int? Distance { get; set; }
-
         public int? Duration { get; set; }
     }
 }

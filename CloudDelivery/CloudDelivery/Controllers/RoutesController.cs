@@ -24,10 +24,10 @@ namespace CloudDelivery.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public IHttpActionResult Add([FromBody] RouteEditModel model)
+        public IHttpActionResult Add([FromBody] List<RoutePointEditModel> model)
         {
             int carrierId = this.authService.GetCarrierId(this.User);
-            Route newRoute = this.routesService.Add(carrierId, model.EditPoints, model.StartPosition);
+            Route newRoute = this.routesService.Add(carrierId, model);
             RouteVM route = Mapper.Map<RouteVM>(newRoute);
             return Ok(route);
         }

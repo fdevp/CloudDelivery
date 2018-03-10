@@ -23,9 +23,5 @@ namespace CloudDelivery.Models.Routes
         public int? DurationMin { get; set; }
 
         public int? DurationMax { get; set; }
-
-        public int? DistanceMin { get; set; }
-
-        public int? DistanceMax { get; set; }
     }
 }

@@ -36,5 +36,9 @@ namespace CloudDelivery.Models.Orders
         public int? PriorityMin { get; set; }
 
         public int? PriorityMax { get; set; }
+
+        public decimal? PriceMin { get; set; }
+
+        public decimal? PriceMax { get; set; }
     }
 }

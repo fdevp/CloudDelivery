@@ -24,7 +24,7 @@ namespace CloudDelivery.Services.Implementations
             this.ctxFactory = ctxFactory;
         }
 
-        public Route Add(int carrierId, List<RoutePointEditModel> points, GeoPosition startPosition)
+        public Route Add(int carrierId, List<RoutePointEditModel> points)
         {
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
@@ -51,7 +51,6 @@ namespace CloudDelivery.Services.Implementations
                 route.AddedTime = DateTime.Now;
                 route.CarrierId = carrierId;
                 route.Status = RouteStatus.Active;
-                route.StartLatLng = startPosition.ToJsonString();
 
                 ctx.Routes.Add(route);
                 ctx.SaveChanges();
@@ -168,14 +167,6 @@ namespace CloudDelivery.Services.Implementations
 
                 if (filters.DurationMax.HasValue)
                     query = query.Where(x => x.Duration <= filters.DurationMax.Value);
-
-
-                //distance
-                if (filters.DistanceMin.HasValue)
-                    query = query.Where(x => x.Distance >= filters.DistanceMin.Value);
-
-                if (filters.DistanceMax.HasValue)
-                    query = query.Where(x => x.Distance <= filters.DistanceMax.Value);
 
                 return query.ToList();
             }

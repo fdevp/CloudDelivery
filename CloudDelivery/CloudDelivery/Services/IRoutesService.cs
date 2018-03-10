@@ -12,7 +12,7 @@ namespace CloudDelivery.Services
 {
     public interface IRoutesService
     {
-        Route Add(int carrierId, List<RoutePointEditModel> points, GeoPosition startPosition);
+        Route Add(int carrierId, List<RoutePointEditModel> points);
 
         Route ActiveRouteDetails(int carrierId);
 

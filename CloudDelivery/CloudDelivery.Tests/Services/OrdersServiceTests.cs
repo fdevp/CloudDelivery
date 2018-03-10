@@ -220,7 +220,7 @@ namespace CloudDelivery.Services.Tests
         [TestMethod()]
         public void List_ShouldReturnListWithAddedTimeFilter()
         {
-            var filters = new OrderFiltersModel { AddedTimeStart = new DateTime(2018, 03, 01), AddedTimeEnd = new DateTime(2018, 03, 08) };
+            var filters = new OrderFiltersModel { AddedTimeStart = DatabaseMocksFactory.dateTime.AddDays(5), AddedTimeEnd = DatabaseMocksFactory.dateTime.AddDays(15) };
             int ordersCount = ctx.Orders.Where(x => x.AddedTime >= filters.AddedTimeStart && x.AddedTime <= filters.AddedTimeEnd).Count();
 
             int listCount = this.ordersService.List(filters).Count;
@@ -240,9 +240,21 @@ namespace CloudDelivery.Services.Tests
         }
 
         [TestMethod()]
+        public void List_ShouldReturnListWithPriceFilter()
+        {
+            var filters = new OrderFiltersModel { PriceMax = 20, PriceMin = 15 };
+            int ordersCount = ctx.Orders.Where(x => x.Price >= filters.PriceMin && x.Price <= filters.PriceMax).Count();
+
+            int listCount = this.ordersService.List(filters).Count;
+
+            Assert.AreEqual(ordersCount, listCount);
+        }
+
+
+        [TestMethod()]
         public void List_ShouldReturnListWithDeliveryFilter()
         {
-            var filters = new OrderFiltersModel { DeliveredTimeStart = new DateTime(2018, 02, 14), DeliveredTimeEnd = new DateTime(2018, 03, 08) };
+            var filters = new OrderFiltersModel { DeliveredTimeStart = DatabaseMocksFactory.dateTime, DeliveredTimeEnd = DatabaseMocksFactory.dateTime.AddDays(10) };
             int ordersCount = ctx.Orders.Where(x => x.DeliveredTime >= filters.DeliveredTimeStart && x.DeliveredTime <= filters.DeliveredTimeEnd).Count();
 
             int listCount = this.ordersService.List(filters).Count;
@@ -255,12 +267,14 @@ namespace CloudDelivery.Services.Tests
         public void List_ShouldReturnListWithAllFilters()
         {
             var filters = new OrderFiltersModel();
+            filters.AddedTimeStart = DatabaseMocksFactory.dateTime;
+            filters.AddedTimeEnd = DatabaseMocksFactory.dateTime.AddDays(20);
 
-            filters.AddedTimeStart = new DateTime(2018, 02, 14);
-            filters.AddedTimeEnd = new DateTime(2018, 03, 08);
+            filters.DeliveredTimeStart = DatabaseMocksFactory.dateTime.AddDays(5);
+            filters.DeliveredTimeEnd = DatabaseMocksFactory.dateTime.AddDays(15);
 
-            filters.DeliveredTimeStart = new DateTime(2018, 02, 21);
-            filters.DeliveredTimeEnd = new DateTime(2018, 03, 04);
+            filters.PriceMin = 20;
+            filters.PriceMax = 30;
 
             filters.PriorityMax = 9;
             filters.PriorityMin = 3;
@@ -273,22 +287,25 @@ namespace CloudDelivery.Services.Tests
             filters.Status = OrderStatus.InDelivery;
 
             filters.CarrierUserId = 25;
-            filters.SalePointUserId = 20;
+            filters.SalePointUserId = 5;
 
             filters.PackageId = 5;
-
-            int ordersCount = ctx.Orders.Where(x =>
+            var orders = ctx.Orders.ToList();
+            var ordersCount = ctx.Orders.Where(x =>
                                     x.AddedTime >= filters.AddedTimeStart &&
                                     x.AddedTime <= filters.AddedTimeEnd &&
                                 
                                     x.DeliveredTime >= filters.DeliveredTimeStart &&
                                     x.DeliveredTime <= filters.DeliveredTimeEnd &&
-
+                                    
                                     x.Priority >= filters.PriorityMin &&
                                     x.Priority <= filters.PriorityMax &&
 
                                     x.Duration >= filters.DurationMin &&
                                     x.Duration <= filters.DurationMax &&
+                                    
+                                    x.Price >= filters.PriceMin &&
+                                    x.Price <= filters.PriceMax &&
 
                                     (x.SalePoint.User.OrganisationId == filters.OrganisationId || x.Carrier.User.OrganisationId == filters.OrganisationId) &&
                                 
@@ -298,10 +315,10 @@ namespace CloudDelivery.Services.Tests
                                     x.SalePoint.UserId == filters.SalePointUserId &&
                                 
                                     x.PackageId == filters.PackageId)
-                                .Count();
+                                .ToList();
 
             int listCount = this.ordersService.List(filters).Count;
-            Assert.AreEqual(ordersCount, listCount);
+            Assert.AreEqual(ordersCount.Count, listCount);
         }
 
 

@@ -46,7 +46,7 @@ namespace CloudDelivery.Services.Tests
             List<RoutePointEditModel> pointsEM = orders.Select(x => new RoutePointEditModel { Index = index++, OrderId = x.Id, Type = (RoutePointType)(index % 2) }).ToList();
 
             //add route and get results
-            Route addedRoute = routesService.Add(carrierId, pointsEM, new GeoPosition { lat = "", lng = "" });
+            Route addedRoute = routesService.Add(carrierId, pointsEM);
             List<RoutePoint> points = ctx.RoutePoints.Where(x => x.Id == addedRoute.Id).OrderBy(x => x.Index).ToList();
 
             //validate points
@@ -70,7 +70,7 @@ namespace CloudDelivery.Services.Tests
         [ExpectedException(typeof(NullReferenceException))]
         public void Add_ShouldThrowCarrierNullException()
         {
-            routesService.Add(int.MinValue, new List<RoutePointEditModel>(), new GeoPosition { lat = "", lng = "" });
+            routesService.Add(int.MinValue, new List<RoutePointEditModel>());
         }
 
         [TestMethod()]
@@ -84,7 +84,7 @@ namespace CloudDelivery.Services.Tests
             int index = 0;
             List<RoutePointEditModel> pointsEM = orders.Select(x => new RoutePointEditModel { Index = index++, OrderId = x.Id, Type = RoutePointType.EndPoint }).ToList();
 
-            routesService.Add(carrierId, pointsEM, new GeoPosition { lat = "", lng = "" });
+            routesService.Add(carrierId, pointsEM);
         }
 
 
@@ -110,7 +110,7 @@ namespace CloudDelivery.Services.Tests
 
 
             //add route
-            Route addedRoute = routesService.Add(carrierId, pointsEM, new GeoPosition { lat = "", lng = "" });
+            Route addedRoute = routesService.Add(carrierId, pointsEM);
         }
 
 
@@ -135,7 +135,7 @@ namespace CloudDelivery.Services.Tests
 
 
             //add route
-            Route addedRoute = routesService.Add(carrierId, pointsEM, new GeoPosition { lat = "", lng = "" });
+            Route addedRoute = routesService.Add(carrierId, pointsEM);
         }
 
 
@@ -271,8 +271,8 @@ namespace CloudDelivery.Services.Tests
         [TestMethod()]
         public void List_ShouldReturnListWithAddedTimeFilter()
         {
-            DateTime startDateTime = DateTime.Now.AddDays(1);
-            DateTime endDateTime = DateTime.Now.AddDays(8);
+            DateTime startDateTime = DatabaseMocksFactory.dateTime.AddDays(1);
+            DateTime endDateTime = DatabaseMocksFactory.dateTime.AddDays(8);
             int dbRoutesCount = ctx.Routes.Where(x => x.AddedTime >= startDateTime && x.AddedTime <= endDateTime).Count();
 
             RouteFiltersModel filters = new RouteFiltersModel { AddedTimeStart = startDateTime, AddedTimeEnd = endDateTime };
@@ -284,8 +284,8 @@ namespace CloudDelivery.Services.Tests
         [TestMethod()]
         public void List_ShouldReturnListWithFinishTimeFilter()
         {
-            DateTime startDateTime = DateTime.Now.AddDays(1);
-            DateTime endDateTime = DateTime.Now.AddDays(8);
+            DateTime startDateTime = DatabaseMocksFactory.dateTime.AddDays(1);
+            DateTime endDateTime = DatabaseMocksFactory.dateTime.AddDays(8);
 
             int dbRoutesCount = ctx.Routes.Where(x => x.FinishTime >= startDateTime && x.FinishTime <= endDateTime).Count();
 
@@ -309,19 +309,6 @@ namespace CloudDelivery.Services.Tests
             Assert.AreEqual(dbRoutesCount, serviceRoutesCount);
         }
 
-        [TestMethod()]
-        public void List_ShouldReturnListWithDistanceFilter()
-        {
-            int distanceMin = 400;
-            int distanceMax = 700;
-
-            int dbRoutesCount = ctx.Routes.Where(x => x.Distance >= distanceMin && x.Distance <= distanceMax).Count();
-
-            RouteFiltersModel filters = new RouteFiltersModel { DistanceMin = distanceMin, DistanceMax = distanceMax };
-
-            int serviceRoutesCount = routesService.List(filters).Count;
-            Assert.AreEqual(dbRoutesCount, serviceRoutesCount);
-        }
 
         [TestMethod()]
         public void List_ShouldReturnListWithAllFilters()
@@ -330,14 +317,12 @@ namespace CloudDelivery.Services.Tests
 
             filters.CarrierId = 1;
 
-            filters.AddedTimeStart = DateTime.Now;
-            filters.AddedTimeEnd = DateTime.Now.AddDays(11);
+            filters.AddedTimeStart = DatabaseMocksFactory.dateTime;
+            filters.AddedTimeEnd = DatabaseMocksFactory.dateTime.AddDays(11);
 
-            filters.FinishTimeStart = DateTime.Now;
-            filters.FinishTimeEnd = DateTime.Now.AddDays(12);
+            filters.FinishTimeStart = DatabaseMocksFactory.dateTime;
+            filters.FinishTimeEnd = DatabaseMocksFactory.dateTime.AddDays(12);
 
-            filters.DistanceMin = 350;
-            filters.DistanceMax = 550;
 
             filters.DurationMin = 1;
             filters.DurationMax = 5;
@@ -352,9 +337,6 @@ namespace CloudDelivery.Services.Tests
 
                                                       x.AddedTime >= filters.FinishTimeStart &&
                                                       x.AddedTime <= filters.FinishTimeEnd &&
-
-                                                      x.Distance >= filters.DistanceMin &&
-                                                      x.Distance <= filters.DistanceMax &&
 
                                                       x.Duration >= filters.DurationMin &&
                                                       x.Duration <= filters.DurationMax).Count();
