@@ -252,6 +252,7 @@
     <Compile Include="Models\GoogleApis\GeocodeRoot.cs" />
     <Compile Include="Models\GoogleApis\GoogleSharedClasses.cs" />
     <Compile Include="Models\Orders\OrderListVM.cs" />
+    <Compile Include="Models\Orders\OrderDetailsMapVM.cs" />
     <Compile Include="Models\Orders\OrderVM.cs" />
     <Compile Include="Models\Orders\OrderMapVM.cs" />
     <Compile Include="Models\GoogleApis\DirectionsResponse.cs" />

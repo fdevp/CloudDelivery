@@ -176,7 +176,7 @@ namespace CloudDelivery.Services.Implementations
         {
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                Route route = ctx.Routes.Where(x => x.CarrierId == carrierId && x.Status == RouteStatus.Active).Include(x => x.Carrier.User).Include("Points.Order.SalePoint.User").FirstOrDefault();
+                Route route = ctx.Routes.Where(x => x.CarrierId == carrierId && x.Status == RouteStatus.Active).Include(x => x.Carrier.User).Include("Points.Order.SalePoint.User.AspNetUser").FirstOrDefault();
 
                 if (route == null)
                     throw new NullReferenceException("Nie znaleziono aktywnej trasy.");

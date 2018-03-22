@@ -69,6 +69,17 @@ namespace CloudDelivery.App_Start
                opt.MapFrom(src => src.SalePoint.Address));
 
 
+                cfg.CreateMap<Order, OrderDetailsMapVM>()
+              .ForMember(dest => dest.SalepointName, opt =>
+              opt.MapFrom(src => src.SalePoint.User.Name))
+              .ForMember(dest => dest.SalepointCity, opt =>
+              opt.MapFrom(src => src.SalePoint.City))
+              .ForMember(dest => dest.SalepointAddress, opt =>
+              opt.MapFrom(src => src.SalePoint.Address))
+              .ForMember(dest => dest.SalepointPhone, opt =>
+              opt.MapFrom(src => src.SalePoint.User.AspNetUser.PhoneNumber));
+
+
                 cfg.CreateMap<Route, RouteVM>();
                 cfg.CreateMap<RoutePoint, RoutePointViewModel>();
                 cfg.CreateMap<IdentityRole, RoleVM>();

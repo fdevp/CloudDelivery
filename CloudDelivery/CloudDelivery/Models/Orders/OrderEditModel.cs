@@ -18,5 +18,9 @@ namespace CloudDelivery.Models.Orders
         public int Priority { get; set; }
 
         public int PackageId { get; set; }
+
+        public string CustomerPhone { get; set; }
+
+        public decimal? Price { get; set; }
     }
 }

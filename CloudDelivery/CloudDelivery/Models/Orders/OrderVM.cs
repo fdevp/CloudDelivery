@@ -42,14 +42,12 @@ namespace CloudDelivery.Models.Orders
 
         public OrderStatus Status { get; set; }
 
-        public string TraceJSON { get; set; }
-
         public string EndLatLng { get; set; }
 
-        public int? DistanceMeters { get; set; }
+        public int? Duration { get; set; }
 
-        public int? ExpectedMinutes { get; set; }
+        public string CustomerPhone { get; set; }
 
-        public int? FinalMinutes { get; set; }
+        public decimal? Price { get; set; }
     }
 }
