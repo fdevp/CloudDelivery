@@ -48,7 +48,7 @@ namespace CloudDelivery.App_Start
                 .ForMember(dest => dest.EndLatLng, opt =>
                 opt.MapFrom(src => src.EndLatLng.ToJsonString()));
 
-                cfg.CreateMap<Order, OrderVM>()
+                cfg.CreateMap<Order, OrderDetailsVM>()
                 .ForMember(dest => dest.SalepointName, opt =>
                 opt.MapFrom(src => src.SalePoint.User.Name))
                 .ForMember(dest => dest.CarrierName, opt =>
@@ -60,7 +60,7 @@ namespace CloudDelivery.App_Start
                 .ForMember(dest => dest.CarrierName, opt =>
                 opt.MapFrom(src => src.Carrier.User.Name));
 
-                cfg.CreateMap<Order, OrderMapVM>()
+                cfg.CreateMap<Order, OrderCarrierVM>()
                .ForMember(dest => dest.SalepointName, opt =>
                opt.MapFrom(src => src.SalePoint.User.Name))
                .ForMember(dest => dest.SalepointCity, opt =>
@@ -69,7 +69,7 @@ namespace CloudDelivery.App_Start
                opt.MapFrom(src => src.SalePoint.Address));
 
 
-                cfg.CreateMap<Order, OrderDetailsMapVM>()
+                cfg.CreateMap<Order, OrderRouteVM>()
               .ForMember(dest => dest.SalepointName, opt =>
               opt.MapFrom(src => src.SalePoint.User.Name))
               .ForMember(dest => dest.SalepointCity, opt =>
@@ -78,6 +78,12 @@ namespace CloudDelivery.App_Start
               opt.MapFrom(src => src.SalePoint.Address))
               .ForMember(dest => dest.SalepointPhone, opt =>
               opt.MapFrom(src => src.SalePoint.User.AspNetUser.PhoneNumber));
+
+                cfg.CreateMap<Order, OrderSalepointVM>()
+             .ForMember(dest => dest.CarrierName, opt =>
+             opt.MapFrom(src => src.Carrier.User.Name))
+             .ForMember(dest => dest.CarrierPhone, opt =>
+             opt.MapFrom(src => src.Carrier.User.AspNetUser.PhoneNumber));
 
 
                 cfg.CreateMap<Route, RouteVM>();

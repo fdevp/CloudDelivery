@@ -1,12 +1,11 @@
-﻿using CloudDelivery.Data.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace CloudDelivery.Models.Orders
 {
-    public class OrderDetailsMapVM : OrderMapVM
+    public class OrderRouteVM : OrderCarrierVM
     {
         public DateTime? AcceptedTime { get; set; }
 

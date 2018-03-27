@@ -251,10 +251,11 @@
     <Compile Include="Models\GoogleApis\DistanceMatrixRoot.cs" />
     <Compile Include="Models\GoogleApis\GeocodeRoot.cs" />
     <Compile Include="Models\GoogleApis\GoogleSharedClasses.cs" />
+    <Compile Include="Models\Orders\OrderRouteVM.cs" />
+    <Compile Include="Models\Orders\OrderSalepointVM.cs" />
     <Compile Include="Models\Orders\OrderListVM.cs" />
-    <Compile Include="Models\Orders\OrderDetailsMapVM.cs" />
     <Compile Include="Models\Orders\OrderVM.cs" />
-    <Compile Include="Models\Orders\OrderMapVM.cs" />
+    <Compile Include="Models\Orders\OrderCarrierVM.cs" />
     <Compile Include="Models\GoogleApis\DirectionsResponse.cs" />
     <Compile Include="Models\Routes\Route\RouteListVM.cs" />
     <Compile Include="Models\Routes\Route\RouteVM.cs" />

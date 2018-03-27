@@ -19,7 +19,7 @@ namespace CloudDelivery.Models.Routes
 
         public int OrderId { get; set; }
 
-        public OrderDetailsMapVM Order { get; set; }
+        public OrderRouteVM Order { get; set; }
 
         public int LatLng { get; set; }
     }
