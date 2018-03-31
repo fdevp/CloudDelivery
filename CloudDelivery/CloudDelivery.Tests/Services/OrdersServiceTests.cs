@@ -262,6 +262,46 @@ namespace CloudDelivery.Services.Tests
             Assert.AreEqual(ordersCount, listCount);
         }
 
+        [TestMethod()]
+        public void InProgressList_ShouldReturnOrdersInProgressList()
+        {
+            int salepointId = ctx.SalePoints.Where(x=> ctx.Orders.Any(y=>y.SalePointId == x.Id && y.Status == OrderStatus.InDelivery)).FirstOrDefault().Id;
+
+            int ordersCount = ctx.Orders.Where(x => x.SalePointId == salepointId && (x.Status == OrderStatus.InDelivery || x.Status == OrderStatus.Accepted)).Count();
+
+            int listCount = this.ordersService.InProgressList(salepointId).Count;
+
+            Assert.AreEqual(ordersCount, listCount);
+
+            salepointId = ctx.SalePoints.Where(x => ctx.Orders.Any(y => y.SalePointId == x.Id && y.Status == OrderStatus.Accepted)).FirstOrDefault().Id;
+
+            ordersCount = ctx.Orders.Where(x => x.SalePointId == salepointId && (x.Status == OrderStatus.InDelivery || x.Status == OrderStatus.Accepted)).Count();
+
+            listCount = this.ordersService.InProgressList(salepointId).Count;
+
+            Assert.AreEqual(ordersCount, listCount);
+        }
+
+
+        [TestMethod()]
+        public void FinishedList_ShouldReturnFinishedOrdersList()
+        {
+            int salepointId = ctx.SalePoints.Where(x => ctx.Orders.Any(y => y.SalePointId == x.Id && y.Status == OrderStatus.Cancelled)).FirstOrDefault().Id;
+
+            int ordersCount = ctx.Orders.Where(x => x.SalePointId == salepointId && (x.Status == OrderStatus.Cancelled || x.Status == OrderStatus.Delivered)).Count();
+
+            int listCount = this.ordersService.FinishedList(salepointId).Count;
+
+            Assert.AreEqual(ordersCount, listCount);
+
+            salepointId = ctx.SalePoints.Where(x => ctx.Orders.Any(y => y.SalePointId == x.Id && y.Status == OrderStatus.Delivered)).FirstOrDefault().Id;
+
+            ordersCount = ctx.Orders.Where(x => x.SalePointId == salepointId && (x.Status == OrderStatus.Cancelled || x.Status == OrderStatus.Delivered)).Count();
+
+            listCount = this.ordersService.FinishedList(salepointId).Count;
+
+            Assert.AreEqual(ordersCount, listCount);
+        }
 
         [TestMethod()]
         public void List_ShouldReturnListWithAllFilters()

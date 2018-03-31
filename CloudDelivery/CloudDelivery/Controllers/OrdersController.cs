@@ -128,10 +128,9 @@ namespace CloudDelivery.Controllers
         [Route("InProgressList")]
         public IHttpActionResult InProgressList()
         {
-            var userId = this.authService.GetAppUserId(this.User);
-            var filters = new OrderFiltersModel() { SalePointUserId = userId, Status = OrderStatus.Accepted };
-
-            List<Order> ordersDb = this.ordersService.List(filters);
+            var salepointId = this.authService.GetSalePointId(this.User);
+            
+            List<Order> ordersDb = this.ordersService.InProgressList(salepointId);
             List<OrderSalepointVM> orders = Mapper.Map<List<OrderSalepointVM>>(ordersDb);
             return Ok(orders);
         }
@@ -141,10 +140,22 @@ namespace CloudDelivery.Controllers
         [Route("AddedList")]
         public IHttpActionResult AddedList()
         {
-            var userId = this.authService.GetAppUserId(this.User);
-            var filters = new OrderFiltersModel() { SalePointUserId = userId, Status = OrderStatus.Added };
+            var salepointId = this.authService.GetSalePointId(this.User);
 
-            List<Order> ordersDb = this.ordersService.List(filters);
+            List<Order> ordersDb = this.ordersService.InProgressList(salepointId);
+            List<OrderSalepointVM> orders = Mapper.Map<List<OrderSalepointVM>>(ordersDb);
+            return Ok(orders);
+        }
+
+
+        [HttpGet]
+        [Authorize(Roles = "salepoint")]
+        [Route("FinishedList")]
+        public IHttpActionResult FinishedList()
+        {
+            var salepointId = this.authService.GetSalePointId(this.User);
+
+            List<Order> ordersDb = this.ordersService.FinishedList(salepointId);
             List<OrderSalepointVM> orders = Mapper.Map<List<OrderSalepointVM>>(ordersDb);
             return Ok(orders);
         }

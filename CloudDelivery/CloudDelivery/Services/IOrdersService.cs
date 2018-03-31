@@ -34,6 +34,20 @@ namespace CloudDelivery.Services
         /// <returns></returns>
         List<Order> List(OrderFiltersModel filters);
 
+        /// <summary>
+        /// orders with status indelivery or accepted
+        /// </summary>
+        /// <param name="salepointId"></param>
+        /// <returns></returns>
+        List<Order> InProgressList(int salepointId);
+
+
+        /// <summary>
+        /// orders with status canceled or delivered
+        /// </summary>
+        /// <param name="salepointId"></param>
+        /// <returns></returns>
+        List<Order> FinishedList(int salepointId);
 
         /// <summary>
         /// accept order and change status

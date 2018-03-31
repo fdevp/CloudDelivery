@@ -227,6 +227,32 @@ namespace CloudDelivery.Services
             }
         }
 
+        public List<Order> InProgressList(int salepointId)
+        {
+            using(var ctx = this.ctxFactory.GetContext())
+            {
+                IQueryable<Order> query = ctx.Orders.Include(x => x.SalePoint.User).Include(x => x.Carrier.User.AspNetUser);
+
+                query = query.Where(x => x.SalePointId == salepointId);
+                query = query.Where(x => x.Status == OrderStatus.Accepted || x.Status == OrderStatus.InDelivery);
+
+                return query.ToList();
+            }
+        }
+
+        public List<Order> FinishedList(int salepointId)
+        {
+            using (var ctx = this.ctxFactory.GetContext())
+            {
+                IQueryable<Order> query = ctx.Orders.Include(x => x.SalePoint.User).Include(x => x.Carrier.User.AspNetUser);
+
+                query = query.Where(x => x.SalePointId == salepointId);
+                query = query.Where(x => x.Status == OrderStatus.Cancelled || x.Status == OrderStatus.Delivered);
+
+                return query.ToList();
+            }
+        }
+
         private ICacheProvider cacheProvider;
         private ICDContextFactory ctxFactory;
     }
