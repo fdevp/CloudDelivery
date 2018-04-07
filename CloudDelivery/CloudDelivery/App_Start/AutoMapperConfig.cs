@@ -86,6 +86,10 @@ namespace CloudDelivery.App_Start
              opt.MapFrom(src => src.Carrier.User.AspNetUser.PhoneNumber));
 
 
+                cfg.CreateMap<Order, OrderFinishedListVM>()
+             .ForMember(dest => dest.CarrierName, opt =>
+             opt.MapFrom(src => src.Carrier.User.Name));
+
                 cfg.CreateMap<Route, RouteVM>();
                 cfg.CreateMap<RoutePoint, RoutePointViewModel>();
                 cfg.CreateMap<IdentityRole, RoleVM>();

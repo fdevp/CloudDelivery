@@ -251,6 +251,7 @@
     <Compile Include="Models\GoogleApis\DistanceMatrixRoot.cs" />
     <Compile Include="Models\GoogleApis\GeocodeRoot.cs" />
     <Compile Include="Models\GoogleApis\GoogleSharedClasses.cs" />
+    <Compile Include="Models\Orders\OrderFinishedListVM.cs" />
     <Compile Include="Models\Orders\OrderRouteVM.cs" />
     <Compile Include="Models\Orders\OrderSalepointVM.cs" />
     <Compile Include="Models\Orders\OrderListVM.cs" />

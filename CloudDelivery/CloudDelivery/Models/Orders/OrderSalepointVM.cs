@@ -24,8 +24,6 @@ namespace CloudDelivery.Models.Orders
 
         public DateTime? PickUpTime { get; set; }
 
-        public DateTime? DeliveredTime { get; set; }
-
         public string DestinationCity { get; set; }
 
         public string DestinationAddress { get; set; }

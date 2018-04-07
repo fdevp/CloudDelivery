@@ -129,7 +129,7 @@ namespace CloudDelivery.Controllers
         public IHttpActionResult InProgressList()
         {
             var salepointId = this.authService.GetSalePointId(this.User);
-            
+
             List<Order> ordersDb = this.ordersService.InProgressList(salepointId);
             List<OrderSalepointVM> orders = Mapper.Map<List<OrderSalepointVM>>(ordersDb);
             return Ok(orders);
@@ -156,7 +156,9 @@ namespace CloudDelivery.Controllers
             var salepointId = this.authService.GetSalePointId(this.User);
 
             List<Order> ordersDb = this.ordersService.FinishedList(salepointId);
-            List<OrderSalepointVM> orders = Mapper.Map<List<OrderSalepointVM>>(ordersDb);
+            List<OrderFinishedListVM> orders = Mapper.Map<List<OrderFinishedListVM>>(ordersDb);
+            orders = orders.OrderByDescending(x => x.DeliveredTime ?? x.CancellationTime ?? x.AddedTime).ToList();
+
             return Ok(orders);
         }
 
