@@ -10,7 +10,7 @@ namespace CloudDelivery.Hubs
 {
     public interface INotificationsHub
     {
-        void OrderAdded(Order order);
+        void OrderAdded(OrderCarrierVM order);
 
         void OrderCancelled(int orderId);
 

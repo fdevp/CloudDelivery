@@ -52,7 +52,8 @@ namespace CloudDelivery.Controllers
             int salePointId = this.authService.GetSalePointId(this.User);
             newOrder.Id = this.ordersService.AddOrder(newOrder, salePointId);
 
-            this.notificationsHub.Clients.Group("carriers").OrderAdded(newOrder);
+            OrderCarrierVM orderCarrierVM = Mapper.Map<OrderCarrierVM>(newOrder);
+            this.notificationsHub.Clients.Group("carriers").OrderAdded(orderCarrierVM);
 
             OrderSalepointVM orderVM = Mapper.Map<OrderSalepointVM>(newOrder);
             return Ok(orderVM);
