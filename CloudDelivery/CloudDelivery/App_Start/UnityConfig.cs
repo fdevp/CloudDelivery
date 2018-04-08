@@ -1,8 +1,11 @@
 using CloudDelivery.Controllers;
 using CloudDelivery.Data;
+using CloudDelivery.Hubs;
 using CloudDelivery.Providers;
 using CloudDelivery.Services;
 using CloudDelivery.Services.Implementations;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.Practices.Unity;
 using System;
 using System.Net.Http;
@@ -28,6 +31,12 @@ namespace CloudDelivery
             InjectionFactory httpClientInjectionFactory = new InjectionFactory(x => httpClient);
             container.RegisterType<HttpClient>(httpClientInjectionFactory);
 
+
+
+            IHubContext<INotificationsHub> notificationsHub = GlobalHost.ConnectionManager.GetHubContext<NotificationsHub, INotificationsHub>();
+            InjectionFactory notificationHubInjectionFactory = new InjectionFactory(x => notificationsHub);
+            container.RegisterType<IHubContext<INotificationsHub>>(notificationHubInjectionFactory);
+
             //providers
             container.RegisterType<ICacheProvider, CacheProvider>();
             container.RegisterType<IHttpProvider, HttpProvider>();
@@ -50,6 +59,8 @@ namespace CloudDelivery
             container.RegisterType<CarriersController>();
             container.RegisterType<OrdersController>();
             container.RegisterType<RoutesController>();
+
+
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Owin;
 using Owin;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
+using Microsoft.Owin;
+using Microsoft.Owin.Cors;
 
 [assembly: OwinStartup(typeof(CloudDelivery.Startup))]
 
@@ -13,6 +16,7 @@ namespace CloudDelivery
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            app.MapSignalR();
         }
     }
 }

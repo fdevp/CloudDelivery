@@ -19,6 +19,7 @@ namespace CloudDelivery.Providers
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
         private readonly string _publicClientId;
+        private IUsersService usersService;
 
         public ApplicationOAuthProvider(string publicClientId)
         {
@@ -26,6 +27,8 @@ namespace CloudDelivery.Providers
             {
                 throw new ArgumentNullException("publicClientId");
             }
+
+            this.usersService = (IUsersService)System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IUsersService));
 
             _publicClientId = publicClientId;
         }
@@ -49,11 +52,7 @@ namespace CloudDelivery.Providers
 
             var roles = userManager.GetRoles(user.Id);
 
-            string appName;
-            using(var ctx = new CDContext())
-            {
-                appName = ctx.AppUsers.Where(x => x.IdentityId == user.Id).FirstOrDefault()?.Name;
-            }
+            string appName = this.usersService.GetUser(user.Id)?.Name;
 
             AuthenticationProperties properties = CreateProperties(user.UserName, Newtonsoft.Json.JsonConvert.SerializeObject(roles), appName);
 

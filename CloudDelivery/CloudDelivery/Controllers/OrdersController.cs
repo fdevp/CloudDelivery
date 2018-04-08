@@ -1,15 +1,18 @@
 ﻿using AutoMapper;
 using CloudDelivery.Data.Entities;
 using CloudDelivery.Data.Enums;
+using CloudDelivery.Hubs;
 using CloudDelivery.Models;
 using CloudDelivery.Models.Orders;
 using CloudDelivery.Services;
+using Authorize = System.Web.Http.AuthorizeAttribute;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using Microsoft.AspNet.SignalR;
 
 namespace CloudDelivery.Controllers
 {
@@ -18,10 +21,12 @@ namespace CloudDelivery.Controllers
     public class OrdersController : BaseController
     {
         IOrdersService ordersService;
+        IHubContext<INotificationsHub> notificationsHub;
 
-        public OrdersController(IAuthorizationService authService, IOrdersService ordersService) : base(authService)
+        public OrdersController(IAuthorizationService authService, IOrdersService ordersService, IHubContext<INotificationsHub> notificationsHub) : base(authService)
         {
             this.ordersService = ordersService;
+            this.notificationsHub = notificationsHub;
         }
 
 
@@ -46,6 +51,9 @@ namespace CloudDelivery.Controllers
             Order newOrder = Mapper.Map<Order>(model);
             int salePointId = this.authService.GetSalePointId(this.User);
             newOrder.Id = this.ordersService.AddOrder(newOrder, salePointId);
+
+            this.notificationsHub.Clients.Group("carriers").OrderAdded(newOrder);
+
             OrderSalepointVM orderVM = Mapper.Map<OrderSalepointVM>(newOrder);
             return Ok(orderVM);
         }
@@ -56,8 +64,13 @@ namespace CloudDelivery.Controllers
         public IHttpActionResult Accept(int orderId)
         {
             int carrierId = this.authService.GetCarrierId(this.User);
-
             this.ordersService.AcceptOrder(orderId, carrierId);
+
+            Order acceptedOrder = this.ordersService.Details(orderId);
+
+            OrderSalepointVM orderVM = Mapper.Map<OrderSalepointVM>(acceptedOrder);
+            this.notificationsHub.Clients.Group("carriers").OrderAccepted(orderId);
+            this.notificationsHub.Clients.User(acceptedOrder.SalePoint.User.AspNetUser.UserName).OrderAccepted(orderVM);
 
             return Ok();
         }
@@ -71,7 +84,14 @@ namespace CloudDelivery.Controllers
             if (!this.authService.HasSalepointPerms(orderId, this.User))
                 return Unauthorized();
 
+
             this.ordersService.CancelOrder(orderId);
+            Order cancelledOrder = this.ordersService.Details(orderId);
+
+            if (cancelledOrder.CarrierId != null)
+                this.notificationsHub.Clients.User(cancelledOrder.Carrier.User.AspNetUser.UserName).OrderCancelled(orderId);
+            else
+                this.notificationsHub.Clients.Group("carriers").OrderCancelled(orderId);
 
             return Ok();
         }
@@ -140,9 +160,9 @@ namespace CloudDelivery.Controllers
         [Route("AddedList")]
         public IHttpActionResult AddedList()
         {
-            var salepointId = this.authService.GetSalePointId(this.User);
-
-            List<Order> ordersDb = this.ordersService.InProgressList(salepointId);
+            var userId = this.authService.GetAppUserId(this.User);
+            var filters = new OrderFiltersModel() { Status = OrderStatus.Added, SalePointUserId = userId };
+            List<Order> ordersDb = this.ordersService.List(filters);
             List<OrderSalepointVM> orders = Mapper.Map<List<OrderSalepointVM>>(ordersDb);
             return Ok(orders);
         }
@@ -164,7 +184,7 @@ namespace CloudDelivery.Controllers
 
 
         [HttpPut]
-        [Authorize(Roles = "carrier")]
+        [Authorize(Roles = "admin,carrier")]
         [Route("delivered/{orderId}")]
         public IHttpActionResult Delivered(int orderId)
         {
@@ -172,12 +192,14 @@ namespace CloudDelivery.Controllers
                 return Unauthorized();
 
             this.ordersService.SetDelivered(orderId);
+            Order pickedOrder = this.ordersService.Details(orderId);
+            this.notificationsHub.Clients.User(pickedOrder.SalePoint.User.AspNetUser.UserName).OrderDelivered(orderId);
 
             return Ok();
         }
 
         [HttpPut]
-        [Authorize(Roles = "carrier")]
+        [Authorize(Roles = "admin,carrier")]
         [Route("pickup/{orderId}")]
         public IHttpActionResult Pickup(int orderId)
         {
@@ -185,13 +207,15 @@ namespace CloudDelivery.Controllers
                 return Unauthorized();
 
             this.ordersService.SetPickup(orderId);
+            Order pickedOrder = this.ordersService.Details(orderId);
+            this.notificationsHub.Clients.User(pickedOrder.SalePoint.User.AspNetUser.UserName).OrderPickedUp(orderId);
 
             return Ok();
         }
 
 
         [HttpPut]
-        [Authorize(Roles = "carrier")]
+        [Authorize(Roles = "admin,carrier")]
         [Route("discard/{orderId}")]
         public IHttpActionResult Discard(int orderId)
         {

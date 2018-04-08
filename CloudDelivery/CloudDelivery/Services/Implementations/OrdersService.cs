@@ -180,7 +180,7 @@ namespace CloudDelivery.Services
 
                 order.DeliveredTime = DateTime.Now;
 
-                TimeSpan deliveryTime = order.PickUpTime.Value.Subtract(order.DeliveredTime.Value);
+                TimeSpan deliveryTime = order.DeliveredTime.Value.Subtract(order.PickUpTime.Value);
                 order.Duration = deliveryTime.Minutes;
 
                 order.Status = OrderStatus.Delivered;

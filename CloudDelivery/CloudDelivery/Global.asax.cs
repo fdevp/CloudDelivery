@@ -21,6 +21,7 @@ namespace CloudDelivery
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoMapperConfig.Register();
+
         }
     }
 }
