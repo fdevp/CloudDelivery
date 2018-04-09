@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CloudDelivery.Data.Entities;
+using CloudDelivery.Data.Enums.Routes;
 using CloudDelivery.Models.Routes;
 using CloudDelivery.Models.Routes.Route;
 using CloudDelivery.Services;
@@ -16,10 +17,12 @@ namespace CloudDelivery.Controllers
     public class RoutesController : BaseController
     {
         IRoutesService routesService;
+        IOrdersService ordersService;
 
-        public RoutesController(IAuthorizationService authService, IRoutesService routesService) : base(authService)
+        public RoutesController(IAuthorizationService authService, IRoutesService routesService, IOrdersService ordersService) : base(authService)
         {
             this.routesService = routesService;
+            this.ordersService = ordersService;
         }
 
         [HttpPost]
@@ -74,6 +77,16 @@ namespace CloudDelivery.Controllers
                 return Unauthorized();
 
             this.routesService.PassPoint(pointId);
+
+            RoutePoint routePoint = this.routesService.PointDetails(pointId);
+            try
+            {
+                if (routePoint.Type == RoutePointType.EndPoint)
+                    this.ordersService.SetDelivered(routePoint.OrderId.Value);
+            }
+            catch (Exception e) { }
+
+
             return Ok();
         }
 

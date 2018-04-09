@@ -87,7 +87,7 @@ namespace CloudDelivery.Services
         {
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                Order order = ctx.Orders.Where(x => x.Id == orderId).Include(x => x.SalePoint.User).Include(x => x.Carrier.User).FirstOrDefault();
+                Order order = ctx.Orders.Where(x => x.Id == orderId).Include(x => x.SalePoint.User.AspNetUser).Include(x => x.Carrier.User.AspNetUser).FirstOrDefault();
 
                 if (order == null)
                     throw new NullReferenceException("Zamówienie nie istnieje.");

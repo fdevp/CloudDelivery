@@ -20,6 +20,8 @@ namespace CloudDelivery.Services
 
         void PassPoint(int pointId);
 
+        RoutePoint PointDetails(int pointId);
+
         Route Details(int routeId);
 
         List<Route> List(RouteFiltersModel filters);

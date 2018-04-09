@@ -32,10 +32,10 @@ namespace CloudDelivery.Services.Implementations
                 if (!ctx.Carriers.Any(x => x.Id == carrierId))
                     throw new NullReferenceException("Dostawca nie istnieje.");
 
-                
+
                 if (ctx.Routes.Any(x => x.CarrierId == carrierId && x.Status == RouteStatus.Active))
                     throw new ArgumentException("Dostawca posiada aktywną trasę");
-                
+
 
                 //validate points
                 var carrierOrders = ctx.Orders.Where(x => x.CarrierId == carrierId && x.Status == OrderStatus.Accepted).ToList();
@@ -71,8 +71,8 @@ namespace CloudDelivery.Services.Implementations
                 ctx.RoutePoints.AddRange(pointsToAdd);
                 ctx.SaveChanges();
 
-                route.Carrier = ctx.Carriers.Where(x => x.Id == route.CarrierId).FirstOrDefault();
-                route.Points = ctx.RoutePoints.Include(x=>x.Order.SalePoint.User).Where(x => x.RouteId == route.Id).OrderBy(x => x.Index).ToList();
+                route.Carrier = ctx.Carriers.Include(x=> x.User.AspNetUser).Where(x => x.Id == route.CarrierId).FirstOrDefault();
+                route.Points = ctx.RoutePoints.Include(x => x.Order.SalePoint.User.AspNetUser).Where(x => x.RouteId == route.Id).OrderBy(x => x.Index).ToList();
 
                 return route;
             }
@@ -143,7 +143,7 @@ namespace CloudDelivery.Services.Implementations
                     query = query.Where(x => x.CarrierId == filters.CarrierId.Value);
 
                 //status
-                if(filters.Status.HasValue)
+                if (filters.Status.HasValue)
                     query = query.Where(x => x.Status == filters.Status.Value);
 
                 //added time
@@ -182,6 +182,19 @@ namespace CloudDelivery.Services.Implementations
                     throw new NullReferenceException("Nie znaleziono aktywnej trasy.");
 
                 return route;
+            }
+        }
+
+        public RoutePoint PointDetails(int pointId)
+        {
+            using (ICDContext ctx = this.ctxFactory.GetContext())
+            {
+                RoutePoint point = ctx.RoutePoints.Where(x => x.Id == pointId).Include(x => x.Order).FirstOrDefault();
+
+                if (point == null)
+                    throw new NullReferenceException("Punkt trasy nie istnieje.");
+
+                return point;
             }
         }
 
