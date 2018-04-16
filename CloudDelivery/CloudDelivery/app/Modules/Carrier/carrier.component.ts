@@ -5,32 +5,9 @@ import { MenuItem } from '../../models/MenuItem';
 
 
 @Component({
-    selector: 'app-carrier',
-    templateUrl: './carrier.component.html'
+    selector: 'carrier-component',
+    template: '<router-outlet></router-outlet>'
 })
-export class CarrierComponent implements OnInit, OnDestroy {
-    public skin = 'skin-black';
-
-    constructor(
-        //private sessionService: SessionService,
-        //private toastr: ToasterService,
-        private route: ActivatedRoute
-    ) {
-        const param = route.snapshot.data[0];
-
-        //this.toastrConfig = new ToasterConfig({
-        //    newestOnTop: true,
-        //    showCloseButton: true,
-        //    tapToDismiss: false
-        //});
-    }
-
-    public ngOnInit() {
-        document.body.className = 'hold-transition ' + this.skin + ' layout-top-nav';
-    }
-
-    public ngOnDestroy() {
-        document.body.className = '';
-    }
+export class CarrierComponent {
 
 }

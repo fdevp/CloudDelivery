@@ -1,19 +1,55 @@
 <div class="wrapper">
-        <app-layout-header>{{ 'LOADING' }}header...</app-layout-header>
-        <div class="content-wrapper">
-            <div class="container">
-                <!--<section class="content-header">-->
-                    <!-- Content Header (Page header) -->
-                    <!--<toaster-container [toasterconfig]="toastrConfig"></toaster-container>
-                    <app-breadcrumb></app-breadcrumb>-->
-                    <!-- Main content -->
-                <!--</section>-->
-               
-                <section class="content">
-                    <router-outlet></router-outlet>
-                </section>
-                <!-- /.content -->
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="../../index2.html" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>A</b>LT</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg">
+                <img src="/Content/Images/name_icon.png" class="img-responsive" />
+            </span>
+        </a>
+        <nav class="navbar navbar-static-top">
+            <!-- Sidebar toggle button-->
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                <i class="fa fa-bars"></i>
+            </button>
+            <!--<a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>-->
+
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li (click)="Logout()">
+                        <!-- Menu toggle button -->
+                        <a href="#">
+                            <i class="fa fa-sign-out"></i>
+                        </a>
+
+                    </li>
+                </ul>
             </div>
-            
-        </div>
+
+        </nav>
+
+        
+    </header>
+
+
+    <app-layout-navigation></app-layout-navigation>
+
+    <div class="content-wrapper">
+        <!--<section class="content-header">-->
+        <!-- Content Header (Page header) -->
+        <!--<toaster-container [toasterconfig]="toastrConfig"></toaster-container>
+        <app-breadcrumb></app-breadcrumb>-->
+        <!-- Main content -->
+        <!--</section>-->
+
+        <section class="content">
+            <router-outlet></router-outlet>
+        </section>
+        <!-- /.content -->
+
     </div>
+</div>

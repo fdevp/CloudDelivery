@@ -1,0 +1,56 @@
+﻿<div class="box box-warning">
+    <div class="box-header with-border">
+        <h3 class="box-title">Nowe zamówienie</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form role="form">
+
+        <div class="box-body">
+            <div class="loading-container" *ngIf="inProgress">
+                <i class="fa fa-edit fa-2x" *ngIf="!geocoderFinished"></i>
+
+                <div *ngIf="geocoderFinished" class="geocoder-info">
+                    <div>
+                        <h4 *ngIf="geocoderSuccess">Znaleziono lokalizację</h4>
+                        <h4 *ngIf="!geocoderSuccess">Nie znaleziono lokalizacji</h4>
+                        <br />
+                        <button class="btn btn-warning" (click)="addOrder()">Dodaj zamówienie</button>
+                        <button class="btn btn-default" (click)="stopInProgress()">Anuluj</button>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+            <div>
+                <div class="form-group">
+                    <label>Miasto</label>
+                    <input type="text" class="form-control" [(ngModel)]="model.DestinationCity" name="DestinationCity">
+                </div>
+                <div class="form-group">
+                    <label>Adres</label>
+                    <input type="text" class="form-control" [(ngModel)]="model.DestinationAddress" name="DestinationAddress">
+                </div>
+                <div class="form-group">
+                    <label>Telefon</label>
+                    <input type="number" class="form-control" [(ngModel)]="model.CustomerPhone" name="CustomerPhone">
+                </div>
+                <div class="form-group">
+                    <label>Koszt</label>
+                    <input type="number" class="form-control" [(ngModel)]="model.Price" name="Price">
+                </div>
+
+                <textarea class="form-control" rows="3" placeholder="Informacja dla przewoźnika" [(ngModel)]="model.Message" name="Message"></textarea>
+            </div>
+
+
+        </div>
+
+        <div class="box-footer">
+            <button type="submit" class="btn btn-warning" (click)="startGeocoder()">Wyszukaj lokalizację</button>
+            <button type="submit" class="btn btn-default" (click)="cleanModel()">Wyczyść</button>
+        </div>
+
+    </form>
+</div>

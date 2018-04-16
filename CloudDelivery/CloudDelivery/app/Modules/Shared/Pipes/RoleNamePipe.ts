@@ -1,11 +1,10 @@
 ﻿import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Roles } from '../../../Models/Enums/Roles';
 
 @Pipe({ name: 'roleName' })
 export class RoleNamePipe implements PipeTransform {
-    constructor(private sanitizer: DomSanitizer) {
-
-    }
+    constructor( private sanitizer: DomSanitizer) {    }
 
     transform(value: string) {
         var name = value;
@@ -15,16 +14,16 @@ export class RoleNamePipe implements PipeTransform {
             return this.sanitizer.bypassSecurityTrustHtml(nullContent);
 
         switch (value) {
-            case "admin":
+            case Roles.Admin:
                 name = "Administrator";
                 break;
-            case "carrier":
+            case Roles.Carrier:
                 name = "Dostawca";
                 break;
-            case "salepoint":
+            case Roles.SalePoint:
                 name = "Punkt sprzedaży";
                 break;
-            case "organisator":
+            case Roles.Organisation:
                 name = "Właściciel";
                 break;
         }

@@ -2,6 +2,7 @@
 import { Observable } from 'rxjs/Observable';
 import { CanLoad, Route, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanActivateChild } from '@angular/router';
 import { SessionService } from '../SessionService';
+import { Roles } from '../../Models/Enums/Roles';
 
 @Injectable()
 export class CarrierGuard implements CanLoad, CanActivate, CanActivateChild {
@@ -31,7 +32,7 @@ export class CarrierGuard implements CanLoad, CanActivate, CanActivateChild {
                 this.router.navigate(['/login']);
                 return false;
             }
-            return this.sessionService.hasRole("carrier");
+            return this.sessionService.hasRole(Roles.Carrier);
         }, error => {
             this.sessionService.redirectUrl = url;
             this.router.navigate(['/login']);

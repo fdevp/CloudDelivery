@@ -22,9 +22,9 @@ var CarriersService = /** @class */ (function () {
     }
     CarriersService.prototype.list = function () {
         var _this = this;
-        var hdrz = this.sessionService.authHeader();
+        var headers = this.sessionService.authHeader();
         return new Observable_1.Observable(function (obs) {
-            return _this.http.get('/api/carriers/list', { headers: hdrz }).subscribe(function (data) {
+            return _this.http.get('/api/carriers/list', { headers: headers }).subscribe(function (data) {
                 var body = JSON.parse(data["_body"]);
                 obs.next(body);
             }, function (e) { console.error("err", e); });

@@ -1,0 +1,222 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title pull-left">Zamówienie</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body">
+    <div *ngIf="detailsProgress">
+        ładuje
+    </div>
+    <div *ngIf="!detailsProgress">
+
+        <div class="form-horizontal">
+            <div class="form-group" *ngIf="isAdmin()">
+                <label class="col-sm-3 control-label">Id</label>
+                <div class="col-sm-9 form-control-static">
+                    <span>{{details.Id}}</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Status</label>
+                <div class="col-sm-9 form-control-static">
+                    <span>{{details.Status | orderStatus }}</span>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Miejscowość</label>
+                <div class="col-sm-9 form-control-static">
+                    <span>{{details.DestinationCity}}</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Adres</label>
+                <div class="col-sm-9 form-control-static">
+                    <span>{{details.DestinationAddress}}</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Koszt</label>
+                <div class="col-sm-9 form-control-static">
+                    <span>{{details.Price | currencyText}}</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Telefon klienta</label>
+                <div class="col-sm-9 form-control-static">
+                    <span *ngIf="details.CustomerPhone != null">{{details.CustomerPhone}}</span>
+                    <span *ngIf="details.CustomerPhone == null">-</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Dodano</label>
+                <div class="col-sm-9 form-control-static">
+                    <span>{{details.AddedTime | shortDateTime}}</span>
+                </div>
+            </div>
+
+            <div class="form-group" *ngIf="details.Status == 0">
+                <label class="col-sm-3 control-label">Anulowano</label>
+                <div class="col-sm-9 form-control-static">
+                    <span>{{details.CancellationTime | shortDateTime }}</span>
+                </div>
+            </div>
+
+
+            <!--  SALEPOINT DETAILS -->
+            <div *ngIf="isCarrier() || isAdmin()">
+
+                <hr />
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Id punktu</label>
+                    <div class="col-sm-9 form-control-static">
+                        <span>{{details.SalepointId }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Nazwa punktu</label>
+                    <div class="col-sm-9 form-control-static">
+                        <span>{{details.SalepointName }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Adres punktu</label>
+                    <div class="col-sm-9 form-control-static">
+                        <span>{{details | salepointAddress }}</span>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <div *ngIf="details.AcceptedTime != null">
+                <hr />
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Zaakceptowano</label>
+                    <div class="col-sm-9 form-control-static">
+                        <span>{{details.AcceptedTime | shortDateTime }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group" *ngIf="details.PickUpTime != null">
+                    <label class="col-sm-3 control-label">Odebrano</label>
+                    <div class="col-sm-9 form-control-static">
+                        <span>{{details.PickUpTime | shortDateTime }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group" *ngIf="details.DeliveredTime != null">
+                    <label class="col-sm-3 control-label">Dostarczono</label>
+                    <div class="col-sm-9 form-control-static">
+                        <span>{{details.DeliveredTime | shortDateTime }}</span>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <!-- CARRIER DETAILS -->
+            <div *ngIf="(isSalepoint() || isAdmin()) && details.CarrierId != null">
+                <hr />
+
+                <div class="form-group" *ngIf="isAdmin()">
+                    <label class="col-sm-3 control-label">Id kierowcy</label>
+                    <div class="col-sm-9 form-control-static">
+                        <span>{{details.CarrierId }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group" *ngIf="details.CarrierName != null">
+                    <label class="col-sm-3 control-label">Kierowca</label>
+                    <div class="col-sm-9 form-control-static">
+                        <span>{{details.CarrierName }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group" *ngIf="details.CarrierPhone != null">
+                    <label class="col-sm-3 control-label">Telefon kierowcy</label>
+                    <div class="col-sm-9 form-control-static">
+                        <span>{{details.CarrierPhone }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group" *ngIf="details.Duration != null">
+                    <label class="col-sm-3 control-label">Dostarczono w </label>
+                    <div class="col-sm-9 form-control-static">
+                        <span>{{details.Duration | durationText }}</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <hr />
+
+            <div class="row">
+                <div class="order-details-map col-md-12">
+
+                    <div class="text-muted text-center margin-bottom-15" *ngIf=" details.EndLatLng==null">nie znaleziono pozycji punktu dostawy</div>
+
+                    <agm-map [latitude]="baseLocation.lat"
+                             [longitude]="baseLocation.lng"
+                             [zoom]="12"
+                             [disableDefaultUI]="false"
+                             [streetViewControl]="false"
+                             [zoomControl]="true">
+
+                        <agm-marker *ngIf="details.SalepointLatLng!=null"
+                                    [latitude]="details.SalepointLatLng.lat"
+                                    [longitude]="details.SalepointLatLng.lng"
+                                    [title]="details.SalepointAddress"
+                                    [iconUrl]="'/content/images/markers/small/salepoint_marker.png'"
+                                    [openInfoWindow]="true">
+
+
+                            <agm-info-window>
+                                <strong>{{ details.SalepointName}}</strong>
+                            </agm-info-window>
+
+                        </agm-marker>
+
+
+                        <agm-marker *ngIf=" details.EndLatLng!=null"
+                                    [latitude]="details.EndLatLng.lat"
+                                    [longitude]="details.EndLatLng.lng"
+                                    [title]="details.DestinationAddress"
+                                    [iconUrl]="'/content/images/markers/small/marker.png'"
+                                    [openInfoWindow]="true">
+
+                            <agm-info-window>
+                                <strong>{{ details | destinationAddress}}</strong>
+                            </agm-info-window>
+
+                        </agm-marker>
+
+                    </agm-map>
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default pull-right" (click)="closeModal()">Wyjdź</button>
+</div>

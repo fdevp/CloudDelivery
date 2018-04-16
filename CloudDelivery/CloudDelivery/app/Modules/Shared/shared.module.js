@@ -10,24 +10,44 @@ var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
-var layout_header_component_1 = require("./Header/layout.header.component");
+var layout_navigation_component_1 = require("./Navigation/layout.navigation.component");
 var NullStringPipe_1 = require("./Pipes/NullStringPipe");
 var RoleNamePipe_1 = require("./Pipes/RoleNamePipe");
+var ShortDateTimePipe_1 = require("./Pipes/ShortDateTimePipe");
+var DestinationAddressPipe_1 = require("./Pipes/DestinationAddressPipe");
+var OrderStatusPipe_1 = require("./Pipes/OrderStatusPipe");
 var ShowPasswordDirective_1 = require("./Directives/ShowPasswordDirective");
+var CurrencyTextPipe_1 = require("./Pipes/CurrencyTextPipe");
+var order_details_modal_1 = require("./Modals/OrderDetailsModal/order.details.modal");
+var ConfirmModal_1 = require("./Modals/ConfirmModal");
+var DurationTextPipe_1 = require("./Pipes/DurationTextPipe");
+var SalepointAddressPipe_1 = require("./Pipes/SalepointAddressPipe");
+var core_2 = require("@agm/core");
+var modules = [
+    common_1.CommonModule,
+    router_1.RouterModule,
+    forms_1.FormsModule,
+    core_2.AgmCoreModule
+];
 var pages = [
-    layout_header_component_1.LayoutHeaderComponent,
+    layout_navigation_component_1.LayoutNavigationComponent,
 ];
 var directives = [
     ShowPasswordDirective_1.ShowPasswordDirective
 ];
+var modals = [
+    ConfirmModal_1.ConfirmModal,
+    order_details_modal_1.OrderDetailsModal
+];
 var pipes = [
     NullStringPipe_1.NullStringPipe,
-    RoleNamePipe_1.RoleNamePipe
-];
-var modules = [
-    common_1.CommonModule,
-    router_1.RouterModule,
-    forms_1.FormsModule
+    RoleNamePipe_1.RoleNamePipe,
+    ShortDateTimePipe_1.ShortDateTimePipe,
+    DestinationAddressPipe_1.DestinationAddressPipe,
+    OrderStatusPipe_1.OrderStatusPipe,
+    CurrencyTextPipe_1.CurrencyTextPipe,
+    DurationTextPipe_1.DurationTextPipe,
+    SalepointAddressPipe_1.SalepointAddressPipe
 ];
 var SharedModule = /** @class */ (function () {
     function SharedModule() {
@@ -35,8 +55,9 @@ var SharedModule = /** @class */ (function () {
     SharedModule = __decorate([
         core_1.NgModule({
             imports: modules.slice(),
-            declarations: pages.concat(pipes, directives),
+            declarations: pages.concat(pipes, directives, modals),
             exports: pages.concat(pipes, directives),
+            entryComponents: modals.slice()
         })
     ], SharedModule);
     return SharedModule;

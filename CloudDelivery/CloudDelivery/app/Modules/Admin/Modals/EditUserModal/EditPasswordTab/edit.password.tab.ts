@@ -2,7 +2,7 @@
 import { ShowPasswordDirective } from '../../../../Shared/Directives/ShowPasswordDirective'
 import { UsersService } from '../../../../../Services/UsersService';
 import { UserDetails } from '../../../../../Models/Users/UserDetails';
-import { ToastFactoryService } from '../../../../../Services/Layout/ToastFactoryService';
+import { ToastFactoryService } from '../../../../../Services/UI/ToastFactoryService';
 
 @Component({
     selector: 'edit-password-tab',

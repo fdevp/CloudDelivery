@@ -1,0 +1,197 @@
+﻿<div class="row">
+    <div class="col-lg-4 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3>{{ todayCount }}</h3>
+
+                <p>Zamówienia dzisiaj</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer"></a>
+        </div>
+    </div>
+
+
+    <div class="col-lg-4 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3>{{ weekCount }}</h3>
+
+                <p>Zamówienia w ostatnim tygodniu</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="#" class="small-box-footer"></a>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3>{{ monthCount }}</h3>
+
+                <p>Zamówienia w ostatnim miesiącu</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person-add"></i>
+            </div>
+            <a href="#" class="small-box-footer"></a>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-md-8">
+
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs pull-right">
+                <li [ngClass]="{'active':!activeInProgressTab}"><a href="#" (click)="setActiveTab(false)">Oczekujące</a></li>
+                <li [ngClass]="{'active':activeInProgressTab}"><a href="#" (click)="setActiveTab(true)">W trakcie</a></li>
+                <li class="pull-left header"><i class="fa fa-map-marker"></i> Aktywne zamówienia</li>
+            </ul>
+            <div class="tab-content no-padding">
+                <div class="tab-pane" [ngClass]="{'active':!activeInProgressTab}">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Adres</th>
+                                <th>Numer klienta</th>
+                                <th>Dodano</th>
+                                <th style="width: 40px">Koszt</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let order of addedOrders" (click)="clickedOrder(order)">
+                                <td>
+                                    {{order.Id}}
+                                </td>
+                                <td>
+                                    {{order | destinationAddress }}
+                                </td>
+                                <td>
+                                    {{order.CustomerPhone}}
+                                </td>
+                                <td>
+                                    {{order.AddedTime | date:'HH:mm' }}
+                                </td>
+                                <td>
+                                    {{order.Price | currencyText}}
+                                </td>
+                                <td>
+                                    <button class="btn btn-xs btn-default" (click)="cancelOrder(order);$event.stopPropagation()">Anuluj</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-pane" [ngClass]="{'active':activeInProgressTab}">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Adres</th>
+                                <th>Status</th>
+                                <th>Dodano</th>
+                                <th style="width: 40px">Koszt</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            <tr *ngFor="let order of inProgressOrders   " (click)="clickedOrder(order)">
+                                <td>
+                                    {{order.Id}}
+                                </td>
+                                <td>
+                                    {{order | destinationAddress }}
+                                </td>
+                                <td>
+                                    <span class="label" [ngClass]="{'label-info': order.Status == orderStatusEnum.Accepted, 'label-success':order.Status == orderStatusEnum.InDelivery }">
+                                        {{order.Status | orderStatus}}
+                                    </span>
+                                </td>
+                                <td>
+                                    {{order.AddedTime | date:'HH:mm' }}
+                                </td>
+                                <td>
+                                    {{order.Price | currencyText}}
+                                </td>
+
+                                <td>
+                                    <button class="btn btn-xs btn-default" (click)="cancelOrder(order);$event.stopPropagation()">Anuluj</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <app-salepoint-createorder></app-salepoint-createorder>
+    </div>
+</div>
+
+<div class="row">
+    <div class="dashboard-map col-md-12">
+        <agm-map [latitude]="baseLocation.lat"
+                 [longitude]="baseLocation.lng"
+                 [zoom]="12"
+                 [disableDefaultUI]="false"
+                 [streetViewControl]="false"
+                 [zoomControl]="true">
+
+            <ng-container *ngFor="let order of addedOrders">
+                <agm-marker *ngIf="order.EndLatLng!=null"
+                            (markerClick)="clickedMarker(order)"
+                            [latitude]="order.EndLatLng.lat"
+                            [longitude]="order.EndLatLng.lng"
+                            [title]="order.DestinationAddress"
+                            [iconUrl]="selectIcon(order)"
+                            [openInfoWindow]="true">
+
+                    <agm-info-window>
+                        <strong>{{ order | destinationAddress}}</strong>
+                    </agm-info-window>
+
+                </agm-marker>
+
+
+            </ng-container>
+
+            <ng-container *ngFor="let order of inProgressOrders">
+                <agm-marker *ngIf="order.EndLatLng!=null"
+                            (markerClick)="clickedMarker(order)"
+                            [latitude]="order.EndLatLng.lat"
+                            [longitude]="order.EndLatLng.lng"
+                            [title]="order.DestinationAddress"
+                            [iconUrl]="selectIcon(order)"
+                            [openInfoWindow]="true">
+
+                    <agm-info-window>
+                        <strong>{{ order | destinationAddress}}</strong>
+                    </agm-info-window>
+
+                </agm-marker>
+
+
+            </ng-container>
+
+        </agm-map>
+    </div>
+</div>
+

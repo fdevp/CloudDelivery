@@ -14,12 +14,15 @@ var Observable_1 = require("rxjs/Observable");
 var router_1 = require("@angular/router");
 var SessionUser_1 = require("../Models/Session/SessionUser");
 var http_1 = require("@angular/http");
+var SignalrService_1 = require("./SignalrService");
+var Roles_1 = require("../Models/Enums/Roles");
 require("rxjs/add/observable/of");
 require("rxjs/Rx");
 var SessionService = /** @class */ (function () {
-    function SessionService(router, http) {
+    function SessionService(router, http, signalrService) {
         this.router = router;
         this.http = http;
+        this.signalrService = signalrService;
         this.isLoggedIn = false;
         this.redirectUrl = null;
         this.user = new SessionUser_1.SessionUser();
@@ -40,6 +43,7 @@ var SessionService = /** @class */ (function () {
                 _this.user.login = body.Login;
                 _this.user.roles = JSON.parse(body.Roles);
                 _this.isLoggedIn = true;
+                _this.startWebsockets();
                 if (_this.redirectUrl != null) {
                     _this.router.navigate([_this.redirectUrl]);
                     _this.redirectUrl = null;
@@ -65,11 +69,12 @@ var SessionService = /** @class */ (function () {
             _this.http.post('/token', loginBody, { headers: loginHeaders }).map(function (data) { return data.json(); }).subscribe(function (data) {
                 //set data
                 _this.token = data["access_token"];
-                _this.user.name = data["Login"];
-                _this.user.login = data["Name"];
+                _this.user.name = data["Name"];
+                _this.user.login = data["Login"];
                 _this.user.roles = JSON.parse(data["Roles"]);
                 _this.saveToken();
                 _this.isLoggedIn = true;
+                _this.startWebsockets();
                 if (_this.redirectUrl != null) {
                     _this.router.navigate([_this.redirectUrl]);
                     _this.redirectUrl = null;
@@ -78,10 +83,22 @@ var SessionService = /** @class */ (function () {
             }, function (error) { return obs.error(error); });
         });
     };
+    SessionService.prototype.startWebsockets = function () {
+        this.signalrService.setAuthHeader(this.token);
+        var role;
+        if (this.hasRole(Roles_1.Roles.SalePoint))
+            role = Roles_1.Roles.SalePoint;
+        else if (this.hasRole(Roles_1.Roles.Carrier))
+            role = Roles_1.Roles.Carrier;
+        else if (this.isAdmin())
+            role = Roles_1.Roles.Admin;
+        this.signalrService.setCallbacks(role);
+        this.signalrService.startConnection();
+    };
     SessionService.prototype.isAdmin = function () {
         if (this.user.roles == null)
             return false;
-        return this.user.roles.indexOf("admin") > -1;
+        return this.user.roles.indexOf(Roles_1.Roles.Admin) > -1;
     };
     SessionService.prototype.hasRole = function (role) {
         if (this.user.roles == null)
@@ -92,7 +109,7 @@ var SessionService = /** @class */ (function () {
         this.removeToken();
         this.isLoggedIn = false;
         this.user = new SessionUser_1.SessionUser();
-        this.router.navigate(["/"]);
+        this.router.navigate(["./login"]);
     };
     SessionService.prototype.removeToken = function () {
         this.token = null;
@@ -103,7 +120,7 @@ var SessionService = /** @class */ (function () {
     };
     SessionService = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [router_1.Router, http_1.Http])
+        __metadata("design:paramtypes", [router_1.Router, http_1.Http, SignalrService_1.SignalrService])
     ], SessionService);
     return SessionService;
 }());

@@ -52,7 +52,11 @@ namespace CloudDelivery.App_Start
                 .ForMember(dest => dest.SalepointName, opt =>
                 opt.MapFrom(src => src.SalePoint.User.Name))
                 .ForMember(dest => dest.CarrierName, opt =>
-                opt.MapFrom(src => src.Carrier.User.Name));
+                opt.MapFrom(src => src.Carrier.User.Name))
+                 .ForMember(dest => dest.SalepointCity, opt =>
+                opt.MapFrom(src => src.SalePoint.City))
+                 .ForMember(dest => dest.SalepointAddress, opt =>
+                opt.MapFrom(src => src.SalePoint.Address));
 
                 cfg.CreateMap<Order, OrderListVM>()
                 .ForMember(dest => dest.SalepointName, opt =>

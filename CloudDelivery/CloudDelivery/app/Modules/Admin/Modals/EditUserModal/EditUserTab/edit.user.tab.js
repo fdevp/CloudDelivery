@@ -105,9 +105,10 @@ var EditUserTab = /** @class */ (function () {
             selector: 'edit-user-tab',
             templateUrl: './edit.user.tab.html',
         }),
-        __metadata("design:paramtypes", [UsersService_1.UsersService, OrganisationsService_1.OrganisationsService])
+        __metadata("design:paramtypes", [typeof (_a = typeof UsersService_1.UsersService !== "undefined" && UsersService_1.UsersService) === "function" && _a || Object, typeof (_b = typeof OrganisationsService_1.OrganisationsService !== "undefined" && OrganisationsService_1.OrganisationsService) === "function" && _b || Object])
     ], EditUserTab);
     return EditUserTab;
+    var _a, _b;
 }());
 exports.EditUserTab = EditUserTab;
 //# sourceMappingURL=edit.user.tab.js.map

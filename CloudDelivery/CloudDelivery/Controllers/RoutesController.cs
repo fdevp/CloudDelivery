@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
 using CloudDelivery.Data.Entities;
 using CloudDelivery.Data.Enums.Routes;
+using CloudDelivery.Hubs;
 using CloudDelivery.Models.Routes;
 using CloudDelivery.Models.Routes.Route;
 using CloudDelivery.Services;
+using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using Authorize = System.Web.Http.AuthorizeAttribute;
 
 namespace CloudDelivery.Controllers
 {
@@ -18,11 +21,13 @@ namespace CloudDelivery.Controllers
     {
         IRoutesService routesService;
         IOrdersService ordersService;
+        IHubContext<INotificationsHub> notificationsHub;
 
-        public RoutesController(IAuthorizationService authService, IRoutesService routesService, IOrdersService ordersService) : base(authService)
+        public RoutesController(IAuthorizationService authService, IRoutesService routesService, IOrdersService ordersService, IHubContext<INotificationsHub> notificationsHub) : base(authService)
         {
             this.routesService = routesService;
             this.ordersService = ordersService;
+            this.notificationsHub = notificationsHub;
         }
 
         [HttpPost]
@@ -81,8 +86,13 @@ namespace CloudDelivery.Controllers
             RoutePoint routePoint = this.routesService.PointDetails(pointId);
             try
             {
+                
                 if (routePoint.Type == RoutePointType.EndPoint)
+                {
                     this.ordersService.SetDelivered(routePoint.OrderId.Value);
+                    this.notificationsHub.Clients.User(routePoint.Order.SalePoint.User.AspNetUser.UserName).OrderDelivered(routePoint.OrderId.Value);
+                }
+                    
             }
             catch (Exception e) { }
 

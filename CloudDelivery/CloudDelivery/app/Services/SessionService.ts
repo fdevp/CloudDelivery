@@ -5,9 +5,12 @@ import { Router } from '@angular/router';
 import { SessionUser } from '../Models/Session/SessionUser';
 import { UserListItem } from '../Models/Users/UserListItem';
 import { Headers, Http } from '@angular/http';
+import { SignalrService } from './SignalrService';
+import { Roles } from "../Models/Enums/Roles";
 
 import 'rxjs/add/observable/of';
 import 'rxjs/Rx';
+
 @Injectable()
 export class SessionService {
     isLoggedIn = false;
@@ -15,7 +18,8 @@ export class SessionService {
     token: string;
     user: SessionUser = new SessionUser();
 
-    constructor(private router: Router, private http: Http) {
+    constructor(private router: Router, private http: Http, private signalrService: SignalrService) {
+
     }
 
     checkLogin(): Observable<boolean> {
@@ -38,7 +42,8 @@ export class SessionService {
                 this.user.roles = JSON.parse(body.Roles);
 
                 this.isLoggedIn = true;
-
+                this.startWebsockets();
+                    
                 if (this.redirectUrl != null) {
                     this.router.navigate([this.redirectUrl]);
                     this.redirectUrl = null;
@@ -70,13 +75,15 @@ export class SessionService {
 
                 //set data
                 this.token = data["access_token"];
-                this.user.name = data["Login"];
-                this.user.login = data["Name"];
+                this.user.name = data["Name"]; 
+                this.user.login = data["Login"];
                 this.user.roles = JSON.parse(data["Roles"]);
 
                 this.saveToken();
 
                 this.isLoggedIn = true;
+                this.startWebsockets();
+                
 
                 if (this.redirectUrl != null) {
                     this.router.navigate([this.redirectUrl]);
@@ -88,10 +95,24 @@ export class SessionService {
         });
     }
 
+    startWebsockets() {
+        this.signalrService.setAuthHeader(this.token);
+        var role: Roles;
+        if (this.hasRole(Roles.SalePoint))
+            role = Roles.SalePoint;
+        else if (this.hasRole(Roles.Carrier))
+            role = Roles.Carrier;
+        else if (this.isAdmin())
+            role = Roles.Admin;
+
+        this.signalrService.setCallbacks(role);
+        this.signalrService.startConnection();
+    }
+
     isAdmin(): boolean {
         if (this.user.roles == null)
             return false;
-        return this.user.roles.indexOf("admin") > -1;
+        return this.user.roles.indexOf(Roles.Admin) > -1;
     }
 
     hasRole(role): boolean {
@@ -104,7 +125,7 @@ export class SessionService {
         this.removeToken();
         this.isLoggedIn = false;
         this.user = new SessionUser();
-        this.router.navigate(["/"]);
+        this.router.navigate(["./login"]);
     }
 
     private removeToken(): void {

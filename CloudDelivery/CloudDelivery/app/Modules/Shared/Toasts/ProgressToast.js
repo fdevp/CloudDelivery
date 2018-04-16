@@ -19,7 +19,7 @@ var ProgressToast = /** @class */ (function () {
     ProgressToast = __decorate([
         core_1.Component({
             selector: 'toast-progress-creating-user',
-            template: "\n   <div toast-component=\"\" class=\"toast ng-trigger ng-trigger-flyInOut toast-gray toast-padding\">\n        <div class=\"toast-title\"> \n            <div class=\"content-middle\">\n                <i class=\"fa fa-cog fa-spin fa-2x toast-icon\"></i>\n                <span class=\"toast-text\">{{title}}</span>\n            </div>\n        </div>\n   </div>\n  ",
+            template: "\n   <div class=\"toast ng-trigger ng-trigger-flyInOut toast-gray toast-padding\">\n        <div class=\"toast-title\"> \n            <div class=\"content-middle\">\n                <i class=\"fa fa-cog fa-spin fa-2x toast-icon\"></i>\n                <span class=\"toast-text\">{{title}}</span>\n            </div>\n        </div>\n   </div>\n  ",
             styleUrls: ["./toasts.css"]
         }),
         __metadata("design:paramtypes", [ngx_toastr_1.ToastPackage])

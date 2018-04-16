@@ -189,7 +189,7 @@ namespace CloudDelivery.Services.Implementations
         {
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                RoutePoint point = ctx.RoutePoints.Where(x => x.Id == pointId).Include(x => x.Order).FirstOrDefault();
+                RoutePoint point = ctx.RoutePoints.Where(x => x.Id == pointId).Include(x => x.Order.SalePoint.User.AspNetUser).FirstOrDefault();
 
                 if (point == null)
                     throw new NullReferenceException("Punkt trasy nie istnieje.");

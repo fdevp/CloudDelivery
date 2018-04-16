@@ -1,0 +1,39 @@
+﻿<div *ngIf="initialized">
+    <section class="content-header margin-bottom-15">
+        <h1>
+            <i class="fa fa-users"></i>
+            Zamówienia
+        </h1>
+    </section>
+
+    <div class="box box-default">
+        <div class="box-body">
+            <button class="btn btn-default">Kierowca</button>
+            <button class="btn btn-default">Punkt sprzedaży</button>
+            <button class="btn btn-default">Organizacja</button>
+            <button class="btn btn-default">Data dodania</button>
+            <button class="btn btn-default">Data dowozu</button>
+            <button class="btn btn-default">Status</button>
+        </div>
+    </div>
+
+
+    <div class="box box-default">
+        <ngx-datatable #table
+                       class="material"
+                       [rowHeight]="auto"
+                       [limit]="10"
+                       [columnMode]="'force'"
+                       [columns]="columns"
+                       [footerHeight]="50"
+                       [rows]="orders"
+                       [selected]="selected"
+                       [selectionType]="'single'"
+                       (select)="orderSelect($event)">
+        </ngx-datatable>
+
+    </div>
+</div>
+
+
+<div class="loader-container" *ngIf="!initialized" style="width:130px;height:130px"></div>

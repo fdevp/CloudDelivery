@@ -13,9 +13,10 @@ var forms_1 = require("@angular/forms");
 var layout_component_1 = require("./layout.component");
 var layout_routing_1 = require("./layout.routing");
 var shared_module_1 = require("./Shared/shared.module");
-var MenuFactoryService_1 = require("../Services/Layout/MenuFactoryService");
+var MenuFactoryService_1 = require("../Services/UI/MenuFactoryService");
 var AdminGuard_1 = require("../Services/Guards/AdminGuard");
 var CarrierGuard_1 = require("../Services/Guards/CarrierGuard");
+var SalepointGuard_1 = require("../Services/Guards/SalepointGuard");
 var pages = [
     layout_component_1.LayoutComponent,
 ];
@@ -28,7 +29,8 @@ var modules = [
 var providers = [
     MenuFactoryService_1.MenuFactoryService,
     AdminGuard_1.AdminGuard,
-    CarrierGuard_1.CarrierGuard
+    CarrierGuard_1.CarrierGuard,
+    SalepointGuard_1.SalepointGuard
 ];
 var LayoutModule = /** @class */ (function () {
     function LayoutModule() {

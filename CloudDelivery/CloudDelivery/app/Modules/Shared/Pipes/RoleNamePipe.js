@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
+var Roles_1 = require("../../../Models/Enums/Roles");
 var RoleNamePipe = /** @class */ (function () {
     function RoleNamePipe(sanitizer) {
         this.sanitizer = sanitizer;
@@ -21,16 +22,16 @@ var RoleNamePipe = /** @class */ (function () {
         if (value == null || value == 'undefined' || value == "")
             return this.sanitizer.bypassSecurityTrustHtml(nullContent);
         switch (value) {
-            case "admin":
+            case Roles_1.Roles.Admin:
                 name = "Administrator";
                 break;
-            case "carrier":
+            case Roles_1.Roles.Carrier:
                 name = "Dostawca";
                 break;
-            case "salepoint":
+            case Roles_1.Roles.SalePoint:
                 name = "Punkt sprzedaży";
                 break;
-            case "organisator":
+            case Roles_1.Roles.Organisation:
                 name = "Właściciel";
                 break;
         }

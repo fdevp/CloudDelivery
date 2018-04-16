@@ -18,7 +18,7 @@ namespace CloudDelivery.Models
 
         public string ToJsonString()
         {
-            return string.Concat("{", "'lat':'", this.lat, "','lng':'", this.lng, "'}");
+            return string.Concat("{", "\"lat\":", this.lat, ",\"lng\":", this.lng, "}");
         }
     }
 }

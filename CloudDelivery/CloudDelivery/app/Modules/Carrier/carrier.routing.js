@@ -9,20 +9,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var carrier_dashboard_component_1 = require("./dashboard/carrier.dashboard.component");
-var carrier_users_component_1 = require("./users/carrier.users.component");
 var CarrierGuard_1 = require("../../Services/Guards/CarrierGuard");
+var carrier_routes_component_1 = require("./Routes/carrier.routes.component");
+var carrier_orders_component_1 = require("./Orders/carrier.orders.component");
 var carrierRoutes = [
     {
         path: '',
         canActivateChild: [CarrierGuard_1.CarrierGuard],
         children: [
             {
-                component: carrier_dashboard_component_1.CarrierDashboardComponent,
-                path: '',
+                path: 'routes',
+                component: carrier_routes_component_1.CarrierRoutesComponent
             },
             {
-                component: carrier_users_component_1.CarrierUsersComponent,
-                path: 'users',
+                path: 'orders',
+                component: carrier_orders_component_1.CarrierOrdersComponent
+            },
+            {
+                component: carrier_dashboard_component_1.CarrierDashboardComponent,
+                path: '',
             }
         ],
     },

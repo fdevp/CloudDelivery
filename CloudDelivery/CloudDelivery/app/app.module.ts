@@ -18,13 +18,14 @@ import { ToastrModule } from 'ngx-toastr'
 import { ModalModule } from 'ngx-bootstrap'
 import { TabsModule } from 'ngx-bootstrap';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
+import { LottieAnimationViewModule } from 'ng-lottie';
 
 import { LoginComponent } from './Modules/Shared/Login/login.component';
 
 import { ProgressToast } from './Modules/Shared/Toasts/ProgressToast';
 
 //import { AddUserModal } from './Entries/Modals/AddUserModal/add.user.modal';
-import {ModalFactoryService} from './Services/Layout/ModalFactoryService';
+import { ModalFactoryService } from './Services/UI/ModalFactoryService';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 
@@ -34,10 +35,15 @@ import { ConfirmModal } from './Modules/Shared/Modals/ConfirmModal'
 import { AddUserModal } from './Modules/Admin/Modals/AddUserModal/add.user.modal';
 import { EditUserModal } from './Modules/Admin/Modals/EditUserModal/edit.user.modal';
 import { SharedModule } from './Modules/Shared/shared.module';
-import { ToastFactoryService } from './Services/Layout/ToastFactoryService';
+import { ToastFactoryService } from './Services/UI/ToastFactoryService';
 import { CarriersService } from './Services/CarriersService';
 import { SalePointsService } from './Services/SalePointsService';
+import { OrdersService } from './Services/OrdersService';
 import { GMapsService } from './Services/GMapsService';
+import { OrderDetailsModal } from './Modules/Shared/Modals/OrderDetailsModal/order.details.modal';
+import { SignalrService } from './Services/SignalrService';
+import { SalepointOrdersService } from './Services/Orders/SalepointOrdersService';
+import { CarrierOrdersService } from './Services/Orders/CarrierOrdersService';
 
 const pages = [
     AppComponent,
@@ -46,7 +52,8 @@ const pages = [
 
 
 const modals = [
-    ConfirmModal,
+    //ConfirmModal,
+    //OrderDetailsModal
 ]
 
 const toasts = [
@@ -62,6 +69,7 @@ const modules = [
     ToastrModule.forRoot(),
     ModalModule.forRoot(),
     TabsModule.forRoot(),
+    //LottieAnimationViewModule.forRoot(),
     AgmCoreModule.forRoot({
         apiKey: 'AIzaSyCHX0R_iy25XKld2oyehvuVi26teOlXYWE'
     }),
@@ -71,16 +79,23 @@ const modules = [
 
 const providers = [
     { provide: APP_BASE_HREF, useValue: '/' },
+    SignalrService,
     SessionService,
-    UsersService,
-    OrganisationsService,
-    SalePointsService,
-    CarriersService,
-    GoogleMapsAPIWrapper,
+
     GMapsService,
+    GoogleMapsAPIWrapper,
     AuthGuard,
     ModalFactoryService,
     ToastFactoryService,
+
+    SalepointOrdersService,
+    CarrierOrdersService,
+
+    //admin
+    UsersService,
+    OrganisationsService,
+    SalePointsService,
+    CarriersService
 ]
 
 @NgModule({

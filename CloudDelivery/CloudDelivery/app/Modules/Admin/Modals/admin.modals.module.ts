@@ -17,6 +17,10 @@ import { EditOrganisationModal } from './EditOrganisationModal/edit.organisation
 import { EditOrganisationTab } from './EditOrganisationModal/EditOrgTab/edit.Organisation.tab';
 import { EditOrgUsersTab } from './EditOrganisationModal/EditOrgUsersTab/edit.org.users.tab';
 import { AgmCoreModule } from '@agm/core';
+import { UsersService } from '../../../Services/Admin/UsersService';
+import { OrganisationsService } from '../../../Services/Admin/OrganisationsService';
+import { CarriersService } from '../../../Services/Admin/CarriersService';
+import { SalePointsService } from '../../../Services/Admin/SalepointsService';
 
 const pages = [
     AddUserModal,
@@ -44,7 +48,13 @@ const modules = [
 ];
 
 
+const providers = [
+
+]
+
+
 @NgModule({
+    providers: [...providers],
     imports: [...modules],
     declarations: [...pages, tabs],
     exports: [...pages],

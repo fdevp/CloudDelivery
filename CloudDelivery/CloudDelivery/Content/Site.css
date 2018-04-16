@@ -40,12 +40,6 @@
 }
 
 
-.login-box-custom {
-    border-radius: 5px;
-    background-color: #eee;
-    border: 3px solid #ddd;
-}
-
 .login-logo{
     margin-top:50px;
 }
@@ -115,4 +109,9 @@
     .modal-lg {
         width: 900px;
     }
+}
+
+
+.datatable-body-row.active{
+    background:#ccc !important;
 }

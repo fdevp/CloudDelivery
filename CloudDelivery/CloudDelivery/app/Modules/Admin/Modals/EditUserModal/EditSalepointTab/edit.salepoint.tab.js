@@ -141,9 +141,10 @@ var EditSalePointTab = /** @class */ (function () {
             selector: 'edit-salepoint-tab',
             templateUrl: './edit.salepoint.tab.html',
         }),
-        __metadata("design:paramtypes", [SalePointsService_1.SalePointsService, GMapsService_1.GMapsService])
+        __metadata("design:paramtypes", [typeof (_a = typeof SalePointsService_1.SalePointsService !== "undefined" && SalePointsService_1.SalePointsService) === "function" && _a || Object, GMapsService_1.GMapsService])
     ], EditSalePointTab);
     return EditSalePointTab;
+    var _a;
 }());
 exports.EditSalePointTab = EditSalePointTab;
 //# sourceMappingURL=edit.SalePoint.tab.js.map

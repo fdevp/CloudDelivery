@@ -1,1 +1,128 @@
-﻿<h1>CARRIER DASHBOARD</h1>
+﻿<div class="row">
+    <div class="col-lg-4 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3>{{ todayCount }}</h3>
+
+                <p>Zamówienia dzisiaj</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer"></a>
+        </div>
+    </div>
+
+
+    <div class="col-lg-4 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3>{{ weekCount }}</h3>
+
+                <p>Zamówienia w ostatnim tygodniu</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="#" class="small-box-footer"></a>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3>{{ monthCount }}</h3>
+
+                <p>Zamówienia w ostatnim miesiącu</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person-add"></i>
+            </div>
+            <a href="#" class="small-box-footer"></a>
+        </div>
+    </div>
+
+</div>
+
+<div>
+
+    <div class="col-md-12 box">
+        <div class="box-header">
+            <h3 class="box-title">Oczekujące zamówienia</h3>
+        </div>
+
+        <div class="box-body no-padding">
+
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Adres</th>
+                        <th>Punkt sprzedaży</th>
+                        <th>Adres punktu</th>
+                        <th>Dodano</th>
+                        <th style="width: 40px">Koszt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let order of pendingOrders" (click)="clickedOrder(order)">
+                        <td>
+                            {{order.Id}}
+                        </td>
+                        <td>
+                            {{order | destinationAddress }}
+                        </td>
+                        <td>
+                            {{order.SalepointName}}
+                        </td>
+                        <td>
+                            {{order | salepointAddress}}
+                        </td>
+                        <td>
+                            {{order.AddedTime | date:'HH:mm' }}
+                        </td>
+                        <td>
+                            {{order.Price | currencyText}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="dashboard-map col-md-12">
+        <agm-map [latitude]="baseLocation.lat"
+                 [longitude]="baseLocation.lng"
+                 [zoom]="12"
+                 [disableDefaultUI]="false"
+                 [streetViewControl]="false"
+                 [zoomControl]="true">
+
+            <ng-container *ngFor="let order of pendingOrders">
+                <agm-marker *ngIf="order.EndLatLng!=null"
+                            [latitude]="order.EndLatLng.lat"
+                            [longitude]="order.EndLatLng.lng"
+                            [title]="order.DestinationAddress"
+                            [iconUrl]="'/content/images/markers/small/marker.png'"
+                            [openInfoWindow]="true">
+
+                    <agm-info-window>
+                        <strong>{{ order | destinationAddress}}</strong>
+                    </agm-info-window>
+
+                </agm-marker>
+
+
+            </ng-container>
+        </agm-map>
+    </div>
+</div>
+

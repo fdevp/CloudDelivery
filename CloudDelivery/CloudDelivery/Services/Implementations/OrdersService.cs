@@ -48,8 +48,12 @@ namespace CloudDelivery.Services
         {
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                if (!ctx.SalePoints.Any(x => x.Id == salePointId))
+                var salepoint = ctx.SalePoints.Include(x => x.User.AspNetUser).Where(x => x.Id == salePointId).FirstOrDefault();
+
+                if (salepoint == null)
                     throw new NullReferenceException("Punkt sprzedaży nie istnieje.");
+
+                order.SalePoint = salepoint;
 
                 order.AddedTime = DateTime.Now;
                 order.SalePointId = salePointId;
@@ -96,7 +100,7 @@ namespace CloudDelivery.Services
             }
         }
 
-        public List<Order> List(OrderFiltersModel filters)
+        public List<Order> List(OrdersListFiltersModel filters)
         {
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
@@ -120,8 +124,8 @@ namespace CloudDelivery.Services
 
 
                 //status
-                if (filters.Status.HasValue)
-                    query = query.Where(x => x.Status == filters.Status);
+                if (filters.Status != null)
+                    query = query.Where(order => filters.Status.Any(statusValue => statusValue == order.Status));
 
 
                 //package
@@ -161,6 +165,18 @@ namespace CloudDelivery.Services
                 if (filters.DurationMax.HasValue)
                     query = query.Where(x => x.Duration <= filters.DurationMax.Value);
 
+                //pagination
+                if (filters.PageIndex.HasValue && filters.PageSize.HasValue)
+                {
+                    int toSkipAmount = filters.PageIndex.Value - 1;
+
+                    if (toSkipAmount < 0)
+                        toSkipAmount = 0;
+
+                    toSkipAmount = toSkipAmount * filters.PageSize.Value;
+
+                    query = query.OrderByDescending(x => x.Id).Skip(toSkipAmount).Take(filters.PageSize.Value);
+                }
 
                 return query.ToList();
             }
@@ -175,10 +191,14 @@ namespace CloudDelivery.Services
                 if (order == null)
                     throw new NullReferenceException("Zamówienie nie istnieje.");
 
-                if (order.Status != OrderStatus.InDelivery)
+                if (order.Status != OrderStatus.InDelivery && order.Status != OrderStatus.Accepted)
                     throw new ArgumentException("Na tym etapie nie można zakończyć dostawy.");
 
-                order.DeliveredTime = DateTime.Now;
+                //if carrier forgot to set picked up
+                if (order.Status == OrderStatus.Accepted)
+                    order.PickUpTime = order.DeliveredTime = DateTime.Now;
+                else
+                    order.DeliveredTime = DateTime.Now;
 
                 TimeSpan deliveryTime = order.DeliveredTime.Value.Subtract(order.PickUpTime.Value);
                 order.Duration = deliveryTime.Minutes;
@@ -227,29 +247,50 @@ namespace CloudDelivery.Services
             }
         }
 
-        public List<Order> InProgressList(int salepointId)
+        public int Count(OrderCountFiltersModel filters)
         {
-            using(var ctx = this.ctxFactory.GetContext())
+            using(ICDContext ctx = this.ctxFactory.GetContext())
             {
-                IQueryable<Order> query = ctx.Orders.Include(x => x.SalePoint.User).Include(x => x.Carrier.User.AspNetUser);
+                IQueryable<Order> query = ctx.Orders;
 
-                query = query.Where(x => x.SalePointId == salepointId);
-                query = query.Where(x => x.Status == OrderStatus.Accepted || x.Status == OrderStatus.InDelivery);
+                //no filters
+                if (filters == null)
+                    return query.Count();
 
-                return query.ToList();
-            }
-        }
+                //carrier and SalePoint
+                if (filters.SalePointUserId.HasValue)
+                    query = query.Where(x => x.SalePoint != null && x.SalePoint.UserId == filters.SalePointUserId);
+                if (filters.CarrierUserId.HasValue)
+                    query = query.Where(x => x.Carrier != null && x.Carrier.UserId == filters.CarrierUserId);
 
-        public List<Order> FinishedList(int salepointId)
-        {
-            using (var ctx = this.ctxFactory.GetContext())
-            {
-                IQueryable<Order> query = ctx.Orders.Include(x => x.SalePoint.User).Include(x => x.Carrier.User.AspNetUser);
 
-                query = query.Where(x => x.SalePointId == salepointId);
-                query = query.Where(x => x.Status == OrderStatus.Cancelled || x.Status == OrderStatus.Delivered);
+                //organisation
+                if (filters.OrganisationId.HasValue)
+                    query = query.Where(x => x.SalePoint != null && x.SalePoint.User.OrganisationId == filters.OrganisationId ||
+                                             x.Carrier != null && x.Carrier.User.OrganisationId == filters.OrganisationId);
 
-                return query.ToList();
+
+                //status
+                if (filters.Status != null)
+                    query = query.Where(order => filters.Status.Any(statusValue => statusValue == order.Status));
+
+                //addedtime start
+                if (filters.AddedTimeStart.HasValue)
+                    query = query.Where(x => x.AddedTime >= filters.AddedTimeStart.Value);
+
+                //addedtime end
+                if (filters.AddedTimeEnd.HasValue)
+                    query = query.Where(x => x.AddedTime <= filters.AddedTimeEnd.Value);
+
+                //acceptedtime start
+                if (filters.AcceptedTimeStart.HasValue)
+                    query = query.Where(x => x.AcceptedTime >= filters.AcceptedTimeStart.Value);
+
+                //acceptedtime end
+                if (filters.AcceptedTimeEnd.HasValue)
+                    query = query.Where(x => x.AcceptedTime <= filters.AcceptedTimeEnd.Value);
+
+                return query.Count();
             }
         }
 

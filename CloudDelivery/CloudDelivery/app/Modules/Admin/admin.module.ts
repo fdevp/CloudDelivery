@@ -8,6 +8,7 @@ import { SharedModule } from '../Shared/shared.module'
 
 import { AdminDashboardComponent } from './dashboard/admin.dashboard.component';
 import { AdminUsersComponent } from './users/admin.users.component'
+import { AdminOrdersComponent } from './orders/admin.orders.component'
 import { AdminOrganisationsComponent } from './organisations/admin.organisations.component'
 
 import { UsersService } from '../../Services/UsersService';
@@ -15,12 +16,18 @@ import { UsersService } from '../../Services/UsersService';
 import { AppModule } from '../../app.module'
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { AdminComponent } from './admin.component';
+import { ToastFactoryService } from '../../Services/UI/ToastFactoryService';
+import { OrganisationsService } from '../../Services/Admin/OrganisationsService';
+import { SalePointsService } from '../../Services/Admin/SalepointsService';
+import { CarriersService } from '../../Services/Admin/CarriersService';
+import { AgmCoreModule } from '@agm/core';
 
 
 
 const pages = [
     AdminDashboardComponent,
     AdminUsersComponent,
+    AdminOrdersComponent,
     AdminOrganisationsComponent,
     AdminComponent
 ];
@@ -30,11 +37,19 @@ const modules = [
     RouterModule,
     FormsModule,
     NgxDatatableModule,
-    SharedModule
+    SharedModule,
+    AgmCoreModule
 ]
 
+const providers = [
+    UsersService,
+    OrganisationsService,
+    SalePointsService,
+    CarriersService
+]
 
 @NgModule({
+    providers: [...providers],
     declarations: [...pages],
     imports: [...modules, AdminRouting],
 })

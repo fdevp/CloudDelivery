@@ -32,22 +32,7 @@ namespace CloudDelivery.Services
         /// </summary>
         /// <param name="filters"></param>
         /// <returns></returns>
-        List<Order> List(OrderFiltersModel filters);
-
-        /// <summary>
-        /// orders with status indelivery or accepted
-        /// </summary>
-        /// <param name="salepointId"></param>
-        /// <returns></returns>
-        List<Order> InProgressList(int salepointId);
-
-
-        /// <summary>
-        /// orders with status canceled or delivered
-        /// </summary>
-        /// <param name="salepointId"></param>
-        /// <returns></returns>
-        List<Order> FinishedList(int salepointId);
+        List<Order> List(OrdersListFiltersModel filters);
 
         /// <summary>
         /// accept order and change status
@@ -81,5 +66,13 @@ namespace CloudDelivery.Services
         /// </summary>
         /// <param name="orderId"></param>
         void DiscardOrder(int orderId);
+
+
+        /// <summary>
+        /// filter and count orders
+        /// </summary>
+        /// <param name="filters"></param>
+        /// <returns></returns>
+        int Count(OrderCountFiltersModel filters);
     }
 }

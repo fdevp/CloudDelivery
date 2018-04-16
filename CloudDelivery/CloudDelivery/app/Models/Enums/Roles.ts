@@ -1,6 +1,6 @@
-﻿enum Roles {
+﻿export enum Roles {
     Admin = "admin",
     Carrier = "carrier",
-    SalesPoint = "salespoint",
+    SalePoint = "salepoint",
     Organisation = "organisation"
 }

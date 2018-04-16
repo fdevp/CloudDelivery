@@ -11,27 +11,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var UsersService_1 = require("../../../Services/UsersService");
-var ModalFactoryService_1 = require("../../../Services/Layout/ModalFactoryService");
-var ToastFactoryService_1 = require("../../../Services/Layout/ToastFactoryService");
+var ModalFactoryService_1 = require("../../../Services/UI/ModalFactoryService");
+var ToastFactoryService_1 = require("../../../Services/UI/ToastFactoryService");
 var router_1 = require("@angular/router");
+var platform_browser_1 = require("@angular/platform-browser");
+var RoleNamePipe_1 = require("../../Shared/Pipes/RoleNamePipe");
 var Observable_1 = require("rxjs/Observable");
 var AdminUsersComponent = /** @class */ (function () {
-    function AdminUsersComponent(usersService, modalService, toastService, router) {
+    function AdminUsersComponent(usersService, modalService, toastService, router, sanitizer, cdr) {
         this.usersService = usersService;
         this.modalService = modalService;
         this.toastService = toastService;
         this.router = router;
+        this.sanitizer = sanitizer;
+        this.cdr = cdr;
+        this.selected = [];
+        this.users = [];
+        this.filteredUsers = [];
+        this.initialized = false;
         this.columns = [
             { prop: 'Id' },
             { prop: 'Login', name: 'Login' },
             { prop: 'Name', name: 'Nazwa' },
             { prop: 'Organisation', name: 'Organizacja' },
-            { prop: 'Roles', name: 'Rola' }
+            { prop: 'Roles', name: 'Rola', pipe: new RoleNamePipe_1.RoleNamePipe(this.sanitizer) }
         ];
-        this.selected = [];
-        this.users = [];
-        this.filteredUsers = [];
-        this.initialized = false;
         this.initializeUsersList();
     }
     AdminUsersComponent.prototype.initializeUsersList = function () {
@@ -64,10 +68,14 @@ var AdminUsersComponent = /** @class */ (function () {
     };
     AdminUsersComponent.prototype.userSelect = function (_a) {
         var selected = _a.selected;
-        console.log('Select Event', selected);
+        var obj = this;
         var modal = this.modalService.showModal("EditUserModal", { class: "modal-lg" });
         modal.content.initUserDetails(selected[0].Id);
-        //this.router.navigate(["admin/user", selected[0].Id]);
+        var modalClose = modal.content.modalClosed;
+        modalClose.subscribe(function () {
+            obj.selected = [];
+            obj.cdr.detectChanges();
+        });
     };
     AdminUsersComponent.prototype.keyFilter = function (event) {
         if (this.users.length == 0) {
@@ -90,9 +98,10 @@ var AdminUsersComponent = /** @class */ (function () {
             selector: 'app-admin-users',
             templateUrl: './admin.users.component.html',
         }),
-        __metadata("design:paramtypes", [UsersService_1.UsersService, ModalFactoryService_1.ModalFactoryService, ToastFactoryService_1.ToastFactoryService, router_1.Router])
+        __metadata("design:paramtypes", [typeof (_a = typeof UsersService_1.UsersService !== "undefined" && UsersService_1.UsersService) === "function" && _a || Object, ModalFactoryService_1.ModalFactoryService, ToastFactoryService_1.ToastFactoryService, router_1.Router, platform_browser_1.DomSanitizer, core_1.ChangeDetectorRef])
     ], AdminUsersComponent);
     return AdminUsersComponent;
+    var _a;
 }());
 exports.AdminUsersComponent = AdminUsersComponent;
 //# sourceMappingURL=admin.users.component.js.map

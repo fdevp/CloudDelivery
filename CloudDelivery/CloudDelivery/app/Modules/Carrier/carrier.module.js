@@ -12,15 +12,23 @@ var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var carrier_routing_1 = require("./carrier.routing");
 var carrier_dashboard_component_1 = require("./dashboard/carrier.dashboard.component");
-var carrier_users_component_1 = require("./users/carrier.users.component");
+var carrier_orders_component_1 = require("./Orders/carrier.orders.component");
+var carrier_routes_component_1 = require("./Routes/carrier.routes.component");
+var ngx_datatable_1 = require("@swimlane/ngx-datatable");
+var shared_module_1 = require("../Shared/shared.module");
+var core_2 = require("@agm/core");
 var pages = [
     carrier_dashboard_component_1.CarrierDashboardComponent,
-    carrier_users_component_1.CarrierUsersComponent
+    carrier_orders_component_1.CarrierOrdersComponent,
+    carrier_routes_component_1.CarrierRoutesComponent
 ];
 var modules = [
     common_1.CommonModule,
     router_1.RouterModule,
-    forms_1.FormsModule
+    forms_1.FormsModule,
+    ngx_datatable_1.NgxDatatableModule,
+    shared_module_1.SharedModule,
+    core_2.AgmCoreModule
 ];
 var CarrierModule = /** @class */ (function () {
     function CarrierModule() {

@@ -13,6 +13,7 @@ var core_1 = require("@angular/core");
 var Observable_1 = require("rxjs/Observable");
 var router_1 = require("@angular/router");
 var SessionService_1 = require("../SessionService");
+var Roles_1 = require("../../Models/Enums/Roles");
 var CarrierGuard = /** @class */ (function () {
     function CarrierGuard(sessionService, router) {
         this.sessionService = sessionService;
@@ -39,7 +40,7 @@ var CarrierGuard = /** @class */ (function () {
                 _this.router.navigate(['/login']);
                 return false;
             }
-            return _this.sessionService.hasRole("carrier");
+            return _this.sessionService.hasRole(Roles_1.Roles.Carrier);
         }, function (error) {
             _this.sessionService.redirectUrl = url;
             _this.router.navigate(['/login']);

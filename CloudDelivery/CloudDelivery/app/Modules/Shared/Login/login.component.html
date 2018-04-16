@@ -1,45 +1,46 @@
-﻿<div class="login-box">
-   
-    <!-- /.login-logo -->
-    <div class="login-box-body login-box-custom">
+﻿<div class="">
+    <div class="login-box">
+        <!-- /.login-logo -->
+        <div class="login-box-body login-box-custom">
 
-        <div class="login-logo">
+            <div class="login-logo">
+                <div class="col-md-6 col-md-offset-3">
+                    <img src="/Content/Images/rocket.png" class="img-responsive"/>
+                </div>
+                <div class="col-md-10 col-md-offset-1">
+                    <img src="/Content/Images/name_icon.png" class="img-responsive margin-bottom-30" />
+                </div>
+                
+            </div>
 
+            <form>
+
+                <div class="form-group has-feedback">
+                    <div class="input-group margin-bottom-sm input-group-lg">
+                        <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+                        <input class="form-control input-lg" type="text" placeholder="Login" [(ngModel)]="login" name="lgn">
+                    </div>
+                    <div class="input-group margin-bottom-sm input-group-lg">
+                        <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+                        <input class="form-control" type="password" placeholder="Hasło" [(ngModel)]="password" name="passwd">
+                    </div>
+                </div>
+
+                <div class="form-group" *ngIf="errorOccured">
+                    <div class="callout callout-danger">
+                        <h4>Błąd</h4>
+                        <span>{{errorMessage}}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <!-- /.col -->
+                    <button type="submit" class="btn btn-primary btn-block btn-lg" [ngClass]="{'disabled':inProgress}" (click)="signIn()">
+                        <i [ngClass]="{'fa fa-fw fa-spinner fa-spin':inProgress}"></i>
+                        Zaloguj
+                    </button>
+                </div>
+            </form>
         </div>
-
-        <form>
-
-            <div class="form-group has-feedback">
-                <div class="input-group margin-bottom-sm">
-                    <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
-                    <input class="form-control" type="text" placeholder="Login" [(ngModel)]="login" name="lgn">
-                </div>
-                <!--<input type="email" class="form-control" placeholder="Email" required minlength="8" name="eml" [(ngModel)]="email">
-                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>-->
-            </div>
-            <div class="form-group has-feedback">
-                <div class="input-group margin-bottom-sm">
-                    <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
-                    <input class="form-control" type="password" placeholder="Hasło" [(ngModel)]="password" name="passwd">
-                </div>
-                <!--<input type="password" class="form-control" placeholder="Password" required minlength="8" name="passwd" [(ngModel)]="password">
-                <span class="glyphicon glyphicon-lock form-control-feedback"></span>-->
-            </div>
-            <div class="form-group" *ngIf="errorOccured">
-                <div class="callout callout-danger">
-                    <h4>Błąd</h4>
-                    <span>{{errorMessage}}</span>
-                </div>
-            </div>
-            <div class="form-group">
-                <!-- /.col -->
-                <button type="submit" class="btn btn-primary btn-block" [ngClass]="{'disabled':inProgress}" (click)="signIn()">
-                    <i [ngClass]="{'fa fa-fw fa-spinner fa-spin':inProgress}"></i>
-                    Zaloguj
-                </button>
-            </div>
-        </form>
+        <!-- /.login-box-body -->
     </div>
-    <!-- /.login-box-body -->
 </div>
-

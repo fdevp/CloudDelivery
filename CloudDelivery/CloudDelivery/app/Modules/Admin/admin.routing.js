@@ -10,6 +10,7 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var admin_dashboard_component_1 = require("./dashboard/admin.dashboard.component");
 var admin_users_component_1 = require("./users/admin.users.component");
+var admin_orders_component_1 = require("./orders/admin.orders.component");
 var admin_organisations_component_1 = require("./organisations/admin.organisations.component");
 var AdminGuard_1 = require("../../Services/Guards/AdminGuard");
 var admin_component_1 = require("./admin.component");
@@ -26,6 +27,10 @@ var adminRoutes = [
             {
                 path: 'organisations',
                 component: admin_organisations_component_1.AdminOrganisationsComponent,
+            },
+            {
+                path: 'orders',
+                component: admin_orders_component_1.AdminOrdersComponent,
             },
             {
                 path: '',

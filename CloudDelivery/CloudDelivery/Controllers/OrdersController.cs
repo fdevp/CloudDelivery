@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using Microsoft.AspNet.SignalR;
+using CloudDelivery.Data;
 
 namespace CloudDelivery.Controllers
 {
@@ -50,6 +51,10 @@ namespace CloudDelivery.Controllers
         {
             Order newOrder = Mapper.Map<Order>(model);
             int salePointId = this.authService.GetSalePointId(this.User);
+
+            //packages not completed for now
+            newOrder.PackageId = 1;
+
             newOrder.Id = this.ordersService.AddOrder(newOrder, salePointId);
 
             OrderCarrierVM orderCarrierVM = Mapper.Map<OrderCarrierVM>(newOrder);
@@ -100,10 +105,10 @@ namespace CloudDelivery.Controllers
 
         [HttpGet]
         [Route("List")]
-        public IHttpActionResult List([FromUri] OrderFiltersModel filters)
+        public IHttpActionResult List([FromUri] OrdersListFiltersModel filters)
         {
             if (filters == null)
-                filters = new OrderFiltersModel();
+                filters = new OrdersListFiltersModel();
 
             if (this.User.IsInRole("carrier"))
                 filters.CarrierUserId = this.authService.GetAppUserId(this.User);
@@ -124,7 +129,7 @@ namespace CloudDelivery.Controllers
         [Route("PendingList")]
         public IHttpActionResult PendingList()
         {
-            var filters = new OrderFiltersModel() { Status = OrderStatus.Added };
+            var filters = new OrdersListFiltersModel() { Status = new OrderStatus[] { OrderStatus.Added } };
             List<Order> ordersDb = this.ordersService.List(filters);
             List<OrderCarrierVM> orders = Mapper.Map<List<OrderCarrierVM>>(ordersDb);
 
@@ -137,7 +142,7 @@ namespace CloudDelivery.Controllers
         public IHttpActionResult AcceptedList()
         {
             var userId = this.authService.GetAppUserId(this.User);
-            var filters = new OrderFiltersModel() { Status = OrderStatus.Accepted, CarrierUserId = userId };
+            var filters = new OrdersListFiltersModel() { Status = new OrderStatus[] { OrderStatus.Accepted }, CarrierUserId = userId };
 
             List<Order> ordersDb = this.ordersService.List(filters);
             List<OrderCarrierVM> orders = Mapper.Map<List<OrderCarrierVM>>(ordersDb);
@@ -149,9 +154,10 @@ namespace CloudDelivery.Controllers
         [Route("InProgressList")]
         public IHttpActionResult InProgressList()
         {
-            var salepointId = this.authService.GetSalePointId(this.User);
+            var userId = this.authService.GetAppUserId(this.User);
+            var filters = new OrdersListFiltersModel() { Status = new OrderStatus[] { OrderStatus.Accepted, OrderStatus.InDelivery }, SalePointUserId = userId };
 
-            List<Order> ordersDb = this.ordersService.InProgressList(salepointId);
+            List<Order> ordersDb = this.ordersService.List(filters);
             List<OrderSalepointVM> orders = Mapper.Map<List<OrderSalepointVM>>(ordersDb);
             return Ok(orders);
         }
@@ -162,27 +168,11 @@ namespace CloudDelivery.Controllers
         public IHttpActionResult AddedList()
         {
             var userId = this.authService.GetAppUserId(this.User);
-            var filters = new OrderFiltersModel() { Status = OrderStatus.Added, SalePointUserId = userId };
+            var filters = new OrdersListFiltersModel() { Status = new OrderStatus[] { OrderStatus.Added }, SalePointUserId = userId };
             List<Order> ordersDb = this.ordersService.List(filters);
             List<OrderSalepointVM> orders = Mapper.Map<List<OrderSalepointVM>>(ordersDb);
             return Ok(orders);
         }
-
-
-        [HttpGet]
-        [Authorize(Roles = "salepoint")]
-        [Route("FinishedList")]
-        public IHttpActionResult FinishedList()
-        {
-            var salepointId = this.authService.GetSalePointId(this.User);
-
-            List<Order> ordersDb = this.ordersService.FinishedList(salepointId);
-            List<OrderFinishedListVM> orders = Mapper.Map<List<OrderFinishedListVM>>(ordersDb);
-            orders = orders.OrderByDescending(x => x.DeliveredTime ?? x.CancellationTime ?? x.AddedTime).ToList();
-
-            return Ok(orders);
-        }
-
 
         [HttpPut]
         [Authorize(Roles = "admin,carrier")]
@@ -228,5 +218,24 @@ namespace CloudDelivery.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Route("Count")]
+        public IHttpActionResult Count([FromUri] OrderCountFiltersModel filters)
+        {
+            if (filters == null)
+                filters = new OrderCountFiltersModel();
+
+            if (this.User.IsInRole("carrier"))
+                filters.CarrierUserId = this.authService.GetAppUserId(this.User);
+
+            if (this.User.IsInRole("salepoint"))
+                filters.SalePointUserId = this.authService.GetAppUserId(this.User);
+
+            if (this.User.IsInRole("organisator"))
+                filters.OrganisationId = this.authService.GetOrganisationId(this.User);
+
+            int ordersCount = this.ordersService.Count(filters);
+            return Ok(ordersCount);
+        }
     }
 }

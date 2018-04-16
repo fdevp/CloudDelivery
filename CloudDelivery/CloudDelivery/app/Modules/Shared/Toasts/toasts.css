@@ -6,14 +6,14 @@
 
 .toast-gray {
     background-color: gray;
-    opacity: 1 !important; color: white;
+    opacity: 1 !important;
+    color: white;
 }
 
-.toast-icon{
-    margin-right:10px;
+.toast-icon {
+    margin-right: 10px;
 }
 
-.toast-text{
-    font-size:1.25em;
+.toast-text {
+    font-size: 1.25em;
 }
-

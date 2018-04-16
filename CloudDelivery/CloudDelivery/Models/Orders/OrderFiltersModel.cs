@@ -7,8 +7,12 @@ using System.Web.Http;
 
 namespace CloudDelivery.Models.Orders
 {
-    public class OrderFiltersModel
+    public class OrdersListFiltersModel
     {
+        public int? PageIndex { get; set; }
+        
+        public int? PageSize { get; set; }
+
         public string Query { get; set; }
 
         public int? CarrierUserId { get; set; }
@@ -27,7 +31,7 @@ namespace CloudDelivery.Models.Orders
 
         public DateTime? DeliveredTimeEnd { get; set; }
 
-        public OrderStatus? Status { get; set; }
+        public OrderStatus[] Status { get; set; }
 
         public int? DurationMin { get; set; }
 

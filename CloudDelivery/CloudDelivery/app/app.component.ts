@@ -1,6 +1,6 @@
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { SessionService } from './Services/SessionService';
-import { ModalFactoryService } from './Services/Layout/ModalFactoryService';
+import { ModalFactoryService } from './Services/UI/ModalFactoryService';
 import { Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap';
 

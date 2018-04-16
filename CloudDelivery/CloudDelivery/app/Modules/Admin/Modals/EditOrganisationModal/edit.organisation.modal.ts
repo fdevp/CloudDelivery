@@ -4,8 +4,8 @@ import { UserDetails } from '../../../../Models/Users/UserDetails'
 import { Organisation } from '../../../../Models/Organisations/Organisation'
 import { UsersService } from '../../../../Services/UsersService'
 import { OrganisationsService } from '../../../../Services/OrganisationsService'
-import { ModalFactoryService } from '../../../../Services/Layout/ModalFactoryService';
-import { ToastFactoryService } from '../../../../Services/Layout/ToastFactoryService';
+import { ModalFactoryService } from '../../../../Services/UI/ModalFactoryService';
+import { ToastFactoryService } from '../../../../Services/UI/ToastFactoryService';
 import { FormElementState } from '../../../../Models/Enums/FormElementState';
 
 @Component({

@@ -17,8 +17,9 @@ var ngx_bootstrap_1 = require("ngx-bootstrap");
 var UserDetails_1 = require("../../../../Models/Users/UserDetails");
 var UsersService_1 = require("../../../../Services/UsersService");
 var OrganisationsService_1 = require("../../../../Services/OrganisationsService");
-var ModalFactoryService_1 = require("../../../../Services/Layout/ModalFactoryService");
-var ToastFactoryService_1 = require("../../../../Services/Layout/ToastFactoryService");
+var ModalFactoryService_1 = require("../../../../Services/UI/ModalFactoryService");
+var ToastFactoryService_1 = require("../../../../Services/UI/ToastFactoryService");
+var Roles_1 = require("../../../../Models/Enums/Roles");
 var EditUserModal = /** @class */ (function () {
     function EditUserModal(bsModalRef, usersService, orgService, toastService, modalService) {
         this.bsModalRef = bsModalRef;
@@ -28,6 +29,7 @@ var EditUserModal = /** @class */ (function () {
         this.modalService = modalService;
         this.details = new UserDetails_1.UserDetails();
         this.detailsProgress = true;
+        this.modalClosed = new core_1.EventEmitter();
     }
     EditUserModal.prototype.removeUser = function () {
         var _this = this;
@@ -51,13 +53,13 @@ var EditUserModal = /** @class */ (function () {
         });
     };
     EditUserModal.prototype.isCarrier = function () {
-        return this.details != null && this.details.Roles.indexOf("carrier") > -1;
+        return this.details != null && this.details.Roles.indexOf(Roles_1.Roles.Carrier) > -1;
     };
     EditUserModal.prototype.isSalePoint = function () {
-        return this.details != null && this.details.Roles.indexOf("salepoint") > -1;
+        return this.details != null && this.details.Roles.indexOf(Roles_1.Roles.SalePoint) > -1;
     };
     EditUserModal.prototype.closeModal = function () {
-        this.usersService.list();
+        this.modalClosed.emit();
         this.bsModalRef.hide();
     };
     EditUserModal.prototype.initUserDetails = function (userId) {
@@ -74,10 +76,11 @@ var EditUserModal = /** @class */ (function () {
             templateUrl: './edit.user.modal.html',
         }),
         __param(4, core_1.Inject(core_1.forwardRef(function () { return ModalFactoryService_1.ModalFactoryService; }))),
-        __metadata("design:paramtypes", [ngx_bootstrap_1.BsModalRef, UsersService_1.UsersService, OrganisationsService_1.OrganisationsService, ToastFactoryService_1.ToastFactoryService,
+        __metadata("design:paramtypes", [ngx_bootstrap_1.BsModalRef, typeof (_a = typeof UsersService_1.UsersService !== "undefined" && UsersService_1.UsersService) === "function" && _a || Object, typeof (_b = typeof OrganisationsService_1.OrganisationsService !== "undefined" && OrganisationsService_1.OrganisationsService) === "function" && _b || Object, ToastFactoryService_1.ToastFactoryService,
             ModalFactoryService_1.ModalFactoryService])
     ], EditUserModal);
     return EditUserModal;
+    var _a, _b;
 }());
 exports.EditUserModal = EditUserModal;
 //# sourceMappingURL=edit.user.modal.js.map

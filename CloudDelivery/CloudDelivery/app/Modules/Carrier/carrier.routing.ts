@@ -2,8 +2,9 @@
 import { RouterModule, Routes, CanActivate } from '@angular/router';
 import { CarrierComponent } from './carrier.component'
 import { CarrierDashboardComponent } from './dashboard/carrier.dashboard.component'
-import { CarrierUsersComponent } from './users/carrier.users.component';
 import { CarrierGuard } from '../../Services/Guards/CarrierGuard';
+import { CarrierRoutesComponent } from './Routes/carrier.routes.component';
+import { CarrierOrdersComponent } from './Orders/carrier.orders.component';
 
 const carrierRoutes: Routes = [
     {
@@ -11,12 +12,16 @@ const carrierRoutes: Routes = [
         canActivateChild: [CarrierGuard],
         children: [
             {
-                component: CarrierDashboardComponent,
-                path: '',
+                path: 'routes',
+                component: CarrierRoutesComponent
             },
             {
-                component: CarrierUsersComponent,
-                path: 'users',
+                path: 'orders',
+                component: CarrierOrdersComponent
+            },
+            {
+                component: CarrierDashboardComponent,
+                path: '',
             }
         ],
     },

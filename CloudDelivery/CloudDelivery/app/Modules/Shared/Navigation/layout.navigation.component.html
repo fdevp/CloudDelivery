@@ -1,0 +1,69 @@
+﻿<aside class="main-sidebar">
+    <section class="sidebar" id="navbar-collapse">
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="/Content/Images/rocket_padding_small.png" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p>{{userName}}</p>
+                <!-- Status -->
+                <a href="#" *ngIf="connected"><i class="fa fa-circle text-success"></i> Online</a>
+                <a href="#" *ngIf="!connected" (click)="reconnectWebsockets()"><i class="fa fa-circle text-danger"></i> Offline <i class="fa fa-fw fa-refresh" [ngClass]="{'fa-spin':reconnecting}"></i></a>
+            </div>
+        </div>
+
+        <ul class="sidebar-menu">
+            <li class="header">Nawigacja</li>
+
+            <ng-container *ngFor="let item of links">
+
+                <ng-container *ngIf="!item.sublinks">
+                    <li [class.active]="item.link[0] === currentUrl">
+                        <a *ngIf="!item.external" [routerLink]="item.link">
+                            <i *ngIf="item.icon" class="fa fa-{{item.icon}}"></i>
+                            <span>{{item.title}}</span>
+                        </a>
+                        <a *ngIf="item.external" [href]="item.link" [target]="item.target">
+                            <i *ngIf="item.icon" class="fa fa-{{item.icon}}"></i>
+                            <span>{{item.title}}</span>
+                        </a>
+                    </li>
+                </ng-container>
+
+                <ng-container *ngIf="item.sublinks">
+                    <li class="treeview">
+                        <a href="#">
+                            <i *ngIf="item.icon" class="fa fa-{{item.icon}}"></i>
+                            <span>{{item.title}}</span>
+                            <!--<span class="caret"></span>-->
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+
+                        <ul class="treeview-menu">
+                            <ng-container *ngFor="let subitem of item.sublinks">
+                                <li [class.active]="subitem.link[0] === currentUrl">
+                                    <a *ngIf="!subitem.external" [routerLink]="subitem.link">
+                                        <i *ngIf="subitem.icon" class="fa fa-{{subitem.icon}}"></i>
+                                        <span>{{subitem.title}}</span>
+                                    </a>
+                                    <a *ngIf="subitem.external" [href]="subitem.link" [target]="subitem.target">
+                                        <i *ngIf="subitem.icon" class="fa fa-{{subitem.icon}}"></i>
+                                        <span>{{subitem.title}}</span>
+                                    </a>
+                                </li>
+                            </ng-container>
+                        </ul>
+
+                    </li>
+                </ng-container>
+
+            </ng-container>
+        </ul>
+    </section>
+</aside>
+
+
+
+

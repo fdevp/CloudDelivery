@@ -17,7 +17,7 @@ namespace CloudDelivery.Tests.Initialize
 {
     public class DatabaseMocksFactory
     {
-        public static readonly DateTime dateTime = new DateTime(2018,2,14);
+        public static readonly DateTime dateTime = new DateTime(2018, 2, 14);
 
         public static readonly int usersCount = 40;
         public static readonly int rolesCount = 5;

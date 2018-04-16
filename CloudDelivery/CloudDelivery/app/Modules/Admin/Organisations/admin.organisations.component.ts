@@ -1,8 +1,8 @@
-﻿import { Component, OnInit, OnDestroy } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { OrganisationsService } from '../../../Services/OrganisationsService';
-import { ModalFactoryService } from '../../../Services/Layout/ModalFactoryService';
+import { ModalFactoryService } from '../../../Services/UI/ModalFactoryService';
 import { Router } from '@angular/router';
-import { ToastFactoryService } from '../../../Services/Layout/ToastFactoryService';
+import { ToastFactoryService } from '../../../Services/UI/ToastFactoryService';
 import { Organisation } from '../../../Models/Organisations/Organisation';
 import { ActiveToast } from 'ngx-toastr';
 import { Observable } from 'rxjs/Observable';
@@ -27,7 +27,7 @@ export class AdminOrganisationsComponent {
 
     public initialized: boolean = false;
 
-    constructor(private organisationsService: OrganisationsService, private modalService: ModalFactoryService, private toastService: ToastFactoryService, private router: Router) {
+    constructor(private organisationsService: OrganisationsService, private modalService: ModalFactoryService, private toastService: ToastFactoryService, private router: Router, private cdr: ChangeDetectorRef) {
         this.initializeOrgsList();
     }
 
@@ -40,9 +40,14 @@ export class AdminOrganisationsComponent {
     }
 
     public orgSelect({ selected }) {
-        console.log('Select Event', selected);
+        var obj = this;
         var modal = this.modalService.showModal("EditOrganisationModal", { class: "modal-lg" });
         modal.content.initOrgDetails(selected[0]);
+
+        this.modalService.onModalHide.subscribe(event => {
+            obj.selected = [];
+            obj.cdr.detectChanges();
+        });
     }
 
 

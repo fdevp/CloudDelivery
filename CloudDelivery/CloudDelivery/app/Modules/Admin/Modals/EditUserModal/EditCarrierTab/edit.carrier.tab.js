@@ -57,9 +57,10 @@ var EditCarrierTab = /** @class */ (function () {
             selector: 'edit-carrier-tab',
             templateUrl: './edit.carrier.tab.html',
         }),
-        __metadata("design:paramtypes", [CarriersService_1.CarriersService])
+        __metadata("design:paramtypes", [typeof (_a = typeof CarriersService_1.CarriersService !== "undefined" && CarriersService_1.CarriersService) === "function" && _a || Object])
     ], EditCarrierTab);
     return EditCarrierTab;
+    var _a;
 }());
 exports.EditCarrierTab = EditCarrierTab;
 //# sourceMappingURL=edit.carrier.tab.js.map

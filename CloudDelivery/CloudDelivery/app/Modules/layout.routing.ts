@@ -4,7 +4,8 @@ import { LayoutComponent } from './layout.component'
 
 
 import {AdminGuard} from '../Services/Guards/AdminGuard';
-import {CarrierGuard} from '../Services/Guards/CarrierGuard';
+import { CarrierGuard } from '../Services/Guards/CarrierGuard';
+import { SalepointGuard } from '../Services/Guards/SalepointGuard';
 
 const layoutRoutes: Routes = [
 
@@ -21,6 +22,11 @@ const layoutRoutes: Routes = [
                 path: 'carrier',
                 canLoad: [CarrierGuard],
                 loadChildren: "app/modules/carrier/carrier.module#CarrierModule",
+            },
+            {
+                path: 'salepoint',
+                canLoad: [SalepointGuard],
+                loadChildren: "app/modules/salepoint/salepoint.module#SalepointModule",
             },
         ],
     },

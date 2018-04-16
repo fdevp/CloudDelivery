@@ -48,9 +48,10 @@ var EditOrgUsersTab = /** @class */ (function () {
             selector: 'edit-org-users-tab',
             templateUrl: './edit.org.users.tab.html',
         }),
-        __metadata("design:paramtypes", [OrganisationsService_1.OrganisationsService, UsersService_1.UsersService])
+        __metadata("design:paramtypes", [typeof (_a = typeof OrganisationsService_1.OrganisationsService !== "undefined" && OrganisationsService_1.OrganisationsService) === "function" && _a || Object, typeof (_b = typeof UsersService_1.UsersService !== "undefined" && UsersService_1.UsersService) === "function" && _b || Object])
     ], EditOrgUsersTab);
     return EditOrgUsersTab;
+    var _a, _b;
 }());
 exports.EditOrgUsersTab = EditOrgUsersTab;
 //# sourceMappingURL=edit.org.users.tab.js.map

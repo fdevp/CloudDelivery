@@ -19,6 +19,7 @@ var SessionService_1 = require("../Services/SessionService");
 var core_2 = require("@agm/core");
 require("rxjs/add/observable/of");
 require("rxjs/Rx");
+var GeoPosition_1 = require("../Models/GeoPosition");
 var GMapsService = /** @class */ (function () {
     function GMapsService(http, sessionService, gmapsApi) {
         var _this = this;
@@ -34,14 +35,26 @@ var GMapsService = /** @class */ (function () {
         var service = this;
         return new Observable_1.Observable(function (obs) {
             _this.geocoder.geocode({ 'address': query }, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK)
-                    obs.next({ "lat": results[0].geometry.location.lat(), "lng": results[0].geometry.location.lng() });
-                obs.error(status);
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var response = new GeoPosition_1.GeoPosition();
+                    response.lat = results[0].geometry.location.lat();
+                    response.lng = results[0].geometry.location.lng();
+                    obs.next(response);
+                }
+                else {
+                    obs.error(status);
+                }
             });
         });
     };
     GMapsService.prototype.getBaseLocation = function () {
         return { "lat": 54.46414799999999, "lng": 17.02848240000003 };
+    };
+    GMapsService.prototype.getMarkerIcon = function () {
+        return "/content/images/markers/small/marker.png";
+    };
+    GMapsService.prototype.getMarkerBwIcon = function () {
+        return "/content/images/markers/small/marker_bw.png";
     };
     GMapsService = __decorate([
         core_1.Injectable(),

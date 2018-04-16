@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var ModalFactoryService_1 = require("./Services/Layout/ModalFactoryService");
+var ModalFactoryService_1 = require("./Services/UI/ModalFactoryService");
 var ngx_bootstrap_1 = require("ngx-bootstrap");
 var AppComponent = /** @class */ (function () {
     function AppComponent(bsmodalService, modalService) {

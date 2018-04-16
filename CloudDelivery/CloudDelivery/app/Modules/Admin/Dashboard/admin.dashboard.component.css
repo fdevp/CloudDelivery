@@ -1,0 +1,9 @@
+﻿.dashboard-map
+{
+    height:400px;
+}
+
+.dashboard-map > agm-map {
+    height: 100%;
+    width: 100%;
+}

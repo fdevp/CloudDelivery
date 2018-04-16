@@ -10,8 +10,8 @@ import { OrganisationsService } from '../../../../../Services/OrganisationsServi
 import { NullStringPipe } from '../../../../Shared/Pipes/NullStringPipe'
 import { RoleNamePipe } from '../../../../Shared/Pipes/RoleNamePipe'
 import { BsModalRef } from 'ngx-bootstrap';
-import { ModalFactoryService } from '../../../../../Services/Layout/ModalFactoryService';
-import { ToastFactoryService } from '../../../../../Services/Layout/ToastFactoryService';
+import { ModalFactoryService } from '../../../../../Services/UI/ModalFactoryService';
+import { ToastFactoryService } from '../../../../../Services/UI/ToastFactoryService';
 
 
 @Component({

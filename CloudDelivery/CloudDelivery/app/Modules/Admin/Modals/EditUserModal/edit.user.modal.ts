@@ -4,8 +4,10 @@ import { UserDetails } from '../../../../Models/Users/UserDetails'
 import { Organisation } from '../../../../Models/Organisations/Organisation'
 import { UsersService } from '../../../../Services/UsersService'
 import { OrganisationsService } from '../../../../Services/OrganisationsService'
-import { ModalFactoryService } from '../../../../Services/Layout/ModalFactoryService';
-import { ToastFactoryService } from '../../../../Services/Layout/ToastFactoryService';
+import { ModalFactoryService } from '../../../../Services/UI/ModalFactoryService';
+import { ToastFactoryService } from '../../../../Services/UI/ToastFactoryService';
+import { Roles } from '../../../../Models/Enums/Roles';
+
 
 @Component({
     selector: 'edit-user-modal',
@@ -17,6 +19,8 @@ export class EditUserModal {
     userId: number;
 
     detailsProgress: boolean = true;
+
+    modalClosed: EventEmitter<any> = new EventEmitter();
 
     constructor(private bsModalRef: BsModalRef, private usersService: UsersService, private orgService: OrganisationsService, private toastService: ToastFactoryService,
         @Inject(forwardRef(() => ModalFactoryService)) private modalService: ModalFactoryService) {
@@ -52,15 +56,15 @@ export class EditUserModal {
     }
 
     isCarrier(): boolean {
-        return this.details != null && this.details.Roles.indexOf("carrier") > -1;
+        return this.details != null && this.details.Roles.indexOf(Roles.Carrier) > -1;
     }
 
     isSalePoint(): boolean {
-        return this.details != null && this.details.Roles.indexOf("salepoint") > -1;
+        return this.details != null && this.details.Roles.indexOf(Roles.SalePoint) > -1;
     }
 
     closeModal() {
-        this.usersService.list();
+        this.modalClosed.emit();
         this.bsModalRef.hide();
     }
 

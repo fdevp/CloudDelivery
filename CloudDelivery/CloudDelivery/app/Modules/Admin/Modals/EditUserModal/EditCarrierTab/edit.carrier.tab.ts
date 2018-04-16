@@ -2,7 +2,7 @@
 import { ShowPasswordDirective } from '../../../../Shared/Directives/ShowPasswordDirective'
 import { UsersService } from '../../../../../Services/UsersService';
 import { UserDetails } from '../../../../../Models/Users/UserDetails';
-import { ToastFactoryService } from '../../../../../Services/Layout/ToastFactoryService';
+import { ToastFactoryService } from '../../../../../Services/UI/ToastFactoryService';
 import { FormElementState } from '../../../../../Models/Enums/FormElementState';
 import { Carrier } from '../../../../../Models/Carriers/Carrier';
 import { CarriersService } from '../../../../../Services/CarriersService';

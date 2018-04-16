@@ -35,9 +35,10 @@ var EditOrganisationModal = /** @class */ (function () {
             selector: 'edit-organisation-modal',
             templateUrl: './edit.organisation.modal.html',
         }),
-        __metadata("design:paramtypes", [ngx_bootstrap_1.BsModalRef, OrganisationsService_1.OrganisationsService])
+        __metadata("design:paramtypes", [ngx_bootstrap_1.BsModalRef, typeof (_a = typeof OrganisationsService_1.OrganisationsService !== "undefined" && OrganisationsService_1.OrganisationsService) === "function" && _a || Object])
     ], EditOrganisationModal);
     return EditOrganisationModal;
+    var _a;
 }());
 exports.EditOrganisationModal = EditOrganisationModal;
 //# sourceMappingURL=edit.organisation.modal.js.map

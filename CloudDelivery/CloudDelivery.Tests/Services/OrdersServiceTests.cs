@@ -158,7 +158,7 @@ namespace CloudDelivery.Services.Tests
             var carrier = ctx.Carriers.FirstOrDefault();
             int ordersCount = ctx.Orders.Where(x => x.Carrier != null && x.Carrier.UserId == carrier.UserId).Count();
 
-            var filter = new OrderFiltersModel() { CarrierUserId = carrier.UserId };
+            var filter = new OrdersListFiltersModel() { CarrierUserId = carrier.UserId };
             int listCount = this.ordersService.List(filter).Count;
 
             Assert.AreEqual(ordersCount, listCount);
@@ -171,7 +171,7 @@ namespace CloudDelivery.Services.Tests
             SalePoint SalePoint = ctx.SalePoints.FirstOrDefault();
             int ordersCount = ctx.Orders.Where(x => x.SalePoint != null && x.SalePoint.UserId == SalePoint.UserId).Count();
 
-            var filter = new OrderFiltersModel() { SalePointUserId = SalePoint.UserId };
+            var filter = new OrdersListFiltersModel() { SalePointUserId = SalePoint.UserId };
             int listCount = this.ordersService.List(filter).Count;
 
             Assert.AreEqual(ordersCount, listCount);
@@ -185,7 +185,7 @@ namespace CloudDelivery.Services.Tests
             int ordersCount = ctx.Orders.Where(x => x.SalePoint != null && x.SalePoint.User.OrganisationId == organisation.Id ||
                                              x.Carrier != null && x.Carrier.User.OrganisationId == organisation.Id).Count();
 
-            var filter = new OrderFiltersModel() { OrganisationId = organisation.Id };
+            var filter = new OrdersListFiltersModel() { OrganisationId = organisation.Id };
             int listCount = this.ordersService.List(filter).Count;
 
             Assert.AreEqual(ordersCount, listCount);
@@ -197,7 +197,18 @@ namespace CloudDelivery.Services.Tests
         {
             int ordersCount = ctx.Orders.Where(x => x.Status == OrderStatus.Added).Count();
 
-            var filter = new OrderFiltersModel() { Status = OrderStatus.Added };
+            var filter = new OrdersListFiltersModel() { Status = new OrderStatus[] { OrderStatus.Added } };
+            int listCount = this.ordersService.List(filter).Count;
+
+            Assert.AreEqual(ordersCount, listCount);
+        }
+
+        [TestMethod()]
+        public void List_ShouldReturnListWithMultipleStatusesFilter()
+        {
+            int ordersCount = ctx.Orders.Where(x => x.Status == OrderStatus.Added || x.Status == OrderStatus.Cancelled).Count();
+
+            var filter = new OrdersListFiltersModel() { Status = new OrderStatus[] { OrderStatus.Added, OrderStatus.Cancelled } };
             int listCount = this.ordersService.List(filter).Count;
 
             Assert.AreEqual(ordersCount, listCount);
@@ -210,7 +221,7 @@ namespace CloudDelivery.Services.Tests
             Package package = ctx.Packages.FirstOrDefault();
             int ordersCount = ctx.Orders.Where(x => x.PackageId == package.Id).Count();
 
-            var filter = new OrderFiltersModel() { PackageId = package.Id };
+            var filter = new OrdersListFiltersModel() { PackageId = package.Id };
             int listCount = this.ordersService.List(filter).Count;
 
             Assert.AreEqual(ordersCount, listCount);
@@ -220,7 +231,7 @@ namespace CloudDelivery.Services.Tests
         [TestMethod()]
         public void List_ShouldReturnListWithAddedTimeFilter()
         {
-            var filters = new OrderFiltersModel { AddedTimeStart = DatabaseMocksFactory.dateTime.AddDays(5), AddedTimeEnd = DatabaseMocksFactory.dateTime.AddDays(15) };
+            var filters = new OrdersListFiltersModel { AddedTimeStart = DatabaseMocksFactory.dateTime.AddDays(5), AddedTimeEnd = DatabaseMocksFactory.dateTime.AddDays(15) };
             int ordersCount = ctx.Orders.Where(x => x.AddedTime >= filters.AddedTimeStart && x.AddedTime <= filters.AddedTimeEnd).Count();
 
             int listCount = this.ordersService.List(filters).Count;
@@ -231,7 +242,7 @@ namespace CloudDelivery.Services.Tests
         [TestMethod()]
         public void List_ShouldReturnListWithPriorityFilter()
         {
-            var filters = new OrderFiltersModel { PriorityMax = 3, PriorityMin = 1 };
+            var filters = new OrdersListFiltersModel { PriorityMax = 3, PriorityMin = 1 };
             int ordersCount = ctx.Orders.Where(x => x.Priority >= filters.PriorityMin && x.Priority <= filters.PriorityMax).Count();
 
             int listCount = this.ordersService.List(filters).Count;
@@ -242,7 +253,7 @@ namespace CloudDelivery.Services.Tests
         [TestMethod()]
         public void List_ShouldReturnListWithPriceFilter()
         {
-            var filters = new OrderFiltersModel { PriceMax = 20, PriceMin = 15 };
+            var filters = new OrdersListFiltersModel { PriceMax = 20, PriceMin = 15 };
             int ordersCount = ctx.Orders.Where(x => x.Price >= filters.PriceMin && x.Price <= filters.PriceMax).Count();
 
             int listCount = this.ordersService.List(filters).Count;
@@ -250,11 +261,33 @@ namespace CloudDelivery.Services.Tests
             Assert.AreEqual(ordersCount, listCount);
         }
 
+        [TestMethod()]
+        public void List_ShouldReturnListWithPagination()
+        {
+            var filters = new OrdersListFiltersModel { PageIndex = 3, PageSize = 5 };
+            List<Order> ordersList = ctx.Orders.OrderByDescending(x => x.Id).Skip(10).Take(5).ToList();
+            List<Order> filteredOrdersList = this.ordersService.List(filters);
+            Assert.AreEqual(ordersList.First(), filteredOrdersList.First());
+            Assert.AreEqual(ordersList.Last(), filteredOrdersList.Last());
+            Assert.AreEqual(filteredOrdersList.Count, filters.PageSize);
+        }
+
+        [TestMethod()]
+        public void List_ShouldReturnListWithPaginationWrongPage()
+        {
+            var filters = new OrdersListFiltersModel { PageIndex = -1, PageSize = 5 };
+            List<Order> ordersList = ctx.Orders.OrderByDescending(x => x.Id).Skip(0).Take(5).ToList();
+            List<Order> filteredOrdersList = this.ordersService.List(filters);
+            Assert.AreEqual(ordersList.First(), filteredOrdersList.First());
+            Assert.AreEqual(ordersList.Last(), filteredOrdersList.Last());
+            Assert.AreEqual(filteredOrdersList.Count, filters.PageSize);
+        }
+
 
         [TestMethod()]
         public void List_ShouldReturnListWithDeliveryFilter()
         {
-            var filters = new OrderFiltersModel { DeliveredTimeStart = DatabaseMocksFactory.dateTime, DeliveredTimeEnd = DatabaseMocksFactory.dateTime.AddDays(10) };
+            var filters = new OrdersListFiltersModel { DeliveredTimeStart = DatabaseMocksFactory.dateTime, DeliveredTimeEnd = DatabaseMocksFactory.dateTime.AddDays(10) };
             int ordersCount = ctx.Orders.Where(x => x.DeliveredTime >= filters.DeliveredTimeStart && x.DeliveredTime <= filters.DeliveredTimeEnd).Count();
 
             int listCount = this.ordersService.List(filters).Count;
@@ -263,50 +296,9 @@ namespace CloudDelivery.Services.Tests
         }
 
         [TestMethod()]
-        public void InProgressList_ShouldReturnOrdersInProgressList()
-        {
-            int salepointId = ctx.SalePoints.Where(x=> ctx.Orders.Any(y=>y.SalePointId == x.Id && y.Status == OrderStatus.InDelivery)).FirstOrDefault().Id;
-
-            int ordersCount = ctx.Orders.Where(x => x.SalePointId == salepointId && (x.Status == OrderStatus.InDelivery || x.Status == OrderStatus.Accepted)).Count();
-
-            int listCount = this.ordersService.InProgressList(salepointId).Count;
-
-            Assert.AreEqual(ordersCount, listCount);
-
-            salepointId = ctx.SalePoints.Where(x => ctx.Orders.Any(y => y.SalePointId == x.Id && y.Status == OrderStatus.Accepted)).FirstOrDefault().Id;
-
-            ordersCount = ctx.Orders.Where(x => x.SalePointId == salepointId && (x.Status == OrderStatus.InDelivery || x.Status == OrderStatus.Accepted)).Count();
-
-            listCount = this.ordersService.InProgressList(salepointId).Count;
-
-            Assert.AreEqual(ordersCount, listCount);
-        }
-
-
-        [TestMethod()]
-        public void FinishedList_ShouldReturnFinishedOrdersList()
-        {
-            int salepointId = ctx.SalePoints.Where(x => ctx.Orders.Any(y => y.SalePointId == x.Id && y.Status == OrderStatus.Cancelled)).FirstOrDefault().Id;
-
-            int ordersCount = ctx.Orders.Where(x => x.SalePointId == salepointId && (x.Status == OrderStatus.Cancelled || x.Status == OrderStatus.Delivered)).Count();
-
-            int listCount = this.ordersService.FinishedList(salepointId).Count;
-
-            Assert.AreEqual(ordersCount, listCount);
-
-            salepointId = ctx.SalePoints.Where(x => ctx.Orders.Any(y => y.SalePointId == x.Id && y.Status == OrderStatus.Delivered)).FirstOrDefault().Id;
-
-            ordersCount = ctx.Orders.Where(x => x.SalePointId == salepointId && (x.Status == OrderStatus.Cancelled || x.Status == OrderStatus.Delivered)).Count();
-
-            listCount = this.ordersService.FinishedList(salepointId).Count;
-
-            Assert.AreEqual(ordersCount, listCount);
-        }
-
-        [TestMethod()]
         public void List_ShouldReturnListWithAllFilters()
         {
-            var filters = new OrderFiltersModel();
+            var filters = new OrdersListFiltersModel();
             filters.AddedTimeStart = DatabaseMocksFactory.dateTime;
             filters.AddedTimeEnd = DatabaseMocksFactory.dateTime.AddDays(20);
 
@@ -324,7 +316,7 @@ namespace CloudDelivery.Services.Tests
 
             filters.OrganisationId = 1;
 
-            filters.Status = OrderStatus.InDelivery;
+            filters.Status = new OrderStatus[] { OrderStatus.InDelivery };
 
             filters.CarrierUserId = 25;
             filters.SalePointUserId = 5;
@@ -334,26 +326,26 @@ namespace CloudDelivery.Services.Tests
             var ordersCount = ctx.Orders.Where(x =>
                                     x.AddedTime >= filters.AddedTimeStart &&
                                     x.AddedTime <= filters.AddedTimeEnd &&
-                                
+
                                     x.DeliveredTime >= filters.DeliveredTimeStart &&
                                     x.DeliveredTime <= filters.DeliveredTimeEnd &&
-                                    
+
                                     x.Priority >= filters.PriorityMin &&
                                     x.Priority <= filters.PriorityMax &&
 
                                     x.Duration >= filters.DurationMin &&
                                     x.Duration <= filters.DurationMax &&
-                                    
+
                                     x.Price >= filters.PriceMin &&
                                     x.Price <= filters.PriceMax &&
 
                                     (x.SalePoint.User.OrganisationId == filters.OrganisationId || x.Carrier.User.OrganisationId == filters.OrganisationId) &&
-                                
-                                    x.Status == filters.Status &&
-                                
+
+                                    x.Status == filters.Status[0] &&
+
                                     x.Carrier.UserId == filters.CarrierUserId &&
                                     x.SalePoint.UserId == filters.SalePointUserId &&
-                                
+
                                     x.PackageId == filters.PackageId)
                                 .ToList();
 
@@ -443,6 +435,126 @@ namespace CloudDelivery.Services.Tests
         {
             Order order = ctx.Orders.Where(x => x.Status != OrderStatus.Accepted).FirstOrDefault();
             this.ordersService.DiscardOrder(order.Id);
+        }
+
+
+        [TestMethod()]
+        public void Count_ShouldReturnOrdersWithCarrierFilter()
+        {
+            var carrier = ctx.Carriers.FirstOrDefault();
+            int ordersCount = ctx.Orders.Where(x => x.Carrier != null && x.Carrier.UserId == carrier.UserId).Count();
+
+            var filter = new OrderCountFiltersModel() { CarrierUserId = carrier.UserId };
+            int listCount = this.ordersService.Count(filter);
+
+            Assert.AreEqual(ordersCount, listCount);
+        }
+
+        [TestMethod()]
+        public void Count_ShouldReturnOrdersWithSalepointFilter()
+        {
+            var salepoint = ctx.SalePoints.FirstOrDefault();
+            int ordersCount = ctx.Orders.Where(x => x.SalePoint != null && x.SalePoint.UserId == salepoint.UserId).Count();
+
+            var filter = new OrderCountFiltersModel() { SalePointUserId = salepoint.UserId };
+            int listCount = this.ordersService.Count(filter);
+
+            Assert.AreEqual(ordersCount, listCount);
+        }
+
+        [TestMethod()]
+        public void Count_ShouldReturnOrdersWithOrganisationFilter()
+        {
+            var organisation = ctx.Organisations.FirstOrDefault();
+            int ordersCount = ctx.Orders.Where(x => x.SalePoint != null && x.SalePoint.User.OrganisationId == organisation.Id).Count();
+
+            var filter = new OrderCountFiltersModel() { OrganisationId = organisation.Id };
+            int listCount = this.ordersService.Count(filter);
+
+            Assert.AreEqual(ordersCount, listCount);
+        }
+
+
+        [TestMethod()]
+        public void Count_ShouldReturnOrdersWithStatusFilter()
+        {
+            OrderCountFiltersModel filters = new OrderCountFiltersModel();
+            var statusList = new List<OrderStatus> { OrderStatus.Accepted, OrderStatus.Added, OrderStatus.Delivered, OrderStatus.InDelivery };
+            filters.Status = statusList.ToArray();
+
+            int ordersCount = ctx.Orders.Where(x => filters.Status.Any(y => y == x.Status)).Count();
+            int methodCount = this.ordersService.Count(filters);
+
+
+            Assert.AreEqual(ordersCount, methodCount);
+        }
+
+
+        [TestMethod()]
+        public void Count_ShouldReturnOrdersWithAddedTimeStartFilter()
+        {
+            List<Order> orders = ctx.Orders.OrderBy(x => x.AddedTime).ToList();
+            int orderToSelectIndex = orders.Count / 4;
+            Order order = orders.ElementAt(orderToSelectIndex);
+
+            OrderCountFiltersModel filters = new OrderCountFiltersModel();
+            filters.AddedTimeStart = order.AddedTime;
+
+            int ordersCount = ctx.Orders.Where(x => x.AddedTime >= order.AddedTime.Value).Count();
+            int methodCount = this.ordersService.Count(filters);
+
+            Assert.AreEqual(ordersCount, methodCount);
+        }
+
+
+        [TestMethod()]
+        public void Count_ShouldReturnOrdersWithAddedTimeEndFilter()
+        {
+            List<Order> orders = ctx.Orders.OrderBy(x => x.AddedTime).ToList();
+            int orderToSelectIndex = orders.Count / 4;
+            Order order = orders.ElementAt(orderToSelectIndex);
+
+            OrderCountFiltersModel filters = new OrderCountFiltersModel();
+            filters.AddedTimeEnd = order.AddedTime;
+
+            int ordersCount = ctx.Orders.Where(x => x.AddedTime <= order.AddedTime.Value).Count();
+            int methodCount = this.ordersService.Count(filters);
+
+            Assert.AreEqual(ordersCount, methodCount);
+        }
+
+
+        [TestMethod()]
+        public void Count_ShouldReturnOrdersWithAcceptedTimeStartFilter()
+        {
+            List<Order> orders = ctx.Orders.Where(x=>x.AcceptedTime.HasValue).OrderBy(x => x.AcceptedTime).ToList();
+            int orderToSelectIndex = orders.Count / 4;
+            Order order = orders.ElementAt(orderToSelectIndex);
+
+            OrderCountFiltersModel filters = new OrderCountFiltersModel();
+            filters.AcceptedTimeStart = order.AcceptedTime;
+
+            int ordersCount = ctx.Orders.Where(x =>  x.AcceptedTime.HasValue && x.AcceptedTime >= order.AcceptedTime.Value).Count();
+            int methodCount = this.ordersService.Count(filters);
+
+            Assert.AreEqual(ordersCount, methodCount);
+        }
+
+
+        [TestMethod()]
+        public void Count_ShouldReturnOrdersWithAcceptedTimeEndFilter()
+        {
+            List<Order> orders = ctx.Orders.Where(x => x.AcceptedTime.HasValue).OrderBy(x => x.AcceptedTime).ToList();
+            int orderToSelectIndex = orders.Count / 4;
+            Order order = orders.ElementAt(orderToSelectIndex);
+
+            OrderCountFiltersModel filters = new OrderCountFiltersModel();
+            filters.AcceptedTimeEnd = order.AcceptedTime;
+
+            int ordersCount = ctx.Orders.Where(x => x.AcceptedTime.HasValue && x.AcceptedTime <= order.AcceptedTime.Value).Count();
+            int methodCount = this.ordersService.Count(filters);
+
+            Assert.AreEqual(ordersCount, methodCount);
         }
     }
 }

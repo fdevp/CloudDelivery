@@ -11,16 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var OrganisationsService_1 = require("../../../Services/OrganisationsService");
-var ModalFactoryService_1 = require("../../../Services/Layout/ModalFactoryService");
+var ModalFactoryService_1 = require("../../../Services/UI/ModalFactoryService");
 var router_1 = require("@angular/router");
-var ToastFactoryService_1 = require("../../../Services/Layout/ToastFactoryService");
+var ToastFactoryService_1 = require("../../../Services/UI/ToastFactoryService");
 var Observable_1 = require("rxjs/Observable");
 var AdminOrganisationsComponent = /** @class */ (function () {
-    function AdminOrganisationsComponent(organisationsService, modalService, toastService, router) {
+    function AdminOrganisationsComponent(organisationsService, modalService, toastService, router, cdr) {
         this.organisationsService = organisationsService;
         this.modalService = modalService;
         this.toastService = toastService;
         this.router = router;
+        this.cdr = cdr;
         this.columns = [
             { prop: 'Id' },
             { prop: 'Name', name: 'Nazwa' },
@@ -42,9 +43,13 @@ var AdminOrganisationsComponent = /** @class */ (function () {
     };
     AdminOrganisationsComponent.prototype.orgSelect = function (_a) {
         var selected = _a.selected;
-        console.log('Select Event', selected);
+        var obj = this;
         var modal = this.modalService.showModal("EditOrganisationModal", { class: "modal-lg" });
         modal.content.initOrgDetails(selected[0]);
+        this.modalService.onModalHide.subscribe(function (event) {
+            obj.selected = [];
+            obj.cdr.detectChanges();
+        });
     };
     AdminOrganisationsComponent.prototype.keyFilter = function (event) {
         if (this.orgs.length == 0) {
@@ -86,9 +91,10 @@ var AdminOrganisationsComponent = /** @class */ (function () {
             selector: 'app-admin-organisations',
             templateUrl: './admin.organisations.component.html'
         }),
-        __metadata("design:paramtypes", [OrganisationsService_1.OrganisationsService, ModalFactoryService_1.ModalFactoryService, ToastFactoryService_1.ToastFactoryService, router_1.Router])
+        __metadata("design:paramtypes", [typeof (_a = typeof OrganisationsService_1.OrganisationsService !== "undefined" && OrganisationsService_1.OrganisationsService) === "function" && _a || Object, ModalFactoryService_1.ModalFactoryService, ToastFactoryService_1.ToastFactoryService, router_1.Router, core_1.ChangeDetectorRef])
     ], AdminOrganisationsComponent);
     return AdminOrganisationsComponent;
+    var _a;
 }());
 exports.AdminOrganisationsComponent = AdminOrganisationsComponent;
 //# sourceMappingURL=admin.organisations.component.js.map

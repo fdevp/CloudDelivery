@@ -45,11 +45,13 @@ var modules = [
     shared_module_1.SharedModule,
     core_2.AgmCoreModule
 ];
+var providers = [];
 var AdminModalsModule = /** @class */ (function () {
     function AdminModalsModule() {
     }
     AdminModalsModule = __decorate([
         core_1.NgModule({
+            providers: providers.slice(),
             imports: modules.slice(),
             declarations: pages.concat([tabs]),
             exports: pages.slice(),

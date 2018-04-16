@@ -12,24 +12,30 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var SessionService_1 = require("../Services/SessionService");
+var Roles_1 = require("../Models/Enums/Roles");
 var LayoutComponent = /** @class */ (function () {
     function LayoutComponent(sessionService, route, router) {
         this.sessionService = sessionService;
         this.route = route;
         this.router = router;
-        this.skin = 'skin-black';
+        this.skin = 'skin-yellow-light';
     }
     LayoutComponent.prototype.ngOnInit = function () {
-        document.body.className = 'hold-transition ' + this.skin + ' layout-top-nav';
+        document.body.className = 'hold-transition ' + this.skin + ' layout-boxed';
         var page = null;
         if (this.sessionService.isAdmin())
             page = 'admin';
-        else if (this.sessionService.hasRole("carrier"))
+        else if (this.sessionService.hasRole(Roles_1.Roles.Carrier))
             page = 'carrier';
+        else if (this.sessionService.hasRole(Roles_1.Roles.SalePoint))
+            page = 'salepoint';
         this.router.navigate([page]);
     };
     LayoutComponent.prototype.ngOnDestroy = function () {
         document.body.className = '';
+    };
+    LayoutComponent.prototype.Logout = function () {
+        this.sessionService.logout();
     };
     LayoutComponent = __decorate([
         core_1.Component({

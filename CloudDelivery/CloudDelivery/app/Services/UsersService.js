@@ -22,9 +22,9 @@ var UsersService = /** @class */ (function () {
     }
     UsersService.prototype.create = function (model) {
         var _this = this;
-        var hdrz = this.sessionService.authHeader();
+        var headers = this.sessionService.authHeader();
         return new Observable_1.Observable(function (obs) {
-            return _this.http.post('/api/account/register', model, { headers: hdrz }).subscribe(function (data) {
+            return _this.http.post('/api/account/register', model, { headers: headers }).subscribe(function (data) {
                 console.log(data);
                 var body = JSON.parse(data["_body"]);
                 var id = parseInt(body);
@@ -50,9 +50,9 @@ var UsersService = /** @class */ (function () {
     };
     UsersService.prototype.list = function () {
         var _this = this;
-        var hdrz = this.sessionService.authHeader();
+        var headers = this.sessionService.authHeader();
         return new Observable_1.Observable(function (obs) {
-            return _this.http.get('/api/users/list', { headers: hdrz }).subscribe(function (data) {
+            return _this.http.get('/api/users/list', { headers: headers }).subscribe(function (data) {
                 var body = JSON.parse(data["_body"]);
                 obs.next(body);
             }, function (e) { console.error("err", e); });

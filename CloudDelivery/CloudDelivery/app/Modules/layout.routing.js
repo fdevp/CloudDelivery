@@ -11,6 +11,7 @@ var router_1 = require("@angular/router");
 var layout_component_1 = require("./layout.component");
 var AdminGuard_1 = require("../Services/Guards/AdminGuard");
 var CarrierGuard_1 = require("../Services/Guards/CarrierGuard");
+var SalepointGuard_1 = require("../Services/Guards/SalepointGuard");
 var layoutRoutes = [
     {
         path: '',
@@ -25,6 +26,11 @@ var layoutRoutes = [
                 path: 'carrier',
                 canLoad: [CarrierGuard_1.CarrierGuard],
                 loadChildren: "app/modules/carrier/carrier.module#CarrierModule",
+            },
+            {
+                path: 'salepoint',
+                canLoad: [SalepointGuard_1.SalepointGuard],
+                loadChildren: "app/modules/salepoint/salepoint.module#SalepointModule",
             },
         ],
     },

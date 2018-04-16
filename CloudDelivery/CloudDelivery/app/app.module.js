@@ -25,20 +25,20 @@ var core_2 = require("@agm/core");
 var login_component_1 = require("./Modules/Shared/Login/login.component");
 var ProgressToast_1 = require("./Modules/Shared/Toasts/ProgressToast");
 //import { AddUserModal } from './Entries/Modals/AddUserModal/add.user.modal';
-var ModalFactoryService_1 = require("./Services/Layout/ModalFactoryService");
+var ModalFactoryService_1 = require("./Services/UI/ModalFactoryService");
 var admin_modals_module_1 = require("./Modules/Admin/Modals/admin.modals.module");
-var ConfirmModal_1 = require("./Modules/Shared/Modals/ConfirmModal");
-var ToastFactoryService_1 = require("./Services/Layout/ToastFactoryService");
+var ToastFactoryService_1 = require("./Services/UI/ToastFactoryService");
 var CarriersService_1 = require("./Services/CarriersService");
 var SalePointsService_1 = require("./Services/SalePointsService");
 var GMapsService_1 = require("./Services/GMapsService");
+var SignalrService_1 = require("./Services/SignalrService");
+var SalepointOrdersService_1 = require("./Services/Orders/SalepointOrdersService");
+var CarrierOrdersService_1 = require("./Services/Orders/CarrierOrdersService");
 var pages = [
     app_component_1.AppComponent,
     login_component_1.LoginComponent
 ];
-var modals = [
-    ConfirmModal_1.ConfirmModal,
-];
+var modals = [];
 var toasts = [
     ProgressToast_1.ProgressToast
 ];
@@ -51,6 +51,7 @@ var modules = [
     ngx_toastr_1.ToastrModule.forRoot(),
     ngx_bootstrap_1.ModalModule.forRoot(),
     ngx_bootstrap_2.TabsModule.forRoot(),
+    //LottieAnimationViewModule.forRoot(),
     core_2.AgmCoreModule.forRoot({
         apiKey: 'AIzaSyCHX0R_iy25XKld2oyehvuVi26teOlXYWE'
     }),
@@ -58,16 +59,20 @@ var modules = [
 ];
 var providers = [
     { provide: common_1.APP_BASE_HREF, useValue: '/' },
+    SignalrService_1.SignalrService,
     SessionService_1.SessionService,
-    UsersService_1.UsersService,
-    OrganisationsService_1.OrganisationsService,
-    SalePointsService_1.SalePointsService,
-    CarriersService_1.CarriersService,
-    core_2.GoogleMapsAPIWrapper,
     GMapsService_1.GMapsService,
+    core_2.GoogleMapsAPIWrapper,
     AuthGuard_1.AuthGuard,
     ModalFactoryService_1.ModalFactoryService,
     ToastFactoryService_1.ToastFactoryService,
+    SalepointOrdersService_1.SalepointOrdersService,
+    CarrierOrdersService_1.CarrierOrdersService,
+    //admin
+    UsersService_1.UsersService,
+    OrganisationsService_1.OrganisationsService,
+    SalePointsService_1.SalePointsService,
+    CarriersService_1.CarriersService
 ];
 var AppModule = /** @class */ (function () {
     function AppModule() {

@@ -2,6 +2,7 @@
 import { RouterModule, Routes, CanActivate } from '@angular/router';
 import { AdminDashboardComponent } from './dashboard/admin.dashboard.component'
 import { AdminUsersComponent } from './users/admin.users.component'
+import { AdminOrdersComponent } from './orders/admin.orders.component'
 import { AdminOrganisationsComponent } from './organisations/admin.organisations.component'
 import { AdminGuard } from '../../Services/Guards/AdminGuard';
 
@@ -21,6 +22,10 @@ const adminRoutes: Routes = [
             {
                 path: 'organisations',
                 component: AdminOrganisationsComponent,
+            },
+            {
+                path: 'orders',
+                component: AdminOrdersComponent,
             },
             {
                 path: '',

@@ -1,13 +1,14 @@
-﻿import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, ComponentFactoryResolver, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { UsersService } from '../../../Services/UsersService';
-import { ModalFactoryService } from '../../../Services/Layout/ModalFactoryService';
-import { ToastFactoryService } from '../../../Services/Layout/ToastFactoryService';
+import { ModalFactoryService } from '../../../Services/UI/ModalFactoryService';
+import { ToastFactoryService } from '../../../Services/UI/ToastFactoryService';
 import { UserListItem } from '../../../Models/Users/UserListItem';
 import { UserEditModel } from '../../../Models/Users/UserEditModel';
 import { AddUserModal } from '../Modals/AddUserModal/add.user.modal';
 import { ActiveToast } from 'ngx-toastr'
 import { Router } from '@angular/router';
 
+import { DomSanitizer } from '@angular/platform-browser';
 import { RoleNamePipe } from '../../Shared/Pipes/RoleNamePipe'
 import { Observable } from 'rxjs/Observable';
 
@@ -18,7 +19,14 @@ import { Observable } from 'rxjs/Observable';
 
 export class AdminUsersComponent {
 
-    constructor(private usersService: UsersService, private modalService: ModalFactoryService, private toastService: ToastFactoryService, private router: Router) {
+    public selected = [];
+
+    public users: Array<UserListItem> = [];
+    public filteredUsers: Array<UserListItem> = [];
+
+    public initialized: boolean = false;
+
+    constructor(private usersService: UsersService, private modalService: ModalFactoryService, private toastService: ToastFactoryService, private router: Router, private sanitizer: DomSanitizer, private cdr: ChangeDetectorRef ) {
         this.initializeUsersList();
     }
 
@@ -27,14 +35,9 @@ export class AdminUsersComponent {
         { prop: 'Login', name: 'Login' },
         { prop: 'Name', name: 'Nazwa' },
         { prop: 'Organisation', name: 'Organizacja' },
-        { prop: 'Roles', name: 'Rola' }
+        { prop: 'Roles', name: 'Rola', pipe: new RoleNamePipe(this.sanitizer) }
     ];
-    public selected = [];
-
-    public users: Array<UserListItem> = [];
-    public filteredUsers: Array<UserListItem> = [];
-
-    public initialized: boolean = false;
+  
 
 
     public initializeUsersList(): void {
@@ -74,10 +77,15 @@ export class AdminUsersComponent {
     }
 
     public userSelect({ selected }) {
-        console.log('Select Event', selected);
+        var obj = this;
         var modal = this.modalService.showModal("EditUserModal", { class: "modal-lg" });
         modal.content.initUserDetails(selected[0].Id);
-        //this.router.navigate(["admin/user", selected[0].Id]);
+
+        var modalClose: EventEmitter<any> = modal.content.modalClosed;
+        modalClose.subscribe(() => {
+            obj.selected = [];
+            obj.cdr.detectChanges();
+        });
     }
 
 
