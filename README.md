@@ -50,7 +50,6 @@ Some additional libraries that were used:
  
  
 ### Major ToDos:
-- backend model validation
 - frontend form validation
 - business logic exceptions handling
 - resolve problems between the Angular 4 lazy modules and the entry components
