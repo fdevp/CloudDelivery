@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var UsersService_1 = require("../../../Services/UsersService");
+var UsersService_1 = require("../../../Services/Admin/UsersService");
 var ModalFactoryService_1 = require("../../../Services/UI/ModalFactoryService");
 var ToastFactoryService_1 = require("../../../Services/UI/ToastFactoryService");
 var router_1 = require("@angular/router");
@@ -98,10 +98,9 @@ var AdminUsersComponent = /** @class */ (function () {
             selector: 'app-admin-users',
             templateUrl: './admin.users.component.html',
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof UsersService_1.UsersService !== "undefined" && UsersService_1.UsersService) === "function" && _a || Object, ModalFactoryService_1.ModalFactoryService, ToastFactoryService_1.ToastFactoryService, router_1.Router, platform_browser_1.DomSanitizer, core_1.ChangeDetectorRef])
+        __metadata("design:paramtypes", [UsersService_1.UsersService, ModalFactoryService_1.ModalFactoryService, ToastFactoryService_1.ToastFactoryService, router_1.Router, platform_browser_1.DomSanitizer, core_1.ChangeDetectorRef])
     ], AdminUsersComponent);
     return AdminUsersComponent;
-    var _a;
 }());
 exports.AdminUsersComponent = AdminUsersComponent;
 //# sourceMappingURL=admin.users.component.js.map

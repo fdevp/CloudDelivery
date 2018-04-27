@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var FormElementState_1 = require("../../../../../Models/Enums/FormElementState");
-var SalePointsService_1 = require("../../../../../Services/SalePointsService");
+var SalePointsService_1 = require("../../../../../Services/Admin/SalePointsService");
 var SalePoint_1 = require("../../../../../Models/SalePoints/SalePoint");
 var GMapsService_1 = require("../../../../../Services/GMapsService");
 var core_2 = require("@agm/core");
@@ -38,7 +38,6 @@ var EditSalePointTab = /** @class */ (function () {
         this.SalePointsService.details(this.userId).subscribe(function (details) {
             _this.model = details;
             if (_this.model.LatLng == null) {
-                console.log("wszed", _this.model);
                 _this.model.LatLng = _this.gmapsService.getBaseLocation();
             }
             if (typeof _this.model.LatLng === "string" || _this.model.LatLng instanceof String) {
@@ -141,10 +140,9 @@ var EditSalePointTab = /** @class */ (function () {
             selector: 'edit-salepoint-tab',
             templateUrl: './edit.salepoint.tab.html',
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof SalePointsService_1.SalePointsService !== "undefined" && SalePointsService_1.SalePointsService) === "function" && _a || Object, GMapsService_1.GMapsService])
+        __metadata("design:paramtypes", [SalePointsService_1.SalePointsService, GMapsService_1.GMapsService])
     ], EditSalePointTab);
     return EditSalePointTab;
-    var _a;
 }());
 exports.EditSalePointTab = EditSalePointTab;
 //# sourceMappingURL=edit.SalePoint.tab.js.map

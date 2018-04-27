@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var FormElementState_1 = require("../../../../../Models/Enums/FormElementState");
 var Organisation_1 = require("../../../../../Models/Organisations/Organisation");
-var OrganisationsService_1 = require("../../../../../Services/OrganisationsService");
+var OrganisationsService_1 = require("../../../../../Services/Admin/OrganisationsService");
 var ngx_bootstrap_1 = require("ngx-bootstrap");
 var ModalFactoryService_1 = require("../../../../../Services/UI/ModalFactoryService");
 var ToastFactoryService_1 = require("../../../../../Services/UI/ToastFactoryService");
@@ -60,11 +60,10 @@ var EditOrganisationTab = /** @class */ (function () {
             templateUrl: './edit.organisation.tab.html',
         }),
         __param(3, core_1.Inject(core_1.forwardRef(function () { return ModalFactoryService_1.ModalFactoryService; }))),
-        __metadata("design:paramtypes", [ngx_bootstrap_1.BsModalRef, typeof (_a = typeof OrganisationsService_1.OrganisationsService !== "undefined" && OrganisationsService_1.OrganisationsService) === "function" && _a || Object, ToastFactoryService_1.ToastFactoryService,
+        __metadata("design:paramtypes", [ngx_bootstrap_1.BsModalRef, OrganisationsService_1.OrganisationsService, ToastFactoryService_1.ToastFactoryService,
             ModalFactoryService_1.ModalFactoryService])
     ], EditOrganisationTab);
     return EditOrganisationTab;
-    var _a;
 }());
 exports.EditOrganisationTab = EditOrganisationTab;
 //# sourceMappingURL=edit.Organisation.tab.js.map

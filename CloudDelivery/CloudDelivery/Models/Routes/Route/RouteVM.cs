@@ -12,15 +12,15 @@ namespace CloudDelivery.Models.Routes
 
         public int CarrierId { get; set; }
 
+        public string CarrierName { get; set; }
+
+        public int RoutePointsCount { get; set; }
+
         public RouteStatus Status { get; set; }
 
         public DateTime AddedTime { get; set; }
 
-        public DateTime FinishTime { get; set; }
-
-        public string StartLatLng { get; set; }
-
-        public int? Distance { get; set; }
+        public DateTime? FinishTime { get; set; }
 
         public int? Duration { get; set; }
 

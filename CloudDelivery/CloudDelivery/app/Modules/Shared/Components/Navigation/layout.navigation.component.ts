@@ -1,8 +1,8 @@
 ﻿import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
-import { SessionService } from '../../../Services/SessionService';
-import { MenuFactoryService } from '../../../Services/UI/MenuFactoryService';
-import { SignalrService } from '../../../Services/SignalrService';
-import { SignalrConnectionStates } from '../../../Models/Enums/SignalrConnectionState';
+import { SessionService } from '../../../../Services/SessionService';
+import { MenuFactoryService } from '../../../../Services/UI/MenuFactoryService';
+import { SignalrService } from '../../../../Services/SignalrService';
+import { SignalrConnectionStates } from '../../../../Models/Enums/SignalrConnectionState';
 
 @Component({
     selector: 'app-layout-navigation',

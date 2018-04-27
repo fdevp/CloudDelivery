@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { OrganisationsService } from '../../../Services/OrganisationsService';
+import { OrganisationsService } from '../../../Services/Admin/OrganisationsService';
 import { ModalFactoryService } from '../../../Services/UI/ModalFactoryService';
 import { Router } from '@angular/router';
 import { ToastFactoryService } from '../../../Services/UI/ToastFactoryService';

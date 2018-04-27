@@ -34,6 +34,9 @@ namespace CloudDelivery.Controllers
         [Route("Add")]
         public IHttpActionResult Add([FromBody] List<RoutePointEditModel> model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             int carrierId = this.authService.GetCarrierId(this.User);
             Route newRoute = this.routesService.Add(carrierId, model);
             RouteVM route = Mapper.Map<RouteVM>(newRoute);
@@ -114,5 +117,21 @@ namespace CloudDelivery.Controllers
             List<RouteListVM> routes = Mapper.Map<List<RouteListVM>>(routesDb);
             return Ok(routes);
         }
+
+        [HttpGet]
+        [Authorize(Roles = "carrier")]
+        [Route("FinishedList")]
+        public IHttpActionResult FinishedList()
+        {
+            var carrierId = this.authService.GetCarrierId(this.User);
+            var filters = new RouteFiltersModel() { Status = RouteStatus.Finished, CarrierId = carrierId };
+            List<Route> ordersDb = this.routesService.List(filters);
+            List<RouteListVM> orders = Mapper.Map<List<RouteListVM>>(ordersDb);
+            orders = orders.OrderByDescending(x => x.FinishTime).ToList();
+
+            return Ok(orders);
+        }
+
+
     }
 }

@@ -1,11 +1,11 @@
 ﻿import { Component, Input, OnInit } from '@angular/core';
 import { ShowPasswordDirective } from '../../../../Shared/Directives/ShowPasswordDirective'
-import { UsersService } from '../../../../../Services/UsersService';
+import { UsersService } from '../../../../../Services/Admin/UsersService';
 import { UserDetails } from '../../../../../Models/Users/UserDetails';
 import { ToastFactoryService } from '../../../../../Services/UI/ToastFactoryService';
 import { FormElementState } from '../../../../../Models/Enums/FormElementState';
 import { Carrier } from '../../../../../Models/Carriers/Carrier';
-import { CarriersService } from '../../../../../Services/CarriersService';
+import { CarriersService } from '../../../../../Services/Admin/CarriersService';
 
 @Component({
     selector: 'edit-carrier-tab',

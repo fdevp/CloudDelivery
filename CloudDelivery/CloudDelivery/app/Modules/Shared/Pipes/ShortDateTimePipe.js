@@ -24,6 +24,8 @@ var ShortDateTimePipe = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     ShortDateTimePipe.prototype.transform = function (value) {
+        if (value == null)
+            return "-";
         return _super.prototype.transform.call(this, value, "dd/MM/yyyy, HH:mm");
     };
     ShortDateTimePipe = __decorate([

@@ -108,4 +108,4 @@ var SalePointsService = /** @class */ (function () {
     return SalePointsService;
 }());
 exports.SalePointsService = SalePointsService;
-//# sourceMappingURL=SalepointsService.js.map
+//# sourceMappingURL=SalePointsService.js.map

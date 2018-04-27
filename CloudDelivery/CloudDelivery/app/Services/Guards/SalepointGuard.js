@@ -33,7 +33,6 @@ var SalepointGuard = /** @class */ (function () {
     };
     SalepointGuard.prototype.authorize = function (url) {
         var _this = this;
-        console.error("salepoint auth");
         return this.sessionService.checkLogin().map(function (valid) {
             if (!valid) {
                 _this.sessionService.redirectUrl = url;

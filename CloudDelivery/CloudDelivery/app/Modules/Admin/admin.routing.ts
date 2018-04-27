@@ -7,6 +7,8 @@ import { AdminOrganisationsComponent } from './organisations/admin.organisations
 import { AdminGuard } from '../../Services/Guards/AdminGuard';
 
 import { AdminComponent } from './admin.component';
+import { AdminRoutesComponent } from './Routes/admin.routes.component';
+import { RouteDetailsComponent } from '../Shared/Components/RouteDetails/route.details.component';
 
 const adminRoutes: Routes = [
 
@@ -26,6 +28,14 @@ const adminRoutes: Routes = [
             {
                 path: 'orders',
                 component: AdminOrdersComponent,
+            },
+            {
+                path: 'routes',
+                component: AdminRoutesComponent,
+            },
+            {
+                path: 'route/:id',
+                component: RouteDetailsComponent
             },
             {
                 path: '',

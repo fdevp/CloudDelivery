@@ -16,17 +16,19 @@ var admin_dashboard_component_1 = require("./dashboard/admin.dashboard.component
 var admin_users_component_1 = require("./users/admin.users.component");
 var admin_orders_component_1 = require("./orders/admin.orders.component");
 var admin_organisations_component_1 = require("./organisations/admin.organisations.component");
-var UsersService_1 = require("../../Services/UsersService");
+var UsersService_1 = require("../../Services/Admin/UsersService");
 var ngx_datatable_1 = require("@swimlane/ngx-datatable");
 var admin_component_1 = require("./admin.component");
 var OrganisationsService_1 = require("../../Services/Admin/OrganisationsService");
 var SalepointsService_1 = require("../../Services/Admin/SalepointsService");
 var CarriersService_1 = require("../../Services/Admin/CarriersService");
 var core_2 = require("@agm/core");
+var admin_routes_component_1 = require("./Routes/admin.routes.component");
 var pages = [
     admin_dashboard_component_1.AdminDashboardComponent,
     admin_users_component_1.AdminUsersComponent,
     admin_orders_component_1.AdminOrdersComponent,
+    admin_routes_component_1.AdminRoutesComponent,
     admin_organisations_component_1.AdminOrganisationsComponent,
     admin_component_1.AdminComponent
 ];
@@ -36,7 +38,7 @@ var modules = [
     forms_1.FormsModule,
     ngx_datatable_1.NgxDatatableModule,
     shared_module_1.SharedModule,
-    core_2.AgmCoreModule
+    core_2.AgmCoreModule,
 ];
 var providers = [
     UsersService_1.UsersService,

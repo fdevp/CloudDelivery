@@ -25,7 +25,6 @@ var UsersService = /** @class */ (function () {
         var headers = this.sessionService.authHeader();
         return new Observable_1.Observable(function (obs) {
             return _this.http.post('/api/account/register', model, { headers: headers }).subscribe(function (data) {
-                console.log(data);
                 var body = JSON.parse(data["_body"]);
                 var id = parseInt(body);
                 obs.next(id);

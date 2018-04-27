@@ -1,8 +1,8 @@
 ﻿import { Component, Input, OnInit } from "@angular/core";
 import { Organisation } from "../../../../../Models/Organisations/Organisation";
-import { OrganisationsService } from "../../../../../Services/OrganisationsService";
+import { OrganisationsService } from "../../../../../Services/Admin/OrganisationsService";
 import { UserListItem } from "../../../../../Models/Users/UserListItem";
-import { UsersService } from "../../../../../Services/UsersService";
+import { UsersService } from "../../../../../Services/Admin/UsersService";
 
 
 @Component({
@@ -24,7 +24,6 @@ export class EditOrgUsersTab implements OnInit {
         this.orgService.members(this.orgId).subscribe(list => {
             this.members = list;
             this.inProgress = false;
-            console.log(this.members);
         }, err => {
             this.inProgress = false;
         });

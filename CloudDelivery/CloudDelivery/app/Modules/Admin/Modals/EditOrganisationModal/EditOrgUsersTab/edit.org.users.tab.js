@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var OrganisationsService_1 = require("../../../../../Services/OrganisationsService");
-var UsersService_1 = require("../../../../../Services/UsersService");
+var OrganisationsService_1 = require("../../../../../Services/Admin/OrganisationsService");
+var UsersService_1 = require("../../../../../Services/Admin/UsersService");
 var EditOrgUsersTab = /** @class */ (function () {
     function EditOrgUsersTab(orgService, usersService) {
         this.orgService = orgService;
@@ -24,7 +24,6 @@ var EditOrgUsersTab = /** @class */ (function () {
         this.orgService.members(this.orgId).subscribe(function (list) {
             _this.members = list;
             _this.inProgress = false;
-            console.log(_this.members);
         }, function (err) {
             _this.inProgress = false;
         });
@@ -48,10 +47,9 @@ var EditOrgUsersTab = /** @class */ (function () {
             selector: 'edit-org-users-tab',
             templateUrl: './edit.org.users.tab.html',
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof OrganisationsService_1.OrganisationsService !== "undefined" && OrganisationsService_1.OrganisationsService) === "function" && _a || Object, typeof (_b = typeof UsersService_1.UsersService !== "undefined" && UsersService_1.UsersService) === "function" && _b || Object])
+        __metadata("design:paramtypes", [OrganisationsService_1.OrganisationsService, UsersService_1.UsersService])
     ], EditOrgUsersTab);
     return EditOrgUsersTab;
-    var _a, _b;
 }());
 exports.EditOrgUsersTab = EditOrgUsersTab;
 //# sourceMappingURL=edit.org.users.tab.js.map

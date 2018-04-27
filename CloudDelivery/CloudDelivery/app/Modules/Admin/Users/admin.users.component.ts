@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, OnDestroy, ComponentFactoryResolver, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { UsersService } from '../../../Services/UsersService';
+import { UsersService } from '../../../Services/Admin/UsersService';
 import { ModalFactoryService } from '../../../Services/UI/ModalFactoryService';
 import { ToastFactoryService } from '../../../Services/UI/ToastFactoryService';
 import { UserListItem } from '../../../Models/Users/UserListItem';

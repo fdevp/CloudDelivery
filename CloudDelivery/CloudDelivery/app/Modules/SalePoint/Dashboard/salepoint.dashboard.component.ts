@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit, OnDestroy, Inject, forwardRef } from '@angular/core';
 import { OrderSalepoint } from '../../../Models/Orders/OrderSalepoint';
-import { OrdersService } from '../../../Services/OrdersService';
+import { OrdersService } from '../../../Services/Orders/OrdersService';
 import { GMapsService } from '../../../Services/GMapsService';
 import { GeoPosition } from '../../../Models/GeoPosition';
 import { OrderStatus } from '../../../Models/Enums/OrderStatus';

@@ -1,0 +1,177 @@
+﻿<div class="row route-details-container" *ngIf="initialized">
+    <div class="col-md-6">
+        <ul class="timeline">
+            <ng-container *ngFor="let point of details.Points">
+
+                <!-- SALEPOINT -->
+                <ng-container *ngIf="point.Type == routePointTypeEnum.SalePoint">
+
+                    <li class="time-label">
+                        <span class="bg-green">
+                            {{point.Order.SalepointName}}
+                        </span>
+                    </li>
+
+                    <li>
+                        <i class="fa fa-truck bg-green"></i>
+
+                        <div class="timeline-item">
+                            <h3 class="timeline-header"><a href="#">Punkt sprzedaży</a></h3>
+
+                            <div class="timeline-body">
+                                <dl class="padding-bottom-10">
+                                    <dt>Adres</dt>
+                                    <dd>{{point.Order | salepointAddress}}</dd>
+                                    <dt>Telefon</dt>
+                                    <dd>{{point.Order.SalepointPhone}}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- passed -->
+                    <li *ngIf="point.PassedTime != null">
+                        <i class="fa bg-gray"></i>
+
+                        <div class="timeline-item">
+                            <span class="time"><i class="fa fa-clock-o"></i> {{point.PassedTime | shortDateTime}}</span>
+
+                            <h3 class="timeline-header no-border"><a href="#">Odberano</a></h3>
+                        </div>
+                    </li>
+
+
+                </ng-container>
+
+                <!-- ENDPOINT -->
+                <ng-container *ngIf="point.Type == routePointTypeEnum.EndPoint">
+
+                    <li class="time-label">
+                        <span class="bg-blue">
+                            {{point.Order | destinationAddress}}
+                        </span>
+                    </li>
+
+                    <!-- order info -->
+
+                    <li>
+                        <i class="fa fa-map-marker bg-blue"></i>
+
+                        <div class="timeline-item">
+                            <h3 class="timeline-header"><a href="#">Zamówienie</a> <a class="btn btn-primary btn-xs pull-right" (click)="orderDetails(point.OrderId)">Szczegóły</a></h3>
+
+                        </div>
+                    </li>
+
+
+                    <!-- picked up time -->
+                    <li *ngIf="point.Order.PickUpTime != null">
+                        <i class="fa bg-gray"></i>
+
+                        <div class="timeline-item">
+                            <span class="time"><i class="fa fa-clock-o"></i> {{point.Order.PickUpTime | shortDateTime}}</span>
+
+                            <h3 class="timeline-header no-border"><a href="#">Odberano</a></h3>
+                        </div>
+                    </li>
+
+
+                    <!-- delivered time -->
+                    <li *ngIf="point.Order.DeliveredTime != null">
+                        <i class="fa bg-gray"></i>
+
+                        <div class="timeline-item">
+                            <span class="time"><i class="fa fa-clock-o"></i> {{point.Order.DeliveredTime | shortDateTime}}</span>
+
+                            <h3 class="timeline-header"><a href="#">Dostarczono</a></h3>
+                        </div>
+                    </li>
+
+                </ng-container>
+
+
+            </ng-container>
+
+            <li>
+                <i class="fa fa-clock-o bg-gray"></i>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-md-6" data-spy="affix" scrollSpyAffix="{topMargin: 70, bottomMargin: 70}">
+        <div class="box">
+            <div class="box-header with-border">
+                <span class="label pull-right" [ngClass]="{'label-info':details.Status == routeStatusEnum.Active, 'label-success':details.Status == routeStatusEnum.Finished}">{{ details.Status | routeStatus }}</span>
+                <h3 class="box-title"><i class="fa fa-tag"></i> Trasa</h3>
+            </div>
+            <div class="box-body route-map no-padding">
+
+                <dl class="margin-10">
+                    <ng-container *ngIf="isAdmin()">
+                        <dt>Id trasy</dt>
+                        <dd class="text-muted">{{details.Id}}</dd>
+                        <dt>Id dostawcy</dt>
+                        <dd class="text-muted">{{details.CarrierId }}</dd>
+                        <dt>Dostawca</dt>
+                        <dd class="text-muted">{{details.CarrierName}}</dd>
+                    </ng-container>
+
+                    <dt>Utworzono</dt>
+                    <dd class="text-muted">{{details.AddedTime | shortDateTime}}</dd>
+                    <dt>Ilość punktów</dt>
+                    <dd class="text-muted">{{ details.RoutePointsCount  }}</dd>
+                    <ng-container *ngIf="details.Status == routeStatusEnum.Finished">
+                        <dt>Zakończono</dt>
+                        <dd class="text-muted">{{details.FinishTime | shortDateTime}}</dd>
+                        <dt>Czas trwania</dt>
+                        <dd class="text-muted">{{ details.Duration | durationText }}</dd>
+                    </ng-container>
+
+
+                </dl>
+
+                <agm-map [latitude]="baseLocation.lat"
+                         [longitude]="baseLocation.lng"
+                         [zoom]="12"
+                         [disableDefaultUI]="false"
+                         [streetViewControl]="false"
+                         [zoomControl]="true">
+
+                    <ng-container *ngFor="let point of details.Points">
+
+                        <agm-marker *ngIf="point.Type == routePointTypeEnum.SalePoint && point.Order.SalepointLatLng != null "
+                                    [latitude]=" point.Order.SalepointLatLng.lat"
+                                    [longitude]=" point.Order.SalepointLatLng.lng"
+                                    [title]=" point.Order.SalepointAddress"
+                                    [iconUrl]="'/content/images/markers/small/salepoint_marker.png'"
+                                    [openInfoWindow]="true">
+
+                            <agm-info-window>
+                                <strong>{{ point.Order.SalepointName}}</strong>
+                            </agm-info-window>
+
+                        </agm-marker>
+
+                        <agm-marker *ngIf="point.Type == routePointTypeEnum.EndPoint && point.Order.EndLatLng != null "
+                                    [latitude]=" point.Order.EndLatLng.lat"
+                                    [longitude]=" point.Order.EndLatLng.lng"
+                                    [title]=" point.Order.DestinationAddress"
+                                    [iconUrl]="'/content/images/markers/small/marker.png'"
+                                    [openInfoWindow]="true">
+
+                            <agm-info-window>
+                                <strong>{{ point.Order | destinationAddress}}</strong>
+                            </agm-info-window>
+
+                        </agm-marker>
+
+
+                    </ng-container>
+
+                </agm-map>
+
+            </div>
+        </div>
+    </div>
+
+</div>

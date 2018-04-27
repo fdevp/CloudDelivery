@@ -8,10 +8,7 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <button class="btn btn-default">Kierowca</button>
             <button class="btn btn-default">Data dodania</button>
-            <button class="btn btn-default">Data dowozu</button>
-            <button class="btn btn-default">Status</button>
         </div>
     </div>
 
@@ -26,10 +23,10 @@
                        [columnMode]="'force'"
                        [columns]="columns"
                        [footerHeight]="50"
-                       [rows]="orders"
+                       [rows]="routes"
                        [selected]="selected"
                        [selectionType]="'single'"
-                       (select)="orderSelect($event)">
+                       (select)="routeSelect($event)">
         </ngx-datatable>
 
     </div>

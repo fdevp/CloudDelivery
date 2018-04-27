@@ -92,7 +92,8 @@ var AdminDashboardComponent = /** @class */ (function () {
     AdminDashboardComponent = __decorate([
         core_1.Component({
             selector: 'app-admin-dashboard',
-            templateUrl: './admin.dashboard.component.html'
+            templateUrl: './admin.dashboard.component.html',
+            styleUrls: ['./admin.dashboard.component.css']
         }),
         __param(3, core_1.Inject(core_1.forwardRef(function () { return ModalFactoryService_1.ModalFactoryService; }))),
         __metadata("design:paramtypes", [CarrierOrdersService_1.CarrierOrdersService, SalepointOrdersService_1.SalepointOrdersService, GMapsService_1.GMapsService,

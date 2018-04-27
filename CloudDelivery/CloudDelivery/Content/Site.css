@@ -20,10 +20,10 @@
 }
 
 .modal-map-control {
-    margin-bottom:5px;
-    margin-top:40px;
-    margin-left:20px !important;
-    margin-right:20px !important;
+    margin-bottom: 5px;
+    margin-top: 40px;
+    margin-left: 20px !important;
+    margin-right: 20px !important;
 }
 
 .modal-map-latlng {
@@ -32,6 +32,20 @@
     margin-bottom:0px;
 }
 
+.container-full-screen {
+    height:100%;
+    width:100%;
+}
+
+#lottie-loader-container {
+    position: absolute;
+    height: 150px;
+    width: 150px;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
 
 .loader-container {
     background: url(/Content/Images/loader.gif) no-repeat center center;
@@ -58,6 +72,10 @@
 
 .tab-container > .nav-tabs {
     margin-bottom: 30px;
+}
+
+.margin-10{
+    margin:10px;
 }
 
 .margin-bottom-30 {
@@ -89,6 +107,7 @@
     margin-left: 10px;
 }
 
+
 .padding-left-0{
     padding-left:0px;
 }
@@ -99,6 +118,14 @@
 
 .padding-right-0 {
     padding-right: 0px;
+}
+
+.padding-bottom-0{
+    padding-bottom:0px;
+}
+
+.padding-bottom-10 {
+    padding-bottom: 10px;
 }
 
 .resize-vertical {

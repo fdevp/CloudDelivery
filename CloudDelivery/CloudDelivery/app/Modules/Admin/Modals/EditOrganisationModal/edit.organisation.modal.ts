@@ -2,8 +2,8 @@
 import { BsModalRef } from 'ngx-bootstrap'
 import { UserDetails } from '../../../../Models/Users/UserDetails'
 import { Organisation } from '../../../../Models/Organisations/Organisation'
-import { UsersService } from '../../../../Services/UsersService'
-import { OrganisationsService } from '../../../../Services/OrganisationsService'
+import { UsersService } from '../../../../Services/Admin/UsersService'
+import { OrganisationsService } from '../../../../Services/Admin/OrganisationsService'
 import { ModalFactoryService } from '../../../../Services/UI/ModalFactoryService';
 import { ToastFactoryService } from '../../../../Services/UI/ToastFactoryService';
 import { FormElementState } from '../../../../Models/Enums/FormElementState';

@@ -33,7 +33,6 @@ var CarrierGuard = /** @class */ (function () {
     };
     CarrierGuard.prototype.authorize = function (url) {
         var _this = this;
-        console.error("carrier auth");
         return this.sessionService.checkLogin().map(function (valid) {
             if (!valid) {
                 _this.sessionService.redirectUrl = url;

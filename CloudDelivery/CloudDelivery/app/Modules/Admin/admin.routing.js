@@ -14,6 +14,8 @@ var admin_orders_component_1 = require("./orders/admin.orders.component");
 var admin_organisations_component_1 = require("./organisations/admin.organisations.component");
 var AdminGuard_1 = require("../../Services/Guards/AdminGuard");
 var admin_component_1 = require("./admin.component");
+var admin_routes_component_1 = require("./Routes/admin.routes.component");
+var route_details_component_1 = require("../Shared/Components/RouteDetails/route.details.component");
 var adminRoutes = [
     {
         path: '',
@@ -31,6 +33,14 @@ var adminRoutes = [
             {
                 path: 'orders',
                 component: admin_orders_component_1.AdminOrdersComponent,
+            },
+            {
+                path: 'routes',
+                component: admin_routes_component_1.AdminRoutesComponent,
+            },
+            {
+                path: 'route/:id',
+                component: route_details_component_1.RouteDetailsComponent
             },
             {
                 path: '',

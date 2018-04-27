@@ -75,7 +75,6 @@ export class OrganisationsService {
         return new Observable((obs: Observer<boolean>) => {
             return this.http.delete(url, { headers: headers }).subscribe(data => {
                 var body = JSON.parse(data["_body"]);
-                console.error("get", body);
             })
         });
     }

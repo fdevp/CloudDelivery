@@ -1,6 +1,6 @@
 ﻿import { Component, Input } from '@angular/core';
 import { ShowPasswordDirective } from '../../../../Shared/Directives/ShowPasswordDirective'
-import { UsersService } from '../../../../../Services/UsersService';
+import { UsersService } from '../../../../../Services/Admin/UsersService';
 import { UserDetails } from '../../../../../Models/Users/UserDetails';
 import { ToastFactoryService } from '../../../../../Services/UI/ToastFactoryService';
 

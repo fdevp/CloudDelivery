@@ -28,12 +28,13 @@
             '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
             '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
             '@swimlane/ngx-datatable': 'npm:@swimlane/ngx-datatable/release/index.js',
-            'ngx-bootstrap' : 'npm:ngx-bootstrap/bundles/ngx-bootstrap.umd.js',
+            'ngx-bootstrap': 'npm:ngx-bootstrap/bundles/ngx-bootstrap.umd.js',
             'ngx-toastr': 'npm:ngx-toastr/toastr.umd.js',
             '@agm/core': 'npm:@agm/core/core.umd.js',
             // other libraries
             'rxjs': 'npm:rxjs',
             'ng-lottie': 'npm:ng-lottie/dist/umd/LottieAnimationView.js',
+            'ngx-scrollspy':'npm:ngx-scrollspy/bundles/ngx-scrollspy.umd.js',
             'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'
         },
         // packages tells the System loader how to load when no filename and/or no extension
@@ -48,7 +49,13 @@
             },
             rxjs: {
                 defaultExtension: 'js'
+            },
+            'ng-lottie':{
+                defaultExtension: 'js'
+            },
+            'ngx-scrollspy': {
+                defaultExtension: 'js'
             }
         }
     });
-})(this);
+}) (this);

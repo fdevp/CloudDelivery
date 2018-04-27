@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var OrganisationsService_1 = require("../../../Services/OrganisationsService");
+var OrganisationsService_1 = require("../../../Services/Admin/OrganisationsService");
 var ModalFactoryService_1 = require("../../../Services/UI/ModalFactoryService");
 var router_1 = require("@angular/router");
 var ToastFactoryService_1 = require("../../../Services/UI/ToastFactoryService");
@@ -91,10 +91,9 @@ var AdminOrganisationsComponent = /** @class */ (function () {
             selector: 'app-admin-organisations',
             templateUrl: './admin.organisations.component.html'
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof OrganisationsService_1.OrganisationsService !== "undefined" && OrganisationsService_1.OrganisationsService) === "function" && _a || Object, ModalFactoryService_1.ModalFactoryService, ToastFactoryService_1.ToastFactoryService, router_1.Router, core_1.ChangeDetectorRef])
+        __metadata("design:paramtypes", [OrganisationsService_1.OrganisationsService, ModalFactoryService_1.ModalFactoryService, ToastFactoryService_1.ToastFactoryService, router_1.Router, core_1.ChangeDetectorRef])
     ], AdminOrganisationsComponent);
     return AdminOrganisationsComponent;
-    var _a;
 }());
 exports.AdminOrganisationsComponent = AdminOrganisationsComponent;
 //# sourceMappingURL=admin.organisations.component.js.map

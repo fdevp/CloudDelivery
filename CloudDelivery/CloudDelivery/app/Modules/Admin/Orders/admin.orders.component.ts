@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, OnDestroy, ChangeDetectorRef, EventEmitter } from '@angular/core';
-import { OrdersService } from '../../../Services/OrdersService';
+import { OrdersService } from '../../../Services/Orders/OrdersService';
 import { Router } from '@angular/router';
 import { OrderListItem } from '../../../Models/Orders/OrderListItem'
 import { OrdersListFilters } from '../../../Models/Orders/OrdersListFilters';

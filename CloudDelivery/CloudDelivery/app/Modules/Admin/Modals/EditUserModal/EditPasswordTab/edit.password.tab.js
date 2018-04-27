@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var UsersService_1 = require("../../../../../Services/UsersService");
+var UsersService_1 = require("../../../../../Services/Admin/UsersService");
 var UserDetails_1 = require("../../../../../Models/Users/UserDetails");
 var ToastFactoryService_1 = require("../../../../../Services/UI/ToastFactoryService");
 var EditPasswordTab = /** @class */ (function () {
@@ -46,10 +46,9 @@ var EditPasswordTab = /** @class */ (function () {
             selector: 'edit-password-tab',
             templateUrl: './edit.password.tab.html',
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof UsersService_1.UsersService !== "undefined" && UsersService_1.UsersService) === "function" && _a || Object, ToastFactoryService_1.ToastFactoryService])
+        __metadata("design:paramtypes", [UsersService_1.UsersService, ToastFactoryService_1.ToastFactoryService])
     ], EditPasswordTab);
     return EditPasswordTab;
-    var _a;
 }());
 exports.EditPasswordTab = EditPasswordTab;
 //# sourceMappingURL=edit.password.tab.js.map

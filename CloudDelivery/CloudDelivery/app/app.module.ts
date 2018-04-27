@@ -9,8 +9,8 @@ import { AppRouting } from './app.routing';
 
 import { AuthGuard } from './Services/Guards/AuthGuard'
 import { SessionService } from './Services/SessionService';
-import { UsersService } from './Services/UsersService';
-import { OrganisationsService } from './Services/OrganisationsService';
+import { UsersService } from './Services/Admin/UsersService';
+import { OrganisationsService } from './Services/Admin/OrganisationsService';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -18,9 +18,7 @@ import { ToastrModule } from 'ngx-toastr'
 import { ModalModule } from 'ngx-bootstrap'
 import { TabsModule } from 'ngx-bootstrap';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
-import { LottieAnimationViewModule } from 'ng-lottie';
 
-import { LoginComponent } from './Modules/Shared/Login/login.component';
 
 import { ProgressToast } from './Modules/Shared/Toasts/ProgressToast';
 
@@ -36,18 +34,23 @@ import { AddUserModal } from './Modules/Admin/Modals/AddUserModal/add.user.modal
 import { EditUserModal } from './Modules/Admin/Modals/EditUserModal/edit.user.modal';
 import { SharedModule } from './Modules/Shared/shared.module';
 import { ToastFactoryService } from './Services/UI/ToastFactoryService';
-import { CarriersService } from './Services/CarriersService';
-import { SalePointsService } from './Services/SalePointsService';
-import { OrdersService } from './Services/OrdersService';
+import { CarriersService } from './Services/Admin/CarriersService';
+import { SalePointsService } from './Services/Admin/SalePointsService';
+import { OrdersService } from './Services/Orders/OrdersService';
 import { GMapsService } from './Services/GMapsService';
 import { OrderDetailsModal } from './Modules/Shared/Modals/OrderDetailsModal/order.details.modal';
 import { SignalrService } from './Services/SignalrService';
 import { SalepointOrdersService } from './Services/Orders/SalepointOrdersService';
 import { CarrierOrdersService } from './Services/Orders/CarrierOrdersService';
+import { RoutesService } from './Services/RoutesService';
+import { ScrollSpyModule } from 'ngx-scrollspy'
+import { LoginComponent } from './Modules/Shared/Components/Login/login.component';
+import { LoadingComponent } from './Modules/Shared/Components/Loading/loading.component';
 
 const pages = [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    LoadingComponent
 ];
 
 
@@ -73,6 +76,7 @@ const modules = [
     AgmCoreModule.forRoot({
         apiKey: 'AIzaSyCHX0R_iy25XKld2oyehvuVi26teOlXYWE'
     }),
+    ScrollSpyModule.forRoot(),
     AdminModalsModule
 ]
 
@@ -88,8 +92,10 @@ const providers = [
     ModalFactoryService,
     ToastFactoryService,
 
+    OrdersService,
     SalepointOrdersService,
     CarrierOrdersService,
+    RoutesService,
 
     //admin
     UsersService,

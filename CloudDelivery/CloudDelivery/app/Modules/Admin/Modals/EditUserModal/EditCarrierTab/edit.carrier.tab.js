@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var FormElementState_1 = require("../../../../../Models/Enums/FormElementState");
 var Carrier_1 = require("../../../../../Models/Carriers/Carrier");
-var CarriersService_1 = require("../../../../../Services/CarriersService");
+var CarriersService_1 = require("../../../../../Services/Admin/CarriersService");
 var EditCarrierTab = /** @class */ (function () {
     function EditCarrierTab(carrierService) {
         this.carrierService = carrierService;
@@ -57,10 +57,9 @@ var EditCarrierTab = /** @class */ (function () {
             selector: 'edit-carrier-tab',
             templateUrl: './edit.carrier.tab.html',
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof CarriersService_1.CarriersService !== "undefined" && CarriersService_1.CarriersService) === "function" && _a || Object])
+        __metadata("design:paramtypes", [CarriersService_1.CarriersService])
     ], EditCarrierTab);
     return EditCarrierTab;
-    var _a;
 }());
 exports.EditCarrierTab = EditCarrierTab;
 //# sourceMappingURL=edit.carrier.tab.js.map

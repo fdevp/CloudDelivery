@@ -49,6 +49,9 @@ namespace CloudDelivery.Controllers
         [Route("Add")]
         public IHttpActionResult Add([FromBody] OrderEditModel model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             Order newOrder = Mapper.Map<Order>(model);
             int salePointId = this.authService.GetSalePointId(this.User);
 
@@ -187,6 +190,20 @@ namespace CloudDelivery.Controllers
             this.notificationsHub.Clients.User(pickedOrder.SalePoint.User.AspNetUser.UserName).OrderDelivered(orderId);
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "salepoint")]
+        [Route("FinishedList")]
+        public IHttpActionResult FinishedList()
+        {
+            var userId = this.authService.GetAppUserId(this.User);
+            var filters = new OrdersListFiltersModel() { Status = new OrderStatus[] { OrderStatus.Cancelled, OrderStatus.Delivered }, SalePointUserId = userId };
+            List<Order> ordersDb = this.ordersService.List(filters);
+            List<OrderFinishedListVM> orders = Mapper.Map<List<OrderFinishedListVM>>(ordersDb);
+            orders = orders.OrderByDescending(x => x.DeliveredTime ?? x.CancellationTime ?? x.AddedTime).ToList();
+
+            return Ok(orders);
         }
 
         [HttpPut]

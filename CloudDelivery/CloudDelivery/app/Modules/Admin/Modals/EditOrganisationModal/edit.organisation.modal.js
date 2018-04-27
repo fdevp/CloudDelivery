@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var ngx_bootstrap_1 = require("ngx-bootstrap");
 var Organisation_1 = require("../../../../Models/Organisations/Organisation");
-var OrganisationsService_1 = require("../../../../Services/OrganisationsService");
+var OrganisationsService_1 = require("../../../../Services/Admin/OrganisationsService");
 var EditOrganisationModal = /** @class */ (function () {
     function EditOrganisationModal(bsModalRef, orgService) {
         this.bsModalRef = bsModalRef;
@@ -35,10 +35,9 @@ var EditOrganisationModal = /** @class */ (function () {
             selector: 'edit-organisation-modal',
             templateUrl: './edit.organisation.modal.html',
         }),
-        __metadata("design:paramtypes", [ngx_bootstrap_1.BsModalRef, typeof (_a = typeof OrganisationsService_1.OrganisationsService !== "undefined" && OrganisationsService_1.OrganisationsService) === "function" && _a || Object])
+        __metadata("design:paramtypes", [ngx_bootstrap_1.BsModalRef, OrganisationsService_1.OrganisationsService])
     ], EditOrganisationModal);
     return EditOrganisationModal;
-    var _a;
 }());
 exports.EditOrganisationModal = EditOrganisationModal;
 //# sourceMappingURL=edit.organisation.modal.js.map

@@ -71,7 +71,7 @@ namespace CloudDelivery.Services.Implementations
                 ctx.RoutePoints.AddRange(pointsToAdd);
                 ctx.SaveChanges();
 
-                route.Carrier = ctx.Carriers.Include(x=> x.User.AspNetUser).Where(x => x.Id == route.CarrierId).FirstOrDefault();
+                route.Carrier = ctx.Carriers.Include(x => x.User.AspNetUser).Where(x => x.Id == route.CarrierId).FirstOrDefault();
                 route.Points = ctx.RoutePoints.Include(x => x.Order.SalePoint.User.AspNetUser).Where(x => x.RouteId == route.Id).OrderBy(x => x.Index).ToList();
 
                 return route;
@@ -82,7 +82,7 @@ namespace CloudDelivery.Services.Implementations
         {
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                Route route = ctx.Routes.Where(x => x.Id == routeId).Include(x => x.Carrier.User).Include("Points.Order.SalePoint.User").FirstOrDefault();
+                Route route = ctx.Routes.Where(x => x.Id == routeId).Include(x => x.Carrier.User).Include("Points.Order.SalePoint.User.AspNetUser").FirstOrDefault();
 
                 if (route == null)
                     throw new NullReferenceException("Trasa nie istnieje.");
@@ -105,6 +105,7 @@ namespace CloudDelivery.Services.Implementations
 
                 route.FinishTime = DateTime.Now;
                 route.Status = RouteStatus.Finished;
+                route.Duration = Convert.ToInt32(route.FinishTime.Value.Subtract(route.AddedTime).TotalMinutes);
 
                 ctx.SaveChanges();
             }
@@ -132,7 +133,7 @@ namespace CloudDelivery.Services.Implementations
         {
             using (ICDContext ctx = this.ctxFactory.GetContext())
             {
-                IQueryable<Route> query = ctx.Routes.Include(x => x.Carrier);
+                IQueryable<Route> query = ctx.Routes.Include(x => x.Carrier.User.AspNetUser).Include(x => x.Points);
 
                 //no filters
                 if (filters == null)

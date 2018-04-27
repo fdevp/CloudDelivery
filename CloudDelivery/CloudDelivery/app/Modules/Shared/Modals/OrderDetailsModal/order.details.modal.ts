@@ -1,6 +1,6 @@
 ﻿import { Component, Inject, forwardRef, EventEmitter } from "@angular/core";
 import { OrderDetails } from "../../../../Models/Orders/OrderDetails";
-import { OrdersService } from "../../../../Services/OrdersService";
+import { OrdersService } from "../../../../Services/Orders/OrdersService";
 import { BsModalRef } from 'ngx-bootstrap'
 import { ModalFactoryService } from "../../../../Services/UI/ModalFactoryService";
 import { SessionService } from "../../../../Services/SessionService";

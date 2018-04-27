@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var OrdersService_1 = require("../../../Services/OrdersService");
+var OrdersService_1 = require("../../../Services/Orders/OrdersService");
 var router_1 = require("@angular/router");
 var OrdersListFilters_1 = require("../../../Models/Orders/OrdersListFilters");
 var OrderStatusPipe_1 = require("../../Shared/pipes/OrderStatusPipe");
@@ -59,10 +59,9 @@ var AdminOrdersComponent = /** @class */ (function () {
             selector: 'app-admin-orders',
             templateUrl: './admin.orders.component.html'
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof OrdersService_1.OrdersService !== "undefined" && OrdersService_1.OrdersService) === "function" && _a || Object, router_1.Router, ModalFactoryService_1.ModalFactoryService, core_1.ChangeDetectorRef])
+        __metadata("design:paramtypes", [OrdersService_1.OrdersService, router_1.Router, ModalFactoryService_1.ModalFactoryService, core_1.ChangeDetectorRef])
     ], AdminOrdersComponent);
     return AdminOrdersComponent;
-    var _a;
 }());
 exports.AdminOrdersComponent = AdminOrdersComponent;
 //# sourceMappingURL=admin.orders.component.js.map

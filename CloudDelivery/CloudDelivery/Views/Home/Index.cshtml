@@ -1,5 +1,18 @@
 <body>
     <my-app>
-        <div id="lottie-loader-container"></div>
+        <div class="container-full-screen">
+            <div id="lottie-loader-container"></div>
+        </div>
     </my-app>
 </body>
+<script>
+    $(document).ready(function () {
+        var animation = bodymovin.loadAnimation({
+            container: document.getElementById('lottie-loader-container'), // Required
+            path: 'Content/Lottie/truck_running.json', // Required
+            renderer: 'svg/canvas/html', // Required
+            loop: true, // Optional
+            autoplay: true, // Optional
+        })
+    })
+</script>

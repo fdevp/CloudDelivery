@@ -25,7 +25,6 @@ export class CarrierGuard implements CanLoad, CanActivate, CanActivateChild {
     }
 
     private authorize(url): Observable<boolean> {
-        console.error("carrier auth");
         return this.sessionService.checkLogin().map(valid => {
             if (!valid) {
                 this.sessionService.redirectUrl = url;

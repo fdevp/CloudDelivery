@@ -4,6 +4,7 @@ using CloudDelivery.Data.Enums.Routes;
 using CloudDelivery.Models;
 using CloudDelivery.Models.Orders;
 using CloudDelivery.Models.Routes;
+using CloudDelivery.Models.Routes.Route;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -94,7 +95,20 @@ namespace CloudDelivery.App_Start
              .ForMember(dest => dest.CarrierName, opt =>
              opt.MapFrom(src => src.Carrier.User.Name));
 
-                cfg.CreateMap<Route, RouteVM>();
+                cfg.CreateMap<Route, RouteListVM>()
+            .ForMember(dest => dest.CarrierName, opt =>
+            opt.MapFrom(src => src.Carrier.User.Name))
+               .ForMember(dest => dest.RoutePointsCount, opt =>
+            opt.MapFrom(src => src.Points.Count));
+
+
+                cfg.CreateMap<Route, RouteVM>()
+                 .ForMember(dest => dest.CarrierName, opt =>
+            opt.MapFrom(src => src.Carrier.User.Name))
+              .ForMember(dest => dest.RoutePointsCount, opt =>
+            opt.MapFrom(src => src.Points.Count));
+
+
                 cfg.CreateMap<RoutePoint, RoutePointViewModel>();
                 cfg.CreateMap<IdentityRole, RoleVM>();
                 cfg.CreateMap<Organisation, OrganisationVM>();

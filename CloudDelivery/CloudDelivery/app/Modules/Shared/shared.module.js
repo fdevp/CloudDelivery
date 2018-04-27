@@ -10,7 +10,7 @@ var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
-var layout_navigation_component_1 = require("./Navigation/layout.navigation.component");
+var layout_navigation_component_1 = require("./Components/Navigation/layout.navigation.component");
 var NullStringPipe_1 = require("./Pipes/NullStringPipe");
 var RoleNamePipe_1 = require("./Pipes/RoleNamePipe");
 var ShortDateTimePipe_1 = require("./Pipes/ShortDateTimePipe");
@@ -23,6 +23,8 @@ var ConfirmModal_1 = require("./Modals/ConfirmModal");
 var DurationTextPipe_1 = require("./Pipes/DurationTextPipe");
 var SalepointAddressPipe_1 = require("./Pipes/SalepointAddressPipe");
 var core_2 = require("@agm/core");
+var RouteStatusPipe_1 = require("./Pipes/RouteStatusPipe");
+var route_details_component_1 = require("./Components/RouteDetails/route.details.component");
 var modules = [
     common_1.CommonModule,
     router_1.RouterModule,
@@ -31,6 +33,7 @@ var modules = [
 ];
 var pages = [
     layout_navigation_component_1.LayoutNavigationComponent,
+    route_details_component_1.RouteDetailsComponent,
 ];
 var directives = [
     ShowPasswordDirective_1.ShowPasswordDirective
@@ -47,7 +50,8 @@ var pipes = [
     OrderStatusPipe_1.OrderStatusPipe,
     CurrencyTextPipe_1.CurrencyTextPipe,
     DurationTextPipe_1.DurationTextPipe,
-    SalepointAddressPipe_1.SalepointAddressPipe
+    SalepointAddressPipe_1.SalepointAddressPipe,
+    RouteStatusPipe_1.RouteStatusPipe
 ];
 var SharedModule = /** @class */ (function () {
     function SharedModule() {

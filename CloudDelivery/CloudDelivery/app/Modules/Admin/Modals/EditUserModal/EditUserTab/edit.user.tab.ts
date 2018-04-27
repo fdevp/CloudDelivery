@@ -3,8 +3,8 @@
 import { UserDetails } from '../../../../../Models/Users/UserDetails'
 import { FormElementState } from '../../../../../Models/Enums/FormElementState'
 
-import { UsersService } from '../../../../../Services/UsersService'
-import { OrganisationsService } from '../../../../../Services/OrganisationsService'
+import { UsersService } from '../../../../../Services/Admin/UsersService'
+import { OrganisationsService } from '../../../../../Services/Admin/OrganisationsService'
 
 import { NullStringPipe } from '../../../../Shared/Pipes/NullStringPipe'
 import { RoleNamePipe } from '../../../../Shared/Pipes/RoleNamePipe'

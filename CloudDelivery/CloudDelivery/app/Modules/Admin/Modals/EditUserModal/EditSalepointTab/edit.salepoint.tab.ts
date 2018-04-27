@@ -1,6 +1,6 @@
 ﻿import { Component, Input, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { FormElementState } from '../../../../../Models/Enums/FormElementState';
-import { SalePointsService } from '../../../../../Services/SalePointsService';
+import { SalePointsService } from '../../../../../Services/Admin/SalePointsService';
 import { SalePoint } from '../../../../../Models/SalePoints/SalePoint';
 import { GeoPosition } from '../../../../../Models/GeoPosition';
 import { GMapsService } from '../../../../../Services/GMapsService';
@@ -50,7 +50,6 @@ export class EditSalePointTab implements OnInit  {
         this.SalePointsService.details(this.userId).subscribe(details => {
             this.model = details;
             if (this.model.LatLng == null) {
-                console.log("wszed", this.model);
                 this.model.LatLng = this.gmapsService.getBaseLocation();
             }
             if (typeof this.model.LatLng === "string" || this.model.LatLng instanceof String) {

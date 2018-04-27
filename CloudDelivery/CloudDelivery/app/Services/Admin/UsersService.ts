@@ -18,7 +18,6 @@ export class UsersService {
         var headers = this.sessionService.authHeader();
         return new Observable((obs: Observer<number>) => {
             return this.http.post('/api/account/register', model, { headers: headers }).subscribe((data) => {
-                console.log(data);
                 var body = JSON.parse(data["_body"]);
                 var id = parseInt(body);
                 obs.next(id);

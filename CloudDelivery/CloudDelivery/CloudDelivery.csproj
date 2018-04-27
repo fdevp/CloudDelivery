@@ -329,6 +329,11 @@
     <Content Include="app\Modules\Admin\Modals\EditOrganisationModal\EditOrgUsersTab\edit.org.users.tab.html" />
     <Content Include="app\Modules\Admin\Modals\EditUserModal\EditCarrierTab\edit.carrier.tab.html" />
     <Content Include="app\Modules\Admin\Orders\admin.orders.component.html" />
+    <Content Include="app\Modules\Admin\Routes\admin.routes.component.html" />
+    <Content Include="app\Modules\Shared\Components\Loading\loading.component.css" />
+    <Content Include="app\Modules\Shared\Components\Loading\loading.component.html" />
+    <Content Include="app\Modules\Shared\Components\RouteDetails\route.details.component.css" />
+    <Content Include="app\Modules\Shared\Components\RouteDetails\route.details.component.html" />
     <Content Include="app\Modules\Carrier\Dashboard\carrier.dashboard.component.css" />
     <Content Include="app\Modules\Carrier\Orders\carrier.orders.component.html" />
     <Content Include="app\Modules\Carrier\Routes\carrier.routes.component.html" />
@@ -337,7 +342,7 @@
     <Content Include="app\Modules\SalePoint\Orders\CreateOrder\salepoint.createorder.component.css" />
     <Content Include="app\Modules\SalePoint\Orders\CreateOrder\salepoint.createorder.component.html" />
     <Content Include="app\Modules\SalePoint\Orders\salepoint.orders.component.html" />
-    <Content Include="app\Modules\Shared\Login\login.component.html" />
+    <Content Include="app\Modules\Shared\Components\Login\login.component.html" />
     <Content Include="app\Modules\Admin\Modals\AddUserModal\add.user.modal.html" />
     <Content Include="app\Modules\Shared\Modals\OrderDetailsModal\order.details.modal.css" />
     <Content Include="app\Modules\Shared\Modals\OrderDetailsModal\order.details.modal.html" />
@@ -350,7 +355,7 @@
     <Content Include="app\Modules\Admin\Users\admin.users.component.html" />
     <Content Include="app\Modules\Carrier\Dashboard\carrier.dashboard.component.html" />
     <Content Include="app\Modules\layout.component.html" />
-    <Content Include="app\Modules\Shared\Navigation\layout.navigation.component.html" />
+    <Content Include="app\Modules\Shared\Components\Navigation\layout.navigation.component.html" />
     <Content Include="app\Modules\Shared\Toasts\toasts.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -383,6 +388,7 @@
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\Lottie\truck_running.json" />
+    <Content Include="Content\streets.json" />
     <None Include="Properties\PublishProfiles\CloudDelivery - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -419,7 +425,6 @@
     <Content Include="azureConnection.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\Modules\Admin\Routes\" />
     <Folder Include="app\Modules\OrganisationOwner\" />
     <Folder Include="Views\Organisations\" />
   </ItemGroup>
@@ -453,6 +458,8 @@
     <TypeScriptCompile Include="app\app.routing.ts" />
     <TypeScriptCompile Include="app\Models\Carriers\Carrier.ts" />
     <TypeScriptCompile Include="app\Models\Enums\OrderStatus.ts" />
+    <TypeScriptCompile Include="app\Models\Enums\RoutePointType.ts" />
+    <TypeScriptCompile Include="app\Models\Enums\RouteStatus.ts" />
     <TypeScriptCompile Include="app\Models\Enums\SignalrConnectionState.ts" />
     <TypeScriptCompile Include="app\Models\GeoPosition.ts" />
     <TypeScriptCompile Include="app\Models\Orders\OrderDetails.ts" />
@@ -462,6 +469,10 @@
     <TypeScriptCompile Include="app\Models\Orders\OrderSalepoint.ts" />
     <TypeScriptCompile Include="app\Models\Orders\OrdersCountFilters.ts" />
     <TypeScriptCompile Include="app\Models\Orders\OrdersListFilters.ts" />
+    <TypeScriptCompile Include="app\Models\Routes\RouteDetails.ts" />
+    <TypeScriptCompile Include="app\Models\Routes\RouteListItem.ts" />
+    <TypeScriptCompile Include="app\Models\Routes\RoutePoint.ts" />
+    <TypeScriptCompile Include="app\Models\Routes\RoutePointOrder.ts" />
     <TypeScriptCompile Include="app\Models\Salepoints\Salepoint.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\Modals\AddOrganisationModal\add.organisation.modal.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\Modals\EditOrganisationModal\edit.organisation.modal.ts" />
@@ -469,6 +480,9 @@
     <TypeScriptCompile Include="app\Modules\Admin\Modals\EditOrganisationModal\EditOrgUsersTab\edit.org.users.tab.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\Modals\EditUserModal\EditCarrierTab\edit.carrier.tab.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\Orders\admin.orders.component.ts" />
+    <TypeScriptCompile Include="app\Modules\Admin\Routes\admin.routes.component.ts" />
+    <TypeScriptCompile Include="app\Modules\Shared\Components\Loading\loading.component.ts" />
+    <TypeScriptCompile Include="app\Modules\Shared\Components\RouteDetails\route.details.component.ts" />
     <TypeScriptCompile Include="app\Modules\Carrier\Orders\carrier.orders.component.ts" />
     <TypeScriptCompile Include="app\Modules\Carrier\Routes\carrier.routes.component.ts" />
     <TypeScriptCompile Include="app\Modules\SalePoint\Orders\CreateOrder\salepoint.createorder.component.ts" />
@@ -477,12 +491,13 @@
     <TypeScriptCompile Include="app\Modules\SalePoint\salepoint.routing.ts" />
     <TypeScriptCompile Include="app\Modules\SalePoint\Dashboard\salepoint.dashboard.component.ts" />
     <TypeScriptCompile Include="app\Modules\SalePoint\Orders\salepoint.orders.component.ts" />
-    <TypeScriptCompile Include="app\Modules\Shared\Login\login.component.ts" />
+    <TypeScriptCompile Include="app\Modules\Shared\Components\Login\login.component.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\Modals\ConfirmModal.ts" />
     <TypeScriptCompile Include="app\Models\Enums\FormElementState.ts" />
     <TypeScriptCompile Include="app\Models\Enums\Roles.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\Modals\AddUserModal\add.user.modal.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\Modals\OrderDetailsModal\order.details.modal.ts" />
+    <TypeScriptCompile Include="app\Modules\Shared\Pipes\RouteStatusPipe.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\Pipes\SalepointAddressPipe.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\Pipes\DurationTextPipe.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\Pipes\CurrencyTextPipe.ts" />
@@ -513,7 +528,7 @@
     <TypeScriptCompile Include="app\Modules\layout.module.ts" />
     <TypeScriptCompile Include="app\Modules\layout.routing.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\Directives\ShowPasswordDirective.ts" />
-    <TypeScriptCompile Include="app\Modules\Shared\Navigation\layout.navigation.component.ts" />
+    <TypeScriptCompile Include="app\Modules\Shared\Components\Navigation\layout.navigation.component.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\Pipes\NullStringPipe.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\Pipes\RoleNamePipe.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\shared.module.ts" />

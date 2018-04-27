@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var UserDetails_1 = require("../../../../../Models/Users/UserDetails");
 var FormElementState_1 = require("../../../../../Models/Enums/FormElementState");
-var UsersService_1 = require("../../../../../Services/UsersService");
-var OrganisationsService_1 = require("../../../../../Services/OrganisationsService");
+var UsersService_1 = require("../../../../../Services/Admin/UsersService");
+var OrganisationsService_1 = require("../../../../../Services/Admin/OrganisationsService");
 var EditUserTab = /** @class */ (function () {
     function EditUserTab(usersService, organisationsService) {
         var _this = this;
@@ -105,10 +105,9 @@ var EditUserTab = /** @class */ (function () {
             selector: 'edit-user-tab',
             templateUrl: './edit.user.tab.html',
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof UsersService_1.UsersService !== "undefined" && UsersService_1.UsersService) === "function" && _a || Object, typeof (_b = typeof OrganisationsService_1.OrganisationsService !== "undefined" && OrganisationsService_1.OrganisationsService) === "function" && _b || Object])
+        __metadata("design:paramtypes", [UsersService_1.UsersService, OrganisationsService_1.OrganisationsService])
     ], EditUserTab);
     return EditUserTab;
-    var _a, _b;
 }());
 exports.EditUserTab = EditUserTab;
 //# sourceMappingURL=edit.user.tab.js.map

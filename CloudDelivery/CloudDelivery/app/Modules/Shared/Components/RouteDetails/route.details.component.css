@@ -1,0 +1,27 @@
+﻿.route-map {
+    height: 400px;
+}
+
+    .route-map > agm-map {
+        height: 100%;
+        width: 100%;
+    }
+
+.route-details-container{
+    min-height:800px;
+}
+.timeline-body{
+    padding-bottom: 0px !important;
+}
+
+
+
+@media (min-width: 768px){
+    .dl-horizontal dt {
+        width: auto !important;
+    }
+
+    .dl-horizontal dd {
+        margin-left: 115px !important;
+    }
+} 

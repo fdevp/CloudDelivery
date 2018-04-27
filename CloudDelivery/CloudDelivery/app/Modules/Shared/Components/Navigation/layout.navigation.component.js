@@ -10,10 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var SessionService_1 = require("../../../Services/SessionService");
-var MenuFactoryService_1 = require("../../../Services/UI/MenuFactoryService");
-var SignalrService_1 = require("../../../Services/SignalrService");
-var SignalrConnectionState_1 = require("../../../Models/Enums/SignalrConnectionState");
+var SessionService_1 = require("../../../../Services/SessionService");
+var MenuFactoryService_1 = require("../../../../Services/UI/MenuFactoryService");
+var SignalrService_1 = require("../../../../Services/SignalrService");
+var SignalrConnectionState_1 = require("../../../../Models/Enums/SignalrConnectionState");
 var LayoutNavigationComponent = /** @class */ (function () {
     function LayoutNavigationComponent(sessionService, menuService, signalrService, cdr) {
         var _this = this;

@@ -82,10 +82,9 @@ export class SignalrService {
         var obj = this;
         this.connection.start().done(function () {
             obj.toastsService.toastr.success(null, "Nawiązano połączenie z serwerem.");
-            console.warn("signalr success");
         }).fail(function () {
             obj.toastsService.toastr.error(null, "Nawiązanie połączenia z serwerem nie powiodło się.");
-            console.warn("signalr err");
+            console.error("signalr err");
         });
     }
 

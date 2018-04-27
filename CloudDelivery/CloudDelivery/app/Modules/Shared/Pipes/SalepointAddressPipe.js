@@ -11,7 +11,6 @@ var SalepointAddressPipe = /** @class */ (function () {
     function SalepointAddressPipe() {
     }
     SalepointAddressPipe.prototype.transform = function (value) {
-        console.warn("SP PIPE", value);
         return value.SalepointCity + ", " + value.SalepointAddress;
     };
     SalepointAddressPipe = __decorate([

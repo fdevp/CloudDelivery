@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var AuthGuard_1 = require("./Services/Guards/AuthGuard");
-var login_component_1 = require("./Modules/Shared/Login/login.component");
+var login_component_1 = require("./Modules/Shared/Components/Login/login.component");
 var appRoutes = [
     {
         path: '',

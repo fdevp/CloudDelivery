@@ -11,7 +11,7 @@ import { AdminUsersComponent } from './users/admin.users.component'
 import { AdminOrdersComponent } from './orders/admin.orders.component'
 import { AdminOrganisationsComponent } from './organisations/admin.organisations.component'
 
-import { UsersService } from '../../Services/UsersService';
+import { UsersService } from '../../Services/Admin/UsersService';
 
 import { AppModule } from '../../app.module'
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -21,13 +21,14 @@ import { OrganisationsService } from '../../Services/Admin/OrganisationsService'
 import { SalePointsService } from '../../Services/Admin/SalepointsService';
 import { CarriersService } from '../../Services/Admin/CarriersService';
 import { AgmCoreModule } from '@agm/core';
-
+import { AdminRoutesComponent } from './Routes/admin.routes.component';
 
 
 const pages = [
     AdminDashboardComponent,
     AdminUsersComponent,
     AdminOrdersComponent,
+    AdminRoutesComponent,
     AdminOrganisationsComponent,
     AdminComponent
 ];
@@ -38,7 +39,7 @@ const modules = [
     FormsModule,
     NgxDatatableModule,
     SharedModule,
-    AgmCoreModule
+    AgmCoreModule,
 ]
 
 const providers = [

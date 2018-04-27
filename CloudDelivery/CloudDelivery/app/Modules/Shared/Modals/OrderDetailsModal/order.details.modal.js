@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var OrderDetails_1 = require("../../../../Models/Orders/OrderDetails");
-var OrdersService_1 = require("../../../../Services/OrdersService");
+var OrdersService_1 = require("../../../../Services/Orders/OrdersService");
 var ngx_bootstrap_1 = require("ngx-bootstrap");
 var SessionService_1 = require("../../../../Services/SessionService");
 var GMapsService_1 = require("../../../../Services/GMapsService");
@@ -56,10 +56,9 @@ var OrderDetailsModal = /** @class */ (function () {
             templateUrl: './order.details.modal.html',
             styleUrls: ['./order.details.modal.css']
         }),
-        __metadata("design:paramtypes", [ngx_bootstrap_1.BsModalRef, typeof (_a = typeof OrdersService_1.OrdersService !== "undefined" && OrdersService_1.OrdersService) === "function" && _a || Object, SessionService_1.SessionService, GMapsService_1.GMapsService])
+        __metadata("design:paramtypes", [ngx_bootstrap_1.BsModalRef, OrdersService_1.OrdersService, SessionService_1.SessionService, GMapsService_1.GMapsService])
     ], OrderDetailsModal);
     return OrderDetailsModal;
-    var _a;
 }());
 exports.OrderDetailsModal = OrderDetailsModal;
 //# sourceMappingURL=order.details.modal.js.map

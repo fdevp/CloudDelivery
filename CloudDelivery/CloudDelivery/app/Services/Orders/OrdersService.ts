@@ -12,7 +12,7 @@ import { SessionService } from '../../Services/SessionService'
 import { OrderEditModel } from '../../Models/Orders/OrderEditModel';
 import { OrdersCountFilters } from '../../Models/Orders/OrdersCountFilters';
 
-
+@Injectable()
 export class OrdersService {
     public countersIncrease: EventEmitter<any> = new EventEmitter();
 
@@ -27,7 +27,6 @@ export class OrdersService {
         return new Observable((obs: Observer<Array<OrderListItem>>) => {
             return this.http.get('/api/orders/list', { headers: headers }).subscribe(data => {
                 var body = JSON.parse(data["_body"]);
-                console.warn("lista orders", body);
                 obs.next(body);
             }, e => { console.error("err", e); })
         });
@@ -59,24 +58,20 @@ export class OrdersService {
     };
 
     protected getLocationArray(orders: any) {
-        for (var i = 0; i < orders.length; i++) {
-
-            var order = orders[i];
-
+        for (let order of orders) {
             //endlatlng
             if (order.EndLatLng == "" || order.EndLatLng == null)
                 continue;
             try {
                 order.EndLatLng = JSON.parse(order.EndLatLng);
-            } catch (ex) { console.warn("err,", ex); }
+            } catch (ex) { console.error("err,", ex); }
 
             //salepoint
             if (order.SalepointLatLng == "" || order.SalepointLatLng == null)
                 continue;
             try {
                 order.SalepointLatLng = JSON.parse(order.SalepointLatLng);
-            } catch (ex) { console.warn("err,", ex); }
-
+            } catch (ex) { console.error("err,", ex); }
         }
     }
 
@@ -85,7 +80,7 @@ export class OrdersService {
 
             try {
                 order.EndLatLng = JSON.parse(order.EndLatLng);
-            } catch (ex) { console.warn("err,", ex); }
+            } catch (ex) { console.error("err,", ex); }
 
         }
 
@@ -93,7 +88,7 @@ export class OrdersService {
 
             try {
                 order.SalepointLatLng = JSON.parse(order.SalepointLatLng);
-            } catch (ex) { console.warn("err,", ex); }
+            } catch (ex) { console.error("err,", ex); }
 
         }
 

@@ -27,6 +27,7 @@ namespace CloudDelivery
                       "~/Scripts/jquery.signalR-2.2.3.min.js"
                 ));
 
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/node_modules/bootstrap/dist/css/bootstrap.min.css",
                       "~/node_modules/font-awesome/css/font-awesome.css",

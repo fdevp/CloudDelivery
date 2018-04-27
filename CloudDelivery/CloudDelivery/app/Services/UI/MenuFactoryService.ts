@@ -32,7 +32,7 @@ export class MenuFactoryService {
         {
             'title': 'Trasy',
             'icon': 'truck',
-            'link': ['./'],
+            'link': ['routes'],
         },
     ];
 

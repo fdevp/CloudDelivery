@@ -39,7 +39,7 @@ var MenuFactoryService = /** @class */ (function () {
             {
                 'title': 'Trasy',
                 'icon': 'truck',
-                'link': ['./'],
+                'link': ['routes'],
             },
         ];
         this.carrierMenu = [

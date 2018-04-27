@@ -75,7 +75,6 @@ var OrganisationsService = /** @class */ (function () {
         return new Observable_1.Observable(function (obs) {
             return _this.http.delete(url, { headers: headers }).subscribe(function (data) {
                 var body = JSON.parse(data["_body"]);
-                console.error("get", body);
             });
         });
     };

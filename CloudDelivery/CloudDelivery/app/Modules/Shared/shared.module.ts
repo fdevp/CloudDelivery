@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
-import { LayoutNavigationComponent } from './Navigation/layout.navigation.component';
+import { LayoutNavigationComponent } from './Components/Navigation/layout.navigation.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -20,6 +20,9 @@ import { ConfirmModal } from './Modals/ConfirmModal';
 import { DurationTextPipe } from './Pipes/DurationTextPipe';
 import { SalepointAddressPipe } from './Pipes/SalepointAddressPipe';
 import { AgmCoreModule } from '@agm/core';
+import { RouteStatusPipe } from './Pipes/RouteStatusPipe';
+import { RouteDetailsComponent } from './Components/RouteDetails/route.details.component';
+import { LoadingComponent } from './Components/Loading/loading.component';
 
 
 
@@ -32,6 +35,7 @@ const modules = [
 
 const pages = [
     LayoutNavigationComponent,
+    RouteDetailsComponent,
 ];
 
 
@@ -53,7 +57,8 @@ const pipes = [
     OrderStatusPipe,
     CurrencyTextPipe,
     DurationTextPipe,
-    SalepointAddressPipe
+    SalepointAddressPipe,
+    RouteStatusPipe
 ]
 
 
