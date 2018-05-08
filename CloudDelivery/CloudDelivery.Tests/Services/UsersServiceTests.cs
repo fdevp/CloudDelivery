@@ -5,6 +5,7 @@ using CloudDelivery.Services;
 using CloudDelivery.Tests.Initialize;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +17,16 @@ namespace CloudDelivery.Tests.Services
     [TestClass()]
     public class UsersServiceTests
     {
-        UsersService service;
-        ICDContext ctx;
+        private UsersService service;
+        private Mock<ICDContext> ctxMock;
+        private ICDContext ctx;
+        
 
         public UsersServiceTests()
         {
-            ICDContextFactory ctxFactory = DatabaseMocksFactory.GetCtxFactoryMock().Object;
+            ctxMock = DatabaseMocksFactory.GetContextMock();
+            ICDContextFactory ctxFactory = DatabaseMocksFactory.GetCtxFactoryMock(ctxMock).Object;
+
             var cache = new CacheProvider();
             ctx = ctxFactory.GetContext();
             service = new UsersService(cache, ctxFactory);
@@ -33,11 +38,15 @@ namespace CloudDelivery.Tests.Services
             string identity = "identityId";
             int organisationId = 1;
             string name = "username1";
+
             int id = service.AddUser(identity, name ,organisationId);
             User user = service.GetUser(id);
+
             Assert.AreEqual(identity, user.IdentityId);
             Assert.AreEqual(name, user.Name);
             Assert.AreEqual(organisationId, user.OrganisationId);
+
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
 
@@ -45,8 +54,11 @@ namespace CloudDelivery.Tests.Services
         public void RemoveUser_ShouldRemoveUser()
         {
             User user = service.GetUsersList().FirstOrDefault();
+
             service.RemoveUser(user.Id);
+
             Assert.IsFalse(service.GetUsersList().Any(x => x.Id == user.Id));
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [TestMethod()]
@@ -55,8 +67,11 @@ namespace CloudDelivery.Tests.Services
             User user = service.GetUsersList().FirstOrDefault();
             ExtendedIdentityUser identityUser = ctx.Users.FirstOrDefault();
             user.IdentityId = identityUser.Id;
+
             service.RemoveUser(user.Id);
+
             Assert.IsFalse(ctx.Users.Any(x => x.Id == identityUser.Id));
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [TestMethod()]
@@ -64,9 +79,12 @@ namespace CloudDelivery.Tests.Services
         {
             User user = service.GetUsersList().FirstOrDefault();
             IdentityRole role = service.GetRolesList().FirstOrDefault();
+
             service.SetSingleRole(user.Id, role.Id);
             service.RemoveUser(user.Id);
+
             Assert.IsFalse(ctx.UserRoles.Any(x => x.UserId == user.IdentityId));
+            ctxMock.Verify(x => x.SaveChanges(), Times.Exactly(2));
         }
 
 
@@ -82,10 +100,12 @@ namespace CloudDelivery.Tests.Services
         {
             User user = service.GetUsersList().FirstOrDefault();
             IdentityRole role = service.GetRolesList().FirstOrDefault();
+
             service.SetSingleRole(user.Id, role.Id);
             List<IdentityUserRole> userRoles = service.GetUserRoles(user.Id);
-            Assert.IsTrue(userRoles.Any(x => x.RoleId == role.Id));
 
+            Assert.IsTrue(userRoles.Any(x => x.RoleId == role.Id));
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [TestMethod()]
@@ -99,6 +119,7 @@ namespace CloudDelivery.Tests.Services
             service.SetSingleRole(user.Id, newRole.Id);
 
             Assert.IsFalse(service.GetUserRoles(user.Id).Any(x => x.RoleId == role.Id));
+            ctxMock.Verify(x => x.SaveChanges(), Times.Exactly(2));
         }
 
 
@@ -132,6 +153,7 @@ namespace CloudDelivery.Tests.Services
 
             Assert.IsTrue(service.GetUserRoles(user.Id).Any(x => x.RoleId == role.Id));
             Assert.IsTrue(service.GetUserRoles(user.Id).Any(x => x.RoleId == secondRole.Id));
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
 
@@ -148,8 +170,11 @@ namespace CloudDelivery.Tests.Services
         {
             User user = ctx.AppUsers.FirstOrDefault();
             Organisation organisation = ctx.Organisations.FirstOrDefault();
+
             service.SetOrganisation(organisation.Id, user.Id);
+
             Assert.AreEqual(organisation.Id, user.OrganisationId);
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [TestMethod()]
@@ -157,9 +182,12 @@ namespace CloudDelivery.Tests.Services
         {
             User user = ctx.AppUsers.FirstOrDefault();
             Organisation organisation = ctx.Organisations.FirstOrDefault();
+
             user.OrganisationId = 1;
             service.SetOrganisation(user.Id, null);
+
             Assert.AreEqual(null, user.OrganisationId);
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
 
@@ -188,8 +216,11 @@ namespace CloudDelivery.Tests.Services
             user.IdentityId = identityUser.Id;
             user.AspNetUser = identityUser;
             string phone = "111111111";
+
             service.SetPhone(user.Id, phone);
+
             Assert.AreEqual(identityUser.PhoneNumber, phone);
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
 
@@ -198,8 +229,11 @@ namespace CloudDelivery.Tests.Services
         {
             User user = service.GetUsersList().FirstOrDefault();
             string name = "username";
+
             service.SetName(user.Id, name);
+
             Assert.AreEqual(user.Name, name);
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
 
@@ -209,8 +243,11 @@ namespace CloudDelivery.Tests.Services
         {
             User user = service.GetUsersList().FirstOrDefault();
             string desc = "new description";
+
             service.SetDescription(user.Id, desc);
+
             Assert.AreEqual(user.Description, desc);
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
 
@@ -219,6 +256,7 @@ namespace CloudDelivery.Tests.Services
         {
             User userFromCtx = ctx.AppUsers.FirstOrDefault();
             User userFromDetails = service.GetUser(userFromCtx.Id);
+
             Assert.AreEqual(userFromCtx.Id, userFromDetails.Id);
             Assert.AreEqual(userFromCtx.IdentityId, userFromDetails.IdentityId);
             Assert.AreEqual(userFromCtx.Description, userFromDetails.Description);
@@ -238,6 +276,7 @@ namespace CloudDelivery.Tests.Services
         {
             User userFromCtx = ctx.AppUsers.FirstOrDefault();
             User userFromDetails = service.GetUser(userFromCtx.IdentityId);
+
             Assert.AreEqual(userFromCtx.Id, userFromDetails.Id);
             Assert.AreEqual(userFromCtx.IdentityId, userFromDetails.IdentityId);
             Assert.AreEqual(userFromCtx.Description, userFromDetails.Description);
@@ -257,8 +296,11 @@ namespace CloudDelivery.Tests.Services
         {
             User user = service.GetUsersList().FirstOrDefault();
             IdentityRole role = service.GetRolesList().FirstOrDefault();
+
             service.SetSingleRole(user.Id, role.Id);
+
             Assert.AreEqual(role.Name, service.GetUserRolesString(user.Id));
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [TestMethod()]
@@ -266,12 +308,13 @@ namespace CloudDelivery.Tests.Services
         {
             User user = service.GetUsersList().FirstOrDefault();
             IdentityRole role = service.GetRolesList().FirstOrDefault();
-            service.SetSingleRole(user.Id, role.Id);
 
+            service.SetSingleRole(user.Id, role.Id);
             IdentityRole secondRole = service.GetRolesList().Where(x => x.Id != role.Id).FirstOrDefault();
             ctx.UserRoles.Add(new IdentityUserRole { RoleId = secondRole.Id, UserId = user.IdentityId });
 
             Assert.AreEqual(string.Join(", ", role.Name, secondRole.Name), service.GetUserRolesString(user.Id));
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [TestMethod()]

@@ -9,19 +9,22 @@ using CloudDelivery.Data;
 using CloudDelivery.Tests.Initialize;
 using CloudDelivery.Providers;
 using CloudDelivery.Data.Entities;
+using Moq;
 
 namespace CloudDelivery.Services.Tests
 {
     [TestClass()]
     public class CarrierServiceTests
     {
-        CarriersService carriersService;
-        UsersService usersService;
-        ICDContext ctx;
+        private CarriersService carriersService;
+        private UsersService usersService;
+        private Mock<ICDContext> ctxMock;
+        private ICDContext ctx;
 
         public CarrierServiceTests()
         {
-            ICDContextFactory ctxFactory = DatabaseMocksFactory.GetCtxFactoryMock().Object;
+            ctxMock = DatabaseMocksFactory.GetContextMock();
+            ICDContextFactory ctxFactory = DatabaseMocksFactory.GetCtxFactoryMock(ctxMock).Object;
             var cache = new CacheProvider();
             ctx = ctxFactory.GetContext();
             carriersService = new CarriersService(cache, ctxFactory);
@@ -33,9 +36,12 @@ namespace CloudDelivery.Services.Tests
         public void SetCarrier_ShouldSetCarrierForUser()
         {
             int userId = this.usersService.AddUser("test1", "test1", null);
+
             this.carriersService.SetCarrier(userId);
             Carrier carrier = ctx.Carriers.Where(x => x.UserId == userId).FirstOrDefault();
+
             Assert.IsNotNull(carrier);
+            ctxMock.Verify(x => x.SaveChanges(), Times.Exactly(2));
         }
 
         [TestMethod()]
@@ -57,16 +63,22 @@ namespace CloudDelivery.Services.Tests
         public void SetColor_ShouldSetColor()
         {
             Carrier carrier = ctx.Carriers.FirstOrDefault();
+
             this.carriersService.SetColor(carrier.UserId.Value, "red");
+
             Assert.AreEqual("red", carrier.Marker);
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [TestMethod()]
         public void RemoveCarrier_ShouldRemoveCarrier()
         {
             Carrier carrier = this.ctx.Carriers.FirstOrDefault();
+
             this.carriersService.RemoveCarrier(carrier.UserId.Value);
+
             Assert.IsFalse(ctx.Carriers.Any(x => x.Id == carrier.Id));
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [TestMethod()]

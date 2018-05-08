@@ -60,6 +60,14 @@ namespace CloudDelivery.Tests.Initialize
             return ctxFactoryMock;
         }
 
+        public static Mock<ICDContextFactory> GetCtxFactoryMock(Mock<ICDContext> ctxMock)
+        {
+            var ctxFactoryMock = new Mock<ICDContextFactory>();
+            ctxFactoryMock.Setup(x => x.GetContext()).Returns(ctxMock.Object);
+
+            return ctxFactoryMock;
+        }
+
         public static Mock<ICDContext> GetContextMock()
         {
             var ctxMock = new Mock<ICDContext>();

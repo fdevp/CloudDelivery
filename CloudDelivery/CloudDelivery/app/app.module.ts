@@ -46,11 +46,13 @@ import { RoutesService } from './Services/RoutesService';
 import { ScrollSpyModule } from 'ngx-scrollspy'
 import { LoginComponent } from './Modules/Shared/Components/Login/login.component';
 import { LoadingComponent } from './Modules/Shared/Components/Loading/loading.component';
+import { LottieComponent } from './Modules/Shared/Components/lottie.component';
 
 const pages = [
     AppComponent,
     LoginComponent,
-    LoadingComponent
+    LoadingComponent,
+    LottieComponent
 ];
 
 

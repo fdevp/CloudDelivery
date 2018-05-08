@@ -12,6 +12,9 @@ namespace CloudDelivery.Services
 {
     public class SalePointsService : ISalePointsService
     {
+        private ICacheProvider cacheProvider;
+        private ICDContextFactory ctxFactory;
+
         public SalePointsService(ICacheProvider cacheProvider, ICDContextFactory ctxFactory)
         {
             this.cacheProvider = cacheProvider;
@@ -170,7 +173,6 @@ namespace CloudDelivery.Services
             }
         }
 
-        private ICacheProvider cacheProvider;
-        private ICDContextFactory ctxFactory;
+        
     }
 }

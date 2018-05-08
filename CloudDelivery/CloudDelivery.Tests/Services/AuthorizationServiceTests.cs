@@ -18,9 +18,9 @@ namespace CloudDelivery.Tests.Services
     [TestClass()]
     public class AuthorizationServiceTests
     {
-        AuthorizationService authService;
-        UsersService usersService;
-        ICDContext ctx;
+        private AuthorizationService authService;
+        private UsersService usersService;
+        private ICDContext ctx;
 
         public AuthorizationServiceTests()
         {

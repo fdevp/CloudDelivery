@@ -13,18 +13,21 @@ using CloudDelivery.Data.Enums.Routes;
 using CloudDelivery.Models.Routes;
 using CloudDelivery.Models;
 using CloudDelivery.Data.Enums;
+using Moq;
 
 namespace CloudDelivery.Services.Tests
 {
     [TestClass()]
     public class RoutesServiceTests
     {
-        IRoutesService routesService;
-        ICDContext ctx;
+        private IRoutesService routesService;
+        private Mock<ICDContext> ctxMock;
+        private ICDContext ctx;
 
         public RoutesServiceTests()
         {
-            ICDContextFactory ctxFactory = DatabaseMocksFactory.GetCtxFactoryMock().Object;
+            ctxMock = DatabaseMocksFactory.GetContextMock();
+            ICDContextFactory ctxFactory = DatabaseMocksFactory.GetCtxFactoryMock(ctxMock).Object;
             ctx = ctxFactory.GetContext();
 
             var cache = new CacheProvider();
@@ -64,6 +67,7 @@ namespace CloudDelivery.Services.Tests
             Assert.AreEqual(RouteStatus.Active, addedRoute.Status);
             Assert.AreEqual(addedRoute.CarrierId, carrierId);
 
+            ctxMock.Verify(x => x.SaveChanges(), Times.Exactly(2));
         }
 
         [TestMethod()]
@@ -144,6 +148,7 @@ namespace CloudDelivery.Services.Tests
         public void Details_ShouldReturnRouteDetails()
         {
             Route dbRoute = ctx.Routes.FirstOrDefault();
+
             Route route = routesService.Details(dbRoute.Id);
 
             Assert.AreEqual(dbRoute.Id, route.Id);
@@ -163,8 +168,10 @@ namespace CloudDelivery.Services.Tests
         public void ActiveRouteDetails_ShouldReturnActiveRouteDetails()
         {
             int carrierId = ctx.Carriers.Where(x => ctx.Routes.Any(y => y.CarrierId == x.Id && y.Status == RouteStatus.Active)).FirstOrDefault().Id;
+
             Route dbActiveRoute = ctx.Routes.Where(x => x.CarrierId == carrierId && x.Status == RouteStatus.Active).FirstOrDefault();
             Route activeRoute = routesService.ActiveRouteDetails(carrierId);
+
             Assert.AreEqual(dbActiveRoute.Id, activeRoute.Id);
         }
 
@@ -206,8 +213,11 @@ namespace CloudDelivery.Services.Tests
         public void PassPoint_ShouldSetPointPassTime()
         {
             RoutePoint point = ctx.RoutePoints.Where(x => x.PassedTime == null).FirstOrDefault();
+
             routesService.PassPoint(point.Id);
+
             Assert.IsNotNull(point.PassedTime);
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [TestMethod()]

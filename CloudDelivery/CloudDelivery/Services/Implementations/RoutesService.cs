@@ -18,6 +18,9 @@ namespace CloudDelivery.Services.Implementations
 {
     public class RoutesService : IRoutesService
     {
+        private ICacheProvider cacheProvider;
+        private ICDContextFactory ctxFactory;
+
         public RoutesService(ICacheProvider cacheProvider, ICDContextFactory ctxFactory)
         {
             this.cacheProvider = cacheProvider;
@@ -199,7 +202,6 @@ namespace CloudDelivery.Services.Implementations
             }
         }
 
-        private ICacheProvider cacheProvider;
-        private ICDContextFactory ctxFactory;
+        
     }
 }

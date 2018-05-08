@@ -13,6 +13,8 @@ namespace CloudDelivery.Services
 {
     public class AuthorizationService : IAuthorizationService
     {
+        private ICacheProvider cacheProvider;
+        private ICDContextFactory ctxFactory;
 
         public AuthorizationService(ICacheProvider cacheProvider, ICDContextFactory ctxFactory)
         {
@@ -188,8 +190,5 @@ namespace CloudDelivery.Services
                 return false;
             }
         }
-
-        private ICacheProvider cacheProvider;
-        private ICDContextFactory ctxFactory;
     }
 }

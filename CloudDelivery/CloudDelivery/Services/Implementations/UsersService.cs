@@ -11,6 +11,9 @@ namespace CloudDelivery.Services
 {
     public class UsersService : IUsersService
     {
+        private ICacheProvider cacheProvider;
+        private ICDContextFactory ctxFactory;
+
         public UsersService(ICacheProvider cacheProvider, ICDContextFactory ctxFactory)
         {
             this.cacheProvider = cacheProvider;
@@ -182,7 +185,6 @@ namespace CloudDelivery.Services
             }
         }
 
-
         public void SetOrganisation(int id, int? organisationId)
         {
             using (ICDContext ctx = this.ctxFactory.GetContext())
@@ -199,7 +201,6 @@ namespace CloudDelivery.Services
                 ctx.SaveChanges();
             }
         }
-
 
         public void SetName(int id, string name)
         {
@@ -231,7 +232,6 @@ namespace CloudDelivery.Services
             }
         }
 
-
         public void SetDescription(int id, string description)
         {
             using (ICDContext ctx = ctxFactory.GetContext())
@@ -247,8 +247,5 @@ namespace CloudDelivery.Services
             }
         }
 
-
-        private ICacheProvider cacheProvider;
-        private ICDContextFactory ctxFactory;
     }
 }

@@ -11,6 +11,9 @@ namespace CloudDelivery.Services
 {
     public class OrganisationsService : IOrganisationsService
     {
+        private ICacheProvider cacheProvider;
+        private ICDContextFactory ctxFactory;
+
         public OrganisationsService(ICacheProvider cacheProvider, ICDContextFactory ctxFactory)
         {
             this.cacheProvider = cacheProvider;
@@ -125,8 +128,6 @@ namespace CloudDelivery.Services
         }
 
 
-        private ICacheProvider cacheProvider;
-
-        private ICDContextFactory ctxFactory;
+        
     }
 }

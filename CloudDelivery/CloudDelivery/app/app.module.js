@@ -38,10 +38,12 @@ var RoutesService_1 = require("./Services/RoutesService");
 var ngx_scrollspy_1 = require("ngx-scrollspy");
 var login_component_1 = require("./Modules/Shared/Components/Login/login.component");
 var loading_component_1 = require("./Modules/Shared/Components/Loading/loading.component");
+var lottie_component_1 = require("./Modules/Shared/Components/lottie.component");
 var pages = [
     app_component_1.AppComponent,
     login_component_1.LoginComponent,
-    loading_component_1.LoadingComponent
+    loading_component_1.LoadingComponent,
+    lottie_component_1.LottieComponent
 ];
 var modals = [];
 var toasts = [

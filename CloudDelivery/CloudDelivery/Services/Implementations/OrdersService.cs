@@ -16,6 +16,9 @@ namespace CloudDelivery.Services
 {
     public class OrdersService : IOrdersService
     {
+        private ICacheProvider cacheProvider;
+        private ICDContextFactory ctxFactory;
+
         public OrdersService(ICacheProvider cacheProvider, ICDContextFactory ctxFactory)
         {
             this.cacheProvider = cacheProvider;
@@ -293,8 +296,5 @@ namespace CloudDelivery.Services
                 return query.Count();
             }
         }
-
-        private ICacheProvider cacheProvider;
-        private ICDContextFactory ctxFactory;
     }
 }

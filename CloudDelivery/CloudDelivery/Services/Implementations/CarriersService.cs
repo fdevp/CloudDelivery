@@ -11,6 +11,8 @@ namespace CloudDelivery.Services
 {
     public class CarriersService : ICarriersService
     {
+        private ICacheProvider cacheProvider;
+        private ICDContextFactory ctxFactory;
 
         public CarriersService(ICacheProvider cacheProvider, ICDContextFactory ctxFactory)
         {
@@ -106,11 +108,6 @@ namespace CloudDelivery.Services
                 return carrier;
             }
         }
-
-    
-
-        private ICacheProvider cacheProvider;
-        private ICDContextFactory ctxFactory;
 
     }
 }

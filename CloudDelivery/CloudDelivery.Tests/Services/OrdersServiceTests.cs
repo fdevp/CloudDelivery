@@ -20,12 +20,14 @@ namespace CloudDelivery.Services.Tests
     [TestClass()]
     public class OrdersServiceTests
     {
-        IOrdersService ordersService;
-        ICDContext ctx;
+        private IOrdersService ordersService;
+        private Mock<ICDContext> ctxMock;
+        private ICDContext ctx;
 
         public OrdersServiceTests()
         {
-            ICDContextFactory ctxFactory = DatabaseMocksFactory.GetCtxFactoryMock().Object;
+            ctxMock = DatabaseMocksFactory.GetContextMock();
+            ICDContextFactory ctxFactory = DatabaseMocksFactory.GetCtxFactoryMock(ctxMock).Object;
             ctx = ctxFactory.GetContext();
 
             var cache = new CacheProvider();
@@ -44,6 +46,7 @@ namespace CloudDelivery.Services.Tests
             Assert.AreEqual(carrier.Id, order.CarrierId);
             Assert.IsNotNull(order.AcceptedTime);
             Assert.AreEqual(OrderStatus.Accepted, order.Status);
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [TestMethod()]
@@ -83,6 +86,7 @@ namespace CloudDelivery.Services.Tests
             Assert.IsNotNull(order.AddedTime);
             Assert.AreEqual(SalePoint.Id, order.SalePointId);
             Assert.AreEqual(OrderStatus.Added, order.Status);
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [TestMethod()]
@@ -102,6 +106,7 @@ namespace CloudDelivery.Services.Tests
 
             Assert.IsNotNull(order.CancellationTime);
             Assert.AreEqual(OrderStatus.Cancelled, order.Status);
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [TestMethod()]
@@ -365,6 +370,7 @@ namespace CloudDelivery.Services.Tests
 
             Assert.IsNotNull(order.DeliveredTime);
             Assert.AreEqual(OrderStatus.Delivered, order.Status);
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [TestMethod()]
@@ -392,6 +398,7 @@ namespace CloudDelivery.Services.Tests
 
             Assert.IsNotNull(order.PickUpTime);
             Assert.AreEqual(OrderStatus.InDelivery, order.Status);
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [TestMethod()]
@@ -420,6 +427,7 @@ namespace CloudDelivery.Services.Tests
 
             Assert.IsNull(order.PickUpTime);
             Assert.AreEqual(OrderStatus.Added, order.Status);
+            ctxMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [TestMethod()]

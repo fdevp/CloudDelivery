@@ -303,7 +303,6 @@
     <Compile Include="Providers\Implementations\CacheProvider.cs" />
     <Compile Include="Providers\Implementations\GMapsProvider.cs" />
     <Compile Include="Providers\Implementations\HttpProvider.cs" />
-    <Compile Include="Providers\Implementations\NotificationsHubProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Services\IAuthorizationService.cs" />
     <Compile Include="Services\ICarriersService.cs" />
@@ -482,6 +481,7 @@
     <TypeScriptCompile Include="app\Modules\Admin\Orders\admin.orders.component.ts" />
     <TypeScriptCompile Include="app\Modules\Admin\Routes\admin.routes.component.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\Components\Loading\loading.component.ts" />
+    <TypeScriptCompile Include="app\Modules\Shared\Components\lottie.component.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\Components\RouteDetails\route.details.component.ts" />
     <TypeScriptCompile Include="app\Modules\Carrier\Orders\carrier.orders.component.ts" />
     <TypeScriptCompile Include="app\Modules\Carrier\Routes\carrier.routes.component.ts" />
