@@ -13,14 +13,12 @@ var admin_users_component_1 = require("./users/admin.users.component");
 var admin_orders_component_1 = require("./orders/admin.orders.component");
 var admin_organisations_component_1 = require("./organisations/admin.organisations.component");
 var AdminGuard_1 = require("../../Services/Guards/AdminGuard");
-var admin_component_1 = require("./admin.component");
 var admin_routes_component_1 = require("./Routes/admin.routes.component");
 var route_details_component_1 = require("../Shared/Components/RouteDetails/route.details.component");
 var adminRoutes = [
     {
         path: '',
         canActivateChild: [AdminGuard_1.AdminGuard],
-        component: admin_component_1.AdminComponent,
         children: [
             {
                 path: 'users',

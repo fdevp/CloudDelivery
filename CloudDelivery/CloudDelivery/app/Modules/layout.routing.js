@@ -19,7 +19,7 @@ var layoutRoutes = [
         children: [
             {
                 path: 'admin',
-                canActivate: [AdminGuard_1.AdminGuard],
+                canLoad: [AdminGuard_1.AdminGuard],
                 loadChildren: "app/modules/admin/admin.module#AdminModule",
             },
             {

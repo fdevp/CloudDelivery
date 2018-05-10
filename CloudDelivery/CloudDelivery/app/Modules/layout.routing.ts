@@ -15,7 +15,7 @@ const layoutRoutes: Routes = [
         children: [
             {
                 path: 'admin',
-                canActivate: [AdminGuard],
+                canLoad: [AdminGuard],
                 loadChildren: "app/modules/admin/admin.module#AdminModule",
             },
             {
