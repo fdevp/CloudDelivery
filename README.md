@@ -2,6 +2,15 @@
 # CloudDelivery
 A system for supporting a food delivery for the points of sale and carriers. A real-time communication between a carrier and the poitns of sale will be ensured. It provides a route's creation and the interactive maps for controlling of a delivery. It uses the Google Maps Directions Api to obtain the best route via the route's points.
 
+ <p align="center">
+  <img src="https://i.imgur.com/mjKMoDw.png" height="100"/>
+ <img src="https://i.imgur.com/23eGGnX.png" width="100"/>
+ <img src="https://i.imgur.com/yA2Ye9W.png" width="100"/>
+ <img src="https://i.imgur.com/whCvwBg.png" width="100"/>
+ <img src="https://i.imgur.com/CvE8fCr.png" width="100"/>
+ <img src="https://i.imgur.com/dB3LABH.png" width="100"/>
+ </p>
+
 ## Backend
 ### Framework
 ##### ASP.NET WebApi2
