@@ -71,6 +71,18 @@ namespace CloudDelivery.Providers
             return Task.FromResult<object>(null);
         }
 
+        public override async Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
+        {
+            var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
+            var appUser = await userManager.FindByNameAsync(context.Ticket.Identity.Name);
+            var form = await context.Request.ReadFormAsync();
+            var grantType = form.GetValues("grant_type");
+            var oAuthIdentity = await appUser.GenerateUserIdentityAsync(userManager, grantType[0]);
+            var newTicket = new AuthenticationTicket(oAuthIdentity, context.Ticket.Properties);
+
+            context.Validated(newTicket);
+        }
+
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             // Resource owner password credentials does not provide a client ID.

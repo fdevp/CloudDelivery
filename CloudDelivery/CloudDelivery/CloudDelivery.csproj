@@ -7,6 +7,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
@@ -28,6 +29,9 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -300,6 +304,7 @@
     <Compile Include="Providers\IGMapsProvider.cs" />
     <Compile Include="Providers\IHttpProvider.cs" />
     <Compile Include="Providers\Implementations\ApplicationOAuthProvider.cs" />
+    <Compile Include="Providers\Implementations\ApplicationOAuthRefreshTokenProvider .cs" />
     <Compile Include="Providers\Implementations\CacheProvider.cs" />
     <Compile Include="Providers\Implementations\GMapsProvider.cs" />
     <Compile Include="Providers\Implementations\HttpProvider.cs" />
@@ -356,6 +361,10 @@
     <Content Include="app\Modules\layout.component.html" />
     <Content Include="app\Modules\Shared\Components\Navigation\layout.navigation.component.html" />
     <Content Include="app\Modules\Shared\Toasts\toasts.css" />
+    <Content Include="App_Data\local.mdf" />
+    <Content Include="App_Data\local_log.ldf">
+      <DependentUpon>local.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\markers\endpoint_bw.png" />
