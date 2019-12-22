@@ -21,6 +21,7 @@ namespace CloudDelivery.Data
         DbSet<RoutePoint> RoutePoints { get; set; }
         DbSet<Package> Packages { get; set; }
         DbSet<IdentityUserRole> UserRoles { get; set; }
+        DbSet<RefreshToken> RefreshTokens { get; set; }
         IDbSet<IdentityRole> Roles { get; set; }
         IDbSet<ExtendedIdentityUser> Users { get; set; }
 

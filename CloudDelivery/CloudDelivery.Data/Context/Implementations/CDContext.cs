@@ -71,5 +71,6 @@ namespace CloudDelivery.Data
         public virtual DbSet<IdentityUserRole> UserRoles { get; set; }
         public virtual DbSet<Route> Routes { get; set; }
         public virtual DbSet<RoutePoint> RoutePoints { get; set; }
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }

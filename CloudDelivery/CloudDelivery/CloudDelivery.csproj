@@ -272,6 +272,7 @@
     <Compile Include="Hubs\Implementations\NotificationsHub.cs" />
     <Compile Include="Models\Account\AccountBindingModels.cs" />
     <Compile Include="Models\Account\AccountViewModels.cs" />
+    <Compile Include="Models\Account\RefreshTokenDTO.cs" />
     <Compile Include="Models\Carriers\CarrierVM.cs" />
     <Compile Include="Models\GeoPosition.cs" />
     <Compile Include="Models\GoogleApis\DirectionsRoot.cs" />
@@ -304,7 +305,7 @@
     <Compile Include="Providers\IGMapsProvider.cs" />
     <Compile Include="Providers\IHttpProvider.cs" />
     <Compile Include="Providers\Implementations\ApplicationOAuthProvider.cs" />
-    <Compile Include="Providers\Implementations\ApplicationOAuthRefreshTokenProvider .cs" />
+    <Compile Include="Providers\Implementations\ApplicationOAuthRefreshTokenProvider.cs" />
     <Compile Include="Providers\Implementations\CacheProvider.cs" />
     <Compile Include="Providers\Implementations\GMapsProvider.cs" />
     <Compile Include="Providers\Implementations\HttpProvider.cs" />
@@ -348,6 +349,8 @@
     <Content Include="app\Modules\SalePoint\Orders\salepoint.orders.component.html" />
     <Content Include="app\Modules\Shared\Components\Login\login.component.html" />
     <Content Include="app\Modules\Admin\Modals\AddUserModal\add.user.modal.html" />
+    <Content Include="app\Modules\Shared\Components\Settings\settings.component.css" />
+    <Content Include="app\Modules\Shared\Components\Settings\settings.component.html" />
     <Content Include="app\Modules\Shared\Modals\OrderDetailsModal\order.details.modal.css" />
     <Content Include="app\Modules\Shared\Modals\OrderDetailsModal\order.details.modal.html" />
     <Content Include="app\Modules\Admin\Dashboard\admin.dashboard.component.html" />
@@ -501,6 +504,7 @@
     <TypeScriptCompile Include="app\Modules\SalePoint\Dashboard\salepoint.dashboard.component.ts" />
     <TypeScriptCompile Include="app\Modules\SalePoint\Orders\salepoint.orders.component.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\Components\Login\login.component.ts" />
+    <TypeScriptCompile Include="app\Modules\Shared\Components\Settings\settings.component.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\Modals\ConfirmModal.ts" />
     <TypeScriptCompile Include="app\Models\Enums\FormElementState.ts" />
     <TypeScriptCompile Include="app\Models\Enums\Roles.ts" />

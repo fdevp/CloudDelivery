@@ -40,7 +40,7 @@ namespace CloudDelivery
                 Provider = new ApplicationOAuthProvider(PublicClientId),
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
-                RefreshTokenProvider = new ApplicationOAuthRefreshTokenProvider(),
+                RefreshTokenProvider = new ApplicationOAuthRefreshTokenProvider(new CDContextFactory()),
                 // In production mode set AllowInsecureHttp = false
                 AllowInsecureHttp = true
             };

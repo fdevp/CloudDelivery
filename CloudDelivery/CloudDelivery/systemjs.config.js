@@ -4,6 +4,7 @@
  */
 (function (global) {
     System.config({
+        transpiler: "plugin-babel",
         paths: {
             // paths serve as alias
             'npm:': 'node_modules/'
@@ -35,7 +36,11 @@
             'rxjs': 'npm:rxjs',
             'ng-lottie': 'npm:ng-lottie/dist/umd/LottieAnimationView.js',
             'ngx-scrollspy':'npm:ngx-scrollspy/bundles/ngx-scrollspy.umd.js',
-            'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'
+            'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
+
+            'plugin-babel': 'npm:systemjs-plugin-babel/plugin-babel.js',
+            'systemjs-babel-build': 'npm:systemjs-plugin-babel/systemjs-babel-browser.js',
+
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {

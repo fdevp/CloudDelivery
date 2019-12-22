@@ -8,6 +8,7 @@ using System.Data.Entity;
 using CloudDelivery.Data.Entities;
 using System.Security.Principal;
 using Microsoft.AspNet.Identity;
+using CloudDelivery.Models.Account;
 
 namespace CloudDelivery.Services
 {
@@ -32,6 +33,16 @@ namespace CloudDelivery.Services
                     throw new NullReferenceException("Brak użytkownika przypisanego do konta.");
 
                 return appUser.Id;
+            }
+        }
+
+        public IEnumerable<RefreshToken> GetActiveTokens(IPrincipal user)
+        {
+            using (ICDContext ctx = ctxFactory.GetContext())
+            {
+                string identityId = user.Identity.GetUserId();
+                var tokens = ctx.RefreshTokens.Where(x => x.IdentityId == identityId && x.Active);
+                return tokens.ToArray();
             }
         }
 

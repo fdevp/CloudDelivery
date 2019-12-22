@@ -100,6 +100,7 @@
     <Compile Include="Entities\Route.cs" />
     <Compile Include="Entities\RoutePoint.cs" />
     <Compile Include="Entities\SalePoint.cs" />
+    <Compile Include="Entities\RefreshToken.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Enums\Orders\OrderStatus.cs" />
     <Compile Include="Enums\Routes\RoutePointType.cs" />
@@ -144,6 +145,14 @@
     <Compile Include="Migrations\201803100953250_ticket119.Designer.cs">
       <DependentUpon>201803100953250_ticket119.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912221316103_refreshtokens.cs" />
+    <Compile Include="Migrations\201912221316103_refreshtokens.Designer.cs">
+      <DependentUpon>201912221316103_refreshtokens.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912221906413_RefreshTokenEnhancement.cs" />
+    <Compile Include="Migrations\201912221906413_RefreshTokenEnhancement.Designer.cs">
+      <DependentUpon>201912221906413_RefreshTokenEnhancement.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -180,6 +189,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803100953250_ticket119.resx">
       <DependentUpon>201803100953250_ticket119.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912221316103_refreshtokens.resx">
+      <DependentUpon>201912221316103_refreshtokens.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912221906413_RefreshTokenEnhancement.resx">
+      <DependentUpon>201912221906413_RefreshTokenEnhancement.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

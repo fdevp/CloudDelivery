@@ -23,6 +23,7 @@ import { AgmCoreModule } from '@agm/core';
 import { RouteStatusPipe } from './Pipes/RouteStatusPipe';
 import { RouteDetailsComponent } from './Components/RouteDetails/route.details.component';
 import { LoadingComponent } from './Components/Loading/loading.component';
+import { SettingsComponent } from './Components/Settings/settings.component';
 
 
 
@@ -36,6 +37,7 @@ const modules = [
 const pages = [
     LayoutNavigationComponent,
     RouteDetailsComponent,
+    SettingsComponent
 ];
 
 

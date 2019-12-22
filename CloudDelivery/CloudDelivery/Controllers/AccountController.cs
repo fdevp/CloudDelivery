@@ -21,6 +21,7 @@ using CloudDelivery.Data;
 using CloudDelivery.Data.Entities;
 using System.Web.Security;
 using CloudDelivery.Services;
+using CloudDelivery.Models.Account;
 
 namespace CloudDelivery.Controllers
 {
@@ -137,7 +138,15 @@ namespace CloudDelivery.Controllers
             return Ok(createdUserId);
         }
 
-
+        [HttpGet]
+        [Route("tokens")]
+        public RefreshTokenDTO[] Tokens()
+        {
+            var tokens = authService.GetActiveTokens(this.User);
+            var tokenDTOs = tokens.Select(token => new RefreshTokenDTO { Id = token.Id, Device = token.Device, Issued = token.Issued }).ToArray();
+            return tokenDTOs;
+        }
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)

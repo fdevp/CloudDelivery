@@ -6,6 +6,7 @@ import { LayoutComponent } from './layout.component'
 import {AdminGuard} from '../Services/Guards/AdminGuard';
 import { CarrierGuard } from '../Services/Guards/CarrierGuard';
 import { SalepointGuard } from '../Services/Guards/SalepointGuard';
+import { SettingsComponent } from './Shared/Components/Settings/settings.component';
 
 const layoutRoutes: Routes = [
 
@@ -28,6 +29,10 @@ const layoutRoutes: Routes = [
                 canLoad: [SalepointGuard],
                 loadChildren: "app/modules/salepoint/salepoint.module#SalepointModule",
             },
+            {
+                path: 'settings',
+                component: SettingsComponent
+            }
         ],
     },
 ];

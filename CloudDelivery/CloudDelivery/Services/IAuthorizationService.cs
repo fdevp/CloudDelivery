@@ -1,15 +1,14 @@
-﻿using System;
+﻿using CloudDelivery.Data.Entities;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CloudDelivery.Services
 {
     public interface IAuthorizationService
     {
         int GetAppUserId(IPrincipal user);
+
+        IEnumerable<RefreshToken> GetActiveTokens(IPrincipal user);
 
         int GetCarrierId(IPrincipal user);
 
