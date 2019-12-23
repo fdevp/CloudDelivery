@@ -20,6 +20,8 @@ namespace CloudDelivery.Providers
     {
         private readonly string _publicClientId;
         private IUsersService usersService;
+        private IAuthorizationService authService;
+        private const string RefreshTokenGranTypeName = "refresh_token";
 
         public ApplicationOAuthProvider(string publicClientId)
         {
@@ -29,6 +31,7 @@ namespace CloudDelivery.Providers
             }
 
             this.usersService = (IUsersService)System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IUsersService));
+            this.authService = (IAuthorizationService)System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAuthorizationService));
 
             _publicClientId = publicClientId;
         }
@@ -75,12 +78,32 @@ namespace CloudDelivery.Providers
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
             var appUser = await userManager.FindByNameAsync(context.Ticket.Identity.Name);
+
+            var logins = await userManager.GetLoginsAsync(appUser.Id);
+
             var form = await context.Request.ReadFormAsync();
             var grantType = form.GetValues("grant_type");
             var oAuthIdentity = await appUser.GenerateUserIdentityAsync(userManager, grantType[0]);
             var newTicket = new AuthenticationTicket(oAuthIdentity, context.Ticket.Properties);
 
             context.Validated(newTicket);
+        }
+
+        public override Task ValidateTokenRequest(OAuthValidateTokenRequestContext context)
+        {
+            if (context.TokenRequest.IsRefreshTokenGrantType)
+            {
+                var validationResult = this.authService.ValidateRefreshToken(context.TokenRequest.RefreshTokenGrant.RefreshToken);
+                if (validationResult)
+                    context.Validated();
+                else
+                    context.SetError("invalid_grant");
+                return Task.CompletedTask;
+            }
+            else
+            {
+                return base.ValidateTokenRequest(context);
+            }
         }
 
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
@@ -119,5 +142,6 @@ namespace CloudDelivery.Providers
             };
             return new AuthenticationProperties(data);
         }
+
     }
 }

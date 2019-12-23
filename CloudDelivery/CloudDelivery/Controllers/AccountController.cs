@@ -142,11 +142,19 @@ namespace CloudDelivery.Controllers
         [Route("tokens")]
         public RefreshTokenDTO[] Tokens()
         {
-            var tokens = authService.GetActiveTokens(this.User);
+            var tokens = authService.GetActiveRefreshTokens(this.User);
             var tokenDTOs = tokens.Select(token => new RefreshTokenDTO { Id = token.Id, Device = token.Device, Issued = token.Issued }).ToArray();
             return tokenDTOs;
         }
-        
+
+        [HttpPut]
+        [Route("cancelToken/{tokenId}")]
+        public IHttpActionResult CancelToken(int tokenId)
+        {
+            authService.CancelRefreshToken(tokenId, this.User);
+            return Ok();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)

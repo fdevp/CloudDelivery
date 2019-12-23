@@ -8,7 +8,11 @@ namespace CloudDelivery.Services
     {
         int GetAppUserId(IPrincipal user);
 
-        IEnumerable<RefreshToken> GetActiveTokens(IPrincipal user);
+        IEnumerable<RefreshToken> GetActiveRefreshTokens(IPrincipal user);
+
+        void CancelRefreshToken(int tokenId, IPrincipal user);
+
+        bool ValidateRefreshToken(string token);
 
         int GetCarrierId(IPrincipal user);
 
