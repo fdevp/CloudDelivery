@@ -31,7 +31,7 @@ namespace CloudDelivery.Providers
             {
                 var device = form.GetValues("device");
                 var issued = context.Ticket.Properties.IssuedUtc.Value.DateTime;
-                SaveToken(context.Ticket.Identity.GetUserId(), context.Token, issued, device.FirstOrDefault());
+                SaveToken(context.Ticket.Identity.GetUserId(), context.Token, issued, device?.FirstOrDefault());
             }
 
         }

@@ -11,11 +11,11 @@ namespace CloudDelivery.Controllers
 {
     public abstract class BaseController : ApiController
     {
-        protected IAuthorizationService authService;
+        protected IAuthorizationService authorizationService;
 
         public BaseController(IAuthorizationService authService)
         {
-            this.authService = authService;
+            this.authorizationService = authService;
         }        
     }
 }

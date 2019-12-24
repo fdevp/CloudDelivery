@@ -35,7 +35,7 @@ namespace CloudDelivery.Controllers
         [Route("Details/{orderId}")]
         public IHttpActionResult Details(int orderId)
         {
-            if (!this.authService.CanCheckOrderDetails(orderId, this.User))
+            if (!this.authorizationService.CanCheckOrderDetails(orderId, this.User))
                 return Unauthorized();
 
             Order orderDb = this.ordersService.Details(orderId);
@@ -53,7 +53,7 @@ namespace CloudDelivery.Controllers
                 return BadRequest(ModelState);
 
             Order newOrder = Mapper.Map<Order>(model);
-            int salePointId = this.authService.GetSalePointId(this.User);
+            int salePointId = this.authorizationService.GetSalePointId(this.User);
 
             //packages not completed for now
             newOrder.PackageId = 1;
@@ -72,7 +72,7 @@ namespace CloudDelivery.Controllers
         [Route("Accept/{orderId}")]
         public IHttpActionResult Accept(int orderId)
         {
-            int carrierId = this.authService.GetCarrierId(this.User);
+            int carrierId = this.authorizationService.GetCarrierId(this.User);
             this.ordersService.AcceptOrder(orderId, carrierId);
 
             Order acceptedOrder = this.ordersService.Details(orderId);
@@ -90,7 +90,7 @@ namespace CloudDelivery.Controllers
         [Route("Cancel/{orderId}")]
         public IHttpActionResult Cancel(int orderId)
         {
-            if (!this.authService.HasSalepointPerms(orderId, this.User))
+            if (!this.authorizationService.HasSalepointPerms(orderId, this.User))
                 return Unauthorized();
 
 
@@ -114,13 +114,13 @@ namespace CloudDelivery.Controllers
                 filters = new OrdersListFiltersModel();
 
             if (this.User.IsInRole("carrier"))
-                filters.CarrierUserId = this.authService.GetAppUserId(this.User);
+                filters.CarrierUserId = this.authorizationService.GetAppUserId(this.User);
 
             if (this.User.IsInRole("salepoint"))
-                filters.SalePointUserId = this.authService.GetAppUserId(this.User);
+                filters.SalePointUserId = this.authorizationService.GetAppUserId(this.User);
 
             if (this.User.IsInRole("organisator"))
-                filters.OrganisationId = this.authService.GetOrganisationId(this.User);
+                filters.OrganisationId = this.authorizationService.GetOrganisationId(this.User);
 
             List<Order> ordersDb = this.ordersService.List(filters);
             List<OrderListVM> orders = Mapper.Map<List<OrderListVM>>(ordersDb);
@@ -144,7 +144,7 @@ namespace CloudDelivery.Controllers
         [Route("AcceptedList")]
         public IHttpActionResult AcceptedList()
         {
-            var userId = this.authService.GetAppUserId(this.User);
+            var userId = this.authorizationService.GetAppUserId(this.User);
             var filters = new OrdersListFiltersModel() { Status = new OrderStatus[] { OrderStatus.Accepted }, CarrierUserId = userId };
 
             List<Order> ordersDb = this.ordersService.List(filters);
@@ -157,7 +157,7 @@ namespace CloudDelivery.Controllers
         [Route("InProgressList")]
         public IHttpActionResult InProgressList()
         {
-            var userId = this.authService.GetAppUserId(this.User);
+            var userId = this.authorizationService.GetAppUserId(this.User);
             var filters = new OrdersListFiltersModel() { Status = new OrderStatus[] { OrderStatus.Accepted, OrderStatus.InDelivery }, SalePointUserId = userId };
 
             List<Order> ordersDb = this.ordersService.List(filters);
@@ -170,7 +170,7 @@ namespace CloudDelivery.Controllers
         [Route("AddedList")]
         public IHttpActionResult AddedList()
         {
-            var userId = this.authService.GetAppUserId(this.User);
+            var userId = this.authorizationService.GetAppUserId(this.User);
             var filters = new OrdersListFiltersModel() { Status = new OrderStatus[] { OrderStatus.Added }, SalePointUserId = userId };
             List<Order> ordersDb = this.ordersService.List(filters);
             List<OrderSalepointVM> orders = Mapper.Map<List<OrderSalepointVM>>(ordersDb);
@@ -182,7 +182,7 @@ namespace CloudDelivery.Controllers
         [Route("delivered/{orderId}")]
         public IHttpActionResult Delivered(int orderId)
         {
-            if (!this.authService.HasCarrierPerms(orderId, this.User))
+            if (!this.authorizationService.HasCarrierPerms(orderId, this.User))
                 return Unauthorized();
 
             this.ordersService.SetDelivered(orderId);
@@ -197,7 +197,7 @@ namespace CloudDelivery.Controllers
         [Route("FinishedList")]
         public IHttpActionResult FinishedList()
         {
-            var userId = this.authService.GetAppUserId(this.User);
+            var userId = this.authorizationService.GetAppUserId(this.User);
             var filters = new OrdersListFiltersModel() { Status = new OrderStatus[] { OrderStatus.Cancelled, OrderStatus.Delivered }, SalePointUserId = userId };
             List<Order> ordersDb = this.ordersService.List(filters);
             List<OrderFinishedListVM> orders = Mapper.Map<List<OrderFinishedListVM>>(ordersDb);
@@ -211,7 +211,7 @@ namespace CloudDelivery.Controllers
         [Route("pickup/{orderId}")]
         public IHttpActionResult Pickup(int orderId)
         {
-            if (!this.authService.HasCarrierPerms(orderId, this.User))
+            if (!this.authorizationService.HasCarrierPerms(orderId, this.User))
                 return Unauthorized();
 
             this.ordersService.SetPickup(orderId);
@@ -227,7 +227,7 @@ namespace CloudDelivery.Controllers
         [Route("discard/{orderId}")]
         public IHttpActionResult Discard(int orderId)
         {
-            if (!this.authService.HasCarrierPerms(orderId, this.User))
+            if (!this.authorizationService.HasCarrierPerms(orderId, this.User))
                 return Unauthorized();
 
             this.ordersService.DiscardOrder(orderId);
@@ -243,13 +243,13 @@ namespace CloudDelivery.Controllers
                 filters = new OrderCountFiltersModel();
 
             if (this.User.IsInRole("carrier"))
-                filters.CarrierUserId = this.authService.GetAppUserId(this.User);
+                filters.CarrierUserId = this.authorizationService.GetAppUserId(this.User);
 
             if (this.User.IsInRole("salepoint"))
-                filters.SalePointUserId = this.authService.GetAppUserId(this.User);
+                filters.SalePointUserId = this.authorizationService.GetAppUserId(this.User);
 
             if (this.User.IsInRole("organisator"))
-                filters.OrganisationId = this.authService.GetOrganisationId(this.User);
+                filters.OrganisationId = this.authorizationService.GetOrganisationId(this.User);
 
             int ordersCount = this.ordersService.Count(filters);
             return Ok(ordersCount);

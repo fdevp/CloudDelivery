@@ -1,19 +1,11 @@
-﻿using CloudDelivery.Data.Entities;
-using System.Collections.Generic;
-using System.Security.Principal;
+﻿using System.Security.Principal;
 
 namespace CloudDelivery.Services
 {
     public interface IAuthorizationService
     {
         int GetAppUserId(IPrincipal user);
-
-        IEnumerable<RefreshToken> GetActiveRefreshTokens(IPrincipal user);
-
-        void CancelRefreshToken(int tokenId, IPrincipal user);
-
-        bool ValidateRefreshToken(string token);
-
+        
         int GetCarrierId(IPrincipal user);
 
         int GetSalePointId(IPrincipal user);

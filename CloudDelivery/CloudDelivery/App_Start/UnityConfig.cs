@@ -27,7 +27,7 @@ namespace CloudDelivery
 
             //httpclient
             TimeSpan.FromSeconds(20);
-            HttpClient httpClient = new HttpClient() { Timeout= TimeSpan.FromSeconds(20) };
+            HttpClient httpClient = new HttpClient() { Timeout = TimeSpan.FromSeconds(20) };
             InjectionFactory httpClientInjectionFactory = new InjectionFactory(x => httpClient);
             container.RegisterType<HttpClient>(httpClientInjectionFactory);
 
@@ -43,16 +43,17 @@ namespace CloudDelivery
             container.RegisterType<IGMapsProvider, GMapsProvider>();
 
             //services
-            container.RegisterType<IUsersService, UsersService>(); 
+            container.RegisterType<IUsersService, UsersService>();
             container.RegisterType<IOrganisationsService, OrganisationsService>();
             container.RegisterType<ICarriersService, CarriersService>();
             container.RegisterType<ISalePointsService, SalePointsService>();
+            container.RegisterType<IAuthenticationService, AuthenticationService>();
             container.RegisterType<IAuthorizationService, AuthorizationService>();
             container.RegisterType<IOrdersService, OrdersService>();
             container.RegisterType<IRoutesService, RoutesService>();
 
             //controllers
-            container.RegisterType<AccountController>(new InjectionConstructor(typeof(IUsersService), typeof(IAuthorizationService)));
+            container.RegisterType<AccountController>(new InjectionConstructor(typeof(IUsersService), typeof(IAuthenticationService), typeof(IAuthorizationService)));
             container.RegisterType<UsersController>();
             container.RegisterType<OrganisationsController>();
             container.RegisterType<SalePointsController>();

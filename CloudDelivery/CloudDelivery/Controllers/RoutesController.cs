@@ -37,7 +37,7 @@ namespace CloudDelivery.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            int carrierId = this.authService.GetCarrierId(this.User);
+            int carrierId = this.authorizationService.GetCarrierId(this.User);
             Route newRoute = this.routesService.Add(carrierId, model);
             RouteVM route = Mapper.Map<RouteVM>(newRoute);
             return Ok(route);
@@ -47,7 +47,7 @@ namespace CloudDelivery.Controllers
         [Route("ActiveRouteDetails")]
         public IHttpActionResult ActiveRouteDetails()
         {
-            int carrierId = this.authService.GetCarrierId(this.User);
+            int carrierId = this.authorizationService.GetCarrierId(this.User);
             Route routeDb = this.routesService.ActiveRouteDetails(carrierId);
             RouteVM route = Mapper.Map<RouteVM>(routeDb);
             return Ok(route);
@@ -57,7 +57,7 @@ namespace CloudDelivery.Controllers
         [Route("Finish/{routeId}")]
         public IHttpActionResult Finish(int routeId)
         {
-            if (!this.authService.CanCheckRouteDetails(routeId, this.User))
+            if (!this.authorizationService.CanCheckRouteDetails(routeId, this.User))
                 return Unauthorized();
 
             this.routesService.Finish(routeId);
@@ -69,7 +69,7 @@ namespace CloudDelivery.Controllers
         [Route("Details/{routeId}")]
         public IHttpActionResult Details(int routeId)
         {
-            if (!this.authService.CanCheckRouteDetails(routeId, this.User))
+            if (!this.authorizationService.CanCheckRouteDetails(routeId, this.User))
                 return Unauthorized();
 
             Route routeDb = this.routesService.Details(routeId);
@@ -81,7 +81,7 @@ namespace CloudDelivery.Controllers
         [Route("PassPoint/{pointId}")]
         public IHttpActionResult PassPoint(int pointId)
         {
-            if (!this.authService.CanPassPoint(pointId, this.User))
+            if (!this.authorizationService.CanPassPoint(pointId, this.User))
                 return Unauthorized();
 
             this.routesService.PassPoint(pointId);
@@ -111,7 +111,7 @@ namespace CloudDelivery.Controllers
                 filters = new RouteFiltersModel();
 
             if (this.User.IsInRole("carrier"))
-                filters.CarrierId = this.authService.GetCarrierId(this.User);
+                filters.CarrierId = this.authorizationService.GetCarrierId(this.User);
 
             List<Route> routesDb = this.routesService.List(filters);
             List<RouteListVM> routes = Mapper.Map<List<RouteListVM>>(routesDb);
@@ -123,7 +123,7 @@ namespace CloudDelivery.Controllers
         [Route("FinishedList")]
         public IHttpActionResult FinishedList()
         {
-            var carrierId = this.authService.GetCarrierId(this.User);
+            var carrierId = this.authorizationService.GetCarrierId(this.User);
             var filters = new RouteFiltersModel() { Status = RouteStatus.Finished, CarrierId = carrierId };
             List<Route> ordersDb = this.routesService.List(filters);
             List<RouteListVM> orders = Mapper.Map<List<RouteListVM>>(ordersDb);

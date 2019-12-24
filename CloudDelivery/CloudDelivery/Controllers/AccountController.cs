@@ -7,19 +7,13 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.OAuth;
 using CloudDelivery.Models;
-using CloudDelivery.Providers;
-using CloudDelivery.Results;
 using CloudDelivery.Data;
 using CloudDelivery.Data.Entities;
-using System.Web.Security;
 using CloudDelivery.Services;
 using CloudDelivery.Models.Account;
 
@@ -32,19 +26,22 @@ namespace CloudDelivery.Controllers
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
         private IUsersService usersService;
+        private IAuthenticationService authenticationService;
 
-        public AccountController(IUsersService usersService, IAuthorizationService authService) : base(authService)
+        public AccountController(IUsersService usersService, IAuthenticationService authenticationService, IAuthorizationService authService) : base(authService)
         {
             this.usersService = usersService;
+            this.authenticationService = authenticationService;
         }
 
         public AccountController(ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat,
-            IUsersService usersService, IAuthorizationService authService) : base(authService)
+            IUsersService usersService, IAuthenticationService authenticationService, IAuthorizationService authService) : base(authService)
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
             this.usersService = usersService;
+            this.authenticationService = authenticationService;
         }
 
         public ApplicationUserManager UserManager
@@ -113,9 +110,8 @@ namespace CloudDelivery.Controllers
         }
 
 
-
         // POST api/Account/Register
-        [Authorize(Roles =("admin"))]
+        [Authorize(Roles = ("admin"))]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
@@ -142,7 +138,7 @@ namespace CloudDelivery.Controllers
         [Route("tokens")]
         public RefreshTokenDTO[] Tokens()
         {
-            var tokens = authService.GetActiveRefreshTokens(this.User);
+            var tokens = authenticationService.GetActiveRefreshTokens(this.User);
             var tokenDTOs = tokens.Select(token => new RefreshTokenDTO { Id = token.Id, Device = token.Device, Issued = token.Issued }).ToArray();
             return tokenDTOs;
         }
@@ -151,7 +147,7 @@ namespace CloudDelivery.Controllers
         [Route("cancelToken/{tokenId}")]
         public IHttpActionResult CancelToken(int tokenId)
         {
-            authService.CancelRefreshToken(tokenId, this.User);
+            authenticationService.CancelRefreshToken(tokenId, this.User);
             return Ok();
         }
 

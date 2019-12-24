@@ -11,42 +11,48 @@ using Owin;
 using CloudDelivery.Providers;
 using CloudDelivery.Models;
 using CloudDelivery.Data;
+using CloudDelivery.Providers.Implementations;
+using System.Configuration;
+using CloudDelivery.Models.GoogleAuth;
+using CloudDelivery.Services;
 
 namespace CloudDelivery
 {
     public partial class Startup
     {
-        public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
-
         public static string PublicClientId { get; private set; }
 
         // For more information on configuring authentication, please visit https://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
+            string clientId = ConfigurationManager.AppSettings["GoogleClientId"];
+            string clientSecret = ConfigurationManager.AppSettings["GoogleClientSecret"];
+            string authUri = ConfigurationManager.AppSettings["GoogleAuthUri"];
+            var googleAuthParameters = new GoogleOAuthParameters(clientId, clientSecret, authUri);
+
+            var dbContextFactor = new CDContextFactory();
+
+            var userService = new UsersService(new CacheProvider(), dbContextFactor);
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(CDContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
 
-            // Enable the application to use a cookie to store information for the signed in user
-            // and to use a cookie to temporarily store information about a user logging in with a third party login provider
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
-
             // Configure the application for OAuth based flow
             PublicClientId = "self";
-            OAuthOptions = new OAuthAuthorizationServerOptions
+            var oAuthOptions = new OAuthAuthorizationServerOptions
             {
                 TokenEndpointPath = new PathString("/Token"),
                 Provider = new ApplicationOAuthProvider(PublicClientId),
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
-                RefreshTokenProvider = new ApplicationOAuthRefreshTokenProvider(new CDContextFactory()),
+                RefreshTokenProvider = new ApplicationOAuthRefreshTokenProvider(dbContextFactor),
                 // In production mode set AllowInsecureHttp = false
-                AllowInsecureHttp = true
+                AllowInsecureHttp = true,
+                AuthorizationCodeProvider = new GoogleAuthorizationCodeProvider(new System.Net.Http.HttpClient(), userService, googleAuthParameters)
             };
 
-            // Enable the application to use bearer tokens to authenticate users
-            app.UseOAuthBearerTokens(OAuthOptions);
+            app.UseOAuthBearerTokens(oAuthOptions);
+            app.UseOAuthAuthorizationServer(oAuthOptions);
         }
     }
 }

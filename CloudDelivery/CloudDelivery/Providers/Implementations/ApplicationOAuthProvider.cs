@@ -20,7 +20,7 @@ namespace CloudDelivery.Providers
     {
         private readonly string _publicClientId;
         private IUsersService usersService;
-        private IAuthorizationService authService;
+        private IAuthenticationService authenticationService;
         private const string RefreshTokenGranTypeName = "refresh_token";
 
         public ApplicationOAuthProvider(string publicClientId)
@@ -31,7 +31,7 @@ namespace CloudDelivery.Providers
             }
 
             this.usersService = (IUsersService)System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IUsersService));
-            this.authService = (IAuthorizationService)System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAuthorizationService));
+            this.authenticationService = (IAuthenticationService)System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAuthenticationService));
 
             _publicClientId = publicClientId;
         }
@@ -40,8 +40,7 @@ namespace CloudDelivery.Providers
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
-            ExtendedIdentityUser user = await userManager.FindAsync(context.UserName, context.Password);
-
+            ExtendedIdentityUser user = await userManager.FindAsync(context.UserName, context.Password);            
             if (user == null)
             {
                 context.SetError("invalid_grant", "The user name or password is incorrect.");
@@ -50,18 +49,12 @@ namespace CloudDelivery.Providers
 
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
                OAuthDefaults.AuthenticationType);
-            ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
-                CookieAuthenticationDefaults.AuthenticationType);
-
-            var roles = userManager.GetRoles(user.Id);
 
             string appName = this.usersService.GetUser(user.Id)?.Name;
 
-            AuthenticationProperties properties = CreateProperties(user.UserName, Newtonsoft.Json.JsonConvert.SerializeObject(roles), appName);
-
+            AuthenticationProperties properties = CreateProperties(user.UserName, Newtonsoft.Json.JsonConvert.SerializeObject(user.Roles), appName);
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
-            context.Request.Context.Authentication.SignIn(cookiesIdentity);
         }
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
@@ -89,11 +82,16 @@ namespace CloudDelivery.Providers
             context.Validated(newTicket);
         }
 
+        public override Task ValidateAuthorizeRequest(OAuthValidateAuthorizeRequestContext context)
+        {
+            return base.ValidateAuthorizeRequest(context);
+        }
+
         public override Task ValidateTokenRequest(OAuthValidateTokenRequestContext context)
         {
             if (context.TokenRequest.IsRefreshTokenGrantType)
             {
-                var validationResult = this.authService.ValidateRefreshToken(context.TokenRequest.RefreshTokenGrant.RefreshToken);
+                var validationResult = this.authenticationService.ValidateRefreshToken(context.TokenRequest.RefreshTokenGrant.RefreshToken);
                 if (validationResult)
                     context.Validated();
                 else
@@ -109,26 +107,8 @@ namespace CloudDelivery.Providers
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             // Resource owner password credentials does not provide a client ID.
-            if (context.ClientId == null)
-            {
-                context.Validated();
-            }
-
-            return Task.FromResult<object>(null);
-        }
-
-        public override Task ValidateClientRedirectUri(OAuthValidateClientRedirectUriContext context)
-        {
-            if (context.ClientId == _publicClientId)
-            {
-                Uri expectedRootUri = new Uri(context.Request.Uri, "/");
-
-                if (expectedRootUri.AbsoluteUri == context.RedirectUri)
-                {
-                    context.Validated();
-                }
-            }
-
+            context.TryGetFormCredentials(out string clientId, out string clientSecret);        
+            context.Validated();
             return Task.FromResult<object>(null);
         }
 
