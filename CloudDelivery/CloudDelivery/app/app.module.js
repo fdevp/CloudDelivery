@@ -67,6 +67,7 @@ var modules = [
 ];
 var providers = [
     { provide: common_1.APP_BASE_HREF, useValue: '/' },
+    //{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     SignalrService_1.SignalrService,
     SessionService_1.SessionService,
     GMapsService_1.GMapsService,

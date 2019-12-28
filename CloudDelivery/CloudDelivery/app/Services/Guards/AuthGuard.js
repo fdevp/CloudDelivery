@@ -20,7 +20,13 @@ var AuthGuard = /** @class */ (function () {
     AuthGuard.prototype.canActivate = function (route, state) {
         var _this = this;
         var url = state.url;
-        return this.sessionService.checkLogin().map(function (valid) {
+        if (this.sessionService.isLoggedIn) {
+            return true;
+        }
+        if (this.sessionService.tokenInitializing) {
+            return false;
+        }
+        return this.sessionService.checkRefreshToken().map(function (valid) {
             if (!valid)
                 _this.redirectToLogin(url);
             return valid;

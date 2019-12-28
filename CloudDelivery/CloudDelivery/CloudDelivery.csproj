@@ -299,6 +299,7 @@
     <Compile Include="Hubs\Implementations\NotificationsHub.cs" />
     <Compile Include="Models\Account\AccountBindingModels.cs" />
     <Compile Include="Models\Account\AccountViewModels.cs" />
+    <Compile Include="Models\Account\RefreshTokenCancellationModel.cs" />
     <Compile Include="Models\Account\RefreshTokenDTO.cs" />
     <Compile Include="Models\Carriers\CarrierVM.cs" />
     <Compile Include="Models\GeoPosition.cs" />
@@ -512,6 +513,7 @@
     <TypeScriptCompile Include="app\Models\Orders\OrderSalepoint.ts" />
     <TypeScriptCompile Include="app\Models\Orders\OrdersCountFilters.ts" />
     <TypeScriptCompile Include="app\Models\Orders\OrdersListFilters.ts" />
+    <TypeScriptCompile Include="app\Models\RefreshTokenInfo.ts" />
     <TypeScriptCompile Include="app\Models\Routes\RouteDetails.ts" />
     <TypeScriptCompile Include="app\Models\Routes\RouteListItem.ts" />
     <TypeScriptCompile Include="app\Models\Routes\RoutePoint.ts" />
@@ -578,6 +580,7 @@
     <TypeScriptCompile Include="app\Modules\Shared\Pipes\RoleNamePipe.ts" />
     <TypeScriptCompile Include="app\Modules\Shared\shared.module.ts" />
     <TypeScriptCompile Include="app\Services\Guards\SalepointGuard.ts" />
+    <TypeScriptCompile Include="app\Services\JwtInterceptor.ts" />
     <TypeScriptCompile Include="app\Services\Orders\CarrierOrdersService.ts" />
     <TypeScriptCompile Include="app\Services\Orders\OrdersService.ts" />
     <TypeScriptCompile Include="app\Services\RoutesService.ts" />

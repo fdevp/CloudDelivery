@@ -50,9 +50,10 @@ namespace CloudDelivery.Providers
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
                OAuthDefaults.AuthenticationType);
 
-            string appName = this.usersService.GetUser(user.Id)?.Name;
-
-            AuthenticationProperties properties = CreateProperties(user.UserName, Newtonsoft.Json.JsonConvert.SerializeObject(user.Roles), appName);
+            var userRoles = await userManager.GetRolesAsync(user.Id);
+            var appUser = usersService.GetUser(user.Id);
+            
+            AuthenticationProperties properties = CreateProperties(user.UserName, Newtonsoft.Json.JsonConvert.SerializeObject(userRoles), appUser.Name);
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
         }

@@ -32,7 +32,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
         else if (this.sessionService.hasRole(Roles.SalePoint))
             page = 'salepoint';
 
-
+        console.log("page", page, this.sessionService.user);
         this.router.navigate([page]);
     }
 

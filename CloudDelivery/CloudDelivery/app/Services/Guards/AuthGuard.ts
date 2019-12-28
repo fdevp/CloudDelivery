@@ -10,7 +10,15 @@ export class AuthGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
         let url: string = state.url;
 
-        return this.sessionService.checkLogin().map(valid => {
+        if (this.sessionService.isLoggedIn) {
+            return true;
+        }
+
+        if (this.sessionService.tokenInitializing) {
+            return false;
+        }
+
+        return this.sessionService.checkRefreshToken().map(valid => {
             if (!valid)
                 this.redirectToLogin(url);
             return valid;

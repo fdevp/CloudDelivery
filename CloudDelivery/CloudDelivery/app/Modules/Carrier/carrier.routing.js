@@ -12,6 +12,7 @@ var carrier_dashboard_component_1 = require("./dashboard/carrier.dashboard.compo
 var CarrierGuard_1 = require("../../Services/Guards/CarrierGuard");
 var carrier_routes_component_1 = require("./Routes/carrier.routes.component");
 var carrier_orders_component_1 = require("./Orders/carrier.orders.component");
+var settings_component_1 = require("../Shared/Components/Settings/settings.component");
 var carrierRoutes = [
     {
         path: '',
@@ -24,6 +25,10 @@ var carrierRoutes = [
             {
                 path: 'orders',
                 component: carrier_orders_component_1.CarrierOrdersComponent
+            },
+            {
+                path: 'settings',
+                component: settings_component_1.SettingsComponent
             },
             {
                 component: carrier_dashboard_component_1.CarrierDashboardComponent,

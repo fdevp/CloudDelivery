@@ -37,7 +37,10 @@ export class SignalrService {
     }
 
     setAuthHeader(token) {
-        $.signalR.ajaxDefaults.headers = token;
+        const headers = {
+            "Authorization": "Bearer " + token,
+        };
+        $.signalR.ajaxDefaults.headers = headers;
     }
 
     setCallbacks(role: Roles) {
@@ -79,6 +82,7 @@ export class SignalrService {
     }
 
     startConnection() {
+        console.log("singlar headers", $.signalR.ajaxDefaults.headers);
         var obj = this;
         this.connection.start().done(function () {
             obj.toastsService.toastr.success(null, "Nawiązano połączenie z serwerem.");

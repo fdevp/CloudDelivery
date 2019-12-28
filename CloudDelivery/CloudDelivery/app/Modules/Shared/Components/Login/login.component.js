@@ -24,9 +24,11 @@ var LoginComponent = /** @class */ (function () {
         var _this = this;
         this.inProgress = true;
         this.errorOccured = false;
-        if (this.sessionService.redirectUrl == null)
+        if (this.sessionService.redirectUrl == null) {
             this.sessionService.redirectUrl = "";
-        this.sessionService.login(this.login, this.password).subscribe(function (result) { }, function (error) {
+        }
+        var loginBody = "grant_type=password&username=" + this.login + "&password=" + this.password + "&device=" + this.sessionService.getBrowserInfo();
+        this.sessionService.login(loginBody).subscribe(function (result) { }, function (error) {
             _this.errorOccured = true;
             _this.inProgress = false;
             var body = JSON.parse(error["_body"]);

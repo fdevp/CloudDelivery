@@ -25,6 +25,7 @@ var SalepointAddressPipe_1 = require("./Pipes/SalepointAddressPipe");
 var core_2 = require("@agm/core");
 var RouteStatusPipe_1 = require("./Pipes/RouteStatusPipe");
 var route_details_component_1 = require("./Components/RouteDetails/route.details.component");
+var settings_component_1 = require("./Components/Settings/settings.component");
 var modules = [
     common_1.CommonModule,
     router_1.RouterModule,
@@ -34,6 +35,7 @@ var modules = [
 var pages = [
     layout_navigation_component_1.LayoutNavigationComponent,
     route_details_component_1.RouteDetailsComponent,
+    settings_component_1.SettingsComponent
 ];
 var directives = [
     ShowPasswordDirective_1.ShowPasswordDirective

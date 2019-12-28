@@ -42,6 +42,20 @@ namespace CloudDelivery.Services.Implementations
             }
         }
 
+        public void CancelRefreshToken(string token, IPrincipal user)
+        {
+            using (ICDContext ctx = ctxFactory.GetContext())
+            {
+                string identityId = user.Identity.GetUserId();
+                var dbToken = ctx.RefreshTokens.FirstOrDefault(x => x.IdentityId == identityId && x.Token == token);
+                if (dbToken == null)
+                    throw new KeyNotFoundException("Token not found.");
+
+                dbToken.Active = false;
+                ctx.SaveChanges();
+            }
+        }
+
         public bool ValidateRefreshToken(string token)
         {
             using (ICDContext ctx = ctxFactory.GetContext())

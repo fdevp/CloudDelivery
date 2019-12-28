@@ -151,6 +151,22 @@ namespace CloudDelivery.Controllers
             return Ok();
         }
 
+        [HttpPut]
+        [Route("cancelToken")]
+        public IHttpActionResult CancelToken([FromBody] RefreshTokenCancellationModel model)
+        {
+            try
+            {
+                authenticationService.CancelRefreshToken(model.Token, this.User);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+            
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)

@@ -34,7 +34,7 @@ var UserViewGuard = /** @class */ (function () {
     UserViewGuard.prototype.authorize = function (url) {
         var _this = this;
         console.error("user auth");
-        return this.sessionService.checkLogin().map(function (valid) {
+        return this.sessionService.checkRefreshToken().map(function (valid) {
             if (!valid) {
                 _this.sessionService.redirectUrl = url;
                 _this.router.navigate(['/login']);

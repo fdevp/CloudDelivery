@@ -28,10 +28,6 @@ const layoutRoutes: Routes = [
                 path: 'salepoint',
                 canLoad: [SalepointGuard],
                 loadChildren: "app/modules/salepoint/salepoint.module#SalepointModule",
-            },
-            {
-                path: 'settings',
-                component: SettingsComponent
             }
         ],
     },

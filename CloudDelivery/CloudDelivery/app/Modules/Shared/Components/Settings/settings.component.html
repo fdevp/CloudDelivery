@@ -1,3 +1,35 @@
-﻿<div class="row">
-    settings
+﻿<div *ngIf="tokens !== null">
+    <section class="content-header margin-bottom-15">
+        <h1>
+            <i class="fa fa-mobile-alt"></i>
+            Zalogowane urządzenia
+        </h1>
+    </section>
+
+    <table class="table table-hover tokensTable">
+        <thead>
+            <tr>
+                <th>Urządzenie</th>
+                <th>Zalogowano</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let token of tokens">
+                <td>
+                    {{token.Device}}
+                </td>
+                <td>
+                    {{token.Issued?.toLocaleString()}}
+                </td>
+                <td>
+                    <button class="btn btn-xs btn-default" (click)="cancelToken(token)">Wyloguj</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
 </div>
+
+
+<div class="loader-container" *ngIf="tokens === null" style="width:130px;height:130px"></div>

@@ -11,6 +11,7 @@ var router_1 = require("@angular/router");
 var salepoint_dashboard_component_1 = require("./dashboard/salepoint.dashboard.component");
 var salepoint_orders_component_1 = require("./orders/salepoint.orders.component");
 var SalepointGuard_1 = require("../../Services/Guards/SalepointGuard");
+var settings_component_1 = require("../Shared/Components/Settings/settings.component");
 var salepointRoutes = [
     {
         path: '',
@@ -19,6 +20,10 @@ var salepointRoutes = [
             {
                 path: 'orders',
                 component: salepoint_orders_component_1.SalepointOrdersComponent
+            },
+            {
+                path: 'settings',
+                component: settings_component_1.SettingsComponent
             },
             {
                 path: '',

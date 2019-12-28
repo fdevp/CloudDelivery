@@ -29,6 +29,7 @@ var LayoutComponent = /** @class */ (function () {
             page = 'carrier';
         else if (this.sessionService.hasRole(Roles_1.Roles.SalePoint))
             page = 'salepoint';
+        console.log("page", page, this.sessionService.user);
         this.router.navigate([page]);
     };
     LayoutComponent.prototype.ngOnDestroy = function () {

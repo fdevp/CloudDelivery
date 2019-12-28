@@ -31,7 +31,10 @@ var SignalrService = /** @class */ (function () {
         this.proxy = this.connection.createHubProxy("NotificationsHub");
     }
     SignalrService.prototype.setAuthHeader = function (token) {
-        $.signalR.ajaxDefaults.headers = token;
+        var headers = {
+            "Authorization": "Bearer " + token,
+        };
+        $.signalR.ajaxDefaults.headers = headers;
     };
     SignalrService.prototype.setCallbacks = function (role) {
         switch (role) {
@@ -60,6 +63,7 @@ var SignalrService = /** @class */ (function () {
         $.signalR.ajaxDefaults.headers = null;
     };
     SignalrService.prototype.startConnection = function () {
+        console.log("singlar headers", $.signalR.ajaxDefaults.headers);
         var obj = this;
         this.connection.start().done(function () {
             obj.toastsService.toastr.success(null, "Nawiązano połączenie z serwerem.");

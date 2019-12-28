@@ -47,6 +47,8 @@ import { ScrollSpyModule } from 'ngx-scrollspy'
 import { LoginComponent } from './Modules/Shared/Components/Login/login.component';
 import { LoadingComponent } from './Modules/Shared/Components/Loading/loading.component';
 import { LottieComponent } from './Modules/Shared/Components/lottie.component';
+import { JwtInterceptor } from './Services/JwtInterceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 const pages = [
     AppComponent,
@@ -85,6 +87,7 @@ const modules = [
 
 const providers = [
     { provide: APP_BASE_HREF, useValue: '/' },
+    //{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     SignalrService,
     SessionService,
 

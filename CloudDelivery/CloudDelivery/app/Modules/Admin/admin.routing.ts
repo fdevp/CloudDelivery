@@ -9,6 +9,7 @@ import { AdminGuard } from '../../Services/Guards/AdminGuard';
 import { AdminComponent } from './admin.component';
 import { AdminRoutesComponent } from './Routes/admin.routes.component';
 import { RouteDetailsComponent } from '../Shared/Components/RouteDetails/route.details.component';
+import { SettingsComponent } from '../Shared/Components/Settings/settings.component';
 
 const adminRoutes: Routes = [
 
@@ -35,6 +36,10 @@ const adminRoutes: Routes = [
             {
                 path: 'route/:id',
                 component: RouteDetailsComponent
+            },
+            {
+                path: 'settings',
+                component: SettingsComponent
             },
             {
                 path: '',

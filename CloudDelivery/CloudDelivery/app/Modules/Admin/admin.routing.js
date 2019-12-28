@@ -15,6 +15,7 @@ var admin_organisations_component_1 = require("./organisations/admin.organisatio
 var AdminGuard_1 = require("../../Services/Guards/AdminGuard");
 var admin_routes_component_1 = require("./Routes/admin.routes.component");
 var route_details_component_1 = require("../Shared/Components/RouteDetails/route.details.component");
+var settings_component_1 = require("../Shared/Components/Settings/settings.component");
 var adminRoutes = [
     {
         path: '',
@@ -39,6 +40,10 @@ var adminRoutes = [
             {
                 path: 'route/:id',
                 component: route_details_component_1.RouteDetailsComponent
+            },
+            {
+                path: 'settings',
+                component: settings_component_1.SettingsComponent
             },
             {
                 path: '',

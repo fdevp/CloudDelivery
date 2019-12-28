@@ -5,6 +5,7 @@ import { CarrierDashboardComponent } from './dashboard/carrier.dashboard.compone
 import { CarrierGuard } from '../../Services/Guards/CarrierGuard';
 import { CarrierRoutesComponent } from './Routes/carrier.routes.component';
 import { CarrierOrdersComponent } from './Orders/carrier.orders.component';
+import { SettingsComponent } from '../Shared/Components/Settings/settings.component';
 
 const carrierRoutes: Routes = [
     {
@@ -18,6 +19,10 @@ const carrierRoutes: Routes = [
             {
                 path: 'orders',
                 component: CarrierOrdersComponent
+            },
+            {
+                path: 'settings',
+                component: SettingsComponent
             },
             {
                 component: CarrierDashboardComponent,

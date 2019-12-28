@@ -33,7 +33,7 @@ var SalepointGuard = /** @class */ (function () {
     };
     SalepointGuard.prototype.authorize = function (url) {
         var _this = this;
-        return this.sessionService.checkLogin().map(function (valid) {
+        return this.sessionService.checkRefreshToken().map(function (valid) {
             if (!valid) {
                 _this.sessionService.redirectUrl = url;
                 _this.router.navigate(['/login']);

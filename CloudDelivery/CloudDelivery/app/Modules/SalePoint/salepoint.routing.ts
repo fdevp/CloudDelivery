@@ -4,6 +4,7 @@ import { SalepointComponent } from './salepoint.component'
 import { SalepointDashboardComponent } from './dashboard/salepoint.dashboard.component'
 import { SalepointOrdersComponent } from './orders/salepoint.orders.component';
 import { SalepointGuard } from '../../Services/Guards/SalepointGuard';
+import { SettingsComponent } from '../Shared/Components/Settings/settings.component';
 
 const salepointRoutes: Routes = [
     {
@@ -13,6 +14,10 @@ const salepointRoutes: Routes = [
             {
                 path: 'orders',
                 component: SalepointOrdersComponent
+            },
+            {
+                path: 'settings',
+                component: SettingsComponent
             },
             {
                 path: '',

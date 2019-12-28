@@ -14,6 +14,8 @@ namespace CloudDelivery.Services
 
         void CancelRefreshToken(int tokenId, IPrincipal user);
 
+        void CancelRefreshToken(string token, IPrincipal user);
+
         bool ValidateRefreshToken(string token);
     }
 }

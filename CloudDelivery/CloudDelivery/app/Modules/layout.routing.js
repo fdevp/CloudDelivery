@@ -31,7 +31,7 @@ var layoutRoutes = [
                 path: 'salepoint',
                 canLoad: [SalepointGuard_1.SalepointGuard],
                 loadChildren: "app/modules/salepoint/salepoint.module#SalepointModule",
-            },
+            }
         ],
     },
 ];
