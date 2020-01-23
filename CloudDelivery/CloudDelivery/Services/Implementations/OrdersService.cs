@@ -56,14 +56,20 @@ namespace CloudDelivery.Services
                 if (salepoint == null)
                     throw new NullReferenceException("Punkt sprzedaży nie istnieje.");
 
-                order.SalePoint = salepoint;
-
                 order.AddedTime = DateTime.Now;
                 order.SalePointId = salePointId;
                 order.Status = OrderStatus.Added;
 
                 ctx.Orders.Add(order);
-                ctx.SaveChanges();
+                try
+                {
+                    ctx.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    int asd = 5;
+                }
+
             }
 
             return order.Id;
@@ -252,7 +258,7 @@ namespace CloudDelivery.Services
 
         public int Count(OrderCountFiltersModel filters)
         {
-            using(ICDContext ctx = this.ctxFactory.GetContext())
+            using (ICDContext ctx = this.ctxFactory.GetContext())
             {
                 IQueryable<Order> query = ctx.Orders;
 

@@ -71,14 +71,15 @@ namespace CloudDelivery.Providers
         public override async Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
-            var appUser = await userManager.FindByNameAsync(context.Ticket.Identity.Name);
-
-            var logins = await userManager.GetLoginsAsync(appUser.Id);
+            var user = await userManager.FindByNameAsync(context.Ticket.Identity.Name);
+            var userRoles = await userManager.GetRolesAsync(user.Id);
 
             var form = await context.Request.ReadFormAsync();
             var grantType = form.GetValues("grant_type");
-            var oAuthIdentity = await appUser.GenerateUserIdentityAsync(userManager, grantType[0]);
-            var newTicket = new AuthenticationTicket(oAuthIdentity, context.Ticket.Properties);
+            var oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, grantType[0]);
+
+            AuthenticationProperties properties = CreateProperties(user.UserName, Newtonsoft.Json.JsonConvert.SerializeObject(userRoles), user.UserName);
+            var newTicket = new AuthenticationTicket(oAuthIdentity, properties);
 
             context.Validated(newTicket);
         }
@@ -113,7 +114,7 @@ namespace CloudDelivery.Providers
             return Task.FromResult<object>(null);
         }
 
-        public static AuthenticationProperties CreateProperties(string Login, string Roles, string Name)
+        private static AuthenticationProperties CreateProperties(string Login, string Roles, string Name)
         {
             IDictionary<string, string> data = new Dictionary<string, string>
             {

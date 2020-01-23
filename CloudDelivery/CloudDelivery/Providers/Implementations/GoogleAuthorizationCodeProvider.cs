@@ -33,7 +33,6 @@ namespace CloudDelivery.Providers.Implementations
 
         public async override Task ReceiveAsync(AuthenticationTokenReceiveContext context)
         {
-
             var payload = CreatePayload(context.Token);
             var content = new StringContent(payload, Encoding.UTF8, "application/json");
             var result = await httpClient.PostAsync(authParameters.AuthUrl, content);
@@ -50,8 +49,9 @@ namespace CloudDelivery.Providers.Implementations
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
             var user = await userManager.FindByEmailAsync(email) ?? await CreateUser(userManager, email, tokenClaims["name"]);
+            var userRoles = await userManager.GetRolesAsync(user.Id);
 
-            var properties = CreateAuthProps();
+            var properties = CreateAuthProps(user.Email, Newtonsoft.Json.JsonConvert.SerializeObject(userRoles), user.UserName );
             var claimsIdentity = await user.GenerateUserIdentityAsync(userManager, DefaultAuthenticationTypes.ExternalBearer);
             var ticket = new AuthenticationTicket(claimsIdentity, properties);
             context.SetTicket(ticket);
@@ -75,13 +75,18 @@ namespace CloudDelivery.Providers.Implementations
             return handler.ReadJwtToken(jwtToken);
         }
 
-        private AuthenticationProperties CreateAuthProps()
+        private AuthenticationProperties CreateAuthProps(string Login, string Roles, string Name)
         {
-            var authProps = new AuthenticationProperties();
+            IDictionary<string, string> data = new Dictionary<string, string>
+            {
+                { "Login", Login },
+                { "Roles", Roles },
+                { "Name", Name}
+            };
+            var authProps = new AuthenticationProperties(data);
             authProps.Dictionary.Add("client_id", authParameters.ClientId);
             authProps.ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(1);
             authProps.IssuedUtc = DateTime.UtcNow;
-            authProps.AllowRefresh = true;
 
             return authProps;
         }
@@ -91,7 +96,7 @@ namespace CloudDelivery.Providers.Implementations
             var user = new ExtendedIdentityUser { UserName = email, Email = email };
             await userManager.CreateAsync(user);
             await userManager.AddToRoleAsync(user.Id, "salepoint");
-            userService.AddUser(user.Id, name, null);
+            userService.AddGoogleSalepointUser(user.Id, string.IsNullOrEmpty(name) ? email : name, null);
             return user;
         }
     }

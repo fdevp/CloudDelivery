@@ -20,6 +20,7 @@ namespace CloudDelivery.Providers
         public override void Create(AuthenticationTokenCreateContext context)
         {
             var form = context.Request.ReadFormAsync().Result;
+            context.Ticket.Properties.ExpiresUtc = DateTime.MaxValue;
             var grantType = form.GetValues("grant_type");
 
             if (grantType[0] != "refresh_token")

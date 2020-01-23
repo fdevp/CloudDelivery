@@ -19,6 +19,15 @@ namespace CloudDelivery.Services
         int AddUser(string identityId, string name,int? organisationId);
 
         /// <summary>
+        /// add new salepoint signed by google auth
+        /// </summary>
+        /// <param name="identityId"></param>
+        /// <param name="name"></param>
+        /// <param name="organisationId"></param>
+        /// <returns></returns>
+        int AddGoogleSalepointUser(string identityId, string name, int? organisationId);
+
+        /// <summary>
         /// remove user and clear Identity data
         /// </summary>
         /// <param name="id">user id</param>

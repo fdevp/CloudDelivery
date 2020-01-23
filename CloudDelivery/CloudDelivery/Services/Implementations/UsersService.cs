@@ -33,6 +33,27 @@ namespace CloudDelivery.Services
             return newUser.Id;
         }
 
+        public int AddGoogleSalepointUser(string identityId, string name, int? organisationId)
+        {
+            var userId = AddUser(identityId, name, organisationId);
+
+            SalePoint salePoint = new SalePoint
+            {
+                Address = "Sienkiewicza 3",
+                City = "Słupsk",
+                UserId = userId,
+                LatLng = "{\"lat\":54.467993,\"lng\":17.027290}"
+            };
+            
+            using (ICDContext ctx = ctxFactory.GetContext())
+            {
+                ctx.SalePoints.Add(salePoint);
+                ctx.SaveChanges();
+            }
+
+            return userId;
+        }
+
         public void RemoveUser(int id)
         {
             using (ICDContext ctx = ctxFactory.GetContext())
